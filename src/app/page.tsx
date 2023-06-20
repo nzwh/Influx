@@ -8,9 +8,11 @@ import posts from './posts.json';
 export default function Home() {
   
   return (
-    <main className="flex flex-col w-screen bg-gradient-to-b from-zinc-100 to-zinc-300">
+      
+    <main className="flex flex-col w-screen">
+      <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
 
-      <nav className="flex flex-row h-20 w-full justify-between items-center px-[8%]">
+      <nav className="flex flex-row h-20 w-full justify-between items-center px-[8%] fixed">
         <h6 className="text-slate-950 font-bold text-md tracking-tighter">Influx</h6>
         <div className="flex align-center gap-4">
           <Image src="/icons/b-search.svg" alt="Vercel Logo" width={16} height={16} />
@@ -24,7 +26,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="flex flex-row gap-2 w-full h-full justify-center align-center">
+      <div className="flex flex-row gap-2 w-full h-full justify-center align-center py-20">
         <div id="leftarea" className="flex flex-col gap-2 h-full w-[38rem]">
           {posts.map((post, index) => (
             <Post key={index} {...post} />
@@ -36,5 +38,6 @@ export default function Home() {
       </div>
       
     </main>
+    
   )
 }
