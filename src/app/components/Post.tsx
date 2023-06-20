@@ -43,7 +43,7 @@ const Post: React.FC<PostProps> = ({ shop_icon, shop_name, shop_handle, user_ico
             <div className="flex flex-row items-center gap-2">
                 <Image className="rounded-full" src={user_icon} alt="User Icon" width={40} height={40} />
                 <div className="flex flex-col justify-center">
-                <h6 className="text-gray-950 font-bold text-lg tracking-tighter leading-4">{user_name}</h6>
+                <h6 className="text-gray-950 font-bold text-lg tracking-tighter leading-5">{user_name}</h6>
                 <h6 className="text-gray-500 font-bold text-xs tracking-tighter leading-4">{timestamp}&ensp;•&ensp;{user_handle}</h6>
                 </div>
             </div>
