@@ -1,0 +1,58 @@
+[
+    {
+        "shop_id": 1,
+        "shop_icon": "/avatars/temp.jpg",
+        "shop_name": "Influx HQ",
+        "shop_handle": "@influx.io",
+        
+        "user_icon": "/avatars/temp.jpg",
+        "user_name": "Thomas Welch",
+        "user_handle": "@thmwlch",
+
+        "timestamp": "2d ago",
+
+        "price": 1000.00,
+        "negotiable": true,
+
+        "header": "Apple MacBook Air (13-inch Retina display, 1.6GHz dual-core Intel Core i5, 128GB) - Gold (Renewed)",
+        "description": "The product is refurbished, fully functional, and in excellent condition. This pre-owned product has been professionally inspected, in \"Excellent condition\". The screen and body show no signs of cosmetic damage visible from 12 inches away.",
+        "condition": "Like New",
+
+        "tags": ["WTB", "LFS", "FLASHSALE"],
+        "images": ["/avatars/banner.jpg"],
+
+        "upvotes": 100,
+        "downvotes": 20,
+        "shares": 32,
+        "interested": 12,
+        "comments": 24
+    },
+    {
+        "shop_id": 1,
+        "shop_icon": "/avatars/temp.jpg",
+        "shop_name": "Influx HQ",
+        "shop_handle": "@influx.io",
+        
+        "user_icon": "/avatars/temp.jpg",
+        "user_name": "Thomas Welch",
+        "user_handle": "@thmwlch",
+
+        "timestamp": "2d ago",
+
+        "price": 1000.00,
+        "negotiable": true,
+
+        "header": "Apple MacBook Air (13-inch Retina display, 1.6GHz dual-core Intel Core i5, 128GB) - Gold (Renewed)",
+        "description": "The product is refurbished, fully functional, and in excellent condition. This pre-owned product has been professionally inspected, in \"Excellent condition\". The screen and body show no signs of cosmetic damage visible from 12 inches away.",
+        "condition": "Like New",
+
+        "tags": ["WTB", "LFS", "FLASHSALE"],
+        "images": ["/avatars/banner.jpg"],
+
+        "upvotes": 100,
+        "downvotes": 20,
+        "shares": 32,
+        "interested": 12,
+        "comments": 24
+    }
+]
