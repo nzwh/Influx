@@ -21,16 +21,21 @@ export default function Home() {
               <h6 className="text-gray-950 font-bold text-md tracking-tighter leading-4">Listings by Arkustore</h6>
               <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">View all</h6>
             </div>
-            <div className="flex flex-col">
-              <div className="flex flex-row gap-4 items-center">
-                <div className="flex flex-row gap-2 items-center">
+            <div className="flex flex-row gap-4 items-center">
+              <div className="col">
+                <div className="flex flex-row gap-2 items-center justify-center">
                   <Image src="/icons/b-barchart.svg" alt="Recent" width={16} height={16} />
                   <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Recent</h6>
                 </div>
-                <div className="flex flex-row gap-2 items-center">
-                  <Image src="/icons/b-star.svg" alt="Popular" width={16} height={16} />
-                  <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Popular</h6>
+                <div className="relative">
+                  <div
+                    style={{ position: 'absolute', bottom: '-16px', width: '100%', height: '10px', backgroundColor: '#000' }}
+                  ></div>
                 </div>
+              </div>
+              <div className="flex flex-row gap-2 items-center">
+                <Image src="/icons/b-star.svg" alt="Popular" width={16} height={16} />
+                <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Popular</h6>
               </div>
             </div>
           </section>
