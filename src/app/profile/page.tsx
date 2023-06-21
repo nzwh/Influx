@@ -61,7 +61,7 @@ export default function Home() {
             </div>
             <div className="flex flex-row items-center gap-4">
               <div className="flex flex-row items-center gap-2">
-                <Image src="/icons/b-map.svg" alt="Location" width={11} height={11} />
+                <Image src="/icons/b-map-t.svg" alt="Location" width={11} height={11} />
                 <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">Manila, Philippines</h6>
               </div>
               <div className="flex flex-row items-center gap-2">
