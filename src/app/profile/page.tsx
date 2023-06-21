@@ -24,7 +24,7 @@ export default function Home() {
             <div className="flex flex-row gap-4 items-center">
               <div className="col">
                 <div className="flex flex-row gap-2 items-center justify-center">
-                  <Image src="/icons/b-barchart.svg" alt="Recent" width={16} height={16} />
+                  <Image src="/icons/b-chart.svg" alt="Recent" width={16} height={16} />
                   <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Recent</h6>
                 </div>
                 <div className="relative">
@@ -65,7 +65,7 @@ export default function Home() {
                 <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">Manila, Philippines</h6>
               </div>
               <div className="flex flex-row items-center gap-2">
-                <Image src="/icons/b-star2.svg" alt="Location" width={11} height={11} />
+                <Image src="/icons/b-star-t.svg" alt="Location" width={11} height={11} />
                 <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">4.2/5 Rating</h6>
               </div>
             </div>
@@ -74,36 +74,36 @@ export default function Home() {
             </p>
             <div className="flex flex-col justify-center gap-2">
               <div className="flex flex-row items-center gap-2">
-                <Image src="/icons/b-credit.svg" alt="Payment Methods" width={11} height={11} />
+                <Image src="/icons/b-card.svg" alt="Payment Methods" width={11} height={11} />
                 <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">Payment Methods</h6>
               </div>
               <div className="flex flex-row items-center gap-2">
                 <div className="flex flex-row items-center gap-2">
-                  <Image src="/icons/paypal.svg" alt="PayPal" width={22} height={12} />
+                  <Image src="/icons/b-paypal.svg" alt="PayPal" width={22} height={12} />
                   <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">PayPal</h6>
                 </div>
                 <div className="flex flex-row items-center gap-2">
-                  <Image src="/icons/credit.svg" alt="Credit Card" width={22} height={12} />
+                  <Image src="/icons/b-credit.svg" alt="Credit Card" width={22} height={12} />
                   <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Credit Card</h6>
                 </div>
                 <div className="flex flex-row items-center gap-2">
-                  <Image src="/icons/cash.svg" alt="Recent" width={22} height={12} />
+                  <Image src="/icons/b-cash.svg" alt="Recent" width={22} height={12} />
                   <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Cash</h6>
                 </div>
               </div>
             </div>
             <div className="flex flex-col justify-center gap-2">
               <div className="flex flex-row items-center gap-2">
-                <Image src="/icons/b-package.svg" alt="Delivery Methods" width={11} height={11} />
+                <Image src="/icons/b-box.svg" alt="Delivery Methods" width={11} height={11} />
                 <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">Delivery Methods</h6>
               </div>
               <div className="flex flex-row items-center gap-2">
                 <div className="flex flex-row items-center gap-2">
-                  <Image src="/icons/shopee.svg" alt="Shopee Checkout" width={22} height={12} />
+                  <Image src="/icons/b-shopee.svg" alt="Shopee Checkout" width={22} height={12} />
                   <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Shopee Checkout</h6>
                 </div>
                 <div className="flex flex-row items-center gap-2">
-                  <Image src="/icons/meetup.svg" alt="Meetup" width={22} height={12} />
+                  <Image src="/icons/b-meetup.svg" alt="Meetup" width={22} height={12} />
                   <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Meetup</h6>
                 </div>
               </div>
@@ -113,14 +113,14 @@ export default function Home() {
           <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row justify-between">
               <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Media</h6>
-              <Image src="/icons/b-arrowupright.svg" alt="Expand" width={12} height={12} />
+              <Image src="/icons/b-arrupr.svg" alt="Expand" width={12} height={12} />
             </div>
           </div>
 
           <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row justify-between">
               <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Comments</h6>
-              <Image src="/icons/b-arrowupright.svg" alt="Expand" width={12} height={12} />
+              <Image src="/icons/b-arrupr.svg" alt="Expand" width={12} height={12} />
             </div>
             <div className="flex flex-col justify-center gap-2">
               <div className="flex flex-row items-center gap-2">
