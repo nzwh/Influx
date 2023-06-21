@@ -1,51 +1,25 @@
 "use client"
 
 import Image from 'next/image';
+
 import { useState, useEffect } from 'react';
-
 import React from 'react';
-import Post from '@/components/Post';
-import Navbar from '@/components/Navbar';
 
-import PostDialog from '@/components/PostDialog';
+import Post from '@/src/app/components/Post';
+import Navbar from '@/src/app/components/Navbar';
+import PostDialog from '@/src/app/components/PostDialog';
 
-interface Post {
-  shop_icon: string;
-  shop_name: string;
-  shop_handle: string;
-
-  user_icon: string;
-  user_name: string;
-  user_handle: string;
-
-  timestamp: string;
-
-  price: number;
-  negotiable: boolean;
-
-  header: string;
-  description: string;
-  condition: string;
-
-  tags: string[];
-  images: string[];
-
-  upvotes: number;
-  downvotes: number;
-  shares: number;
-  interested: number;
-  comments: number;
-}
+import { PostInterface } from '@/libraries/interfaces';
 
 export default function Home() {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
 
   useEffect(() => {
     const fetchPosts = () => {
       try {
-        const existingPosts: Post[] = require('@/posts.json');
+        const existingPosts: PostInterface[] = require('@/posts.json');
         setPosts(existingPosts);
       } catch (error) {
         console.log('Error reading posts:', error);
@@ -63,9 +37,9 @@ export default function Home() {
     setIsDialogOpen(false);
   };
 
-  const handleAddPost = (post: Post) => {
-    let existingPosts: Post[] = require('@/posts.json');
-    let updatedPosts: Post[] = [post, ...existingPosts];
+  const handleAddPost = (post: PostInterface) => {
+    let existingPosts: PostInterface[] = require('@/posts.json');
+    let updatedPosts: PostInterface[] = [post, ...existingPosts];
     existingPosts.unshift(post);
     setPosts(updatedPosts);
   };

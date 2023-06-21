@@ -2,8 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import React from 'react';
-import Post from '../components/Post';
-import Navbar from '../components/Navbar';
+import Post from '@/src/app/components/Post';
+import Navbar from '@/src/app/components/Navbar';
 
 import posts from '../posts.json';
 export default function Home() {

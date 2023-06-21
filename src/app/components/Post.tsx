@@ -1,34 +1,9 @@
 import Image from "next/image";
+import React from "react";
 
-interface PostProps {
-    shop_icon: string;
-    shop_name: string;
-    shop_handle: string;
+import { PostInterface } from "@/libraries/interfaces";
 
-    user_icon: string;
-    user_name: string;
-    user_handle: string;
-
-    timestamp: string;
-
-    price: number;
-    negotiable: boolean;
-
-    header: string;
-    description: string;
-    condition: string;
-
-    tags: string[];
-    images: string[];
-
-    upvotes: number;
-    downvotes: number;
-    shares: number;
-    interested: number;
-    comments: number;
-}
-
-const Post: React.FC<PostProps> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
+const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
     return (
         
         <section className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
