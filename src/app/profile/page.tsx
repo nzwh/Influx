@@ -112,13 +112,6 @@ export default function Home() {
 
           <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row justify-between">
-              <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Media</h6>
-              <Image src="/icons/b-arrupr.svg" alt="Expand" width={12} height={12} />
-            </div>
-          </div>
-
-          <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
-            <div className="flex flex-row justify-between">
               <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Comments</h6>
               <Image src="/icons/b-arrupr.svg" alt="Expand" width={12} height={12} />
             </div>
