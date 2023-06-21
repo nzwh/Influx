@@ -10,7 +10,7 @@ export default function Home() {
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
 
       <div className="flex justify-center items-center w-screen h-screen">
-        <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem]">
+        <div id="Left div" className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem]">
           <div className="flex flex-col bg-[url('/backgrounds/login.png')] rounded-l-lg h-full aspect-square p-10">
             <h6 className="text-white font-italic text-sm tracking-tighter leading-4">I</h6>
             <h6 className="text-white font-bold text-4xl tracking-tighter pt-20 pr-20">Find everything you need in one place.</h6>
@@ -18,9 +18,9 @@ export default function Home() {
             <h6 className="text-white font-medium text-xs tracking-tighter leading-4 pt-10 pr-60">Create an account or log in with an existing one to gain access to all of Influx's features.</h6>
             <h6 className="text-white font-light text-xs tracking-tighter leading-4 pt-24 pr-60">All Rights Reserved.</h6>
           </div>
-          <section id="right" className="p-4">
+          <div id="Right div" className="p-4">
             <p>Right div</p>
-          </section>
+          </div>
         </div>
       </div>
 
