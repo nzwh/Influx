@@ -13,7 +13,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
   const [user_name, setUserName] = useState('');
   const [user_handle, setUserHandle] = useState('');
   const [timestamp, setTimestamp] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(0.0);
   const [negotiable, setNegotiable] = useState(false);
   const [header, setHeader] = useState('');
   const [description, setDescription] = useState('');
@@ -53,7 +53,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(parseInt(e.target.value));
+    setPrice(parseFloat(e.target.value));
   };
   const handleNegotiableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNegotiable(e.target.checked);
@@ -83,11 +83,15 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
 
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-      <div className="bg-white rounded p-6 w-96">
-        <h2 className="text-2xl font-semibold mb-4">Create Post</h2>
-        <form onSubmit={handleSubmit}>
+      <div className="bg-white rounded p-6 w-96 flex flex-col gap-2">
+        <h6 className="text-gray-950 font-bold text-xs">@arkustore</h6>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
 
-            <select value={shop_name} className="border rounded px-2 py-1 w-full" onChange={handleShopNameChange} required>
+            <input type="number" value={price} onChange={handlePriceChange} placeholder="$200.00" className="w-full text-3xl font-bold" required />
+            <input type="text" value={header} onChange={handleHeaderChange} placeholder="Title" className="pt-2 w-full text-xl font-medium" required />
+            <textarea value={description} onChange={handleDescriptionChange} defaultValue={""} placeholder="Write your text here." className="w-full text-sm min-h-[4rem]" required />
+
+            <select value={shop_name} className="text-sm border rounded px-2 py-1 w-full" onChange={handleShopNameChange} required>
               <option value="" disabled selected>Select Shop</option>
               {shops.map((shop, index) => (
                 <option key={index} value={shop.name}>
@@ -95,27 +99,29 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
                 </option>
               ))}
             </select>
+            
+            <div className="flex flex-row gap-4">
+              <select value={condition} className="text-sm border rounded px-2 py-1 w-full" onChange={handleConditionChange} required>
+                <option value="" disabled selected>Condition</option>
+                {conditions.map((con, index) => (
+                  <option key={index} value={con}>
+                    {con}
+                  </option>
+                ))}
+              </select>
+              
+              <div className="flex flex-row items-center">
+                <input type="checkbox" value={negotiable ? 1 : 0} onChange={handleNegotiableChange} className="border rounded px-2 py-1 w-full" />
+                <h6 className="text-gray-950 text-xs font-bold leading-4 p-2">Negotiable?</h6>
+              </div>
+            </div>
 
-            <input type="number" value={price} onChange={handlePriceChange} className="border rounded px-2 py-1 w-full" required />
-            <input type="checkbox" value={negotiable ? 1 : 0} onChange={handleNegotiableChange} className="border rounded px-2 py-1 w-full" />
-            <input type="text" value={header} onChange={handleHeaderChange} className="border rounded px-2 py-1 w-full" required />
-            <textarea value={description} onChange={handleDescriptionChange} className="border rounded px-2 py-1 w-full" required />
+            <input type="text" value={tags} onChange={handleTagsChange} className="text-sm border rounded px-2 py-1 w-full" placeholder="Write your tags here, separated by spaces." />
+            {/* <input type="text" value={images} onChange={handleImagesChange} className="border rounded px-2 py-1 w-full" /> */}
 
-            <select value={condition} className="border rounded px-2 py-1 w-full" onChange={handleConditionChange} required>
-              <option value="" disabled selected>Condition</option>
-              {conditions.map((con, index) => (
-                <option key={index} value={con}>
-                  {con}
-                </option>
-              ))}
-            </select>
-
-            <input type="text" value={tags} onChange={handleTagsChange} className="border rounded px-2 py-1 w-full" />
-            <input type="text" value={images} onChange={handleImagesChange} className="border rounded px-2 py-1 w-full" />
-
-            <div className="flex justify-end">
-              <button type="button" className="px-4 py-2 mr-2 text-gray-600" onClick={onClose}>Cancel</button>
-              <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+            <div className="flex justify-end pt-4">
+              <button type="button" className="text-sm px-3 py-1 text-gray-600" onClick={onClose}>Cancel</button>
+              <button type="submit" className="text-sm px-3 py-1 bg-slate-900 text-white rounded-full">Submit</button>
             </div>
 
         </form>

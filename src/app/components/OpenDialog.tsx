@@ -13,7 +13,6 @@ interface OpenDialogProps {
   post: PostInterface | null;
 }
 
-
 const comments = {
   id: 1,
   items: []
@@ -23,7 +22,7 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
       <div className="flex flex-row gap-2 w-1/2 h-1/2">
-        <Image className="h-full w-[38rem] bg-white rounded-lg" src={post!.images} alt="Images" />
+        <Image className="h-full w-[38rem] bg-white rounded-lg" src={post!.images[0]} alt="Images" />
         <div id="rightarea" className="flex flex-col gap-2 h-full w-[18rem">
           <div className="flex flex-col gap-5 bg-white rounded-lg p-6">
             <div className="flex flex-row justify-between">
