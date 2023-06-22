@@ -13,15 +13,26 @@ const Comment = ({
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, [editMode]);
 
   const handleNewComment = () => {
     setShowInput(true);
   };
 
   const onAddComment = () => {
-    handleInsertNode(comment.id, input);
-    setInput("");
-    setShowInput(false);
+    if (editMode) {
+      handleEditNode(comment.id, inputRef?.current?.innerText);
+    } else {
+      handleInsertNode(comment.id, input);
+      setShowInput(false);
+      setInput("");
+    }
+
+    if (editMode) setEditMode(false);
   };
 
   return ( 
@@ -36,13 +47,22 @@ const Comment = ({
           </>
         ) : (
           <>
-            <span style={{ wordWrap: "break-word" }}>{comment.name}</span>
+            <span 
+              contentEditable={editMode} 
+              suppressContentEditableWarning={editMode}
+              style={{ wordWrap: "break-word" }}
+              ref={inputRef}
+            >
+              {comment.name}
+            </span>
 
             <div style={{ display: "flex", marginTop: "5px" }}>
               {editMode ? (
                 <>
-                  <Action className="reply" type="SAVE"/>
+                  <Action className="reply" type="SAVE" handleClick={onAddComment}/>
                   <Action className="reply" type="CANCEL" handleClick={() => {
+                    if (inputRef.current)
+                      inputRef.current.innerText = comment.name;
                     setEditMode(false);
                   }} 
                   />
