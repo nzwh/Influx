@@ -1,26 +1,25 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import React from 'react';
 import Post from '@/src/app/components/Post';
 import Navbar from '@/src/app/components/Navbar';
 
 import posts from '../posts.json';
+
 export default function Home() {
   return (
-      
     <main className="flex flex-col w-screen">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
       <Navbar />
-
       <div className="flex flex-row gap-2 w-full h-full justify-center align-center py-20">
-        <section id="leftarea" className="flex flex-col gap-2 h-full w-[38rem]">
 
+        <section id="leftarea" className="flex flex-col gap-2 h-full w-[38rem]">
           <section className="w-full flex flex-row justify-between bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row gap-4 items-center">
               <h6 className="text-gray-950 font-bold text-md tracking-tighter leading-4">Listings by Arkustore</h6>
               <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">View all</h6>
             </div>
+
             <div className="flex flex-row gap-4 items-center">
               <div className="col">
                 <div className="flex flex-row gap-2 items-center justify-center">
@@ -33,6 +32,7 @@ export default function Home() {
                   ></div>
                 </div>
               </div>
+              
               <div className="flex flex-row gap-2 items-center">
                 <Image src="/icons/b-star.svg" alt="Popular" width={16} height={16} />
                 <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Popular</h6>
@@ -46,7 +46,6 @@ export default function Home() {
         </section>
 
         <section id="rightarea" className="flex flex-col gap-2 h-full w-[18rem]">
-          
           <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row justify-between items-center">
               <div className="flex flex-row items-center gap-2">
@@ -133,8 +132,6 @@ export default function Home() {
 
         </section>
       </div>
-      
     </main>
-    
   )
 }
