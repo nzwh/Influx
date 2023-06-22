@@ -6,7 +6,6 @@ interface PostDialogProps {
 }
 
 const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
-  
   const [shop_icon, setShopIcon] = useState('');
   const [shop_name, setShopName] = useState('');
   const [shop_handle, setShopHandle] = useState('');
@@ -41,20 +40,12 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
   ]
 
   const handleShopNameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedShopName = e.target.value;
-    const selectedShop = shops.find((shop) => shop.name === selectedShopName);
-    
-    if (selectedShop) {
-      setShopName(selectedShop.name);
-      setShopHandle(`@${selectedShop.handle}`);
-    } else {
-      setShopName("");
-      setShopHandle("");
-    }
+    const selectedShop = shops.find((shop) => shop.name === e.target.value) || {name: "", handle: ""};
+    setShopName(selectedShop.name);
+    setShopHandle(`@${selectedShop.handle}`);
 
     setUserIcon("/avatars/temp.jpg");
     setShopIcon("/avatars/temp.jpg");
-
     setUserName(user_temp);
     setUserHandle(`@${user_handle_temp}`);
 
@@ -80,25 +71,17 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
     setTags(e.target.value.split(','));
   };
   const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    if (e.target.value === "") {
-      setImages([]);
-      return;
-    } else {
-      setImages(e.target.value.split(','));
-    }
+    setImages((e.target.value === "") ? [] : e.target.value.split(','));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const newPost = { shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments };
     onAddPost(newPost);
     onClose();
   };
 
   return (
-
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
       <div className="bg-white rounded p-6 w-96">
         <h2 className="text-2xl font-semibold mb-4">Create Post</h2>
@@ -130,10 +113,10 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
             <input type="text" value={tags} onChange={handleTagsChange} className="border rounded px-2 py-1 w-full" />
             <input type="text" value={images} onChange={handleImagesChange} className="border rounded px-2 py-1 w-full" />
 
-          <div className="flex justify-end">
-            <button type="button" className="px-4 py-2 mr-2 text-gray-600" onClick={onClose}>Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
-          </div>
+            <div className="flex justify-end">
+              <button type="button" className="px-4 py-2 mr-2 text-gray-600" onClick={onClose}>Cancel</button>
+              <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+            </div>
 
         </form>
       </div>
