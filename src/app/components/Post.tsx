@@ -40,7 +40,7 @@ const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user
             {header}
             <span className="text-white font-medium text-xs bg-slate-600 rounded-xl px-2 py-0.5 tracking-normal relative top-[-0.2rem] ml-2">{condition}</span>
         </h1>
-        <p className="text-gray-800 font-medium text-md tracking-tighter leading-5">
+        <p className="text-gray-800 font-medium text-md tracking-tighter leading-5 truncate break h-auto whitespace-pre-line">
             {description}
         </p>
         </div>
@@ -53,6 +53,7 @@ const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user
         </div>
 
         <Image className="w-full h-full rounded-lg" src={images[0]} alt="Media Logo" width={0} height={0} sizes="100vw" />
+        
         <div className="flex flex-row justify-between">
 
             <div className="flex flex-row items-center gap-4">
