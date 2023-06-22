@@ -8,11 +8,13 @@ import React from 'react';
 import Post from '@/src/app/components/Post';
 import Navbar from '@/src/app/components/Navbar';
 import PostDialog from '@/src/app/components/PostDialog';
+import OpenDialog from '@/src/app/components/OpenDialog';
 
 import { PostInterface } from '@/libraries/interfaces';
 
 export default function Home() {
 
+  // for create post
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [posts, setPosts] = useState<PostInterface[]>([]);
 
@@ -43,6 +45,20 @@ export default function Home() {
     setPosts(updatedPosts);
   };
 
+  // for open post
+  const [isOpenDialogOpen, setIsOpenDialogOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
+
+  const handleOpenDialogOpen = (post: PostInterface) => {
+    setSelectedPost(post);
+    setIsOpenDialogOpen(true);
+  };
+
+  const handleOpenDialogClose = () => {
+    setSelectedPost(null);
+    setIsOpenDialogOpen(false);
+  };
+
   return (
     <main className="flex flex-col w-screen">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
@@ -67,9 +83,17 @@ export default function Home() {
           {isDialogOpen && (
             <PostDialog onClose={handleDialogClose} onAddPost={handleAddPost} />
           )}
-          {posts.map((post, index) => (
-            <Post key={index} {...post} />
-          ))}
+
+          <ul className="flex flex-col gap-2 h-full w-[38rem]">
+            {posts.map((post, index) => (
+              <li key={index} onClick={handleOpenDialogOpen.bind(null, post)} className="cursor-pointer">
+                <Post key={index} {...post} />
+              </li>
+            ))}
+            {isOpenDialogOpen && (
+              <OpenDialog post={selectedPost} onClose={handleOpenDialogClose} />
+            )}
+          </ul>
         </section>
 
         <section id="rightarea" className="flex flex-col gap-2 h-full w-[18rem]">

@@ -1,25 +1,14 @@
 "use client"
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { PostInterface } from "@/libraries/interfaces";
-import OpenDialog from '@/src/app/components/OpenDialog';
 
 const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
-
-const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleDialogOpen = () => {
-		setIsDialogOpen(true);
-	};
-	const handleDialogClose = () => {
-		setIsDialogOpen(false);
-	};
-
 	return (
 		<main>
-			<section onClick={handleDialogOpen} className="w-full flex flex-col bg-white rounded-lg p-4 gap-4 cursor-pointer">
+			<section className="w-full flex flex-col bg-white rounded-lg p-4 gap-4 cursor-pointer">
 				<div className="flex flex-row justify-between">
 					<div className="flex flex-col gap-4">
 					<div className="flex flex-row items-center gap-2">
@@ -96,10 +85,6 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
 					</div>
 				</div>
 			</section>
-
-			{isDialogOpen && (
-				<OpenDialog onClose={handleDialogClose} />
-			)}
 		</main>
 	);
 };
