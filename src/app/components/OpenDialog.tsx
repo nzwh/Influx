@@ -80,7 +80,7 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1">
                 <div className="flex flex-row items-center gap-2">
                   <Image src="/icons/b-map-t.svg" alt="Location" width={12} height={12} />
                   <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">[User location]</h6>
