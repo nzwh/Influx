@@ -10,42 +10,50 @@ export default function Home() {
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
 
       <div className="flex justify-center items-center w-screen h-screen">
-        <div id="Left div" className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem]">
-          <div className="flex flex-col bg-[url('/backgrounds/login.png')] rounded-l-lg h-full aspect-square p-10">
-          <Image src="/icons/b-italic.svg" alt="User Icon" width={20} height={20} />
+        <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem]">
+          
+          <div id="Left div" className="flex flex-col bg-[url('/backgrounds/login.png')] rounded-l-lg h-full aspect-square p-10">
+            <Image src="/icons/b-italic.svg" alt="Influx Icon" width={20} height={20} />
             <h6 className="text-white font-bold text-4xl tracking-tighter pt-20 pr-20">Find everything you need in one place.</h6>
             <h6 className="text-white font-medium text-lg tracking-tighter leading-5 pt-3 pr-20">Discover bargains at an affordable price without breaking the bank.</h6>
             <h6 className="text-white font-medium text-[0.8rem] tracking-tighter leading-4 pt-10 pr-60">Create an account or log in with an existing one to gain access to all of Influx's features.</h6>
             <h6 className="text-white font-light text-[0.6rem] tracking-tighter leading-4 pt-24 pr-60">All Rights Reserved.</h6>
           </div>
+
           <div id="Right div" className="p-10 h-[32rem] w-[95rem]">
-            <h6 className="text-black font-bold text-2xl tracking-tighter leading-4 pt-12 pb-5">Log in to continue</h6>
-            <h6 className="text-black font-medium text-[0.8rem] tracking-tighter leading-4 pt-4">Username / Email Address</h6>
-            <div className="flex flex-row bg-white rounded-[0.25rem] pt-2 h-9">
-              <Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-at.svg" alt="User Icon" width={10} height={10} />
-              <input type="text" placeholder="Enter username / email address" className="w-full text-[0.75rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+            <h6 className="text-black font-bold text-2xl tracking-tighter leading-4 pt-12 pb-6">Log in to continue</h6>
+            
+            <h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Username / Email Address</h6>
+            <div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
+              <Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-at.svg" alt="At Icon" width={10} height={10} />
+              <input type="text" placeholder="Enter username / email address" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
             </div>
-            <h6 className="text-black font-medium text-[0.8rem] tracking-tighter leading-4 pt-4">Password</h6>
-            <div className="flex flex-row bg-white rounded-[0.25rem] pt-2 h-9">
-              <Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-key.svg" alt="User Icon" width={10} height={10} />
-              <input type="password" placeholder="Enter password" className="w-full text-[0.75rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+
+            <h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Password</h6>
+            <div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
+              <Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-key.svg" alt="Key Icon" width={10} height={10} />
+              <input type="password" placeholder="Enter password" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
             </div>
-            <div className="flex flex-row justify-between w-full items-center pt-3 pb-8">
+
+            <div className="flex flex-row justify-between w-full items-center pt-4 pb-9">
               <div className="flex flex-row gap-1 items-center">
                 <input type="checkbox" id="remember" name="remember" className="cursor-pointer" />
                 <h6 className="bg-white text-black font-bold text-[0.5rem] h-full">Remember me</h6>
               </div>
-              <h6 className="bg-white text-black font-bold text-[0.5rem] h-full cursor-pointer">Forgot Password?</h6>
+              <h6 className="bg-white text-black font-bold text-[0.5rem] h-full cursor-pointer hover:underline">Forgot Password?</h6>
             </div>
+
             <div className="w-full flex flex-row bg-black rounded-2xl p-[0.35rem] gap-[0.5rem] justify-center cursor-pointer">
-              <Image src="/icons/b-italic.svg" alt="User Icon" width={12} height={12} />
+              <Image src="/icons/b-italic.svg" alt="Influx Icon" width={12} height={12} />
               <h6 className="text-slate-400 font-medium text-[0.6rem] h-full cursor-pointer">Continue with an Influx Account</h6>
             </div>
+
             <div className="flex flex-row pt-10 gap-[0.25rem]">
               <h6 className="font-bold text-[0.6rem] h-full cursor-pointer">New to Influx? Sign up here.</h6>
-              <Image className="cursor-pointer" src="/icons/b-arrowr.svg" alt="User Icon" width={12} height={12} />
+              <Image className="cursor-pointer" src="/icons/b-arrowr.svg" alt="Right Arrow Icon" width={12} height={12} />
             </div>
           </div>
+
         </div>
       </div>
 
