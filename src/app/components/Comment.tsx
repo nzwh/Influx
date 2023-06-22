@@ -4,7 +4,12 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import Action from "./Action";
 
-const Comment = ({ comment }) => {
+const Comment = ({ 
+  comment,
+  handleInsertNode,
+  handleEditNode,
+  handleDeleteNode
+  }) => {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
@@ -14,7 +19,9 @@ const Comment = ({ comment }) => {
   };
 
   const onAddComment = () => {
-
+    handleInsertNode(comment.id, input);
+    setInput("");
+    setShowInput(false);
   };
 
   return ( 
@@ -66,7 +73,15 @@ const Comment = ({ comment }) => {
           </div>
         )}
         {comment?.items?.map((cmnt) => {
-          return <Comment key={cmnt.id}  comment={cmnt}/>;
+          return ( 
+            <Comment 
+              key={cmnt.id}
+              handleInsertNode={handleInsertNode} 
+              handleEditNode={handleEditNode}
+              handleDeleteNode={handleDeleteNode} 
+              comment={cmnt}
+            />
+          )
         })}
       </div>
     </div>
