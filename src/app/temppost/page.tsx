@@ -4,7 +4,6 @@ import React from "react";
 import { useState } from "react";
 import Comment from "../components/Comment";
 import useNode from "../hooks/useNode";
-import { any } from "prop-types";
 
 const comments = {
   id: 1,
