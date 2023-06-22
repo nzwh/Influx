@@ -35,6 +35,10 @@ const Comment = ({
     if (editMode) setEditMode(false);
   };
 
+  const handleDelete = () => {
+    handleDeleteNode(comment.id);
+  };
+
   return ( 
     <div>
       <div className={comment?.id === 1? "inputContainer" : "commentContainer"}>
@@ -74,7 +78,7 @@ const Comment = ({
                     setEditMode(true);
                   }} 
                   />
-                  <Action className="reply" type="DELETE"/>
+                  <Action className="reply" type="DELETE" handleClick={handleDelete}/>
                 </>
               )}
             </div>

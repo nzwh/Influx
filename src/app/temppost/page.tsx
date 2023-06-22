@@ -8,19 +8,7 @@ import { any } from "prop-types";
 
 const comments = {
   id: 1,
-  items: [
-    {
-      id: 2,
-      name: "hello",
-      items: [
-        {
-          id: 3,
-          name: "hello",
-          items: []
-        }
-      ]
-    }
-  ]
+  items: []
 };
 
 export default function Home() {
