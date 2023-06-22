@@ -20,6 +20,26 @@ const comments = {
 };
 
 const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
+  const [commentsData, setCommentsData] = useState(comments);
+
+  const { insertNode, editNode, deleteNode } = useNode();
+
+  const handleInsertNode = (folderId, item) => {
+    const finalStructure = insertNode(commentsData, folderId, item);
+    setCommentsData(finalStructure);
+  };
+
+  const handleEditNode = (folderId, value) => {
+    const finalStructure = editNode(commentsData, folderId, value);
+    setCommentsData(finalStructure);
+  };
+
+  const handleDeleteNode = (folderId) => {
+    const finalStructure = deleteNode(commentsData, folderId);
+    const temp = { ...finalStructure };
+    setCommentsData(temp);
+  };
+
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
       <div className="flex flex-row gap-2 w-1/2 h-1/2">
@@ -97,6 +117,14 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
             <div className="flex flex-row justify-between">
               <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Comments</h6>
               <Image src="/icons/b-filter.svg" alt="Filter" width={14} height={14} className="cursor-pointer" />
+            </div>
+            <div className="Home">
+              <Comment 
+                handleInsertNode={handleInsertNode} 
+                handleEditNode={handleEditNode}
+                handleDeleteNode={handleDeleteNode} 
+                comment={commentsData}
+              />
             </div>
           </div>
         </div>
