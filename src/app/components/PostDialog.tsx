@@ -80,7 +80,13 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
     setTags(e.target.value.split(','));
   };
   const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImages(e.target.value.split(','));
+
+    if (e.target.value === "") {
+      setImages([]);
+      return;
+    } else {
+      setImages(e.target.value.split(','));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -108,7 +114,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
             </select>
 
             <input type="number" value={price} onChange={handlePriceChange} className="border rounded px-2 py-1 w-full" required />
-            <input type="checkbox" value={negotiable} onChange={handleNegotiableChange} className="border rounded px-2 py-1 w-full" />
+            <input type="checkbox" value={negotiable ? 1 : 0} onChange={handleNegotiableChange} className="border rounded px-2 py-1 w-full" />
             <input type="text" value={header} onChange={handleHeaderChange} className="border rounded px-2 py-1 w-full" required />
             <textarea value={description} onChange={handleDescriptionChange} className="border rounded px-2 py-1 w-full" required />
 
@@ -121,9 +127,8 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
               ))}
             </select>
 
-            <input type="text" value={tags} onChange={handleTagsChange} className="border rounded px-2 py-1 w-full" required />
-            <input type="text" value={images} onChange={handleImagesChange} className="border rounded px-2 py-1 w-full" required />
-    
+            <input type="text" value={tags} onChange={handleTagsChange} className="border rounded px-2 py-1 w-full" />
+            <input type="text" value={images} onChange={handleImagesChange} className="border rounded px-2 py-1 w-full" />
 
           <div className="flex justify-end">
             <button type="button" className="px-4 py-2 mr-2 text-gray-600" onClick={onClose}>Cancel</button>

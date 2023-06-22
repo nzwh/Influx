@@ -45,14 +45,18 @@ const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user
         </p>
         </div>
 
-        <div className="flex flex-row gap-2 items-center">
-            <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Tags:</h6> 
-            {tags.map((tag) => (
-                <span className="text-white font-medium text-xs bg-slate-950 rounded-xl px-2 py-0.5 tracking-normal">#{tag}</span>
-            ))}
-        </div>
-
-        <Image className="w-full h-full rounded-lg" src={images[0]} alt="Media Logo" width={0} height={0} sizes="100vw" />
+        {(tags.length == 0) ? <></> : 
+            <div className="flex flex-row gap-2 items-center">
+                <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Tags:</h6> 
+                {tags.map((tag) => (
+                    <span className="text-white font-medium text-xs bg-slate-950 rounded-xl px-2 py-0.5 tracking-normal">#{tag}</span>
+                ))}
+            </div>
+        }
+        
+        {(images.length == 0) ? <></> :
+            <Image className="w-full h-full rounded-lg" src={images[0]} alt="Media Logo" width={0} height={0} sizes="100vw" />
+        }
         
         <div className="flex flex-row justify-between">
 
