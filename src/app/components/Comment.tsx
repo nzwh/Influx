@@ -87,7 +87,7 @@ const Comment = ({
         {showInput && (
           <div className="inputContainer">
             <input type="text" className="inputContainer__input" autoFocus value={input} onChange={(e) => setInput(e.target.value)} placeholder="type..."/>
-            <Action className="reply" type="REPLY"/>
+            <Action className="reply" type="REPLY" handleClick={onAddComment} />
             <Action className="reply" type="CANCEL" handleClick={() => {
               setShowInput(false);
             }} 
