@@ -23,17 +23,17 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
 
   const { insertNode, editNode, deleteNode } = useNode();
 
-  const handleInsertNode = (folderId, item) => {
+  const handleInsertNode = (folderId: any, item: any) => {
     const finalStructure = insertNode(commentsData, folderId, item);
     setCommentsData(finalStructure);
   };
 
-  const handleEditNode = (folderId, value) => {
+  const handleEditNode = (folderId: any, value: any) => {
     const finalStructure = editNode(commentsData, folderId, value);
     setCommentsData(finalStructure);
   };
 
-  const handleDeleteNode = (folderId) => {
+  const handleDeleteNode = (folderId: any) => {
     const finalStructure = deleteNode(commentsData, folderId);
     const temp = { ...finalStructure };
     setCommentsData(temp);
@@ -41,9 +41,9 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
 
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
-      <div className="flex flex-row gap-2 w-1/2 h-1/2">
-        <Image className="h-full w-[38rem] bg-white rounded-lg" src={post!.images[0]} alt="Images" />
-        <div id="rightarea" className="flex flex-col gap-2 h-full w-[18rem">
+      <div className="flex flex-row gap-2 h-[32rem]">
+        <Image className="h-full w-auto bg-white rounded-lg" src={post!.images[0]} alt="Images" width={0} height={0} sizes="100%" />
+        <div id="rightarea" className="flex flex-col gap-2 h-full w-[24rem]">
           <div className="flex flex-col gap-5 bg-white rounded-lg p-6">
             <div className="flex flex-row justify-between">
               <div className="flex flex-row gap-2 cursor-pointer">
