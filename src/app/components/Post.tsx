@@ -37,7 +37,7 @@ const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user
 				</div>
 
 				<div className="flex flex-col gap-2">
-				<h1 className="text-gray-950 font-bold text-xl tracking-tighter leading-6">
+				<h1 className="text-gray-950 font-bold text-xl tracking-tighter leading-6 truncate break h-auto whitespace-pre-line">
 					{header}
 					<span className="text-white font-medium text-xs bg-slate-600 rounded-xl px-2 py-0.5 tracking-normal relative top-[-0.2rem] ml-2">{condition}</span>
 				</h1>
