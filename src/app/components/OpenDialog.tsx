@@ -46,7 +46,7 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
         <div id="rightarea" className="flex flex-col gap-2 h-full w-[24rem]">
           <div className="flex flex-col gap-5 bg-white rounded-lg p-6">
             <div className="flex flex-row justify-between">
-              <div className="flex flex-row gap-2 cursor-pointer">
+              <div className="flex flex-row gap-2 cursor-pointer" onClick={onClose}>
                 <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Return to post</h6>
                 <Image src="/icons/b-chvrg.svg" alt="Return to post" width={14} height={14} />
               </div>
