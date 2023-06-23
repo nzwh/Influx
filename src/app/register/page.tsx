@@ -71,7 +71,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-row pt-8 gap-[0.25rem]">
-              <h6 className="font-bold text-[0.6rem] h-full cursor-pointer">Already have an account? Log in here.</h6>
+              <Link href="/login" className="font-bold text-[0.6rem] h-full cursor-pointer">Already have an account? Log in here.</Link>
               <Image className="cursor-pointer" src="/icons/b-arrowr.svg" alt="Right Arrow Icon" width={12} height={12} />
             </div>
           </div>

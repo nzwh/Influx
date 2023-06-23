@@ -1,12 +1,29 @@
+"use client"
+
 import Image from 'next/image';
 
 import React from 'react';
+import { useState } from 'react';
+
 import Post from '@/src/app/components/Post';
 import Navbar from '@/src/app/components/Navbar';
+import ProfileDialog from '@/src/app/components/ProfileDialog';
 
 import posts from '../posts.json';
 
 export default function Home() {
+
+    // for open post
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
+    const handleDialogOpen = () => {
+      setIsDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setIsDialogOpen(false);
+    };
+
   return (
     <main className="flex flex-col w-full">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
@@ -46,7 +63,7 @@ export default function Home() {
         </section>
 
         <section id="rightarea" className="flex flex-col gap-2 h-full w-[18rem]">
-          <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
+          <div onClick={handleDialogOpen} className="w-full flex flex-col bg-white rounded-lg p-4 gap-4 cursor-pointer">
             <div className="flex flex-row justify-between items-center">
               <div className="flex flex-row items-center gap-2">
                 <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={40} height={40} />
@@ -108,6 +125,10 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {isDialogOpen && (
+            <ProfileDialog onClose={handleDialogClose} />
+          )}
 
           <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row justify-between">
