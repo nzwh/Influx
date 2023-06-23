@@ -5,9 +5,9 @@ import Image from 'next/image';
 import React from 'react';
 import { useState } from 'react';
 
-import Post from '@/src/app/components/Post';
+import Post from '@/src/app/components/PostTemplate';
 import Navbar from '@/src/app/components/Navbar';
-import ProfileDialog from '@/src/app/components/ProfileDialog';
+import ProfileDialog from '@/src/app/components/ProfileEdit';
 
 import posts from '../posts.json';
 

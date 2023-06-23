@@ -5,10 +5,10 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-import Post from '@/src/app/components/Post';
+import Post from '@/src/app/components/PostTemplate';
 import Navbar from '@/src/app/components/Navbar';
-import PostDialog from '@/src/app/components/PostDialog';
-import OpenDialog from '@/src/app/components/OpenDialog';
+import PostDialog from '@/src/app/components/PostCreate';
+import OpenDialog from '@/src/app/components/PostOpen';
 
 import { PostInterface } from '@/libraries/interfaces';
 

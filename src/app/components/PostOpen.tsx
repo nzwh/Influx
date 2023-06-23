@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from "react";
 import { useState } from "react";
-import Comment from "../components/Comment";
+import Comment from "./Comment";
 import useNode from "../hooks/useNode";
 
 import { PostInterface } from "@/libraries/interfaces";
