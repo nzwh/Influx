@@ -8,7 +8,7 @@ import posts from '../posts.json';
 
 export default function Home() {
   return (
-    <main className="flex flex-col w-screen">
+    <main className="flex flex-col w-full">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
       <Navbar />
       <div className="flex flex-row gap-2 w-full h-full justify-center align-center py-20">
