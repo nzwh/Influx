@@ -1,51 +1,27 @@
 "use client"
 
 import Image from 'next/image';
+
 import { useState, useEffect } from 'react';
-
 import React from 'react';
-import Post from '@/components/Post';
-import Navbar from '@/components/Navbar';
 
-import PostDialog from '@/components/PostDialog';
+import Post from '@/src/app/components/Post';
+import Navbar from '@/src/app/components/Navbar';
+import PostDialog from '@/src/app/components/PostDialog';
+import OpenDialog from '@/src/app/components/OpenDialog';
 
-interface Post {
-  shop_icon: string;
-  shop_name: string;
-  shop_handle: string;
-
-  user_icon: string;
-  user_name: string;
-  user_handle: string;
-
-  timestamp: string;
-
-  price: number;
-  negotiable: boolean;
-
-  header: string;
-  description: string;
-  condition: string;
-
-  tags: string[];
-  images: string[];
-
-  upvotes: number;
-  downvotes: number;
-  shares: number;
-  interested: number;
-  comments: number;
-}
+import { PostInterface } from '@/libraries/interfaces';
 
 export default function Home() {
 
+  // for create post
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
 
   useEffect(() => {
     const fetchPosts = () => {
       try {
-        const existingPosts: Post[] = require('@/posts.json');
+        const existingPosts: PostInterface[] = require('@/posts.json');
         setPosts(existingPosts);
       } catch (error) {
         console.log('Error reading posts:', error);
@@ -58,31 +34,44 @@ export default function Home() {
   const handleDialogOpen = () => {
     setIsDialogOpen(true);
   };
-
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
 
-  const handleAddPost = (post: Post) => {
-    let existingPosts: Post[] = require('@/posts.json');
-    let updatedPosts: Post[] = [post, ...existingPosts];
+  const handleAddPost = (post: PostInterface) => {
+    let existingPosts: PostInterface[] = require('@/posts.json');
+    let updatedPosts: PostInterface[] = [post, ...existingPosts];
     existingPosts.unshift(post);
     setPosts(updatedPosts);
   };
 
+  // for open post
+  const [isOpenDialogOpen, setIsOpenDialogOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
+
+  const handleOpenDialogOpen = (post: PostInterface) => {
+    setSelectedPost(post);
+    setIsOpenDialogOpen(true);
+  };
+
+  const handleOpenDialogClose = () => {
+    setSelectedPost(null);
+    setIsOpenDialogOpen(false);
+  };
+
   return (
-    <main className="flex flex-col w-screen">
+    <main className="flex flex-col w-full">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
       <Navbar />
-
       <div className="flex flex-row gap-2 w-full h-full justify-center align-center py-20">
-        <section id="leftarea" className="flex flex-col gap-2 h-full w-[38rem]">
 
+        <section id="leftarea" className="flex flex-col gap-2 h-full w-[38rem]">
           <div onClick={handleDialogOpen} className="w-full flex flex-row justify-between bg-white rounded-lg p-4 gap-4 cursor-pointer">
             <div className="flex flex-row gap-4 items-center">
               <Image className="rounded-full" src="/avatars/temp.jpg" alt="Expand" width={24} height={24} />
               <h6 className="text-gray-400 font-bold text-sm tracking-tighter leading-4">Post about something...</h6>
             </div>
+            
             <div className="flex flex-row gap-4 items-center">
               <Image src="/icons/b-pkg.svg" alt="Expand" width={16} height={16} />
               <Image src="/icons/b-map.svg" alt="Expand" width={16} height={16} />
@@ -95,18 +84,25 @@ export default function Home() {
             <PostDialog onClose={handleDialogClose} onAddPost={handleAddPost} />
           )}
 
-          {posts.map((post, index) => (
-            <Post key={index} {...post} />
-          ))}
+          <ul className="flex flex-col gap-2 h-full w-[38rem]">
+            {posts.map((post, index) => (
+              <li key={index} onClick={handleOpenDialogOpen.bind(null, post)} className="cursor-pointer">
+                <Post key={index} {...post} />
+              </li>
+            ))}
+            {isOpenDialogOpen && (
+              <OpenDialog post={selectedPost} onClose={handleOpenDialogClose} />
+            )}
+          </ul>
         </section>
 
         <section id="rightarea" className="flex flex-col gap-2 h-full w-[18rem]">
-          
           <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row justify-between">
               <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Account</h6>
               <Image src="/icons/b-search.svg" alt="Expand" width={12} height={12} />
             </div>
+
             <div className="flex flex-row justify-between items-center">
               <div className="flex flex-row items-center gap-2">
                 <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={40} height={40} />
@@ -125,10 +121,8 @@ export default function Home() {
             <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">About  •  Terms  •  Documentation  •  Repository</h6>
             <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">influx.io © 2023.  Made with Next.js.</h6>
           </div>
-
         </section>
       </div>
-      
     </main>
   )
 }
