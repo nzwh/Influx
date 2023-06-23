@@ -5,6 +5,84 @@ import { Inter } from 'next/font/google'
 // Creates an instance of the Inter font.
 const inter = Inter({ subsets: ['latin'] })
 
+import localFont from 'next/font/local'
+ 
+// Font files can be colocated inside of `app`
+const sohne = localFont({
+  src: [
+    {
+      path: './fonts/sohne/sohne_buch.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/sohne/sohne_buch_kursiv.otf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: './fonts/sohne/sohne_dreiviertelfett.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/sohne/sohne_dreiviertelfett_kursiv.otf',
+      weight: '500',
+      style: 'italic',
+    },
+    {
+      path: './fonts/sohne/sohne_extrafett.otf',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: './fonts/sohne/sohne_extrafett_kursiv.otf',
+      weight: '800',
+      style: 'italic',
+    },
+    {
+      path: './fonts/sohne/sohne_fett.otf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/sohne/sohne_fett_kursiv.otf',
+      weight: '700',
+      style: 'italic',
+    },
+    {
+      path: './fonts/sohne/sohne_halbfett.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/sohne/sohne_halbfett_kursiv.otf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: './fonts/sohne/sohne_kraftig.otf',
+      weight: '900',
+      style: 'normal',
+    },
+    {
+      path: './fonts/sohne/sohne_kraftig_kursiv.otf',
+      weight: '900',
+      style: 'italic',
+    },
+    {
+      path: './fonts/sohne/sohne_leicht.otf',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: './fonts/sohne/sohne_leicht_kursiv.otf',
+      weight: '200',
+      style: 'italic',
+    }
+  ]
+})
+
 // Exports the metadata for the page (<head>).
 export const metadata = {
   title: 'Influx',
@@ -24,7 +102,7 @@ export default function RootLayout({
     // Renders normal HTML elements.
     <html lang="en">
       {/* Place all children inside the body tag. */}
-      <body className={inter.className}>{children}</body>
+      <body className={sohne.className}>{children}</body>
     </html>
   )
 }
