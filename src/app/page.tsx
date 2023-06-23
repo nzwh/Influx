@@ -64,8 +64,8 @@ export default function Home() {
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
       <Navbar />
       <div className="flex flex-row gap-2 w-full h-full justify-center align-center py-20">
-
-        <section id="leftarea" className="flex flex-col gap-2 h-full w-[38rem]">
+    
+        <section id="leftarea" className="flex flex-col gap-2 h-full w-[38rem] overflow-auto mr-[18.5rem]">
           <div onClick={handleDialogOpen} className="w-full flex flex-row justify-between bg-white rounded-lg p-4 gap-4 cursor-pointer">
             <div className="flex flex-row gap-4 items-center">
               <Image className="rounded-full" src="/avatars/temp.jpg" alt="Expand" width={24} height={24} />
@@ -96,11 +96,11 @@ export default function Home() {
           </ul>
         </section>
 
-        <section id="rightarea" className="flex flex-col gap-2 h-full w-[18rem]">
+        <section id="rightarea" className="flex flex-col gap-2 h-full w-[18rem] ml-[38.5rem] fixed">
           <div className="w-full flex flex-col bg-white rounded-lg p-4 gap-4">
             <div className="flex flex-row justify-between">
               <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Account</h6>
-              <Image src="/icons/b-search.svg" alt="Expand" width={12} height={12} />
+              <Image src="/icons/b-arrupr.svg" alt="Expand" width={12} height={12} />
             </div>
 
             <div className="flex flex-row justify-between items-center">
