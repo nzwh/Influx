@@ -43,13 +43,13 @@ export default function Home() {
               <h6 className="bg-white text-black font-bold text-[0.5rem] h-full cursor-pointer hover:underline">Forgot Password?</h6>
             </div>
 
-            <div className="w-full flex flex-row bg-black rounded-2xl p-[0.35rem] gap-[0.5rem] justify-center cursor-pointer">
+            <Link href="/" className="w-full flex flex-row bg-black rounded-2xl p-[0.35rem] gap-[0.5rem] justify-center cursor-pointer">
               <Image src="/icons/b-italic.svg" alt="Influx Icon" width={12} height={12} />
               <h6 className="text-slate-400 font-medium text-[0.6rem] h-full cursor-pointer">Continue with an Influx Account</h6>
-            </div>
+            </Link>
 
             <div className="flex flex-row pt-10 gap-[0.25rem]">
-              <Link href="/register" className="font-bold text-[0.6rem] h-full cursor-pointer">New to Influx? Sign up here.</Link>
+              <Link href="/auth/register" className="text-gray-950 font-bold text-[0.6rem] h-full cursor-pointer">New to Influx? Sign up here.</Link>
               <Image className="cursor-pointer" src="/icons/b-arrowr.svg" alt="Right Arrow Icon" width={12} height={12} />
             </div>
           </div>
