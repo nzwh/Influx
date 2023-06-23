@@ -112,7 +112,7 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
             </div>
           </div>
           
-          <div className="flex flex-col gap-2 bg-white rounded-lg p-6">
+          <div className="flex flex-col gap-4 bg-white rounded-lg p-6">
             <div className="flex flex-row justify-between">
               <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Comments</h6>
               <Image src="/icons/b-filter.svg" alt="Filter" width={14} height={14} className="cursor-pointer" />
