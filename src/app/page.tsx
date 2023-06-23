@@ -11,6 +11,7 @@ import PostDialog from '@/src/app/components/PostDialog';
 import OpenDialog from '@/src/app/components/OpenDialog';
 
 import { PostInterface } from '@/libraries/interfaces';
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -104,15 +105,17 @@ export default function Home() {
             </div>
 
             <div className="flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-2">
-                <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={40} height={40} />
-                <div className="flex flex-col justify-center">
-                  <h6 className="text-gray-950 font-bold text-lg tracking-tighter leading-5">Arkustore</h6>
-                  <h6 className="text-gray-500 font-bold text-xs tracking-tighter leading-4">@arkustore
-                    <span className="text-black font-extrabold text-[0.5rem] bg-gray-300 rounded-xl px-2 py-0.5 tracking-normal relative top-[-0.04rem] ml-2">SELLER</span>
-                  </h6>
+              <Link href="/profile">
+                <div className="flex flex-row items-center gap-2">
+                  <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={40} height={40} />
+                  <div className="flex flex-col justify-center">
+                    <h6 className="text-gray-950 font-bold text-lg tracking-tighter leading-5">Arkustore</h6>
+                    <h6 className="text-gray-500 font-bold text-xs tracking-tighter leading-4">@arkustore
+                      <span className="text-black font-extrabold text-[0.5rem] bg-gray-300 rounded-xl px-2 py-0.5 tracking-normal relative top-[-0.04rem] ml-2">SELLER</span>
+                    </h6>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <Image className="rotate-90" src="/icons/b-more-h.svg" alt="More Button" width={14} height={14} />
             </div>
           </div>
