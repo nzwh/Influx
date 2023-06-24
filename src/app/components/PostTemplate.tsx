@@ -6,7 +6,7 @@ import React from 'react';
 import { PostInterface } from "@/libraries/interfaces";
 import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Share2, ShoppingBag } from 'lucide-react';
 
-const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
+const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
 
 	tags.sort(function(a, b){return b.length - a.length});
 
@@ -94,4 +94,4 @@ const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user
 	);
 };
   
-export default Post;
+export default PostTemplate;

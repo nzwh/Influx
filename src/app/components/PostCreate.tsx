@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { X } from 'lucide-react';
+import { useState, useRef } from 'react';
 
-interface PostDialogProps {
+import AutosizeTextarea from '@/src/app/components/AutosizeTextarea';
+
+interface PostCreateProps {
   onClose: () => void;
   onAddPost: (post: any) => void;
 }
 
-const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
+const PostCreate: React.FC<PostCreateProps> = ({ onClose, onAddPost }) => {
   const [shop_icon, setShopIcon] = useState('');
   const [shop_name, setShopName] = useState('');
   const [shop_handle, setShopHandle] = useState('');
@@ -13,7 +16,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
   const [user_name, setUserName] = useState('');
   const [user_handle, setUserHandle] = useState('');
   const [timestamp, setTimestamp] = useState('');
-  const [price, setPrice] = useState(0.0);
+  const [price, setPrice] = useState<number>();
   const [negotiable, setNegotiable] = useState(false);
   const [header, setHeader] = useState('');
   const [description, setDescription] = useState('');
@@ -58,11 +61,13 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
   const handleNegotiableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNegotiable(e.target.checked);
   };
-  const handleHeaderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleHeaderChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setHeader(e.target.value);
+    setHeaderValue(e.target.value);
   };
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
+    setDescValue(e.target.value); 
   };
   const handleConditionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCondition(e.target.value);
@@ -81,53 +86,60 @@ const PostDialog: React.FC<PostDialogProps> = ({ onClose, onAddPost }) => {
     onClose();
   };
 
+  const [headerValue, setHeaderValue] = useState("");
+  const [descValue, setDescValue] = useState("");
+  const textHeadAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textDescAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  AutosizeTextarea(textHeadAreaRef.current, headerValue);
+  AutosizeTextarea(textDescAreaRef.current, descValue);
+
   return (
-    <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-      <div className="bg-white rounded p-6 w-96 flex flex-col gap-2">
-        <h6 className="text-gray-950 font-bold text-xs">@arkustore</h6>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <main>
+      <section className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
+        <div className="bg-white rounded p-6 w-96 flex flex-col gap-2 z-[50]">
+          <div className="flex flex-row items-center justify-between">
+            <h6 className="text-gray-800 font-regular text-xs">@arkustore</h6>
+            <X className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={onClose}/>
+          </div>
 
-            <input type="number" value={price} onChange={handlePriceChange} placeholder="$200.00" className="w-full text-3xl font-bold" required />
-            <input type="text" value={header} onChange={handleHeaderChange} placeholder="Title" className="pt-2 w-full text-xl font-medium" required />
-            <textarea value={description} onChange={handleDescriptionChange} defaultValue={""} placeholder="Write your text here." className="w-full text-sm min-h-[4rem]" required />
-
-            <select value={shop_name} className="text-sm border rounded px-2 py-1 w-full" onChange={handleShopNameChange} required>
-              <option value="" disabled selected>Select Shop</option>
-              {shops.map((shop, index) => (
-                <option key={index} value={shop.name}>
-                  {shop.name}
-                </option>
-              ))}
-            </select>
-            
-            <div className="flex flex-row gap-4">
-              <select value={condition} className="text-sm border rounded px-2 py-1 w-full" onChange={handleConditionChange} required>
-                <option value="" disabled selected>Condition</option>
-                {conditions.map((con, index) => (
-                  <option key={index} value={con}>
-                    {con}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+              <input type="number" value={price} onChange={handlePriceChange} placeholder="$100.00" className="w-full text-3xl font-regular" required />
+              <textarea value={header} onChange={handleHeaderChange} placeholder="Title" className="w-full text-xl font-regular leading-5 h-[1.3rem] resize-none" ref={textHeadAreaRef} rows={1} required />
+              <textarea value={description} onChange={handleDescriptionChange} placeholder="Write your text here." className="w-full text-sm min-h-[4rem] leading-4 font-light resize-none" ref={textDescAreaRef} rows={1} required />
+              <select value={shop_name} className="-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm font-regular" onChange={handleShopNameChange} required>
+                <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" value="" disabled selected>Choose Shop</option>
+                {shops.map((shop, index) => (
+                  <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" key={index} value={shop.name}>
+                    {shop.name}
                   </option>
                 ))}
               </select>
-              
-              <div className="flex flex-row items-center">
-                <input type="checkbox" value={negotiable ? 1 : 0} onChange={handleNegotiableChange} className="border rounded px-2 py-1 w-full" />
-                <h6 className="text-gray-950 text-xs font-bold leading-4 p-2">Negotiable?</h6>
+              <div className="flex flex-row gap-2">
+                <select value={condition} className="w-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm font-regular" onChange={handleConditionChange} required>
+                  <option className="w-full text-gray-500 text-sm bg-gray-100 rounded-sm" value="" disabled selected>Choose Condtion</option>
+                  {conditions.map((condition, index) => (
+                    <option className="w-full text-gray-500 text-sm bg-gray-100 rounded-sm" key={index} value={condition}>
+                      {condition}
+                    </option>
+                  ))}
+                </select>
+                <div className="flex flex-row items-center bg-gray-100 rounded-sm px-3 py-[0.4rem]">
+                  <input type="checkbox" value={negotiable ? 1 : 0} onChange={handleNegotiableChange} className="rounded px-2 w-full" />
+                  <h6 className="text-gray-800 text-xs font-regular leading-4 pl-2">Negotiable?</h6>
+                </div>
               </div>
-            </div>
-
-            <input type="text" value={tags} onChange={handleTagsChange} className="text-sm border rounded px-2 py-1 w-full" placeholder="Write your tags here, separated by spaces." />
-            {/* <input type="text" value={images} onChange={handleImagesChange} className="border rounded px-2 py-1 w-full" /> */}
-
-            <div className="flex justify-end pt-4">
-              <button type="button" className="text-sm px-3 py-1 text-gray-600" onClick={onClose}>Cancel</button>
-              <button type="submit" className="text-sm px-3 py-1 bg-slate-900 text-white rounded-full">Submit</button>
-            </div>
-
-        </form>
-      </div>
+              <input type="text" value={tags} onChange={handleTagsChange} className="w-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm" placeholder="Write your tags here, separated by spaces." />
+              <div className="flex justify-end pt-4">
+                <button type="button" className="text-xs px-4 py-1.5 text-gray-500" onClick={onClose}>Cancel</button>
+                <button type="submit" className="text-xs px-3 py-1.5 bg-slate-900 text-violet-300 rounded-full">Create Post</button>
+              </div>
+          </form>
+        </div>
+      </section>
     </main>
+    
   );
 };
 
-export default PostDialog;
+export default PostCreate;

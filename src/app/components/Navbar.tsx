@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
 
   return (
     <main>
-      <nav className="flex flex-row h-20 w-full justify-between items-center px-[8%] fixed z-50">
+      <nav className="flex flex-row h-20 w-full justify-between items-center px-[8%] fixed z-30">
         <Link href="/" className="flex flex-row items-center gap-2">
           <Italic className="opacity-70" color="black" size={14} strokeWidth={3} />
           <h1 className="text-slate-950 font-regular text-sm">Influx</h1>

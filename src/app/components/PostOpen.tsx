@@ -1,14 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import React from "react";
-import { useState } from "react";
+
+import React, { useState } from "react";
+
 import Comment from "./Comment";
 import useNode from "../hooks/useNode";
 
 import { PostInterface } from "@/libraries/interfaces";
 
-interface OpenDialogProps {
+interface PostOpenProps {
   onClose: () => void;
   post: PostInterface | null;
 }
@@ -18,7 +19,7 @@ const comments = {
   items: []
 };
 
-const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
+const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
   const [commentsData, setCommentsData] = useState(comments);
 
   const { insertNode, editNode, deleteNode } = useNode();
@@ -132,4 +133,4 @@ const OpenDialog: React.FC<OpenDialogProps> = ({ post, onClose }) => {
   );
 };
 
-export default OpenDialog;
+export default PostOpen;
