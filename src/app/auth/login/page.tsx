@@ -21,27 +21,27 @@ export default function Home() {
           </div>
 
           <div id="Right div" className="p-10 h-[32rem] w-[95rem]">
-            <h6 className="text-black font-bold text-2xl tracking-tighter leading-4 pt-12 pb-6">Log in to continue</h6>
+            <h6 className="text-gray-800 font-bold text-2xl tracking-tighter leading-4 pt-12 pb-6">Log in to continue</h6>
             
             <form action="/">
-              <h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Username / Email Address</h6>
+              <h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Username / Email Address</h6>
               <div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
                 <Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-at.svg" alt="At Icon" width={10} height={10} />
-                <input type="text" placeholder="Enter username / email address" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter" required></input>
+                <input type="text" placeholder="Enter username / email address" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter" required></input>
               </div>
 
-              <h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Password</h6>
+              <h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Password</h6>
               <div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
                 <Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-key.svg" alt="Key Icon" width={10} height={10} />
-                <input type="password" placeholder="Enter password" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter" required></input>
+                <input type="password" placeholder="Enter password" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter" required></input>
               </div>
 
               <div className="flex flex-row justify-between w-full items-center pt-4 pb-9">
                 <div className="flex flex-row gap-1 items-center">
                   <input type="checkbox" id="remember" name="remember" className="cursor-pointer" />
-                  <h6 className="bg-white text-black font-bold text-[0.5rem] h-full">Remember me</h6>
+                  <h6 className="bg-white text-gray-800 font-bold text-[0.5rem] h-full">Remember me</h6>
                 </div>
-                <h6 className="bg-white text-black font-bold text-[0.5rem] h-full cursor-pointer hover:underline">Forgot Password?</h6>
+                <h6 className="bg-white text-gray-800 font-bold text-[0.5rem] h-full cursor-pointer hover:underline">Forgot Password?</h6>
               </div>
 
               <button type="submit" className="w-full flex flex-row bg-black rounded-2xl p-[0.35rem] gap-[0.5rem] justify-center cursor-pointer">
@@ -51,7 +51,7 @@ export default function Home() {
             </form>
 
             <div className="flex flex-row pt-10 gap-[0.25rem]">
-              <Link href="/auth/register" className="text-gray-950 font-bold text-[0.6rem] h-full cursor-pointer">New to Influx? Sign up here.</Link>
+              <Link href="/auth/register" className="text-gray-800 font-bold text-[0.6rem] h-full cursor-pointer">New to Influx? Sign up here.</Link>
               <Image className="cursor-pointer" src="/icons/b-arrowr.svg" alt="Right Arrow Icon" width={12} height={12} />
             </div>
           </div>
