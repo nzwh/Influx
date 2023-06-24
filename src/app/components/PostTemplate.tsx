@@ -4,87 +4,92 @@ import Image from 'next/image';
 import React from 'react';
 
 import { PostInterface } from "@/libraries/interfaces";
+import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Share2, ShoppingBag } from 'lucide-react';
 
 const Post: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
+
+	tags.sort(function(a, b){return b.length - a.length});
+
 	return (
 		<main>
-			<section className="w-full flex flex-col bg-white rounded-lg p-4 gap-4 cursor-pointer">
+			<article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 cursor-pointer overflow-visible">
 				<div className="flex flex-row justify-between">
-					<div className="flex flex-col gap-4">
+					<div className="flex flex-col gap-3">
 					<div className="flex flex-row items-center gap-2">
 						<Image className="rounded-full" src={shop_icon} alt="Shop Icon" width={16} height={16} />
-						<h6 className="text-gray-950 font-extrabold text-xs tracking-tighter">{shop_name}</h6>
-						<h6 className="text-gray-500 font-bold text-xs tracking-tighter">{shop_handle}</h6>
+						<h6 className="text-gray-800 font-medium text-[0.65rem]">{shop_name}</h6>
+						<h6 className="text-gray-500 font-regular text-[0.65rem]">{shop_handle}</h6>
 					</div>
+					
 					<div className="flex flex-row items-center gap-2">
-						<Image className="rounded-full" src={user_icon} alt="User Icon" width={40} height={40} />
+						<Image className="rounded-full" src={user_icon} alt="User Icon" width={36} height={36} />
 						<div className="flex flex-col justify-center">
-							<h6 className="text-gray-950 font-bold text-lg tracking-tighter leading-5">{user_name}</h6>
-							<h6 className="text-gray-500 font-bold text-xs tracking-tighter leading-4">{timestamp}&ensp;•&ensp;{user_handle}</h6>
+							<h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{user_name}</h6>
+							<h6 className="text-gray-500 font-regular text-xs leading-4">{timestamp}&ensp;•&ensp;{user_handle}</h6>
 						</div>
 					</div>
 					</div>
 
 					<div className="flex flex-row items-start mt-1 mr-1">
-					<div className="flex flex-row items-center gap-4">
-						<div className=" bg-slate-700 rounded-full px-2 py-0.5">
-							<h6 className="text-white font-bold text-[0.5rem]">{negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
+					<div className="flex flex-row items-center gap-3">
+						<div className="bg-gray-800 rounded-full px-2 py-0.5">
+							<h6 className="text-white font-semibold tracking-wider text-[0.5rem] leading-3">{negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
 						</div>
-						<h1 className="text-gray-950 font-bold text-xl tracking-tighter leading-4">${price}</h1>
-						<Image src="/icons/b-more-h.svg" alt="More Button" width={14} height={14} />  
+						<h1 className="text-gray-950 font-medium text-2xl tracking-tight leading-4">${price}</h1>
+						<MoreHorizontal color="black" size={12}/> 
 					</div>
 					</div>
 				</div>
 
 				<div className="flex flex-col gap-2">
-				<h1 className="text-gray-950 font-bold text-xl tracking-tighter leading-6 truncate break h-auto whitespace-pre-line">
+				<h1 className="text-gray-950 font-medium text-lg tracking-tight leading-5 truncate break h-auto whitespace-pre-line">
 					{header}
-					<span className="text-white font-medium text-xs bg-slate-600 rounded-xl px-2 py-0.5 tracking-normal relative top-[-0.2rem] ml-2">{condition}</span>
+					<span className="text-white font-extralight tracking-wide text-[0.7rem] bg-gray-400 relative top-[-0.1rem] rounded-md px-1.5 py-0.5 ml-2">{condition}</span>
 				</h1>
-				<p className="text-gray-800 font-medium text-md tracking-tighter leading-5 truncate break h-auto whitespace-pre-line">
+				<p className="text-gray-800 font-medium text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
 					{description}
 				</p>
 				</div>
 
-				{(tags.length == 0) ? <></> : 
-					<div className="flex flex-row gap-2 items-center">
-						<h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Tags:</h6> 
+				{(tags.length === 0) ? <></> : 
+					<div className="flex flex-row gap-2 items-start w-full">
+						<div className="flex flex-wrap gap-1">
 							{tags.map((tag) => (
-								<span className="text-white font-medium text-xs bg-slate-950 rounded-xl px-2 py-0.5 tracking-normal">#{tag}</span>
+								<span className="text-gray-600 font-regular text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-[0.2rem] tracking-normal block"># {tag}</span>
 							))}
+						</div>
 					</div>
 				}
 				
 				{(images.length == 0) ? <></> :
-					<Image className="w-full h-full rounded-lg" src={images[0]} alt="Media Logo" width={0} height={0} sizes="100vw" />
+					<Image className="w-full h-full rounded-sm" src={images[0]} alt="Media" width={0} height={0} sizes="100vw" />
 				}
 			
 				<div className="flex flex-row justify-between">
 					<div className="flex flex-row items-center gap-4">
 					<div className="flex flex-row gap-1">
-						<Image src="/icons/b-arrup.svg" alt="Upvote Button" width={14} height={14} />  
-						<h6 className="text-gray-950 font-extrabold text-xs tracking-tighter leading-4">{upvotes - downvotes}</h6>
-						<Image src="/icons/b-arrdw.svg" alt="Upvote Button" width={14} height={14} /> 
-						<h6 className="text-gray-950 font-extrabold text-xs tracking-tighter leading-4">upvotes</h6>  
+						<ArrowUp className="opacity-70" color="black" size={14} strokeWidth={3}/>
+						<h6 className="text-gray-800 font-medium text-xs leading-4">{upvotes - downvotes}</h6>
+						<ArrowDown className="opacity-70" color="black" size={14} strokeWidth={3}/>
 					</div>
 
 					<div className="flex flex-row gap-1">
-						<Image src="/icons/b-share.svg" alt="Upvote Button" width={14} height={14} />  
-						<h6 className="text-gray-950 font-extrabold text-xs tracking-tighter leading-4">{shares} shares</h6>
+						<Share2 className="opacity-70" color="black" size={14} strokeWidth={3} /> 
+						<h6 className="text-gray-800 font-medium text-xs leading-4">{shares} shares</h6>
 					</div>
 					<div className="flex flex-row gap-1">
-						<Image src="/icons/b-cart.svg" alt="Upvote Button" width={14} height={14} />  
-						<h6 className="text-gray-950 font-extrabold text-xs tracking-tighter leading-4">{interested} interested</h6>
+						<ShoppingBag className="opacity-70" color="black" size={14} strokeWidth={3} />  
+						<h6 className="text-gray-800 font-medium text-xs leading-4">{interested} interested</h6>
 					</div>
-					<Image src="/icons/b-more-h.svg" alt="Upvote Button" width={14} height={14} />  
+					<MoreHorizontal className="opacity-70" color="black" size={14} strokeWidth={3} /> 
 					</div>
 
 					<div className="flex flex-row gap-1">
-						<Image src="/icons/b-msgcrc.svg" alt="Upvote Button" width={14} height={14} />  
-						<h6 className="text-gray-950 font-extrabold text-xs tracking-tighter leading-4">{comments} comments</h6>
+						<MessageCircle className="opacity-70" color="black" size={14} strokeWidth={3} />
+						<h6 className="text-gray-800 font-medium text-xs leading-4">{comments} comments</h6>
 					</div>
 				</div>
-			</section>
+			</article>
 		</main>
 	);
 };
