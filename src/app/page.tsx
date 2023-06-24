@@ -12,6 +12,7 @@ import PostOpen from '@/src/app/components/PostOpen';
 import Navbar from '@/src/app/components/Navbar';
 
 import { PostInterface } from '@/libraries/interfaces';
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -104,6 +105,7 @@ export default function Home() {
             </div>
             
             <div className="flex flex-row justify-between items-center">
+            <Link href="/profile">
               <div className="flex flex-row items-center gap-2">
                 <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={40} height={40} />
                 <div className="flex flex-col justify-center">
@@ -111,6 +113,7 @@ export default function Home() {
                   <h6 className="text-gray-500 font-regular text-xs leading-4">@arkustore <span className="text-gray-800 bg-gray-200 font-regular text-[0.5rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
                 </div>
               </div>
+            </Link>
 
               <MoreVertical color="black" size={12}/>
             </div>

@@ -32,56 +32,56 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({ onClose }) => {
 
 							<div className="flex flex-row gap-3 w-full items-center">
 								<div className="flex flex-col w-full">
-									<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-2">First Name</h6>
+									<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-2">First Name</h6>
 									<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 										<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-term.svg" alt="Input Icon" width={10} height={10} />
-										<input type="text" placeholder="Enter first name" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+										<input type="text" placeholder="Enter first name" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 									</div>
 								</div>
 
 								<div className="flex flex-col w-full">
-									<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-2">Last Name</h6>
+									<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-2">Last Name</h6>
 									<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 										<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-term.svg" alt="Input Icon" width={10} height={10} />
-										<input type="text" placeholder="Enter last name" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+										<input type="text" placeholder="Enter last name" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 									</div>
 								</div>
 							</div>
 							
-							<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Username</h6>
+							<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Username</h6>
 							<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 								<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-at.svg" alt="At Icon" width={10} height={10} />
-								<input type="text" placeholder="Enter username" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+								<input type="text" placeholder="Enter username" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 							</div>
 
-							<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Email Address</h6>
+							<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Email Address</h6>
 							<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 								<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-mail.svg" alt="Mail Icon" width={10} height={10} />
-								<input type="text" placeholder="Enter email address" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+								<input type="text" placeholder="Enter email address" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 							</div>
 
-							<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Contact Number</h6>
+							<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Contact Number</h6>
 							<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 								<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-phone.svg" alt="Phone Icon" width={10} height={10} />
-								<input type="text" placeholder="Enter contact number" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+								<input type="text" placeholder="Enter contact number" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 							</div>
 
-							<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Biography</h6>
+							<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Biography</h6>
 							<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 								<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-bio.svg" alt="Paper Icon" width={10} height={10} />
-								<input type="text" placeholder="Enter your bio here" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+								<input type="text" placeholder="Enter your bio here" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 							</div>
 
-							<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Modes of Payment</h6>
+							<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Modes of Payment</h6>
 							<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 								<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-credit2.svg" alt="Credit Card Icon" width={10} height={10} />
-								<input type="text" placeholder="Enter modes of payment" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+								<input type="text" placeholder="Enter modes of payment" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 							</div>
 
-							<h6 className="text-black font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Modes of Delivery</h6>
+							<h6 className="text-gray-800 font-medium text-[0.7rem] tracking-tighter leading-4 pt-3">Modes of Delivery</h6>
 							<div className="flex flex-row bg-white rounded-[0.25rem] pt-1 h-8">
 								<Image className="w-7 bg-gray-300 rounded-l-[0.25rem] p-2" src="/icons/b-deli.svg" alt="Delivery Box Icon" width={10} height={10} />
-								<input type="text" placeholder="Enter modes of delivery" className="w-full text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
+								<input type="text" placeholder="Enter modes of delivery" className="w-full text-gray-500 text-[0.7rem] bg-gray-100 rounded-r-[0.25rem] p-2 tracking-tighter"></input>
 							</div>
 
 						</div>
@@ -89,7 +89,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({ onClose }) => {
 
 					<div className="p-3"></div>
 					<div className="flex flex-row items-center justify-end bg-white gap-4">
-						<h6 className="text-black font-medium text-[0.6rem] h-full cursor-pointer" onClick={onClose}>Cancel</h6>
+						<h6 className="text-gray-800 font-medium text-[0.6rem] h-full cursor-pointer" onClick={onClose}>Cancel</h6>
 						<div className="w-fixed px-3 flex flex-row bg-black rounded-2xl p-[0.5rem] gap-[0.5rem] justify-center cursor-pointer">
 							<h6 className="text-slate-400 font-medium text-[0.6rem] h-full cursor-pointer">Save Changes</h6>
 						</div>

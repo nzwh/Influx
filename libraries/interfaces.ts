@@ -26,6 +26,17 @@ interface PostInterface {
     comments: number;
 }
 
+interface ProfileInterface {
+    user_icon: string;
+    user_name: string;
+    user_handle: string;
+    
+    user_bio: string;
+    user_MOD: string;
+    user_MOP: string;
+}
+
 export type {
-    PostInterface
+    PostInterface,
+    ProfileInterface
 }
