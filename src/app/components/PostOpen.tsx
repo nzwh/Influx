@@ -6,6 +6,7 @@ import React, { useState } from "react";
 
 import Comment from "./Comment";
 import useNode from "../hooks/useNode";
+import VoteMechanism from "./VoteMechanism";
 
 import { PostInterface } from "@/libraries/interfaces";
 
@@ -40,14 +41,6 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
     setCommentsData(temp);
   };
 
-  const upvote = () => {
-    post!.upvotes += 1;
-  };
-
-  const downvote = () => {
-    post!.downvotes += 1;
-  };
-
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
       <div className="flex flex-row gap-2 h-[32rem]">
@@ -72,11 +65,7 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
 					  {post!.description}
 				    </p>
             <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row gap-2">
-                <Image src="/icons/b-arrup.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={upvote} />  
-                <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">{post!.upvotes - post!.downvotes}</h6>
-                <Image src="/icons/b-arrdw.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={downvote} /> 
-              </div>
+              <VoteMechanism post={post!} />
               <div className="flex flex-row gap-2 cursor-pointer">
                 <Image src="/icons/b-cart.svg" alt="Add to cart" width={14} height={14} />  
                 <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Add to cart</h6>
