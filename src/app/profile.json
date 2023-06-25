@@ -5,7 +5,8 @@
         "user_handle": "@chaeyo.0",
         "user_bio": "KPOP Merch and Stuffs",
         "user_MOD": "Grab/Lalamove",
-        "user_MOP": "Maya"
+        "user_MOP": "Maya",
+        "user_location": "Manila"
     },
     {
         "user_icon": "/profile/yeonjun.jpg",
@@ -13,7 +14,8 @@
         "user_handle": "@yawnzzn",
         "user_bio": "selling unused items and school supplies",
         "user_MOD": "LBC/Lalamove/Grab",
-        "user_MOP": "BDO/BPI"
+        "user_MOP": "BDO/BPI",
+        "user_location": "Cebu"
     },
     {
         "user_icon": "/profile/mingyu.jpg",
@@ -21,7 +23,8 @@
         "user_handle": "@mingyu",
         "user_bio": "LEGIT SELLER! You can check my fb page: facebook.com/mingyu_store #hustler",
         "user_MOD": "J&T/LBC",
-        "user_MOP": "GCash/Metrobank"
+        "user_MOP": "GCash/Metrobank",
+        "user_location": "Laguna"
     },
     {
         "user_icon": "/profile/yunjin.jpg",
@@ -29,7 +32,8 @@
         "user_handle": "@jenaissante",
         "user_bio": "‼️ NEW ITEMS POSTED EVERY FRIDAY ‼️ ",
         "user_MOD": "GRAB/Lalamove/Pick-up",
-        "user_MOP": "COD/Maya/BDO"
+        "user_MOP": "COD/Maya/BDO",
+        "user_location": "Davao"
     },
     {
         "user_icon": "/profile/soobin.jpg",
@@ -37,6 +41,7 @@
         "user_handle": "@soob",
         "user_bio": "selling brand new fashionable items",
         "user_MOD": "J&T",
-        "user_MOP": "BPI/GCash/Palawan Express"
+        "user_MOP": "BPI/GCash/Palawan Express",
+        "user_location": "Tagaytay"
     }
 ]
