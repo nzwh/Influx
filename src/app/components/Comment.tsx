@@ -100,7 +100,7 @@ const Comment = ({
               <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
               <input 
                 type="text" 
-                className="inputContainer__input text-sm bg-gray-100 p-2 tracking-tighter" 
+                className="inputContainer__input font-extralight text-sm bg-gray-100 p-2" 
                 autoFocus value={input} 
                 onChange={(e) => setInput(e.target.value)} 
                 placeholder="Write a comment..."
@@ -122,8 +122,8 @@ const Comment = ({
                   <div className="flex flex-col">
                     <div className="flex flex-row">
                       <div className="flex flex-row gap-2">
-                        <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-5 cursor-pointer">Arkustore</h6>
-                        <h6 className="text-gray-500 font-bold text-xs tracking-tighter leading-5">9h ago</h6>
+                        <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-5 cursor-pointer">Arkustore</h6>
+                        <h6 className="text-gray-500 font-regular text-xs tracking-tighter leading-5">9h ago</h6>
                       </div>
                       <div className="relative left-10">
                         {editMode ? (
@@ -131,13 +131,13 @@ const Comment = ({
                           ) : (
                           <>
                           <div className="flex flex-row gap-2">
-                          <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-5 cursor-pointer">
+                          <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-5 cursor-pointer">
                             <Action className="reply" type="Edit" handleClick={() => {
                               setEditMode(true);
                             }} 
                             />
                           </h6>
-                          <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-5 cursor-pointer">
+                          <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-5 cursor-pointer">
                             <Action className="reply" type="Delete" handleClick={handleDelete}/>
                           </h6>
                           </div>
@@ -145,7 +145,7 @@ const Comment = ({
                         )}
                       </div>    
                     </div>
-                    <p className="text-gray-950 font-medium text-sm tracking-tighter leading-4 word-wrap">
+                    <p className="text-gray-950 font-light text-sm tracking-tighter leading-4 word-wrap">
                       {comment?.id === 1 ? (
                         <>
                         {comment.name}
@@ -168,10 +168,10 @@ const Comment = ({
                 <div className="flex flex-row items-center gap-4">
                   {editMode ? (
                     <>
-                      <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4 cursor-pointer">
+                      <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
                         <Action className="reply" type="Save" handleClick={onAddComment}/>
                       </h6>
-                      <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4 cursor-pointer">
+                      <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
                         <Action className="reply" type="Cancel" handleClick={() => {
                           if (inputRef.current)
                             inputRef.current.innerText = comment.name;
@@ -183,12 +183,12 @@ const Comment = ({
                       <>
                       <div className="flex flex-row gap-2">
                         <Image src="/icons/b-arrup.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={upvote}/>  
-                        <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">{upvotes - downvotes}</h6>
+                        <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4">{upvotes - downvotes}</h6>
                         <Image src="/icons/b-arrdw.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={downvote} /> 
                       </div>
                       <div className="flex flex-row gap-2 cursor-pointer">
                         <Image src="/icons/b-reply.svg" alt="Reply" width={14} height={14} />  
-                        <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">
+                        <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4">
                           <Action className="reply" type="Reply" handleClick={handleNewComment}/>
                         </h6>
                       </div>
@@ -208,17 +208,17 @@ const Comment = ({
               <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
               <input 
                 type="text" 
-                className="inputContainer__input first_input text-sm bg-gray-100 p-2 tracking-tighter" 
+                className="inputContainer__input first_input font-extralight text-sm bg-gray-100 p-2" 
                 autoFocus value={input} 
                 onChange={(e) => setInput(e.target.value)} 
                 placeholder="Reply to comment..."
               />
             </div>
             <div className="flex flex-row items-center gap-4">
-              <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4 cursor-pointer">
+              <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
                 <Action className="reply" type="Reply" handleClick={onAddComment} />
               </h6>
-              <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4 cursor-pointer">
+              <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
                 <Action className="reply" type="Cancel" handleClick={() => {
                   setShowInput(false);
                 }} /> 
