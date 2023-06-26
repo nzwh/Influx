@@ -96,45 +96,45 @@ const PostCreate: React.FC<PostCreateProps> = ({ onClose, onAddPost }) => {
 
   return (
     <main className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-        <div className="bg-white rounded p-6 w-96 flex flex-col gap-2 z-[50]">
-          <div className="flex flex-row items-center justify-between">
-            <h6 className="text-gray-800 font-regular text-xs">@arkustore</h6>
-            <X className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={onClose}/>
-          </div>
+      <div className="bg-white rounded-sm p-6 w-96 flex flex-col gap-2 z-[50]">
+        <div className="flex flex-row items-center justify-between">
+          <h6 className="text-gray-800 font-regular text-xs">@arkustore</h6>
+          <X className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={onClose}/>
+        </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-              <input type="number" value={price} onChange={handlePriceChange} placeholder="$100.00" className="w-full text-3xl font-regular" required />
-              <textarea value={header} onChange={handleHeaderChange} placeholder="Title" className="w-full text-xl font-regular leading-5 h-[1.3rem] resize-none" ref={textHeadAreaRef} rows={1} required />
-              <textarea value={description} onChange={handleDescriptionChange} placeholder="Write your text here." className="w-full text-sm min-h-[4rem] leading-4 font-light resize-none" ref={textDescAreaRef} rows={1} required />
-              <select value={shop_name} className="-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm font-regular" onChange={handleShopNameChange} required>
-                <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" value="" disabled selected>Choose Shop</option>
-                {shops.map((shop, index) => (
-                  <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" key={index} value={shop.name}>
-                    {shop.name}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            <input type="number" value={price} onChange={handlePriceChange} placeholder="$100.00" className="w-full text-3xl font-regular" required />
+            <textarea value={header} onChange={handleHeaderChange} placeholder="Title" className="w-full text-xl font-regular leading-5 h-[1.3rem] resize-none" ref={textHeadAreaRef} rows={1} required />
+            <textarea value={description} onChange={handleDescriptionChange} placeholder="Write your text here." className="w-full text-sm min-h-[4rem] leading-4 font-light resize-none" ref={textDescAreaRef} rows={1} required />
+            <select value={shop_name} className="-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm font-regular" onChange={handleShopNameChange} required>
+              <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" value="" disabled selected>Choose Shop</option>
+              {shops.map((shop, index) => (
+                <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" key={index} value={shop.name}>
+                  {shop.name}
+                </option>
+              ))}
+            </select>
+            <div className="flex flex-row gap-2">
+              <select value={condition} className="w-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm font-regular" onChange={handleConditionChange} required>
+                <option className="w-full text-gray-500 text-sm bg-gray-100 rounded-sm" value="" disabled selected>Choose Condtion</option>
+                {conditions.map((condition, index) => (
+                  <option className="w-full text-gray-500 text-sm bg-gray-100 rounded-sm" key={index} value={condition}>
+                    {condition}
                   </option>
                 ))}
               </select>
-              <div className="flex flex-row gap-2">
-                <select value={condition} className="w-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm font-regular" onChange={handleConditionChange} required>
-                  <option className="w-full text-gray-500 text-sm bg-gray-100 rounded-sm" value="" disabled selected>Choose Condtion</option>
-                  {conditions.map((condition, index) => (
-                    <option className="w-full text-gray-500 text-sm bg-gray-100 rounded-sm" key={index} value={condition}>
-                      {condition}
-                    </option>
-                  ))}
-                </select>
-                <div className="flex flex-row items-center bg-gray-100 rounded-sm px-3 py-[0.4rem]">
-                  <input type="checkbox" value={negotiable ? 1 : 0} onChange={handleNegotiableChange} className="rounded px-2 w-full" />
-                  <h6 className="text-gray-800 text-xs font-regular leading-4 pl-2">Negotiable?</h6>
-                </div>
+              <div className="flex flex-row items-center bg-gray-100 rounded-sm px-3 py-[0.4rem]">
+                <input type="checkbox" value={negotiable ? 1 : 0} onChange={handleNegotiableChange} className="rounded px-2 w-full" />
+                <h6 className="text-gray-800 text-xs font-regular leading-4 pl-2">Negotiable?</h6>
               </div>
-              <input type="text" value={tags} onChange={handleTagsChange} className="w-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm" placeholder="Write your tags here, separated by spaces." />
-              <div className="flex justify-end pt-4">
-                <button type="button" className="text-xs px-4 py-1.5 text-gray-500" onClick={onClose}>Cancel</button>
-                <button type="submit" className="text-xs px-3 py-1.5 bg-slate-900 text-violet-300 rounded-full">Create Post</button>
-              </div>
-          </form>
-        </div>
+            </div>
+            <input type="text" value={tags} onChange={handleTagsChange} className="w-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm" placeholder="Write your tags here, separated by spaces." />
+            <div className="flex justify-end pt-4">
+              <button type="button" className="text-xs px-4 py-1.5 text-gray-500" onClick={onClose}>Cancel</button>
+              <button type="submit" className="text-xs px-3 py-1.5 bg-slate-900 text-violet-300 rounded-full">Create Post</button>
+            </div>
+        </form>
+      </div>
     </main>
   );
 };
