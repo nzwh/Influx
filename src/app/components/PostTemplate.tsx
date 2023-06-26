@@ -105,7 +105,9 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
 				}
 				
 				{(images.length == 0) ? <></> :
-					<Image className="w-full h-full rounded-sm" src={images[0]} alt="Media" width={0} height={0} sizes="100vw" />
+					<Image className="w-full h-full rounded-sm cursor-pointer" src={images[0]} alt="Media" width={0} height={0} sizes="100vw" onClick={() => {
+            handlePostOpenOpen(post);
+          }} />
 				}
 			
 				<div className="flex flex-row justify-between items-center">
