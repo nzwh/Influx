@@ -15,6 +15,10 @@ const Comment = ({
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const inputRef = useRef(null);
+  const [upvoted, setUpvoted] = useState(false);
+  const [downvoted, setDownvoted] = useState(false);
+  let upvotes = 0;
+  let downvotes = 0;
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -38,6 +42,52 @@ const Comment = ({
 
   const handleDelete = () => {
     handleDeleteNode(comment.id);
+  };
+
+  const upvote = () => {
+    if (!upvoted && !downvoted) {
+      upvotes += 1;
+      setUpvoted(true);
+      console.log(upvotes);
+      console.log(downvotes);
+    }
+    else if (upvoted && !downvoted) {
+      upvotes -= 1;
+      setUpvoted(false);
+      console.log(upvotes);
+      console.log(downvotes);
+    }
+    else if (!upvoted && downvoted) {
+      upvotes += 1;
+      downvotes -= 1;
+      setUpvoted(true);
+      setDownvoted(false);
+      console.log(upvotes);
+      console.log(downvotes);
+    }
+  };
+
+  const downvote = () => {
+    if (!upvoted && !downvoted) {
+      downvotes += 1;
+      setDownvoted(true);
+      console.log(upvotes);
+      console.log(downvotes);
+    }
+    else if (!upvoted && downvoted) {
+      downvotes -= 1;
+      setDownvoted(false);
+      console.log(upvotes);
+      console.log(downvotes);
+    }
+    else if (upvoted && !downvoted) {
+      upvotes -= 1;
+      downvotes += 1;
+      setUpvoted(false);
+      setDownvoted(true);
+      console.log(upvotes);
+      console.log(downvotes);
+    }
   };
 
   return ( 
@@ -132,9 +182,9 @@ const Comment = ({
                     ) : (
                       <>
                       <div className="flex flex-row gap-2">
-                        <Image src="/icons/b-arrup.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer"/>  
-                        <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">127</h6>
-                        <Image src="/icons/b-arrdw.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" /> 
+                        <Image src="/icons/b-arrup.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={upvote}/>  
+                        <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">{upvotes - downvotes}</h6>
+                        <Image src="/icons/b-arrdw.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={downvote} /> 
                       </div>
                       <div className="flex flex-row gap-2 cursor-pointer">
                         <Image src="/icons/b-reply.svg" alt="Reply" width={14} height={14} />  

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
 import PostOpen from '@/src/app/components/PostOpen';
+import VoteMechanism from './VoteMechanism';
 
 import { PostInterface } from "@/libraries/interfaces";
 import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Share2, ShoppingBag } from 'lucide-react';
@@ -110,11 +111,7 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
 			
 				<div className="flex flex-row justify-between items-center">
 					<div className="flex flex-row items-center gap-4">
-					<div className="flex flex-row gap-1 items-center">
-						<ArrowUp className="opacity-70" color="black" size={14} strokeWidth={3}/>
-						<h6 className="text-gray-800 font-regular text-xs">{upvotes - downvotes}</h6>
-						<ArrowDown className="opacity-70" color="black" size={14} strokeWidth={3}/>
-					</div>
+					<VoteMechanism post={post!} />
 
 					<div className="flex flex-row gap-1 items-center">
 						<Share2 className="opacity-70" color="black" size={12} strokeWidth={3} /> 

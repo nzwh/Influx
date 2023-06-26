@@ -52,10 +52,10 @@ const VoteMechanism: React.FC<{ post: PostInterface }> = ({ post }) => {
   
   return (
     <main>
-      <div className="flex flex-row gap-2">
-        <ArrowUp strokeWidth={3} width={14} height={14} className="cursor-pointer" onClick={upvote} />  
-        <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">{post!.upvotes - post!.downvotes}</h6>
-        <ArrowDown strokeWidth={3} width={14} height={14} className="cursor-pointer" onClick={downvote} /> 
+      <div className="flex flex-row gap-1 items-center">
+        <ArrowUp className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={upvote}/>
+        <h6 className="text-gray-800 font-regular text-xs">{post!.upvotes - post!.downvotes}</h6>
+        <ArrowDown className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={downvote}/>
       </div>
     </main>
   );
