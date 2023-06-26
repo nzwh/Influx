@@ -206,7 +206,7 @@ export default function Profile() {
           </aside>
 
           <aside className="bg-white flex flex-col w-full rounded-sm p-4">
-            <h6 className="text-gray-800 font-regular text-[0.65rem] leading-[0.75rem]">About  •  Terms  •  Documentation  •  Legal influx.io © 2023.  Made with Next.js.</h6>
+            <h6 className="text-gray-800 font-regular text-[0.65rem] leading-[0.8rem]">About  •  Terms  •  Documentation  •  Legal<br/>influx.io © 2023.  Made with Next.js.</h6>
           </aside>
 
         </section>
