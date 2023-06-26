@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
 import PostOpen from '@/src/app/components/PostOpen';
+import VoteMechanism from './VoteMechanism';
 
 import { PostInterface } from "@/libraries/interfaces";
 import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Trash, Share2, ShoppingBag } from 'lucide-react';
@@ -51,7 +52,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
   const [isPostOpenOpen, setIsPostOpenOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
 
-  const handlePostOpenOpen = (post: PostInterface) => {
+  const handlePostOpenOpen = () => {
     setSelectedPost(post);
     setIsPostOpenOpen(true);
   };
@@ -59,6 +60,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
   const handlePostOpenClose = () => {
     setSelectedPost(null);
     setIsPostOpenOpen(false);
+		
   };
 
   const handlePostDelete = () => {
@@ -98,20 +100,18 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
 					</div>
 				</div>
 
-				<div className="flex flex-col gap-2 cursor-pointer" onClick={() => {
-          handlePostOpenOpen(post);
-        }}>
-				<h1 className="text-gray-950 font-regular text-lg tracking-tight leading-5 truncate break h-auto whitespace-pre-line">
-					{header}
-					<span className="text-white font-extralight tracking-wide text-[0.7rem] bg-gray-400 relative top-[-0.1rem] rounded-md px-1.5 py-0.5 ml-2">{condition}</span>
-				</h1>
-				<p className="text-gray-800 font-light text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
-					{description}
-				</p>
+				<div className="flex flex-col gap-2 cursor-pointer" onClick={handlePostOpenOpen}>
+					<h1 className="text-gray-950 font-regular text-lg tracking-tight leading-5 truncate break h-auto whitespace-pre-line">
+						{header}
+						<span className="text-white font-extralight tracking-wide text-[0.7rem] bg-gray-400 relative top-[-0.1rem] rounded-md px-1.5 py-0.5 ml-2">{condition}</span>
+					</h1>
+					<p className="text-gray-800 font-light text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
+						{description}
+					</p>
 				</div>
 
         {isPostOpenOpen && (
-              <PostOpen post={selectedPost} onClose={handlePostOpenClose} />
+					<PostOpen post={selectedPost} onClose={handlePostOpenClose} />
         )}
 
 				{(tags.length === 0) ? <></> : 
@@ -132,11 +132,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
 			
 				<div className="flex flex-row justify-between items-center">
 					<div className="flex flex-row items-center gap-4">
-					<div className="flex flex-row gap-1 items-center">
-						<ArrowUp className="opacity-70" color="black" size={14} strokeWidth={3}/>
-						<h6 className="text-gray-800 font-regular text-xs">{upvotes - downvotes}</h6>
-						<ArrowDown className="opacity-70" color="black" size={14} strokeWidth={3}/>
-					</div>
+					<VoteMechanism post={post!} />
 
 					<div className="flex flex-row gap-1 items-center">
 						<Share2 className="opacity-70" color="black" size={12} strokeWidth={3} /> 
