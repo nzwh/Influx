@@ -1,4 +1,6 @@
 interface PostInterface {
+    id: number; 
+
     shop_icon: string;
     shop_name: string;
     shop_handle: string;

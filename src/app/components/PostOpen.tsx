@@ -16,10 +16,6 @@ interface PostOpenProps {
   post: PostInterface | null;
 }
 
-const handleDelete = () => {
-  
-};
-
 const comments = {
   id: 1,
   items: []
@@ -100,22 +96,6 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
                       <span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[0.1rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">SELLER</span>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div className="flex flex-row items-center gap-2">
-                  <Image src="/icons/b-map-t.svg" alt="Location" width={12} height={12} />
-                  <h6 className="text-gray-800 font-medium text-xs tracking-tighter leading-4">
-                    <Action className="reply" type="Edit" handleClick={() => {
-                      }} 
-                    />
-                  </h6>
-                </div>
-                <div className="flex flex-row items-center gap-2">
-                  <Image src="/icons/b-box.svg" alt="Delivery Method" width={12} height={12} />
-                  <h6 className="text-gray-800 font-medium text-xs tracking-tighter leading-4">
-                    <Action className="reply" type="Delete" handleClick={handleDelete}/>
-                  </h6>
                 </div>
               </div>
             </div>

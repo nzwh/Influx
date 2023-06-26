@@ -7,11 +7,12 @@ import PostOpen from '@/src/app/components/PostOpen';
 import VoteMechanism from './VoteMechanism';
 
 import { PostInterface } from "@/libraries/interfaces";
-import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Share2, ShoppingBag } from 'lucide-react';
+import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Trash, Share2, ShoppingBag } from 'lucide-react';
 
-const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
+const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => void }> = ({ id, shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments, onDelete }) => {
 
   const post: PostInterface = {
+    id: id,
     shop_icon: shop_icon, 
     shop_name: shop_name,
     shop_handle: shop_handle,
@@ -32,6 +33,21 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
     interested: interested,
     comments: comments,
   };
+
+  const [posts, setPosts] = useState<PostInterface[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = () => {
+      try {
+        const existingPosts: PostInterface[] = require('@/posts.json');
+        setPosts(existingPosts);
+      } catch (error) {
+        console.log('Error reading posts:', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
   
   const [isPostOpenOpen, setIsPostOpenOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
@@ -45,6 +61,10 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
     setSelectedPost(null);
     setIsPostOpenOpen(false);
 		
+  };
+
+  const handlePostDelete = () => {
+    onDelete(id);
   };
   
   tags.sort(function(a, b){return b.length - a.length});
@@ -75,7 +95,7 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
 							<h6 className="text-white font-semibold tracking-wider text-[0.5rem] leading-3">{negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
 						</div>
 						<h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">${price}</h1>
-						<MoreHorizontal color="black" size={12} className="cursor-pointer" />
+            <Trash color="black" size={12} className="cursor-pointer" onClick={() => handlePostDelete(id)} />
 					</div>
 					</div>
 				</div>
@@ -105,7 +125,9 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
 				}
 				
 				{(images.length == 0) ? <></> :
-					<Image className="w-full h-full rounded-sm" src={images[0]} alt="Media" width={0} height={0} sizes="100vw" />
+					<Image className="w-full h-full rounded-sm cursor-pointer" src={images[0]} alt="Media" width={0} height={0} sizes="100vw" onClick={() => {
+            handlePostOpenOpen(post);
+          }} />
 				}
 			
 				<div className="flex flex-row justify-between items-center">
