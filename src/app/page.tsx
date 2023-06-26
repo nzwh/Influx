@@ -45,6 +45,11 @@ export default function Home() {
     setPosts(updatedPosts);
   };
 
+  const handlePostDelete = (postId: number) => {
+    const newPosts = posts.filter((post) => post.id !== postId);
+    setPosts(newPosts);
+  };
+
   let active = {
     name: 'Arkustore',
     handle: '@arkustore',
@@ -79,7 +84,7 @@ export default function Home() {
           <ul className="flex flex-col gap-2 h-full w-[32rem]">
             {posts.map((post, index) => (
               <li key={index}>
-                <PostTemplate key={index} {...post} />
+                <PostTemplate key={index} {...post} onDelete={handlePostDelete} />
               </li>
             ))}
           </ul>
