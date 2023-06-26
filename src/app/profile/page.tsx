@@ -91,7 +91,7 @@ export default function Profile() {
 
           <ul className="flex flex-col gap-2 h-full w-[32rem]">
             {posts.map((post, index) => (
-              <li key={index} onClick={handlePostOpenOpen.bind(null, post)} className="cursor-pointer">
+              <li key={index}>
                 <PostTemplate key={index} {...post} />
               </li>
             ))}
