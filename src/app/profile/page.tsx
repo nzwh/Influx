@@ -102,7 +102,7 @@ export default function Profile() {
           </ul>
         </section>
 
-        <section id="rightarea" className="flex flex-col gap-2 w-[16rem] h-full fixed ml-[32.5rem]">
+        <section id="rightarea" className="flex flex-col gap-2 w-[16rem] h-full fixed ml-[32.5rem] z-[40]">
           <aside onClick={handleProfileEditOpen} className="w-full flex flex-col bg-white rounded-sm p-4 gap-4 cursor-pointer">
 
             <div className="flex flex-row justify-between items-start">
