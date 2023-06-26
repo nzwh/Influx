@@ -5,6 +5,7 @@ import Image from 'next/image';
 import React, { useState } from "react";
 
 import { PostInterface } from "@/libraries/interfaces";
+import { ArrowUp, ArrowDown } from 'lucide-react';
 
 interface PostOpenProps {
   onClose: () => void;
@@ -19,54 +20,42 @@ const VoteMechanism: React.FC<{ post: PostInterface }> = ({ post }) => {
     if (!upvoted && !downvoted) {
       post!.upvotes += 1;
       setUpvoted(true);
-      console.log(post!.upvotes);
-      console.log(post!.downvotes);
     }
     else if (upvoted && !downvoted) {
       post!.upvotes -= 1;
       setUpvoted(false);
-      console.log(post!.upvotes);
-      console.log(post!.downvotes);
     }
     else if (!upvoted && downvoted) {
       post!.upvotes += 1;
       post!.downvotes -= 1;
-      setUpvoted(false);
-      setDownvoted(true);
-      console.log(post!.upvotes);
-      console.log(post!.downvotes);
+      setUpvoted(true);
+      setDownvoted(false);
     }
   };
 
   const downvote = () => {
-    if (!downvoted && !upvoted) {
+    if (!upvoted && !downvoted) {
       post!.downvotes += 1;
       setDownvoted(true);
-      console.log(post!.upvotes);
-      console.log(post!.downvotes);
     }
-    else if (downvoted && !upvoted) {
+    else if (!upvoted && downvoted) {
       post!.downvotes -= 1;
       setDownvoted(false);
-      console.log(post!.upvotes);
-      console.log(post!.downvotes);
     }
-    else if (!downvoted && upvoted) {
-      post!.downvotes += 1;
+    else if (upvoted && !downvoted) {
       post!.upvotes -= 1;
-      setDownvoted(false);
-      setUpvoted(true);
-      console.log(post!.upvotes);
-      console.log(post!.downvotes);
+      post!.downvotes += 1;
+      setUpvoted(false);
+      setDownvoted(true);
     }
   };
   
   return (
     <main>
       <div className="flex flex-row gap-2">
-      <Image src="/icons/b-arrup.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={upvote} />  
-      <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">{post!.upvotes - post!.downvotes}</h6>
-      <Image src="/icons/b-arrdw.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={downvote} /> 
+        <ArrowUp strokeWidth={3} width={14} height={14} className="cursor-pointer" onClick={upvote} />  
+        <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">{post!.upvotes - post!.downvotes}</h6>
+        <ArrowDown strokeWidth={3} width={14} height={14} className="cursor-pointer" onClick={downvote} /> 
       </div>
     </main>
   );
