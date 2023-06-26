@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import Comment from "./Comment";
 import useNode from "../hooks/useNode";
 import VoteMechanism from "./VoteMechanism";
+import Action from "./Action";
 
 import { PostInterface } from "@/libraries/interfaces";
 
@@ -14,6 +15,10 @@ interface PostOpenProps {
   onClose: () => void;
   post: PostInterface | null;
 }
+
+const handleDelete = () => {
+  
+};
 
 const comments = {
   id: 1,
@@ -49,34 +54,34 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
           <div className="flex flex-col gap-5 bg-white rounded-lg p-6">
             <div className="flex flex-row justify-between">
               <div className="flex flex-row gap-2 cursor-pointer" onClick={onClose}>
-                <h6 className="text-gray-950 font-bold text-xs tracking-tighter leading-4">Return to post</h6>
+                <h6 className="text-gray-950 font-medium text-xs tracking-tighter leading-4">Return to post</h6>
                 <Image src="/icons/b-chvrg.svg" alt="Return to post" width={14} height={14} />
               </div>
               <Image src="/icons/b-x.svg" alt="Close" width={14} height={14} onClick={onClose} className="cursor-pointer" />
             </div>
             <div className="flex flex-row gap-2">
-              <h1 className="text-gray-950 font-bold text-3xl tracking-tighter leading-4">${post!.price}</h1>
+              <h1 className="text-gray-950 font-medium text-3xl tracking-tighter leading-4">${post!.price}</h1>
               <div className=" bg-slate-700 rounded-full px-2 py-0.5">
-                <h6 className="text-white font-bold text-[0.5rem]">{post!.negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
+                <h6 className="text-white font-semibold text-[0.5rem]">{post!.negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
               </div>
             </div>
-            <h1 className="text-gray-950 font-bold text-lg tracking-tighter leading-5">{post!.header}</h1>
-            <p className="text-gray-800 font-medium text-sm tracking-tighter leading-5 truncate break h-auto whitespace-pre-line">
+            <h1 className="text-gray-950 font-medium text-lg tracking-tighter leading-5">{post!.header}</h1>
+            <p className="text-gray-800 font-light text-sm tracking-tighter leading-5 truncate break h-auto whitespace-pre-line">
 					  {post!.description}
 				    </p>
             <div className="flex flex-row items-center justify-between">
               <VoteMechanism post={post!} />
               <div className="flex flex-row gap-2 cursor-pointer">
                 <Image src="/icons/b-cart.svg" alt="Add to cart" width={14} height={14} />  
-                <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Add to cart</h6>
+                <h6 className="text-gray-950 font-medium text-sm tracking-tighter leading-4">Add to cart</h6>
               </div>
               <div className="flex flex-row gap-2 cursor-pointer">
                 <Image src="/icons/b-share.svg" alt="Share" width={14} height={14} />  
-                <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Share</h6>
+                <h6 className="text-gray-950 font-medium text-sm tracking-tighter leading-4">Share</h6>
               </div>
               <div className="flex flex-row gap-2 cursor-pointer">
                 <Image src="/icons/b-msgcrc.svg" alt="Message" width={14} height={14} />  
-                <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Message</h6>
+                <h6 className="text-gray-950 font-medium text-sm tracking-tighter leading-4">Message</h6>
               </div>
             </div>
           </div>
@@ -87,12 +92,12 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
                 <Image className="rounded-full cursor-pointer" src={post!.user_icon} alt="User Icon" width={40} height={40} />
                 <div className="flex flex-col">
                   <div className="flex flex-row">
-                    <h6 className="text-gray-950 font-bold text-md tracking-tighter leading-5 cursor-pointer">{post!.user_name}</h6>
+                    <h6 className="text-gray-950 font-medium text-md tracking-tighter leading-5 cursor-pointer">{post!.user_name}</h6>
                   </div>
                   <div className="flex flex-row">
                     <div className="flex flex-row gap-0.5">
-                      <h6 className="text-gray-500 font-bold text-xs tracking-tighter leading-4 cursor-pointer">{post!.user_handle}</h6>
-                      <span className="text-black font-extrabold text-[0.5rem] bg-gray-300 rounded-xl px-2 py-0.5 tracking-normal ml-2">SELLER</span>
+                      <h6 className="text-gray-500 font-regular text-xs tracking-tighter leading-4 cursor-pointer">{post!.user_handle}</h6>
+                      <span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[0.1rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">SELLER</span>
                     </div>
                   </div>
                 </div>
@@ -100,11 +105,17 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
               <div className="flex flex-col gap-1">
                 <div className="flex flex-row items-center gap-2">
                   <Image src="/icons/b-map-t.svg" alt="Location" width={12} height={12} />
-                  <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">[User location]</h6>
+                  <h6 className="text-gray-800 font-medium text-xs tracking-tighter leading-4">
+                    <Action className="reply" type="Edit" handleClick={() => {
+                      }} 
+                    />
+                  </h6>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                   <Image src="/icons/b-box.svg" alt="Delivery Method" width={12} height={12} />
-                  <h6 className="text-gray-800 font-bold text-xs tracking-tighter leading-4">[User MOD]</h6>
+                  <h6 className="text-gray-800 font-medium text-xs tracking-tighter leading-4">
+                    <Action className="reply" type="Delete" handleClick={handleDelete}/>
+                  </h6>
                 </div>
               </div>
             </div>
@@ -112,7 +123,7 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
           
           <div className="flex flex-col gap-4 bg-white rounded-lg p-6">
             <div className="flex flex-row justify-between">
-              <h6 className="text-gray-950 font-bold text-sm tracking-tighter leading-4">Comments</h6>
+              <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4">Comments</h6>
               <Image src="/icons/b-filter.svg" alt="Filter" width={14} height={14} className="cursor-pointer" />
             </div>
             <div className="Home">
