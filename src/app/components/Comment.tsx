@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import Action from "./Action";
+import { ArrowDown, ArrowUp, Film, Paperclip, Reply, Send, Smile, Tag } from 'lucide-react';
 
 const Comment = ({ 
   comment,
@@ -30,7 +31,7 @@ const Comment = ({
 
   const onAddComment = () => {
     if (editMode) {
-      handleEditNode(comment.id, inputRef?.current?.innerText);
+      handleEditNode(comment.id, inputRef?.current?.innerText + " (edited)");
     } else {
       handleInsertNode(comment.id, input);
       setShowInput(false);
@@ -93,59 +94,58 @@ const Comment = ({
   return ( 
     <main>
 
-      <div className={comment?.id === 1? "inputContainer" : "commentContainer"}>
+      <div className={comment?.id === 1? "inputContainer" : "commentContainer"} style={{ width: "100%" }}>
         {comment?.id === 1 ? (
           <>
-            <div className= "flex flex-row items-center bg-gray-100 rounded-lg p-2 w-auto">
-              <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
-              <input 
-                type="text" 
-                className="inputContainer__input font-extralight text-sm bg-gray-100 p-2" 
-                autoFocus value={input} 
-                onChange={(e) => setInput(e.target.value)} 
-                placeholder="Write a comment..."
-              />
+            <div className= "flex flex-row items-center justify-between w-full gap-4">
+              <div className="flex flex-row gap-2 w-full">
+                <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={20} height={20} />
+                <input 
+                  type="text" 
+                  className="inputContainer__input font-extralight text-xs w-full" 
+                  autoFocus value={input} 
+                  onChange={(e) => setInput(e.target.value)} 
+                  placeholder="Write a comment..."
+                />
+              </div>
               <div className= "flex flex-row items-center gap-2">
-                <Image src="/icons/b-smiley.svg" alt="Emoji" width={14} height={14} className="cursor-pointer"/>
-                <Image src="/icons/b-clip.svg" alt="Attachment" width={14} height={14} className="cursor-pointer"/>  
-                <Image src="/icons/b-photo.svg" alt="Media" width={14} height={14} className="cursor-pointer"/>  
-                <Image src="/icons/b-send.svg" alt="Comment" width={14} height={14} className="cursor-pointer" onClick={onAddComment}/>    
+                <Send className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} onClick={onAddComment}/>
               </div>
             </div>
           </>
         ) : (
           <>
             <div className="flex flex-row gap-10">
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-row items-center gap-2">
-                  <Image className="rounded-full cursor-pointer" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
-                  <div className="flex flex-col">
-                    <div className="flex flex-row">
+              <div className="flex flex-col gap-2 w-full">
+                <div className="flex flex-row items-start gap-2">
+                  <Image className="rounded-full cursor-pointer mt-0.5" src="/avatars/temp.jpg" alt="User Icon" width={28} height={28} />
+                  <div className="flex flex-col w-full">
+                    <div className="flex flex-row justify-between">
                       <div className="flex flex-row gap-2">
-                        <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-5 cursor-pointer">Arkustore</h6>
-                        <h6 className="text-gray-500 font-regular text-xs tracking-tighter leading-5">9h ago</h6>
+                        <h6 className="text-gray-800 font-regular text-xs cursor-pointer">Arkustore</h6>
+                        <h6 className="text-gray-500 font-light text-xs">{new Date(Date.now()).toLocaleString().split(',')[0]}</h6>
                       </div>
-                      <div className="relative left-10">
+                      <div>
                         {editMode ? (
                           <></>
                           ) : (
                           <>
                           <div className="flex flex-row gap-2">
-                          <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-5 cursor-pointer">
-                            <Action className="reply" type="Edit" handleClick={() => {
+                          <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
+                            <Action className="reply" type="E" handleClick={() => {
                               setEditMode(true);
                             }} 
                             />
                           </h6>
-                          <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-5 cursor-pointer">
-                            <Action className="reply" type="Delete" handleClick={handleDelete}/>
+                          <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
+                            <Action className="reply" type="D" handleClick={handleDelete}/>
                           </h6>
                           </div>
                           </>
                         )}
                       </div>    
                     </div>
-                    <p className="text-gray-950 font-light text-sm tracking-tighter leading-4 word-wrap">
+                    <p className="text-gray-800 font-light text-xs word-wrap">
                       {comment?.id === 1 ? (
                         <>
                         {comment.name}
@@ -165,13 +165,13 @@ const Comment = ({
                         </p>
                   </div>
                 </div>
-                <div className="flex flex-row items-center gap-4">
+                <div className="flex flex-row items-center gap-2 ">
                   {editMode ? (
                     <>
-                      <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
+                      <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
                         <Action className="reply" type="Save" handleClick={onAddComment}/>
                       </h6>
-                      <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
+                      <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
                         <Action className="reply" type="Cancel" handleClick={() => {
                           if (inputRef.current)
                             inputRef.current.innerText = comment.name;
@@ -181,18 +181,17 @@ const Comment = ({
                       </>
                     ) : (
                       <>
-                      <div className="flex flex-row gap-2">
-                        <Image src="/icons/b-arrup.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={upvote}/>  
-                        <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4">{upvotes - downvotes}</h6>
-                        <Image src="/icons/b-arrdw.svg" alt="Upvote Button" width={14} height={14} className="cursor-pointer" onClick={downvote} /> 
+                      <div className="flex flex-row gap-1">
+                        <ArrowUp className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={upvote}/>
+                        <h6 className="text-gray-800 font-regular text-xs">{upvotes - downvotes}</h6>
+                        <ArrowDown className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={downvote}/>
                       </div>
-                      <div className="flex flex-row gap-2 cursor-pointer">
-                        <Image src="/icons/b-reply.svg" alt="Reply" width={14} height={14} />  
-                        <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4">
+                      <div className="flex flex-row gap-1 cursor-pointer">
+                        <Reply className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={upvote}/>
+                        <h6 className="text-gray-800 font-regular text-xs">
                           <Action className="reply" type="Reply" handleClick={handleNewComment}/>
                         </h6>
                       </div>
-                      
                     </>
                   )}
                 </div>
@@ -201,24 +200,24 @@ const Comment = ({
           </>
         )}
 
-      <div className="p-2">
+      <div className="pt-2 pb-2 pl-2">
         {showInput && (
           <div className="inputContainer">
-            <div className= "flex flex-row items-center bg-gray-100 rounded-lg p-2 w-auto">
+            <div className= "flex flex-row items-center rounded-lg w-auto">
               <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
               <input 
                 type="text" 
-                className="inputContainer__input first_input font-extralight text-sm bg-gray-100 p-2" 
+                className="inputContainer__input first_input font-extralight text-xs p-2" 
                 autoFocus value={input} 
                 onChange={(e) => setInput(e.target.value)} 
                 placeholder="Reply to comment..."
               />
             </div>
-            <div className="flex flex-row items-center gap-4">
-              <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
+            <div className="flex flex-row items-center gap-2">
+              <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
                 <Action className="reply" type="Reply" handleClick={onAddComment} />
               </h6>
-              <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4 cursor-pointer">
+              <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
                 <Action className="reply" type="Cancel" handleClick={() => {
                   setShowInput(false);
                 }} /> 

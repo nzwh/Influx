@@ -10,6 +10,7 @@ import VoteMechanism from "./VoteMechanism";
 import Action from "./Action";
 
 import { PostInterface } from "@/libraries/interfaces";
+import { ChevronRight, MessageSquare, Share2, ShoppingBag, Sparkles, X } from 'lucide-react';
 
 interface PostOpenProps {
   onClose: () => void;
@@ -44,75 +45,77 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
 
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
-      <div className="flex flex-row gap-2 h-[32rem]">
-        <Image className="h-full w-auto bg-white rounded-lg" src={post!.images[0]} alt="Images" width={0} height={0} sizes="100%" />
-        <div id="rightarea" className="flex flex-col gap-2 h-full w-[24rem]">
-          <div className="flex flex-col gap-5 bg-white rounded-lg p-6">
-            <div className="flex flex-row justify-between">
-              <div className="flex flex-row gap-2 cursor-pointer" onClick={onClose}>
-                <h6 className="text-gray-950 font-medium text-xs tracking-tighter leading-4">Return to post</h6>
-                <Image src="/icons/b-chvrg.svg" alt="Return to post" width={14} height={14} />
+      <div className="flex flex-row gap-2 h-[48rem]">
+
+        {post!.images.length > 0 && (
+          <Image className="h-full w-auto bg-white rounded-sm" src={post!.images[0]} alt="Images" width={0} height={0} sizes="100%" />
+        )}
+              
+        <div id="rightarea" className="flex flex-col gap-2 h-full w-[22rem]">
+
+          <div className="flex flex-col gap-2 bg-white rounded-sm p-6">
+            <div className="flex flex-row justify-between items-center cursor-pointer" onClick={onClose}>
+              <div className="flex flex-row gap-2">
+                <h6 className="text-gray-800 font-regular text-xs">Return to post</h6>
+                <ChevronRight className="opacity-70" color="black" size={14} strokeWidth={3}/>
               </div>
-              <Image src="/icons/b-x.svg" alt="Close" width={14} height={14} onClick={onClose} className="cursor-pointer" />
+              <X className="opacity-70" color="black" size={14} strokeWidth={3}/>
             </div>
-            <div className="flex flex-row gap-2">
-              <h1 className="text-gray-950 font-medium text-3xl tracking-tighter leading-4">${post!.price}</h1>
-              <div className=" bg-slate-700 rounded-full px-2 py-0.5">
-                <h6 className="text-white font-semibold text-[0.5rem]">{post!.negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
+
+            <div className="flex flex-row gap-2 items-start">
+              <h1 className="text-gray-800 font-regular text-3xl tracking-tight">${post!.price}</h1>
+              <div className=" bg-slate-700 rounded-full px-2 mt-[0.4rem] py-0.5">
+                <h6 className="text-white font-medium text-[0.5rem]">{post!.negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
               </div>
             </div>
-            <h1 className="text-gray-950 font-medium text-lg tracking-tighter leading-5">{post!.header}</h1>
-            <p className="text-gray-800 font-light text-sm tracking-tighter leading-5 truncate break h-auto whitespace-pre-line">
+
+            <h1 className="text-gray-800 font-regular text-md tracking-tight leading-5">{post!.header}</h1>
+            <p className="text-gray-800 font-light text-xs truncate break h-auto whitespace-pre-line">
 					  {post!.description}
 				    </p>
-            <div className="flex flex-row items-center justify-between">
+
+            <div className="flex flex-row items-center justify-between pt-2">
               <VoteMechanism post={post!} />
-              <div className="flex flex-row gap-2 cursor-pointer">
-                <Image src="/icons/b-cart.svg" alt="Add to cart" width={14} height={14} />  
-                <h6 className="text-gray-950 font-medium text-sm tracking-tighter leading-4">Add to cart</h6>
+
+              <div className="flex flex-row gap-1 cursor-pointer items-center">
+                <ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3}/>
+                <h6 className="text-gray-800 font-regular text-xs">Add to cart</h6>
               </div>
-              <div className="flex flex-row gap-2 cursor-pointer">
-                <Image src="/icons/b-share.svg" alt="Share" width={14} height={14} />  
-                <h6 className="text-gray-950 font-medium text-sm tracking-tighter leading-4">Share</h6>
+
+              <div className="flex flex-row gap-1 cursor-pointer items-center">
+                <Share2 className="opacity-70" color="black" size={12} strokeWidth={3}/>
+                <h6 className="text-gray-800 font-regular text-xs">Share</h6>
               </div>
-              <div className="flex flex-row gap-2 cursor-pointer">
-                <Image src="/icons/b-msgcrc.svg" alt="Message" width={14} height={14} />  
-                <h6 className="text-gray-950 font-medium text-sm tracking-tighter leading-4">Message</h6>
+
+              <div className="flex flex-row gap-1 cursor-pointer items-center">
+                <MessageSquare className="opacity-70" color="black" size={12} strokeWidth={3}/>
+                <h6 className="text-gray-800 font-regular text-xs">Message</h6>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 bg-white rounded-lg p-6">
-            <div className="flex flex-row gap-10">
-              <div className="flex flex-row gap-2">
-                <Image className="rounded-full cursor-pointer" src={post!.user_icon} alt="User Icon" width={40} height={40} />
-                <div className="flex flex-col">
-                  <div className="flex flex-row">
-                    <h6 className="text-gray-950 font-medium text-md tracking-tighter leading-5 cursor-pointer">{post!.user_name}</h6>
-                  </div>
-                  <div className="flex flex-row">
-                    <div className="flex flex-row gap-0.5">
-                      <h6 className="text-gray-500 font-regular text-xs tracking-tighter leading-4 cursor-pointer">{post!.user_handle}</h6>
-                      <span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[0.1rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">SELLER</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-row w-full bg-white rounded-sm px-6 py-4 gap-2">
+            <Image className="rounded-full" src={post!.user_icon} alt="User Icon" width={36} height={36} />
+            <div className="flex flex-col justify-center">
+              <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{post!.user_name}</h6>
+              <h6 className="text-gray-500 font-regular text-xs leading-4">{post!.user_handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.05rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
             </div>
           </div>
           
-          <div className="flex flex-col gap-4 bg-white rounded-lg p-6">
+          <div className="flex flex-col gap-4 max-h-full h-full overflow-auto bg-white rounded-sm px-6 py-4">
             <div className="flex flex-row justify-between">
-              <h6 className="text-gray-950 font-regular text-sm tracking-tighter leading-4">Comments</h6>
-              <Image src="/icons/b-filter.svg" alt="Filter" width={14} height={14} className="cursor-pointer" />
+              <h6 className="text-gray-800 font-regular text-xs">Comments</h6>
+              <Sparkles className="opacity-70" color="black" size={12} strokeWidth={3}/>
             </div>
-            <div className="Home">
-              <Comment 
-                handleInsertNode={handleInsertNode} 
-                handleEditNode={handleEditNode}
-                handleDeleteNode={handleDeleteNode} 
-                comment={commentsData}
-              />
+            <div className="flex flex-col gap-4 max-h-full overflow-auto no-scrollbar w-full">
+              <div className="Home">
+                <Comment 
+                  handleInsertNode={handleInsertNode} 
+                  handleEditNode={handleEditNode}
+                  handleDeleteNode={handleDeleteNode} 
+                  comment={commentsData}
+                />
+              </div>
             </div>
           </div>
         </div>

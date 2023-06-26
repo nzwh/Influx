@@ -103,8 +103,8 @@ export default function Home() {
                   <div className="flex flex-col justify-center">
                     <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{active.name}</h6>
                     <h6 className="text-gray-500 font-regular text-xs leading-4">{active.handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.1rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
+                  </div>
                 </div>
-              </div>
               </Link>
               <MoreVertical color="black" size={12}/>
             </div>
