@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import Link from 'next/link'
-import { Bell, Italic, LogOut, MessageSquare, Search } from 'lucide-react';
+import { Bell, LogOut, MessageSquare, Search } from 'lucide-react';
 
 const Navbar: React.FC = () => {
 
@@ -21,7 +21,6 @@ const Navbar: React.FC = () => {
     <main>
       <nav className="flex flex-row h-20 w-full justify-between items-center px-[8%] fixed z-30">
         <Link href="/" className="flex flex-row items-center gap-2">
-          <Italic className="opacity-70" color="black" size={14} strokeWidth={3} />
           <h1 className="text-slate-950 font-regular text-sm">Influx</h1>
         </Link>
 

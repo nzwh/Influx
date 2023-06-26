@@ -36,7 +36,7 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
   const [isPostOpenOpen, setIsPostOpenOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
 
-  const handlePostOpenOpen = (post: PostInterface) => {
+  const handlePostOpenOpen = () => {
     setSelectedPost(post);
     setIsPostOpenOpen(true);
   };
@@ -44,6 +44,7 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
   const handlePostOpenClose = () => {
     setSelectedPost(null);
     setIsPostOpenOpen(false);
+		
   };
   
   tags.sort(function(a, b){return b.length - a.length});
@@ -79,20 +80,18 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
 					</div>
 				</div>
 
-				<div className="flex flex-col gap-2 cursor-pointer" onClick={() => {
-          handlePostOpenOpen(post);
-        }}>
-				<h1 className="text-gray-950 font-regular text-lg tracking-tight leading-5 truncate break h-auto whitespace-pre-line">
-					{header}
-					<span className="text-white font-extralight tracking-wide text-[0.7rem] bg-gray-400 relative top-[-0.1rem] rounded-md px-1.5 py-0.5 ml-2">{condition}</span>
-				</h1>
-				<p className="text-gray-800 font-light text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
-					{description}
-				</p>
+				<div className="flex flex-col gap-2 cursor-pointer" onClick={handlePostOpenOpen}>
+					<h1 className="text-gray-950 font-regular text-lg tracking-tight leading-5 truncate break h-auto whitespace-pre-line">
+						{header}
+						<span className="text-white font-extralight tracking-wide text-[0.7rem] bg-gray-400 relative top-[-0.1rem] rounded-md px-1.5 py-0.5 ml-2">{condition}</span>
+					</h1>
+					<p className="text-gray-800 font-light text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
+						{description}
+					</p>
 				</div>
 
         {isPostOpenOpen && (
-              <PostOpen post={selectedPost} onClose={handlePostOpenClose} />
+					<PostOpen post={selectedPost} onClose={handlePostOpenClose} />
         )}
 
 				{(tags.length === 0) ? <></> : 
