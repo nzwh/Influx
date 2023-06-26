@@ -1,18 +1,55 @@
 "use client"
 
 import Image from 'next/image';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import PostOpen from '@/src/app/components/PostOpen';
 
 import { PostInterface } from "@/libraries/interfaces";
 import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Share2, ShoppingBag } from 'lucide-react';
 
 const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments }) => {
 
-	tags.sort(function(a, b){return b.length - a.length});
+  const post: PostInterface = {
+    shop_icon: shop_icon, 
+    shop_name: shop_name,
+    shop_handle: shop_handle,
+    user_icon: user_icon,
+    user_name: user_name,
+    user_handle: user_handle,
+    timestamp: timestamp,
+    price: price,
+    negotiable: negotiable,
+    header: header,
+    description: description,
+    condition: condition,
+    tags: tags,
+    images: images,
+    upvotes: upvotes,
+    downvotes: downvotes,
+    shares: shares,
+    interested: interested,
+    comments: comments,
+  };
+  
+  const [isPostOpenOpen, setIsPostOpenOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
+
+  const handlePostOpenOpen = (post: PostInterface) => {
+    setSelectedPost(post);
+    setIsPostOpenOpen(true);
+  };
+
+  const handlePostOpenClose = () => {
+    setSelectedPost(null);
+    setIsPostOpenOpen(false);
+  };
+  
+  tags.sort(function(a, b){return b.length - a.length});
 
 	return (
 		<main>
-			<article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 cursor-pointer overflow-visible">
+			<article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible">
 				<div className="flex flex-row justify-between">
 					<div className="flex flex-col gap-3">
 					<div className="flex flex-row items-center gap-2">
@@ -36,12 +73,14 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
 							<h6 className="text-white font-semibold tracking-wider text-[0.5rem] leading-3">{negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
 						</div>
 						<h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">${price}</h1>
-						<MoreHorizontal color="black" size={12}/> 
+						<MoreHorizontal color="black" size={12} className="cursor-pointer" />
 					</div>
 					</div>
 				</div>
 
-				<div className="flex flex-col gap-2">
+				<div className="flex flex-col gap-2 cursor-pointer" onClick={() => {
+          handlePostOpenOpen(post);
+        }}>
 				<h1 className="text-gray-950 font-regular text-lg tracking-tight leading-5 truncate break h-auto whitespace-pre-line">
 					{header}
 					<span className="text-white font-extralight tracking-wide text-[0.7rem] bg-gray-400 relative top-[-0.1rem] rounded-md px-1.5 py-0.5 ml-2">{condition}</span>
@@ -50,6 +89,10 @@ const PostTemplate: React.FC<PostInterface> = ({ shop_icon, shop_name, shop_hand
 					{description}
 				</p>
 				</div>
+
+        {isPostOpenOpen && (
+              <PostOpen post={selectedPost} onClose={handlePostOpenClose} />
+        )}
 
 				{(tags.length === 0) ? <></> : 
 					<div className="flex flex-row gap-2 items-start w-full">

@@ -45,19 +45,6 @@ export default function Home() {
     setPosts(updatedPosts);
   };
 
-  const [isPostOpenOpen, setIsPostOpenOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
-
-  const handlePostOpenOpen = (post: PostInterface) => {
-    setSelectedPost(post);
-    setIsPostOpenOpen(true);
-  };
-
-  const handlePostOpenClose = () => {
-    setSelectedPost(null);
-    setIsPostOpenOpen(false);
-  };
-
   let active = {
     name: 'Arkustore',
     handle: '@arkustore',
@@ -91,14 +78,10 @@ export default function Home() {
           
           <ul className="flex flex-col gap-2 h-full w-[32rem]">
             {posts.map((post, index) => (
-              <li key={index} onClick={handlePostOpenOpen.bind(null, post)} className="cursor-pointer">
+              <li key={index}>
                 <PostTemplate key={index} {...post} />
               </li>
             ))}
-
-            {isPostOpenOpen && (
-              <PostOpen post={selectedPost} onClose={handlePostOpenClose} />
-            )}
           </ul>
         </section>
         
