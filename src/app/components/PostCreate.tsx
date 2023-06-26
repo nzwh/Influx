@@ -95,8 +95,7 @@ const PostCreate: React.FC<PostCreateProps> = ({ onClose, onAddPost }) => {
   AutosizeTextarea(textDescAreaRef.current, descValue);
 
   return (
-    <main>
-      <section className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
+    <main className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
         <div className="bg-white rounded p-6 w-96 flex flex-col gap-2 z-[50]">
           <div className="flex flex-row items-center justify-between">
             <h6 className="text-gray-800 font-regular text-xs">@arkustore</h6>
@@ -136,9 +135,7 @@ const PostCreate: React.FC<PostCreateProps> = ({ onClose, onAddPost }) => {
               </div>
           </form>
         </div>
-      </section>
     </main>
-    
   );
 };
 
