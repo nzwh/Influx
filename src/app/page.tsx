@@ -61,7 +61,7 @@ export default function Home() {
       <Navbar />
       <section id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] justify-between">
 
-        <section id="profile" className="w-48 gap-6 flex flex-col fixed">
+        <section id="profile" className="w-56 gap-6 flex flex-col fixed sm:invisible md:invisible lg:invisible xl:invisible 2xl:invisible 3xl:visible">
           <Link href="/profile" className="flex flex-row items-center gap-2">
             <Image className="rounded-full" src={active.avatar} alt="User Icon" width={36} height={36} />
             <div className="flex flex-col justify-center">
@@ -119,7 +119,7 @@ export default function Home() {
             </li>
           </ul>
         </section>
-        <div className="w-48 min-w-[12rem]"></div>
+        <div className="w-56 min-w-[14rem] sm:invisible md:invisible lg:invisible xl:invisible 2xl:invisible 3xl:visible"></div>
 
         <section className="flex flex-row gap-2 align-center">
           <section id="leftarea" className="flex flex-col gap-2 w-[32rem] h-full mr-[16.5rem] overflow-visible">
@@ -173,10 +173,37 @@ export default function Home() {
           </section>
         </section>
 
-        <section id="active" className="h-full w-48 gap-4 flex flex-col fixed right-[12%]">
-          
+        <section id="quick" className="h-full w-56 gap-4 flex flex-col fixed right-[12%] sm:invisible md:invisible lg:invisible xl:invisible 2xl:invisible 3xl:visible">
+          <h6 className="text-gray-700 font-medium text-sm">Quick Access</h6>
+          <ul className="flex flex-col gap-3">
+            <li className="flex flex-row items-center justify-between text-gray-700">
+              <div className="flex flex-row items-center">
+                <Image className="rounded-sm mr-2" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
+                <h6 className="font-regular text-sm">r/influx.io</h6>
+                <Image className="rounded-sm" src="/root/verified.svg" alt="Verified" width={18} height={18} />
+              </div>
+              <h6 className="font-light text-xs">2h ago</h6>
+            </li>
+            <li className="flex flex-row items-center justify-between text-gray-700">
+              <div className="flex flex-row items-center">
+                <Image className="rounded-sm mr-2" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
+                <h6 className="font-regular text-sm">r/styd_apparel</h6>
+                <Image className="rounded-sm" src="/root/verified.svg" alt="Verified" width={18} height={18} />
+              </div>
+              <h6 className="font-light text-xs">2h ago</h6>
+            </li>
+            <li className="flex flex-row items-center justify-between text-gray-700">
+              <div className="flex flex-row items-center">
+                <Image className="rounded-sm mr-2" src="/avatars/temp.jpg" alt="User Icon" width={24} height={24} />
+                <h6 className="font-regular text-sm">r/converze[gx]</h6>
+                <Image className="rounded-sm" src="/root/verified.svg" alt="Verified" width={18} height={18} />
+              </div>
+              <h6 className="font-light text-xs">2h ago</h6>
+            </li>
+          </ul>
+          <hr />
         </section>
-        <div className="w-48 min-w-[12rem]"></div>
+        <div className="w-56 min-w-[14rem] sm:invisible md:invisible lg:invisible xl:invisible 2xl:invisible 3xl:visible"></div>
 
       </section>
     </main>
