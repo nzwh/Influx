@@ -62,7 +62,7 @@ export default function Profile() {
       <div id="bg" className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
 
       <Navbar />
-      <div id="wrapper" className="flex flex-row gap-2 w-full h-full justify-center align-center py-20">
+      <div id="wrapper" className="flex flex-row gap-2 w-full h-full justify-center align-center py-14">
         <section id="leftarea" className="flex flex-col gap-2 w-[32rem] h-full mr-[16.5rem] overflow-visible">
 
           <section id="listings" className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4">

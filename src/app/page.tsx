@@ -59,7 +59,7 @@ export default function Home() {
     <main>
       <div id="bg" className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
       <Navbar />
-      <section id="wrapper" className="flex flex-row gap-2 w-full h-full justify-center align-center py-20">
+      <section id="wrapper" className="flex flex-row gap-2 w-full h-full justify-center align-center py-14">
         <section id="leftarea" className="flex flex-col gap-2 w-[32rem] h-full mr-[16.5rem] overflow-visible">
 
           <section id="create_post" onClick={handlePostCreateOpen} className="bg-white flex flex-row w-full justify-between rounded-sm py-3 px-4 cursor-pointer">
@@ -101,8 +101,11 @@ export default function Home() {
                 <div className="flex flex-row items-center gap-2">
                   <Image className="rounded-full" src={active.avatar} alt="User Icon" width={36} height={36} />
                   <div className="flex flex-col justify-center">
-                    <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{active.name}</h6>
-                    <h6 className="text-gray-500 font-regular text-xs leading-4">{active.handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.1rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
+                    <div className="flex flex-row items-center gap-0.5 h-3">
+                      <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{active.name}</h6>
+                      <Image src="/root/verified.svg" width={20} height={20} alt="Verified" />
+                    </div>
+                    <h6 className="text-gray-500 font-regular text-xs leading-4">{active.handle}</h6>
                   </div>
                 </div>
               </Link>
