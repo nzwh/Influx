@@ -45,7 +45,7 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
 
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
-      <div className="flex flex-row gap-2 h-[48rem]">
+      <div className="flex flex-row gap-2 h-[72%]">
 
         {post!.images.length > 0 && (
           <Image className="h-full w-auto bg-white rounded-sm" src={post!.images[0]} alt="Images" width={0} height={0} sizes="100%" />
