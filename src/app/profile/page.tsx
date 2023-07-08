@@ -261,7 +261,7 @@ export default function Profile() {
         </section>
       </section>
 
-      <section id="quick" className="h-full w-40 gap-4 flex flex-col fixed right-[12%] xs:hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:flex 3xl:flex">
+      <section id="quick" className="h-full w-40 gap-4 flex flex-col fixed right-[12%] xs:hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:flex 3xl:flex invisible">
         <h6 className="text-gray-700 font-medium text-xs">Quick Access</h6>
         <ul className="flex flex-col gap-3">
           <li className="flex flex-row items-center justify-between text-gray-700">
