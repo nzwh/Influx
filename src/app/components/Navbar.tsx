@@ -8,6 +8,8 @@ import Link from 'next/link'
 
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash } from 'lucide-react';
 
+import Dropdown from '@/src/app/components/Dropdown';
+
 const Navbar: React.FC = () => {
 
   const [ query, setQuery ] = useState('');
@@ -17,6 +19,17 @@ const Navbar: React.FC = () => {
     if (e.key === 'Enter') {
       router.push(`/search?q=${query}`);
     }
+  };
+
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+
+  const toggleDropDown = (previous: boolean) => {
+    console.log(previous)
+    return !previous;
+  }
+
+  const handleToggleDropDown = () => {
+    setIsDropDownOpen(toggleDropDown);
   };
 
   return (
@@ -52,9 +65,12 @@ const Navbar: React.FC = () => {
           <ShoppingBag size={12} strokeWidth={3} />
           <h6 className="text-xs font-regular leading-3">12 items</h6>
         </Link>
-        <Link href="/profile" className="">
+
+        <div onClick={handleToggleDropDown}>
           <Image className="rounded-full ml-2" src="/avatars/temp.jpg" alt="Profile" width={24} height={24} />
-        </Link>
+        </div>
+
+        {isDropDownOpen && <Dropdown></Dropdown>}
       </section>
     </nav>
   );
