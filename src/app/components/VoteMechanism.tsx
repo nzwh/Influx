@@ -1,16 +1,9 @@
 'use client';
 
-import Image from 'next/image';
-
 import React, { useState } from "react";
 
 import { PostInterface } from "@/libraries/interfaces";
 import { ArrowUp, ArrowDown } from 'lucide-react';
-
-interface PostOpenProps {
-  onClose: () => void;
-  post: PostInterface | null;
-}
 
 const VoteMechanism: React.FC<{ post: PostInterface }> = ({ post }) => {
   const [upvoted, setUpvoted] = useState(false);
