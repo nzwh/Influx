@@ -43,6 +43,21 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
     setCommentsData(temp);
   };
 
+  const convertToMonetary = (value: number) => {
+    if (value >= 1000000) {
+      const formattedValue = (value / 1000000).toFixed(2);
+      return `${formattedValue}M`;
+    }	
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    return formatter.format(value);
+  };
+
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
       <div className="flex flex-row gap-2 h-[72%]">
@@ -63,7 +78,7 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
             </div>
 
             <div className="flex flex-row gap-2 items-start">
-              <h1 className="text-gray-800 font-regular text-3xl tracking-tight">${post!.price}</h1>
+              <h1 className="text-gray-800 font-regular text-3xl tracking-tight">{convertToMonetary(post!.price)}</h1>
               <div className=" bg-slate-700 rounded-full px-2 mt-[0.4rem] py-0.5">
                 <h6 className="text-white font-medium text-[0.5rem]">{post!.negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
               </div>
