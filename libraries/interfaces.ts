@@ -38,7 +38,20 @@ interface ProfileInterface {
     user_MOP: string;
 }
 
+interface UserInterface {
+    user_icon: string;
+    user_name: string;
+    user_handle: string;
+
+    user_bio: string;
+    user_MOD: string;
+    user_MOP: string;
+
+    user_location: string;
+}
+
 export type {
     PostInterface,
-    ProfileInterface
+    ProfileInterface,
+    UserInterface
 }

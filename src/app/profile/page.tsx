@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 
 import PostTemplate from '@/src/app/components/PostTemplate';
 import ProfileEdit from '@/src/app/components/ProfileEdit';
-import Navbar from '@/src/app/components/Navbar';
+import Navbar from '@/src/app/components/panels/Navbar';
 
 import { PostInterface } from '@/libraries/interfaces';
 import { CreditCard, Map, MoveUpRight, Package, RotateCcw, Star } from 'lucide-react';
