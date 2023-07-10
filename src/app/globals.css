@@ -50,3 +50,17 @@ input::-webkit-inner-spin-button {
     }
   }
 }
+
+
+
+@media (max-width: 1399.98px) {
+  .leftarea{
+    display: none !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .leftarea{
+    display: flex !important;
+  }
+}
