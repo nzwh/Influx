@@ -66,6 +66,53 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
   const handlePostDelete = () => {
     onDelete(id);
   };
+
+  const convertToMonetary = (value: number) => {
+    if (value >= 1000000) {
+      const formattedValue = (value / 1000000).toFixed(2);
+      return `${formattedValue}M`;
+    }	
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    return formatter.format(value);
+  };
+
+  const convertToRelativeDate = (timestamp: number) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+  
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+    const years = Math.floor(weeks / 52);
+  
+    if (years > 0) {
+      const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+      return formattedDate;
+    } 
+    else if (weeks > 0) {
+      return `${weeks}w ago`;
+    } 
+    else if (days > 0) {
+      return `${days}d ago`;
+    } 
+    else if (hours > 0) {
+      return `${hours}h ago`;
+    } 
+    else if (minutes > 0) {
+      return `${minutes}m ago`;
+    } 
+    else {
+      return `${seconds}s ago`;
+    }
+  };
   
   tags.sort(function(a, b){return b.length - a.length});
 
@@ -84,7 +131,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
 						<Image className="rounded-full" src={user_icon} alt="User Icon" width={36} height={36} />
 						<div className="flex flex-col justify-center">
 							<h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{user_name}</h6>
-							<h6 className="text-gray-500 font-regular text-[0.65rem] leading-4">{user_handle}&ensp;•&ensp;{timestamp}</h6>
+							<h6 className="text-gray-500 font-regular text-[0.65rem] leading-4">{user_handle}&ensp;•&ensp;{convertToRelativeDate(timestamp)}</h6>
 						</div>
 					</div>
 					</div>
@@ -94,7 +141,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
 						<div className="bg-gray-800 rounded-full px-2 py-0.5">
 							<h6 className="text-white font-semibold tracking-wider text-[0.5rem] leading-3">{negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
 						</div>
-						<h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">${price}</h1>
+						<h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">{convertToMonetary(price)}</h1>
             <Trash color="black" size={12} className="cursor-pointer" onClick={() => handlePostDelete(id)} />
 					</div>
 					</div>
