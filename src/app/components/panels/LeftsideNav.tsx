@@ -11,7 +11,6 @@ interface WrapperInterface {
 }
 
 const Leftside: React.FC<WrapperInterface> = ({ active, wrapper_props }) => {
-
   return (
     <section id="profile" className={`gap-6 flex flex-col fixed ${wrapper_props}`}>
     <Link href="/profile" className="flex flex-row items-center gap-2">

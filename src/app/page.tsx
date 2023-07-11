@@ -3,12 +3,14 @@
 import Image from 'next/image';
 
 import React, { useState, useEffect } from 'react';
-import { Package, Map, Film, Tag, MoveUpRight,  User, Bookmark, Inbox, ShoppingBag, Settings, Sparkle, Truck, Moon, Megaphone, LayoutGrid } from 'lucide-react';
+import { MoveUpRight,  User, Bookmark, Inbox, ShoppingBag, Settings, Sparkle, Truck, Moon, Megaphone, LayoutGrid } from 'lucide-react';
 
 import PostTemplate from '@/src/app/components/PostTemplate';
 import PostCreate from '@/src/app/components/PostCreate';
 import Navbar from '@/src/app/components/panels/Navbar';
+
 import Leftside from '@/src/app/components/panels/LeftsideNav';
+import NewPost from './components/panels/NewPostPanel';
 
 import { PostInterface } from '@/libraries/interfaces';
 
@@ -72,20 +74,7 @@ export default function Home() {
         <section className="flex flex-row gap-2 justify-center w-full">
           <section id="leftarea" className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             
-            <section id="create_post" onClick={handlePostCreateOpen} className="bg-white flex flex-row w-full justify-between rounded-sm py-3 px-4 cursor-pointer">
-              <div className="flex flex-row gap-3 items-center">
-                <Image className="rounded-full" src="/avatars/temp.jpg" alt="User Icon" width={22} height={22} />
-                <h6 className="text-gray-500 font-normal text-xs">Post about something...</h6>
-              </div>
-
-              <div className="flex flex-row gap-4 items-center">
-                <Package className="opacity-70" color="black" size={14}/>
-                <Map className="opacity-70" color="black" size={14}/>
-                <Film className="opacity-70" color="black" size={14}/>
-                <Tag className="opacity-70" color="black" size={14}/>
-              </div>
-            </section>
-
+            <section onClick={handlePostCreateOpen}><NewPost /></section>
             {isPostCreateOpen && ( 
               <PostCreate onClose={handlePostCreateClose} onAddPost={handleAddPost} />
             )}
