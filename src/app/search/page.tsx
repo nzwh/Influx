@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation'
 import { PostInterface } from '@/libraries/interfaces';
 
-import Navbar from '@/src/app/components/panels/Navbar';
-import PostTemplate from '@/src/app/components/PostTemplate';
+import Navbar from '@/src/app/components/navigators/TopbarNav';
+import PostTemplate from '@/src/app/components/template/PostTemplate';
 
 export default function Search() {
 

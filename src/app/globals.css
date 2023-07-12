@@ -54,13 +54,25 @@ input::-webkit-inner-spin-button {
 
 
 @media (max-width: 1399.98px) {
-  .leftarea{
+  .ex-br {
     display: none !important;
   }
 }
 
 @media (min-width: 1400px) {
-  .leftarea{
+  .ex-br {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .ra-br {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ra-br {
     display: flex !important;
   }
 }

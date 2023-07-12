@@ -1,12 +1,13 @@
-import { AlignJustify, AtSign, ChevronRight, CreditCard, FormInput, Mail, Package, Phone, SquareAsterisk, X } from 'lucide-react';
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
 
-interface ProfileDialogProps {
+import { AlignJustify, AtSign, ChevronRight, CreditCard, FormInput, Mail, Package, Phone, SquareAsterisk, X } from 'lucide-react';
+
+interface Props {
   onClose: () => void;
 }
 
-const ProfileDialog: React.FC<ProfileDialogProps> = ({ onClose }) => {
+const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 	return (
 		<main className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
 		  <div className="bg-white rounded-sm p-6 flex flex-col h-[41rem] w-[32rem] gap-2">
@@ -130,4 +131,4 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({ onClose }) => {
 	);
 };
   
-export default ProfileDialog;
+export default UpdateProfilePopup;

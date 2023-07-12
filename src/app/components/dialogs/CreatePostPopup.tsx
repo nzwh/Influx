@@ -1,14 +1,14 @@
 import { X } from 'lucide-react';
 import { useState, useRef } from 'react';
 
-import AutosizeTextarea from '@/src/app/components/AutosizeTextarea';
+import AutosizeTextarea from '@/src/app/components/utilities/AutosizeTextarea';
 
-interface PostCreateProps {
+interface Props {
   onClose: () => void;
   onAddPost: (post: any) => void;
 }
 
-const PostCreate: React.FC<PostCreateProps> = ({ onClose, onAddPost }) => {
+const CreatePostPopup: React.FC<Props> = ({ onClose, onAddPost }) => {
   const [shop_icon, setShopIcon] = useState('');
   const [shop_name, setShopName] = useState('');
   const [shop_handle, setShopHandle] = useState('');
@@ -139,4 +139,4 @@ const PostCreate: React.FC<PostCreateProps> = ({ onClose, onAddPost }) => {
   );
 };
 
-export default PostCreate;
+export default CreatePostPopup;

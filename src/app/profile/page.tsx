@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 import React, { useState, useEffect } from 'react';
 
-import PostTemplate from '@/src/app/components/PostTemplate';
-import ProfileEdit from '@/src/app/components/ProfileEdit';
-import Navbar from '@/src/app/components/panels/Navbar';
+import PostTemplate from '@/src/app/components/template/PostTemplate';
+import ProfileEdit from '@/src/app/components/dialogs/UpdateProfilePopup';
+import Navbar from '@/src/app/components/navigators/TopbarNav';
 
 import { PostInterface } from '@/libraries/interfaces';
 import { CreditCard, Map, MoveUpRight, Package, RotateCcw, Star } from 'lucide-react';

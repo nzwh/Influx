@@ -3,14 +3,16 @@
 import Image from 'next/image';
 
 import React, { useState, useEffect } from 'react';
-import { MoveUpRight,  User, Bookmark, Inbox, ShoppingBag, Settings, Sparkle, Truck, Moon, Megaphone, LayoutGrid } from 'lucide-react';
+import { MoveUpRight } from 'lucide-react';
 
-import PostTemplate from '@/src/app/components/PostTemplate';
-import PostCreate from '@/src/app/components/PostCreate';
-import Navbar from '@/src/app/components/panels/Navbar';
+import PostTemplate from '@/src/app/components/template/PostTemplate';
+import PostCreate from '@/src/app/components/dialogs/CreatePostPopup';
+import Navbar from '@/src/app/components/navigators/TopbarNav';
 
-import Leftside from '@/src/app/components/panels/LeftsideNav';
+import Leftside from '@/src/app/components/navigators/ExplorerNav';
 import NewPost from './components/panels/NewPostPanel';
+import Panel from './components/template/PanelTemplate';
+import About from './components/panels/AboutPanel';
 
 import { PostInterface } from '@/libraries/interfaces';
 
@@ -68,13 +70,13 @@ export default function Home() {
       <Navbar />
       <section id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] max-2xl:px-0 max-xl:px-0 max-lg:px-0 max-md:px-0 max-sm:px-0 max-xs:px-0 justify-between">
 
-        <Leftside active={active} wrapper_props="w-40 min-w-[10rem] leftarea" />
-        <div id="side-divider" className="w-40 min-w-[10rem] leftarea"></div>
+        <Leftside active={active} wrapper_props="w-40 min-w-[10rem] ex-br" />
+        <div id="side-divider" className="w-40 min-w-[10rem] ex-br"></div>
 
         <section className="flex flex-row gap-2 justify-center w-full">
-          <section id="leftarea" className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
+          <section className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             
-            <section onClick={handlePostCreateOpen}><NewPost /></section>
+            <div onClick={handlePostCreateOpen}><NewPost /></div>
             {isPostCreateOpen && ( 
               <PostCreate onClose={handlePostCreateClose} onAddPost={handleAddPost} />
             )}
@@ -86,36 +88,18 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </section>
-          <section id="rightarea" className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] xs:hidden sm:hidden md:hidden lg:flex xl:flex 2xl:flex 3xl:flex">
-
-            <aside id="explore" className="bg-white flex flex-col w-full rounded-sm p-4 gap-4">
-              <div className="flex flex-row justify-between items-center">
-                <h6 className="text-gray-800 font-regular text-xs">Explore</h6>
-                <MoveUpRight color="black" size={12}/>
-              </div>
-            </aside>
-
-            <aside id="communities" className="bg-white flex flex-col w-full rounded-sm p-4 gap-4">
-              <div className="flex flex-row justify-between items-center">
-                <h6 className="text-gray-800 font-regular text-xs">Communities</h6>
-                <MoveUpRight color="black" size={12}/>
-              </div>
-            </aside>
             
-            <aside className="bg-white flex flex-col w-full rounded-sm p-4">
-              <h6 className="text-gray-800 font-regular text-xs">
-                <a href="/about" className="hover:underline">About</a> •&nbsp;
-                <a href="/terms" className="hover:underline">Terms</a> •&nbsp;
-                <a href="/documentation" className="hover:underline">Documentation</a> •&nbsp;
-                <a href="/legal" className="hover:underline">Legal</a>
-              <br/>influx.io © 2023.  Made with Next.js.</h6>
-            </aside>
+          </section>
+          <section className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
+
+            <Panel title="Explore" />
+            <Panel title="Communities" />
+            <About />
 
           </section>
         </section>
 
-        <section id="quick" className="h-full w-40 gap-4 flex flex-col fixed right-[12%] xs:hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:flex 3xl:flex invisible">
+        <section id="quick" className="h-full w-40 gap-4 flex flex-col fixed right-[12%] ex-br">
           <h6 className="text-gray-700 font-medium text-xs">Quick Access</h6>
           <ul className="flex flex-col gap-3">
             <li className="flex flex-row items-center justify-between text-gray-700">
@@ -145,7 +129,7 @@ export default function Home() {
           </ul>
           <hr />
         </section>
-        <div className="w-40 min-w-[10rem] xs:hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:block 3xl:flex"></div>
+        <div className="w-40 min-w-[10rem] ex-br"></div>
 
       </section>
     </main>

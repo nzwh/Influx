@@ -4,15 +4,15 @@ import Image from 'next/image';
 
 import React, { useState } from "react";
 
-import Comment from "./Comment";
-import useNode from "../hooks/useNode";
-import VoteMechanism from "./VoteMechanism";
-import Action from "./Action";
+import Comment from "../utilities/Comment";
+import useNode from "../../hooks/useNode";
+import VoteMechanism from "../utilities/VoteMechanism";
+import Action from "../utilities/Action";
 
 import { PostInterface } from "@/libraries/interfaces";
 import { ChevronRight, MessageSquare, Share2, ShoppingBag, Sparkles, X } from 'lucide-react';
 
-interface PostOpenProps {
+interface Props {
   onClose: () => void;
   post: PostInterface | null;
 }
@@ -22,7 +22,7 @@ const comments = {
   items: []
 };
 
-const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
+const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
   const [commentsData, setCommentsData] = useState(comments);
 
   const { insertNode, editNode, deleteNode } = useNode();
@@ -139,4 +139,4 @@ const PostOpen: React.FC<PostOpenProps> = ({ post, onClose }) => {
   );
 };
 
-export default PostOpen;
+export default ExpandPostPopup;

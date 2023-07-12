@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
-import PostOpen from '@/src/app/components/PostOpen';
-import VoteMechanism from './VoteMechanism';
+import PostOpen from '@/src/app/components/dialogs/ExpandPostPopup';
+import VoteMechanism from '../utilities/VoteMechanism';
 
 import { PostInterface } from "@/libraries/interfaces";
-import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Trash, Share2, ShoppingBag } from 'lucide-react';
+import { MessageCircle, MoreHorizontal, Trash, Share2, ShoppingBag } from 'lucide-react';
 
 const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => void }> = ({ id, shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments, onDelete }) => {
 
@@ -52,7 +52,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
   const [isPostOpenOpen, setIsPostOpenOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostInterface | null>(null);
 
-  const handlePostOpenOpen = () => {
+  const handlePostOpenOpen = ( post: any ) => {
     setSelectedPost(post);
     setIsPostOpenOpen(true);
   };
@@ -63,7 +63,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
 		
   };
 
-  const handlePostDelete = () => {
+  const handlePostDelete = (id:number) => {
     onDelete(id);
   };
 
@@ -82,7 +82,7 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
     return formatter.format(value);
   };
 
-  const convertToRelativeDate = (timestamp: number) => {
+  const convertToRelativeDate = (timestamp: string) => {
     const date = new Date(timestamp);
     const now = new Date();
   
