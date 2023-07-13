@@ -1,6 +1,6 @@
 # Influx
 
-Welcome to Influx, a buy and sell forum application built with Next.js. This application allows users to create listings, browse and search for items, and communicate with sellers to purchase products.
+Welcome to Influx, a buy and sell forum application built with Next.js, Tailwind and Typescript. This application allows users to create listings, browse and search for items, and communicate with sellers to purchase products.
 
 ## Installation
 
