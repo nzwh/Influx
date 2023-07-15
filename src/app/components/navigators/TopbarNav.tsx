@@ -1,14 +1,13 @@
 "use client"
 
 import React, { useState } from 'react';
-
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash } from 'lucide-react';
 
-const Navbar: React.FC = () => {
+const TopbarNav: React.FC = () => {
 
   const [ query, setQuery ] = useState('');
   const router = useRouter();
@@ -60,4 +59,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default TopbarNav;

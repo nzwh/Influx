@@ -5,22 +5,22 @@ import Image from 'next/image';
 import { User, Bookmark, Inbox, ShoppingBag, Settings, Sparkle, Truck, Moon, Megaphone, LayoutGrid } from 'lucide-react';
 import { UserInterface } from '@/libraries/interfaces';
 
-interface WrapperInterface {
-  active: UserInterface;
-  wrapper_props: string;
+interface WrapperProps {
+  user: UserInterface;
+  wrapperClass: string;
 }
 
-const Leftside: React.FC<WrapperInterface> = ({ active, wrapper_props }) => {
+const ExplorerNav: React.FC<WrapperProps> = ({ user, wrapperClass }) => {
   return (
-    <section id="profile" className={`gap-6 flex flex-col fixed ${wrapper_props}`}>
+    <section id="profile" className={`gap-6 flex flex-col fixed ${wrapperClass}`}>
     <Link href="/profile" className="flex flex-row items-center gap-2">
-      <Image className="rounded-full" src={active.user_icon} alt="User Icon" width={36} height={36} />
+      <Image className="rounded-full" src={user.user_icon} alt="User Icon" width={36} height={36} />
       <div className="flex flex-col justify-center">
         <div className="flex flex-row items-center gap-0.5 h-[0.9rem]">
-          <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{active.user_name}</h6>
+          <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{user.user_name}</h6>
           <Image src="/root/verified.svg" width={20} height={20} alt="Verified" />
         </div>
-        <h6 className="text-gray-500 font-regular text-xs leading-4">{active.user_handle}</h6>
+        <h6 className="text-gray-500 font-regular text-xs leading-4">{user.user_handle}</h6>
       </div>
     </Link>
 
@@ -73,4 +73,4 @@ const Leftside: React.FC<WrapperInterface> = ({ active, wrapper_props }) => {
   );
 };
 
-export default Leftside;
+export default ExplorerNav;

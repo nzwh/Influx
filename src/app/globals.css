@@ -51,8 +51,6 @@ input::-webkit-inner-spin-button {
   }
 }
 
-
-
 @media (max-width: 1399.98px) {
   .ex-br {
     display: none !important;
@@ -74,5 +72,12 @@ input::-webkit-inner-spin-button {
 @media (min-width: 1024px) {
   .ra-br {
     display: flex !important;
+  }
+}
+
+@media (max-width: 1535.98px) {
+  .wr-br {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
