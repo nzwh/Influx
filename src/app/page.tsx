@@ -1,6 +1,5 @@
 "use client"
 
-import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
 import CreatePostPopup from '@/src/app/components/dialogs/CreatePostPopup';
@@ -11,8 +10,9 @@ import Post from '@/src/app/components/template/PostTemplate';
 import Panel from '@/src/app/components/template/PanelTemplate';
 import NewPost from '@/src/app/components/panels/NewPostPanel';
 import About from '@/src/app/components/panels/AboutPanel';
+import Background from './components/panels/BackgroundPanel';
 
-import { PostInterface } from '@/libraries/interfaces';
+import { Post as PostInterface } from '@/libraries/structures';
 
 export default function Home() {
 
@@ -51,7 +51,7 @@ export default function Home() {
     setPosts(newPosts);
   };
 
-  let active = {
+  let user = {
     user_name: 'Arkustore',
     user_handle: '@arkustore',
     user_icon: '/avatars/temp.jpg',
@@ -64,68 +64,36 @@ export default function Home() {
 
   return (
     <main>
-      <div id="bg" className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-50 to-zinc-200"></div>
+      <Background />
       <TopbarNav />
-      
-      <section id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
 
-        <ExplorerNav user={active} wrapperClass="w-40 min-w-[10rem] ex-br" />
+      <section id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
+        <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" />
         <div id="side-divider" className="w-40 min-w-[10rem] ex-br"></div>
 
-        <section className="flex flex-row gap-2 justify-center w-full">
+        <div className="flex flex-row gap-2 justify-center w-full">
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            
             <div onClick={handleCreatePostPopupOpen}><NewPost /></div>
             {isCreatePostPopupOpen && ( 
               <CreatePostPopup onClose={handleCreatePostPopupClose} onAddPost={handleAddPost} />
             )}
-            
             <ul className="flex flex-col gap-2 h-full w-[32rem]">
               {posts.map((post, index) => (
                 <li key={index}>
-                  <Post key={index} {...post} onDelete={handlePostDelete} />
+                  <Post key={index} post={post} onDelete={handlePostDelete} />
                 </li>
               ))}
             </ul>
-            
           </div>
+
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
             <Panel title="Explore" />
             <Panel title="Communities" />
             <About />
           </div>
-        </section>
+        </div>
 
-        <section id="quick" className="h-full w-40 gap-4 flex flex-col fixed right-[12%] ex-br">
-          <h6 className="text-gray-700 font-medium text-xs">Quick Access</h6>
-          <ul className="flex flex-col gap-3">
-            <li className="flex flex-row items-center justify-between text-gray-700">
-              <div className="flex flex-row items-center">
-                <Image className="rounded-sm mr-2" src="/avatars/temp.jpg" alt="User Icon" width={20} height={20} />
-                <h6 className="font-regular text-xs">r/influx.io</h6>
-                <Image className="rounded-sm" src="/root/verified.svg" alt="Verified" width={18} height={18} />
-              </div>
-              <h6 className="font-light text-[0.6rem] leading-[0.3rem]">2h ago</h6>
-            </li>
-            <li className="flex flex-row items-center justify-between text-gray-700">
-              <div className="flex flex-row items-center">
-                <Image className="rounded-sm mr-2" src="/avatars/temp.jpg" alt="User Icon" width={20} height={20} />
-                <h6 className="font-regular text-xs">r/influx.io</h6>
-                <Image className="rounded-sm" src="/root/verified.svg" alt="Verified" width={18} height={18} />
-              </div>
-              <h6 className="font-light text-[0.6rem] leading-[0.3rem]">2h ago</h6>
-            </li>
-            <li className="flex flex-row items-center justify-between text-gray-700">
-              <div className="flex flex-row items-center">
-                <Image className="rounded-sm mr-2" src="/avatars/temp.jpg" alt="User Icon" width={20} height={20} />
-                <h6 className="font-regular text-xs">r/influx.io</h6>
-                <Image className="rounded-sm" src="/root/verified.svg" alt="Verified" width={18} height={18} />
-              </div>
-              <h6 className="font-light text-[0.6rem] leading-[0.3rem]">2h ago</h6>
-            </li>
-          </ul>
-          <hr />
-        </section>
+        <div id="quick" className="h-full w-40 min-w-[10rem] gap-4 flex flex-col fixed right-[12%] ex-br"></div>
         <div className="w-40 min-w-[10rem] ex-br"></div>
 
       </section>
