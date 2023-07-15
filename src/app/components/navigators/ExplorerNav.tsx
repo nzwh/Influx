@@ -25,44 +25,31 @@ const ExplorerNav: React.FC<WrapperProps> = ({ user, wrapperClass }) => {
     </Link>
 
     <ul className="flex flex-col gap-3">
-      <li className="flex flex-row items-center gap-2 text-gray-700">
+      <Link href="/explore" className="flex flex-row items-center gap-2 text-gray-700">
         <Sparkle size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Explore</h6>
-      </li>
-      <li className="flex flex-row items-center gap-2 text-gray-700">
+      </Link>
+      <Link href="/bookmarks" className="flex flex-row items-center gap-2 text-gray-700">
         <Bookmark size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Bookmarks</h6>
-      </li>
-      <li className="flex flex-row items-center gap-2 text-gray-700">
-        <Megaphone size={16} strokeWidth={3}/>
-        <h6 className="font-regular text-sm">Notifications</h6>
-      </li>
-      <hr />
-      <li className="flex flex-row items-center gap-2 text-gray-700">
-        <Inbox size={16} strokeWidth={3}/>
-        <h6 className="font-regular text-sm">Messages</h6>
-      </li>
-      <li className="flex flex-row items-center gap-2 text-gray-700">
-        <Truck size={16} strokeWidth={3}/>
-        <h6 className="font-regular text-sm">Tracking</h6>
-      </li>
-      <li className="flex flex-row items-center gap-2 text-gray-700">
+      </Link>
+      <Link href="/shopping-cart" className="flex flex-row items-center gap-2 text-gray-700">
         <ShoppingBag size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Shopping Cart</h6>
-      </li>
+      </Link>
       <hr />
-      <li className="flex flex-row items-center gap-2 text-gray-700">
+      <Link href="/theme" className="flex flex-row items-center gap-2 text-gray-700">
         <Moon size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Theme</h6>
-      </li>
-      <li className="flex flex-row items-center gap-2 text-gray-700">
+      </Link>
+      <Link href="/profile" className="flex flex-row items-center gap-2 text-gray-700">
         <User size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Profile</h6>
-      </li>
-      <li className="flex flex-row items-center gap-2 text-gray-700">
+      </Link>
+      <Link href="/settings" className="flex flex-row items-center gap-2 text-gray-700">
         <Settings size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Settings</h6>
-      </li>
+      </Link>
       <hr />
       <li className="flex flex-row items-center gap-2 text-gray-700">
         <LayoutGrid size={16} strokeWidth={3}/>
