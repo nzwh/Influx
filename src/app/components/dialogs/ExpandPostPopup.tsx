@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-
 import React, { useState } from "react";
 
 import Comment from "../utilities/Comment";
@@ -9,12 +8,12 @@ import useNode from "../../hooks/useNode";
 import VoteMechanism from "../utilities/VoteMechanism";
 import Action from "../utilities/Action";
 
-import { PostInterface } from "@/libraries/interfaces";
+import { Post } from "@/libraries/structures";
 import { ChevronRight, MessageSquare, Share2, ShoppingBag, Sparkles, X } from 'lucide-react';
 
 interface Props {
   onClose: () => void;
-  post: PostInterface | null;
+  post: Post;
 }
 
 const comments = {
@@ -62,8 +61,8 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
       <div className="flex flex-row gap-2 h-[72%]">
 
-        {post!.images.length > 0 && (
-          <Image className="h-full w-auto bg-white rounded-sm" src={post!.images[0]} alt="Images" width={0} height={0} sizes="100%" />
+        {post.media.length > 0 && (
+          <Image className="h-full w-auto bg-white rounded-sm" src={post.media[0]} alt="Images" width={0} height={0} sizes="100%" />
         )}
               
         <div id="rightarea" className="flex flex-col gap-2 h-full w-[22rem]">
@@ -80,17 +79,17 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
             <div className="flex flex-row gap-2 items-start">
               <h1 className="text-gray-800 font-regular text-3xl tracking-tight">{convertToMonetary(post!.price)}</h1>
               <div className=" bg-slate-700 rounded-full px-2 mt-[0.4rem] py-0.5">
-                <h6 className="text-white font-medium text-[0.5rem]">{post!.negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
+                <h6 className="text-white font-medium text-[0.5rem]">{post.open ? "NEGOTIABLE" : "FIXED"}</h6>
               </div>
             </div>
 
-            <h1 className="text-gray-800 font-regular text-md tracking-tight leading-5">{post!.header}</h1>
+            <h1 className="text-gray-800 font-regular text-md tracking-tight leading-5">{post.title}</h1>
             <p className="text-gray-800 font-light text-xs truncate break h-auto whitespace-pre-line">
-					  {post!.description}
+					  {post.description}
 				    </p>
 
             <div className="flex flex-row items-center justify-between pt-2">
-              <VoteMechanism post={post!} />
+              <VoteMechanism post={post} />
 
               <div className="flex flex-row gap-1 cursor-pointer items-center">
                 <ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3}/>
@@ -110,10 +109,10 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
           </div>
 
           <div className="flex flex-row w-full bg-white rounded-sm px-6 py-4 gap-2">
-            <Image className="rounded-full" src={post!.user_icon} alt="User Icon" width={36} height={36} />
+            <Image className="rounded-full" src={post.owner.icon} alt="User Icon" width={36} height={36} />
             <div className="flex flex-col justify-center">
-              <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{post!.user_name}</h6>
-              <h6 className="text-gray-500 font-regular text-xs leading-4">{post!.user_handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.05rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
+              <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{`${post.owner.first_name} ${post.owner.last_name}`}</h6>
+              <h6 className="text-gray-500 font-regular text-xs leading-4">{post.owner.handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.05rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
             </div>
           </div>
           

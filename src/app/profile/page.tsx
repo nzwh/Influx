@@ -9,19 +9,19 @@ import PostTemplate from '@/src/app/components/template/PostTemplate';
 import ProfileEdit from '@/src/app/components/dialogs/UpdateProfilePopup';
 import Navbar from '@/src/app/components/navigators/TopbarNav';
 
-import { PostInterface } from '@/libraries/interfaces';
+import { Post } from '@/libraries/structures';
 import { CreditCard, Map, MoveUpRight, Package, RotateCcw, Star } from 'lucide-react';
 import { User, Bookmark, Inbox, ShoppingBag, Settings, Sparkle, Truck, Moon, Megaphone, LayoutGrid } from 'lucide-react';
 
 export default function Profile() {
 
     const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
-    const [posts, setPosts] = useState<PostInterface[]>([]);
+    const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
       const fetchPosts = () => {
         try {
-          const existingPosts: PostInterface[] = require('@/posts.json');
+          const existingPosts: Post[] = require('@/posts.json');
           setPosts(existingPosts);
         } catch (error) {
           console.log('Error reading posts:', error);
@@ -144,7 +144,7 @@ export default function Profile() {
           <ul className="flex flex-col gap-2 h-full w-[32rem]">
             {posts.map((post, index) => (
               <li key={index}>
-                <PostTemplate key={index} {...post} onDelete={handlePostDelete} />
+                <PostTemplate key={index} post={post} onDelete={handlePostDelete} />
               </li>
             ))}
           </ul>
