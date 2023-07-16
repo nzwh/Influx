@@ -76,7 +76,7 @@ export default function Profile() {
 
         <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
 
-        <aside onClick={handleProfileEditOpen} className="w-full flex flex-col bg-white rounded-sm p-4 gap-4 cursor-pointer">
+        <aside onClick={handleProfileEditOpen} className="w-full flex flex-col bg-white rounded-sm p-4 gap-4 cursor-pointer filter drop-shadow-2xl">
 
           <div className="flex flex-row justify-between items-start">
             <Link href="/profile">
@@ -151,7 +151,7 @@ export default function Profile() {
           <ProfileEdit onClose={handleProfileEditClose} />
           )}
 
-          <aside className="w-full flex flex-col bg-white rounded-sm p-4 gap-4">
+          <aside className="w-full flex flex-col bg-white rounded-sm p-4 gap-4 filter drop-shadow-2xl">
           <div className="flex flex-row justify-between items-center">
             <h6 className="text-gray-800 font-regular text-xs">Comments</h6>
             <MoveUpRight color="black" size={12}/>

@@ -8,7 +8,7 @@ export default function Register() {
     <main className="flex flex-col w-screen h-screen items-center justify-center">
     <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
     
-    <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem]">
+    <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem] filter drop-shadow-2xl">
         <div className="flex flex-col bg-[url('/backgrounds/login.png')] rounded-l-lg h-full aspect-square p-10 justify-between">
           <Italic className="opacity-70 text-violet-300" size={14} strokeWidth={3} />
           <div className="flex flex-col gap-4">

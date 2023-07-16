@@ -99,7 +99,7 @@ const PostTemplate: React.FC<PostProps> = ({ post, onDelete }) => {
 
 	return (
 		<main>
-			<article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible">
+      <article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible filter drop-shadow-2xl">
 				<div className="flex flex-row justify-between">
 					<div className="flex flex-col gap-3">
 					<div className="flex flex-row items-center gap-2">
