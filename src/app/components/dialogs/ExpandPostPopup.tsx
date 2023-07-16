@@ -1,12 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import React, { useState } from "react";
+import Image from 'next/image';
 
-import Comment from "../utilities/Comment";
-import useNode from "../../hooks/useNode";
-import VoteMechanism from "../utilities/VoteMechanism";
-import Action from "../utilities/Action";
+import Comment from "@/src/app/components/utilities/Comment";
+import useNode from "@/src/app/hooks/useNode";
+import VoteMechanism from "@/src/app/components/utilities/VoteMechanism";
+import Action from "@/src/app/components/utilities/Action";
 
 import { Post } from "@/libraries/structures";
 import { ChevronRight, MessageSquare, Share2, ShoppingBag, Sparkles, X } from 'lucide-react';
@@ -109,10 +109,10 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
           </div>
 
           <div className="flex flex-row w-full bg-white rounded-sm px-6 py-4 gap-2">
-            <Image className="rounded-full" src={post.owner.icon} alt="User Icon" width={36} height={36} />
+            <Image className="rounded-full" src={post.author.icon} alt="User Icon" width={36} height={36} />
             <div className="flex flex-col justify-center">
-              <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{`${post.owner.first_name} ${post.owner.last_name}`}</h6>
-              <h6 className="text-gray-500 font-regular text-xs leading-4">{post.owner.handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.05rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
+              <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{`${post.author.first_name} ${post.author.last_name}`}</h6>
+              <h6 className="text-gray-500 font-regular text-xs leading-4">{post.author.handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.05rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
             </div>
           </div>
           

@@ -1,8 +1,9 @@
 interface Post {
     id: number; 
     origin: Community;
-    owner: User;
+    author: User;
 
+    type: string;
     posted_at: Date;
     price: number;
 
@@ -18,7 +19,7 @@ interface Post {
     upvotes?: number[];
     downvotes?: number[];
     shares?: number[];
-    saves?: number[];
+    interests?: number[];
     comments?: number[];
 
     open?: boolean;
@@ -53,7 +54,10 @@ interface Community {
     description: string;
     
     icon: string;
+    banner: string;
+    
     posts: number[];
+    users: number[];
 }
 
 interface Range {
@@ -62,5 +66,5 @@ interface Range {
 }
 
 export type {
-    Post, User
+    Post, User, Community
 }

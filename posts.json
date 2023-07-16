@@ -5,16 +5,19 @@
         "origin": {
             "id": 1,
             "name": "Facebook",
-            "handle": "@facebook",
+            "handle": "facebook",
             "description": "",
 
             "icon": "/avatars/temp.jpg",
-            "posts": [1]
+            "banner": "/avatars/temp.jpg",
+
+            "posts": [],
+            "users": []
         },
 
-        "owner": {
+        "author": {
             "id": 1,
-            "handle": "@chaeyo.0",
+            "handle": "chaeyo.0",
             "email_address": "chae@mail.com",
             
             "icon": "/avatars/temp.jpg",
@@ -48,14 +51,13 @@
         "upvotes": [],
         "downvotes": [],
         "shares": [],
-        "interested": [],
+        "interests": [],
         "comments": [],
 
-        "negotiable": false,
+        "open": true,
         "range": {
-            "min": 10500.00,
+            "min": 7500.00,
             "max": 10500.00
         }
     }
-
 ]

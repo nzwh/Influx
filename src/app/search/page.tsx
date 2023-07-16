@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation'
-import { Post as PostInterface } from '@/libraries/structures';
 
 import Navbar from '@/src/app/components/navigators/TopbarNav';
 import PostTemplate from '@/src/app/components/template/PostTemplate';
+
+import { Post as PostInterface } from '@/libraries/structures';
 
 export default function Search() {
 

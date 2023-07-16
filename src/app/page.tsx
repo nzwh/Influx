@@ -52,14 +52,10 @@ export default function Home() {
   };
 
   let user = {
-    user_name: 'Arkustore',
-    user_handle: '@arkustore',
-    user_icon: '/avatars/temp.jpg',
-
-    user_bio: '',
-    user_location: '',
-    user_MOD: '',
-    user_MOP: '',
+    first_name: 'Arkustore',
+    last_name: '',
+    handle: '@arkustore',
+    icon: '/avatars/temp.jpg',
   }
 
   return (

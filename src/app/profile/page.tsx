@@ -1,17 +1,15 @@
 "use client"
 
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import React, { useState, useEffect } from 'react';
 
 import PostTemplate from '@/src/app/components/template/PostTemplate';
 import ProfileEdit from '@/src/app/components/dialogs/UpdateProfilePopup';
 import Navbar from '@/src/app/components/navigators/TopbarNav';
 
 import { Post } from '@/libraries/structures';
-import { CreditCard, Map, MoveUpRight, Package, RotateCcw, Star } from 'lucide-react';
-import { User, Bookmark, Inbox, ShoppingBag, Settings, Sparkle, Truck, Moon, Megaphone, LayoutGrid } from 'lucide-react';
+import { Bookmark, CreditCard, Inbox, LayoutGrid, Map, Megaphone, Moon, MoveUpRight, Package, RotateCcw, Settings, ShoppingBag, Sparkle, Star, Truck, User } from 'lucide-react';
 
 export default function Profile() {
 

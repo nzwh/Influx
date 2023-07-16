@@ -1,10 +1,10 @@
 "use client"
 
-import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 import ExpandPost from '@/src/app/components/dialogs/ExpandPostPopup';
-import VoteMechanism from '../utilities/VoteMechanism';
+import VoteMechanism from '@/src/app/components/utilities/VoteMechanism';
 
 import { Post } from "@/libraries/structures";
 import { MessageCircle, MoreHorizontal, Trash, Share2, ShoppingBag } from 'lucide-react';
@@ -105,14 +105,14 @@ const PostTemplate: React.FC<PostProps> = ({ post, onDelete }) => {
 					<div className="flex flex-row items-center gap-2">
 						<Image className="rounded-full" src={post.origin.icon} alt="Shop Icon" width={16} height={16} />
 						<h6 className="text-gray-800 font-medium text-[0.65rem]">{post.origin.name}</h6>
-						<h6 className="text-gray-500 font-regular text-[0.65rem]">{post.origin.handle}</h6>
+						<h6 className="text-gray-500 font-regular text-[0.65rem]">{`@i/${post.origin.handle}`}</h6>
 					</div>
 					
 					<div className="flex flex-row items-center gap-2">
-						<Image className="rounded-full" src={post.owner.icon} alt="User Icon" width={36} height={36} />
+						<Image className="rounded-full" src={post.author.icon} alt="User Icon" width={36} height={36} />
 						<div className="flex flex-col justify-center">
-							<h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{`${post.owner.first_name} ${post.owner.last_name}`}</h6>
-							<h6 className="text-gray-500 font-regular text-[0.65rem] leading-4">{post.owner.handle}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
+							<h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{`${post.author.first_name} ${post.author.last_name}`}</h6>
+							<h6 className="text-gray-500 font-regular text-[0.65rem] leading-4">{`@${post.author.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
 						</div>
 					</div>
 					</div>
@@ -168,7 +168,7 @@ const PostTemplate: React.FC<PostProps> = ({ post, onDelete }) => {
 					</div>
 					<div className="flex flex-row gap-1 items-center">
 						<ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3} />  
-						<h6 className="text-gray-800 font-regular text-xs">{post.saves?.length} interested</h6>
+						<h6 className="text-gray-800 font-regular text-xs">{post.interests?.length} interested</h6>
 					</div>
 					<MoreHorizontal className="opacity-70" color="black" size={12} strokeWidth={3} /> 
 					</div>

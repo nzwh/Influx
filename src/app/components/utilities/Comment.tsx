@@ -1,9 +1,9 @@
 'use client';
 
+import React, { useState, useRef, useEffect } from "react";
 import Image from 'next/image';
-import React from "react";
-import { useState, useRef, useEffect } from "react";
-import Action from "./Action";
+
+import Action from "@/src/app/components/utilities/Action";
 import { ArrowDown, ArrowUp, Film, Paperclip, Reply, Send, Smile, Tag } from 'lucide-react';
 
 const Comment = ({ 
