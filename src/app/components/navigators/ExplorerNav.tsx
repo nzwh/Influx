@@ -16,11 +16,11 @@ const ExplorerNav: React.FC<WrapperProps> = ({ user, wrapperClass }) => {
     <Link href="/profile" className="flex flex-row items-center gap-2">
       <Image className="rounded-full" src={user.icon} alt="User Icon" width={36} height={36} />
       <div className="flex flex-col justify-center">
-        <div className="flex flex-row items-center gap-0.5 h-[0.9rem]">
+        <div className="flex flex-row items-center gap-0.5 h-[1rem]">
           <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{`${user.first_name} ${user.last_name}`}</h6>
           <Image src="/root/verified.svg" width={20} height={20} alt="Verified" />
         </div>
-        <h6 className="text-gray-500 font-regular text-xs leading-4">{user.handle}</h6>
+        <h6 className="text-gray-500 font-regular text-xs leading-4">{`@${user.handle}`}</h6>
       </div>
     </Link>
 
