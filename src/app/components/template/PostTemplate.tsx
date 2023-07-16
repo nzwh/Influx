@@ -21,7 +21,7 @@ const PostTemplate: React.FC<PostProps> = ({ post, onDelete }) => {
   useEffect(() => {
     const fetchPosts = () => {
       try {
-        const existingPosts: Post[] = require('@/posts.json');
+        const existingPosts: Post[] = require('@/json/posts.json');
         setPosts(existingPosts);
       } catch (error) {
         console.log('Error reading posts:', error);
@@ -123,7 +123,7 @@ const PostTemplate: React.FC<PostProps> = ({ post, onDelete }) => {
 							<h6 className="text-white font-semibold tracking-wider text-[0.5rem] leading-3">{post.open ? "NEGOTIABLE" : "FIXED"}</h6>
 						</div>
 						<h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">{convertToMonetary(post.price)}</h1>
-            <Trash color="black" size={12} className="cursor-pointer" onClick={() => handlePostDelete(post.id)} />
+            <MoreHorizontal color="black" size={12} className="cursor-pointer" onClick={() => handlePostDelete(post.id)} />
 					</div>
 					</div>
 				</div>

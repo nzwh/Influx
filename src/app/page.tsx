@@ -19,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = () => {
       try {
-        const existingPosts: PostInterface[] = require('@/posts.json');
+        const existingPosts: PostInterface[] = require('@/json/posts.json');
         setPosts(existingPosts);
       } catch (error) {
         console.log('Error reading posts:', error);
@@ -40,7 +40,7 @@ export default function Home() {
   };
 
   const handleAddPost = (post: PostInterface) => {
-    let existingPosts: PostInterface[] = require('@/posts.json');
+    let existingPosts: PostInterface[] = require('@/json/posts.json');
     let updatedPosts: PostInterface[] = [post, ...existingPosts];
     existingPosts.unshift(post);
     setPosts(updatedPosts);
@@ -51,12 +51,7 @@ export default function Home() {
     setPosts(newPosts);
   };
 
-  let user = {
-    first_name: 'Arkustore',
-    last_name: '',
-    handle: '@arkustore',
-    icon: '/avatars/temp.jpg',
-  }
+  let user = require('@/json/active.json');
 
   return (
     <main>
@@ -69,7 +64,9 @@ export default function Home() {
 
         <div className="flex flex-row gap-2 justify-center w-full">
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            <div onClick={handleCreatePostPopupOpen}><NewPost /></div>
+            <div onClick={handleCreatePostPopupOpen}>
+              <NewPost />
+            </div>
             {isCreatePostPopupOpen && ( 
               <CreatePostPopup onClose={handleCreatePostPopupClose} onAddPost={handleAddPost} />
             )}
@@ -91,7 +88,6 @@ export default function Home() {
 
         <div id="quick" className="h-full w-40 min-w-[10rem] gap-4 flex flex-col fixed right-[12%] ex-br"></div>
         <div className="w-40 min-w-[10rem] ex-br"></div>
-
       </section>
     </main>
   )

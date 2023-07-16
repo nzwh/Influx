@@ -19,7 +19,7 @@ export default function Profile() {
     useEffect(() => {
       const fetchPosts = () => {
         try {
-          const existingPosts: Post[] = require('@/posts.json');
+          const existingPosts: Post[] = require('@/json/posts.json');
           setPosts(existingPosts);
         } catch (error) {
           console.log('Error reading posts:', error);
