@@ -7,7 +7,7 @@ interface Props {
 
 const ListingsPanel: React.FC<Props> = ({ handle }) => {
   return (
-    <section id="listings" className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4">
+    <section id="listings" className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4 filter drop-shadow-2xl">
       <div className="flex flex-row gap-4 items-center">
       <h6 className="text-gray-800 font-regular text-xs leading-4">Listings by @{handle}</h6>
       <h6 className="text-gray-800 font-regular text-xs leading-4">View all</h6>

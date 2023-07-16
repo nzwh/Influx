@@ -7,6 +7,9 @@ import Link from 'next/link'
 
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash } from 'lucide-react';
 
+import CreatePostPopup from '@/src/app/components/dialogs/CreatePostPopup';
+import NewPost from '@/src/app/components/panels/NewPostPanel';
+
 const TopbarNav: React.FC = () => {
 
   const [ query, setQuery ] = useState('');
@@ -16,6 +19,18 @@ const TopbarNav: React.FC = () => {
     if (e.key === 'Enter') {
       router.push(`/search?q=${query}`);
     }
+  };
+
+  const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
+  
+  const handleCreatePostPopupOpen = () => {
+    setIsCreatePostPopupOpen(true);
+  };
+  const handleCreatePostPopupClose = () => {
+    setIsCreatePostPopupOpen(false);
+  };
+
+  const handleAddPost = () => {
   };
 
   return (
@@ -33,11 +48,14 @@ const TopbarNav: React.FC = () => {
         </div>
       </section>
       <section className="flex flex-row items-center gap-2">
-        <Link href="/" className="bg-gray-200 text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 
+        <div onClick={handleCreatePostPopupOpen} className="bg-gray-200 text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 
           // rounded-full cursor-pointer // hover:bg-slate-900 hover:text-violet-300 transition-colors duration-100">
           <Plus size={12} strokeWidth={3} />
           <h6 className="text-xs font-regular leading-3">New</h6>
-        </Link>
+        </div>
+        {isCreatePostPopupOpen && ( 
+              <CreatePostPopup onClose={handleCreatePostPopupClose} onAddPost={handleAddPost} />
+        )}
         <Link href="/" className="bg-gray-200 text-gray-600 // h-6 py-1 px-1.5 // flex items-center // rounded-full cursor-pointer
           // hover:bg-gray-300 transition-colors duration-100">
           <Inbox size={14} strokeWidth={3}/>

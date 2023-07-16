@@ -8,7 +8,7 @@ interface Props {
 
 const PanelTemplate: React.FC<Props> = ({ title, children }) => {
   return (
-    <aside id="explore" className="bg-white flex flex-col w-full rounded-sm p-4 gap-4">
+    <aside id="explore" className="bg-white flex flex-col w-full rounded-sm p-4 gap-4 filter drop-shadow-2xl">
 
 		{ title && (
 		<div className="flex flex-row justify-between items-center">

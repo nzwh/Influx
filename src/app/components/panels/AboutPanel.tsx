@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const AboutPanel: React.FC = () => {
   return (
-    <aside className="bg-white flex flex-col w-full rounded-sm p-4">
+    <aside className="bg-white flex flex-col w-full rounded-sm p-4 filter drop-shadow-2xl">
 			<h6 className="text-gray-800 font-regular text-xs">
 				<Link href="/about" className="hover:underline">About</Link> •&nbsp;
 				<Link href="/terms" className="hover:underline">Terms</Link> •&nbsp;
