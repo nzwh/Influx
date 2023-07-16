@@ -10,7 +10,7 @@ import Post from '@/src/app/components/template/PostTemplate';
 import Panel from '@/src/app/components/template/PanelTemplate';
 import NewPost from '@/src/app/components/panels/NewPostPanel';
 import About from '@/src/app/components/panels/AboutPanel';
-import Background from './components/panels/BackgroundPanel';
+import Background from '@/src/app/components/panels/BackgroundPanel';
 
 import { Post as PostInterface } from '@/libraries/structures';
 
