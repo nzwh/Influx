@@ -1,0 +1,20 @@
+{
+    "id": 1,
+    "handle": "arkustore",
+    "email_address": "hq@arkustore.com",
+    
+    "icon": "/avatars/temp.jpg",
+    "first_name": "Arkustore",
+    "last_name": "",
+
+    "phone_number": "09090909090",
+    "location": "1234, Somewhere, Anywhere",
+    "biography": "All items on hand.",
+
+    "payment_method": ["Credit Card", "Paypal"],
+    "delivery_method": ["Meetup", "Shipping"],
+
+    "bookmarks": [],
+    "shopping_cart": [],
+    "posts": []
+}

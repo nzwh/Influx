@@ -1,7 +1,7 @@
-import { X } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 import AutosizeTextarea from '@/src/app/components/utilities/AutosizeTextarea';
+import { X } from 'lucide-react';
 
 interface Props {
   onClose: () => void;

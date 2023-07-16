@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation'
-import { PostInterface } from '@/libraries/interfaces';
 
 import Navbar from '@/src/app/components/navigators/TopbarNav';
 import PostTemplate from '@/src/app/components/template/PostTemplate';
+
+import { Post as PostInterface } from '@/libraries/structures';
 
 export default function Search() {
 
@@ -24,6 +25,11 @@ export default function Search() {
     fetchPosts();
   }, []);
 
+  const handlePostDelete = (postId: number) => {
+    const newPosts = posts.filter((post) => post.id !== postId);
+    setPosts(newPosts);
+  };
+
   let query : any = useSearchParams().get('q') || "";
 
   return (
@@ -39,10 +45,10 @@ export default function Search() {
 
         <ul className="flex flex-col gap-2 h-full w-[32rem]">
           {posts
-            .filter((post) => post.header.includes(query) || post.description.includes(query))
+            .filter((post) => post.title.includes(query) || post.description.includes(query))
             .map((post, index) => (
             <li key={index}>
-              <PostTemplate key={index} {...post} />
+              <PostTemplate key={index} post={post} onDelete={handlePostDelete} />
             </li>
           ))}
         </ul>
