@@ -5,21 +5,22 @@ interface Post {
 
     type: string;
     posted_at: Date;
-    price: number;
+    price?: number;
 
     title: string;
-    description: string;
-    condition: string;
-    tags: string[];
-    media: string[];
+    description?: string;
+    condition?: string;
+    tags?: string[];
+    media?: string[];
 
     edited: boolean;
     edited_at: Date;
 
-    upvotes?: number[];
-    downvotes?: number[];
-    shares?: number[];
-    interests?: number[];
+    upvotes?: string[];
+    downvotes?: string[];
+    shares?: number;
+    interests?: string[];
+    bookmarks?: string[];
     comments?: number[];
 
     open?: boolean;
@@ -27,7 +28,7 @@ interface Post {
 }
 
 interface User {
-    id: number;
+    id: string;
     handle: string;
     email_address: string;
 
@@ -39,12 +40,8 @@ interface User {
     location: string;
     biography: string;
 
-    payment_method: string[];
-    delivery_method: string[];
-    
-    bookmarks: number[];
-    shopping_cart: number[];
-    posts: number[];
+    payment_methods: string[];
+    delivery_methods: string[];
 }
 
 interface Community {
