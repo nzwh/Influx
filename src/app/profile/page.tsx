@@ -16,8 +16,6 @@ import ListingsPanel from '@/src/app/components/panels/ListingsPanel';
 import PostTemplate from '@/src/app/components/template/PostTemplate';
 import ProfileEdit from '@/src/app/components/dialogs/UpdateProfilePopup';
 
-
-
 import { Post as PostInterface } from '@/libraries/structures';
 import { Bookmark, CreditCard, Inbox, LayoutGrid, Map, Megaphone, Moon, MoveUpRight, Package, RotateCcw, Settings, ShoppingBag, Sparkle, Star, Truck, User } from 'lucide-react';
 
