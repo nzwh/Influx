@@ -8,12 +8,12 @@ import useNode from "@/src/app/hooks/useNode";
 import VoteMechanism from "@/src/app/components/utilities/VoteMechanism";
 import Action from "@/src/app/components/utilities/Action";
 
-import { Post } from "@/libraries/structures";
+import { Post as PostInterface } from "@/libraries/structures";
 import { ChevronRight, MessageSquare, Share2, ShoppingBag, Sparkles, X } from 'lucide-react';
 
 interface Props {
   onClose: () => void;
-  post: Post;
+  post: PostInterface;
 }
 
 const comments = {
@@ -22,8 +22,8 @@ const comments = {
 };
 
 const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
-  const [commentsData, setCommentsData] = useState(comments);
 
+  const [commentsData, setCommentsData] = useState(comments);
   const { insertNode, editNode, deleteNode } = useNode();
 
   const handleInsertNode = (folderId: any, item: any) => {
@@ -59,7 +59,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
 
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
-      <div className="flex flex-row gap-2 h-[72%]">
+      <div className="flex flex-row gap-2 h-[72%] z-50">
 
         {post.media.length > 0 && (
           <Image className="h-full w-auto bg-white rounded-sm" src={post.media[0]} alt="Images" width={0} height={0} sizes="100%" />
