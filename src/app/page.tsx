@@ -64,7 +64,7 @@ export default function Home() {
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             <NewPost onPostRecieve={handleAddPost}/>
-            <ul className="flex flex-col gap-2 h-full w-[32rem] z-[50]">
+            <ul className="flex flex-col gap-2 h-full w-[32rem]">
               {posts.map((post, index) => (
                 <li key={index}>
                   <Post key={index} post={post} onDelete={handlePostDelete} />
