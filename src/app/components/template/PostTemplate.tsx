@@ -114,7 +114,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
           <div className="bg-gray-800 rounded-full px-2 py-0.5">
             <h6 className="text-white font-semibold tracking-wider text-[0.5rem] leading-3">{post.open ? "NEGOTIABLE" : "FIXED"}</h6>
           </div>
-          <h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">{convertToMonetary(post.price)}</h1>
+          <h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">{convertToMonetary(post.price || 0)}</h1>
           <MoreHorizontal color="black" size={12} className="cursor-pointer" onClick={() => handlePostDelete(post.id)} />
         </div>
         </div>
@@ -134,18 +134,18 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
         <ExpandPostPopup post={selectedPost!} onClose={handleExpandPostClose} />
       )}
 
-      {(post.tags.length === 0) ? <></> : 
+      {(post.tags?.length === 0) ? <></> : 
         <div className="flex flex-row gap-2 items-start w-full">
           <div className="flex flex-wrap gap-1">
-            {post.tags.map((tag) => (
+            {post.tags?.map((tag) => (
               <span className="text-gray-600 font-light	 text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-[0.2rem] tracking-normal block"># {tag}</span>
             ))}
           </div>
         </div>
       }
       
-      {(post.media.length == 0) ? <></> :
-        <Image className="w-full h-full rounded-sm cursor-pointer" src={post.media[0]} alt="Media" width={0} height={0} sizes="100vw" onClick={() => {
+      {(post.media?.length == 0) ? <></> :
+        <Image className="w-full h-full rounded-sm cursor-pointer" src={post.media![0]} alt="Media" width={0} height={0} sizes="100vw" onClick={() => {
           handleExpandPostOpen(post);
         }} />
       }
@@ -156,7 +156,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
 
         <div className="flex flex-row gap-1 items-center">
           <Share2 className="opacity-70" color="black" size={12} strokeWidth={3} /> 
-          <h6 className="text-gray-800 font-regular text-xs">{post.shares?.length} shares</h6>
+          <h6 className="text-gray-800 font-regular text-xs">{post.shares} shares</h6>
         </div>
         <div className="flex flex-row gap-1 items-center">
           <ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3} />  
