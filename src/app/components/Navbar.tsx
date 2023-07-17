@@ -67,9 +67,8 @@ const Navbar: React.FC = () => {
         </Link>
 
         <div onClick={handleToggleDropDown}>
-          <Image className="rounded-full ml-2" src="/avatars/temp.jpg" alt="Profile" width={24} height={24} />
+          <Image className="cursor-pointer rounded-full ml-2" src="/avatars/temp.jpg" alt="Profile" width={24} height={24} />
         </div>
-
         {isDropDownOpen && <Dropdown></Dropdown>}
       </section>
     </nav>
