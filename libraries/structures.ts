@@ -61,8 +61,8 @@ interface Community {
 }
 
 interface Range {
-    start: Date;
-    end: Date;
+    start: number;
+    end: number;
 }
 
 export type {
