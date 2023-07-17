@@ -57,15 +57,15 @@ model User {
 
 model Profile {
   id               BigInt   @id @default(autoincrement())
+  User             User?    @relation(fields: [user_id], references: [id])
+  user_id          String
   icon             String?
   first_name       String
   last_name        String
   location         String
-  description      String?
+  biography        String?
   delivery_methods String[]
   payment_methods  String[]
-  User             User?    @relation(fields: [user_id], references: [id])
-  user_id          String
 
   @@schema("public")
   @@map("profiles")
@@ -73,24 +73,27 @@ model Profile {
 
 model Post {
   id          BigInt    @id @default(autoincrement())
-  created_at  DateTime
+  User        User?     @relation(fields: [user_id], references: [id])
+  user_id     String
+  type        String
+  posted_at   DateTime
+  price       Float?    @default(0.00)
   title       String
-  price       Float     @default(0.00)
-  condition   String
   description String?
-  media       String[]
+  condition   String?
   tags        String[]
-  negotiable  Boolean   @default(false)
+  media       String[]
   edited      Boolean   @default(false)
   edited_at   DateTime?
   upvotes     String[]
   downvotes   String[]
   shares      BigInt    @default(0)
-  interested  String[]
+  interests   String[]
   bookmarks   String[]
   comments    Json?
-  User        User?     @relation(fields: [user_id], references: [id])
-  user_id     String
+  open        Boolean?  @default(false)
+  range_start Float?    @default(0.00)
+  range_end   Float?    @default(0.00)
 
   @@schema("public")
   @@map("posts")
