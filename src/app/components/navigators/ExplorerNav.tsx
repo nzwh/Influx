@@ -50,11 +50,11 @@ const ExplorerNav: React.FC<WrapperProps> = ({ user, wrapperClass }) => {
         <Settings size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Settings</h6>
       </Link>
-      <hr />
+      {/* <hr />
       <li className="flex flex-row items-center gap-2 text-gray-700">
         <LayoutGrid size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">More</h6>
-      </li>
+      </li> */}
     </ul>
   </section>
   );
