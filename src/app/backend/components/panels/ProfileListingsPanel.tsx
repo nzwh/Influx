@@ -1,11 +1,12 @@
 import React from 'react';
+
 import { RotateCcw, Star } from 'lucide-react';
 
 interface Props {
   handle: string;
 }
 
-const ListingsPanel: React.FC<Props> = ({ handle }) => {
+const ProfileListings: React.FC<Props> = ({ handle }) => {
   return (
     <section id="listings" className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4 filter drop-shadow-2xl">
       <div className="flex flex-row gap-4 items-center">
@@ -33,4 +34,4 @@ const ListingsPanel: React.FC<Props> = ({ handle }) => {
   );
 };
 
-export default ListingsPanel;
+export default ProfileListings;

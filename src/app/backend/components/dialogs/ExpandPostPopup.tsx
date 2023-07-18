@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Image from 'next/image';
 
-import Comment from "@/src/app/components/utilities/Comment";
-import useNode from "@/src/app/hooks/useNode";
-import VoteMechanism from "@/src/app/components/utilities/VoteMechanism";
-import Action from "@/src/app/components/utilities/Action";
+import Comment from "@/src/app/backend/components/utilities/Comment";
+import useNode from "@/src/app/backend/hooks/useNode";
+import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
+import Action from "@/src/app/backend/components/utilities/Action";
 
 import { Post as PostInterface } from "@/libraries/structures";
 import { ChevronRight, MessageSquare, Share2, ShoppingBag, Sparkles, X } from 'lucide-react';
@@ -57,11 +57,13 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
     return formatter.format(value);
   };
 
+  
+
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
       <div className="flex flex-row gap-2 h-[72%] z-50">
 
-        {post.media.length > 0 && (
+        {post.media && post.media.length > 0 && (
           <Image className="h-full w-auto bg-white rounded-sm" src={post.media[0]} alt="Images" width={0} height={0} sizes="100%" />
         )}
               
@@ -77,7 +79,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
             </div>
 
             <div className="flex flex-row gap-2 items-start">
-              <h1 className="text-gray-800 font-regular text-3xl tracking-tight">{convertToMonetary(post!.price)}</h1>
+              <h1 className="text-gray-800 font-regular text-3xl tracking-tight">{convertToMonetary(post.price || 0)}</h1>
               <div className=" bg-slate-700 rounded-full px-2 mt-[0.4rem] py-0.5">
                 <h6 className="text-white font-medium text-[0.5rem]">{post.open ? "NEGOTIABLE" : "FIXED"}</h6>
               </div>

@@ -7,8 +7,8 @@ import Link from 'next/link'
 
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash } from 'lucide-react';
 
-import CreatePostPopup from '@/src/app/components/dialogs/CreatePostPopup';
-import NewPost from '@/src/app/components/panels/NewPostPanel';
+import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
+import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
 
 const TopbarNav: React.FC = () => {
 
@@ -54,7 +54,7 @@ const TopbarNav: React.FC = () => {
           <h6 className="text-xs font-regular leading-3">New</h6>
         </div>
         {isCreatePostPopupOpen && ( 
-              <CreatePostPopup onClose={handleCreatePostPopupClose} onAddPost={handleAddPost} />
+          <CreatePostPopup onClose={handleCreatePostPopupClose} onAddPost={handleAddPost} />
         )}
         <Link href="/" className="bg-gray-200 text-gray-600 // h-6 py-1 px-1.5 // flex items-center // rounded-full cursor-pointer
           // hover:bg-gray-300 transition-colors duration-100">

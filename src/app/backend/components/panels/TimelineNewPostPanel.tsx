@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-import CreatePostPopup from '@/src/app/components/dialogs/CreatePostPopup';
+import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import { Post as PostInterface } from '@/libraries/structures';
 import { Glasses, Megaphone, Tag } from 'lucide-react';
 
@@ -9,7 +9,7 @@ interface Props {
 	onPostRecieve: (post: PostInterface) => void;
 }
 
-const NewPostPanel: React.FC<Props> = ({ onPostRecieve }) => {
+const TimelineNewPost: React.FC<Props> = ({ onPostRecieve }) => {
 
 	const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
   
@@ -54,4 +54,4 @@ const NewPostPanel: React.FC<Props> = ({ onPostRecieve }) => {
   );
 };
 
-export default NewPostPanel;
+export default TimelineNewPost;

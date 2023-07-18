@@ -1,11 +1,7 @@
 import React, { useState, useRef } from 'react';
 
-import AutosizeTextarea from '@/src/app/components/utilities/AutosizeTextarea';
-import { 
-  Post      as PostInterface, 
-  Community as CommunityInterface,
-} from '@/libraries/structures';
-import user from '@/json/active.json';
+import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
+import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
 
 import { X } from 'lucide-react';
 
@@ -15,6 +11,8 @@ interface Props {
 }
 
 const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
+
+  const user = require('@/json/active.json');
 
   const [formData, setFormData] = useState<PostInterface>({
     id: 0,
@@ -28,7 +26,19 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
       posts: [],
       users: []
     },
-    author: user,
+    author: {
+      id: '',
+      handle: '',
+      email_address: '',
+      icon: '',
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      location: '',
+      biography: '',
+      payment_methods: [],
+      delivery_methods: []
+    },
 
     type: '',
     posted_at: new Date(),
@@ -45,7 +55,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
 
     upvotes: [],
     downvotes: [],
-    shares: [],
+    shares: 0,
     interests: [],
     comments: [],
 

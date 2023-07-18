@@ -2,23 +2,23 @@
 
 import React, { useState, useEffect } from 'react';
 
-import supabase from '@/src/app/supabase';
+import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
+import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
-import TopbarNav from '@/src/app/components/navigators/TopbarNav';
-import ExplorerNav from '@/src/app/components/navigators/ExplorerNav';
+import Post from '@/src/app/backend/components/template/PostTemplate';
+import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import About from '@/src/app/backend/components/panels/AboutPanel';
+import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
-import Post from '@/src/app/components/template/PostTemplate';
-import Panel from '@/src/app/components/template/PanelTemplate';
-import NewPost from '@/src/app/components/panels/NewPostPanel';
-import About from '@/src/app/components/panels/AboutPanel';
-import Background from '@/src/app/components/panels/BackgroundPanel';
-
+import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
 import { Post as PostInterface } from '@/libraries/structures';
+
+import supabase from '@/src/app/backend/supabase';
 
 export default function Home() {
 
-  const [posts, setPosts] = useState<PostInterface[]>([]);
   let user = require('@/json/active.json'); // TODO: Load user info dynamically through auth
+  const [posts, setPosts] = useState<PostInterface[]>([]);
 
   // Renders existing posts on page load.
   // TODO: Load from database
@@ -46,7 +46,9 @@ export default function Home() {
       if (error) {
         throw error;
       }
-      setPosts((prevPosts) => [data[0], ...prevPosts]);
+      if (data) {
+        setPosts((prevPosts) => [data[0], ...prevPosts]);
+      }
     } catch (error) {
       console.log('Error adding post:', error);
     }
@@ -73,7 +75,7 @@ export default function Home() {
 
       {/* Templates */}
       <Background />
-      <TopbarNav />
+      <TopbarNav /> { /*// TODO: Add Create Post hook */ }
       
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
 
@@ -97,11 +99,12 @@ export default function Home() {
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
+
             <Panel title="Explore" />
             <Panel title="Communities" />
             <About />
-          </div>
 
+          </div>
         </div>
         
         {/* Quick Access & Padder */}

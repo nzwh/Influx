@@ -8,7 +8,7 @@ interface Post {
     price?: number;
 
     title: string;
-    description?: string;
+    description: string;
     condition?: string;
     tags?: string[];
     media?: string[];
