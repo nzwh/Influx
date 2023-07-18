@@ -91,7 +91,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
   post.tags ? post.tags.sort(function(a, b){return b.length - a.length}) : null;
 
 	return (
-    <article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible z-50 shadow-2xl">
+    <article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible z-50 shadow-xl hover:shadow-2xl transition-shadow duration-400">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-3">
         <div className="flex flex-row items-center gap-2">
