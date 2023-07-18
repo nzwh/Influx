@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-import ExpandPostPopup from '@/src/app/components/dialogs/ExpandPostPopup';
-import VoteMechanism from '@/src/app/components/utilities/VoteMechanism';
+import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
+import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
 
 import { Post as PostInterface } from "@/libraries/structures";
 import { MessageCircle, MoreHorizontal, Trash, Share2, ShoppingBag } from 'lucide-react';

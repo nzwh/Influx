@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Image from 'next/image';
 
-import Comment from "@/src/app/components/utilities/Comment";
-import useNode from "@/src/app/hooks/useNode";
-import VoteMechanism from "@/src/app/components/utilities/VoteMechanism";
-import Action from "@/src/app/components/utilities/Action";
+import Comment from "@/src/app/backend/components/utilities/Comment";
+import useNode from "@/src/app/backend/hooks/useNode";
+import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
+import Action from "@/src/app/backend/components/utilities/Action";
 
 import { Post as PostInterface } from "@/libraries/structures";
 import { ChevronRight, MessageSquare, Share2, ShoppingBag, Sparkles, X } from 'lucide-react';
@@ -56,6 +56,8 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
     });
     return formatter.format(value);
   };
+
+  
 
   return (
     <main className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 

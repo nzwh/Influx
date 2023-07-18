@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
-import LandingNav from '@/src/app/components/navigators/LandingNav';
+import LandingNav from '@/src/app/backend/components/navigators/LandingNav';
 
 export default function Register() {
   return (
