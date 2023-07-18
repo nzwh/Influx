@@ -2,25 +2,26 @@
 
 import React, { useState, useEffect } from 'react';
 
-import supabase from '@/src/app/supabase';
+import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
+import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
-import TopbarNav from '@/src/app/components/navigators/TopbarNav';
-import ExplorerNav from '@/src/app/components/navigators/ExplorerNav';
+import Post from '@/src/app/backend/components/template/PostTemplate';
+import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import About from '@/src/app/backend/components/panels/AboutPanel';
+import Background from '@/src/app/backend/components/panels/BackgroundPanel';
+import Listings from '@/src/app/backend/components/panels/ProfileListingsPanel';
 
-import Post from '@/src/app/components/template/PostTemplate';
-import Panel from '@/src/app/components/template/PanelTemplate';
-import NewPost from '@/src/app/components/panels/NewPostPanel';
-import About from '@/src/app/components/panels/AboutPanel';
-import Background from '@/src/app/components/panels/BackgroundPanel';
-
+import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
 import { Post as PostInterface, 
          Community as CommunityInterface, 
          User as UserInterface } from '@/libraries/structures';
 
+import supabase from '@/src/app/backend/supabase';
+
 export default function Home() {
 
-  const [posts, setPosts] = useState<PostInterface[]>([]);
   let user = require('@/json/active.json'); // TODO: Load user info dynamically through auth
+  const [posts, setPosts] = useState<PostInterface[]>([]);
 
   // Renders existing posts on page load.
   useEffect(() => {
@@ -119,7 +120,9 @@ export default function Home() {
       if (error) {
         throw error;
       }
-      setPosts((prevPosts) => [data[0], ...prevPosts]);
+      if (data) {
+        setPosts((prevPosts) => [data[0], ...prevPosts]);
+      }
     } catch (error) {
       console.log('Error adding post:', error);
     }*/
@@ -141,12 +144,29 @@ export default function Home() {
     }
   };
 
+  const Content = (props: any) => {
+    return (
+      (posts && posts.length) ?
+      <span>
+      <Listings handle={props.user.handle}/>
+      <ul className="flex flex-col gap-2 h-full w-[32rem]">
+        {posts.map((post, index) => (
+          <li key={index}>
+            <Post key={index} post={post} onDelete={handlePostDelete} />
+          </li>
+        ))}
+      </ul>
+      </span> :
+      <span className="z-0"><img src='/empty-illustration.png' className="mx-auto h-1/2"></img><p className='text-black text-center'>No Posts To Show</p></span>
+    )
+  } 
+
   return (
     <main>
 
       {/* Templates */}
       <Background />
-      <TopbarNav />
+      <TopbarNav /> { /*// TODO: Add Create Post hook */ }
       
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
 
@@ -160,23 +180,25 @@ export default function Home() {
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             <NewPost onPostRecieve={handleAddPost}/>
             {posts && (
-              <ul className="flex flex-col gap-2 h-full w-[32rem] z-[50]">
+              <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
                 {posts.map((post: PostInterface) => (
                   <li key={post.id}>
                     <Post post={post} onDelete={handlePostDelete} />
                   </li>
                 ))}
+              <Content user={user}/>
               </ul>
             )}
           </div>
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
+
             <Panel title="Explore" />
             <Panel title="Communities" />
             <About />
-          </div>
 
+          </div>
         </div>
         
         {/* Quick Access & Padder */}
