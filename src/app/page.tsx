@@ -21,29 +21,49 @@ export default function Home() {
   // Renders existing posts on page load.
   // TODO: Load from database
   useEffect(() => {
-    const fetchPosts = () => {
-      try {
-        const existingPosts: PostInterface[] = require('@/json/posts.json');
-        setPosts(existingPosts);
-      } catch (error) {
-        console.log('Error reading posts:', error);
-      }
-    };
     fetchPosts();
   }, []);
+  
+  const fetchPosts = async () => {
+    try {
+      const { data, error } = await supabase.from('posts').select('*');
+      if (error) {
+        throw error;
+      }
+      setPosts(data);
+    } catch (error) {
+      console.log('Error reading posts:', error);
+    }
+  };
 
   // Handles adding new posts to the top of the list.
   // TODO: Push to database
-  const handleAddPost = (post: PostInterface) => {
-    setPosts((prevPosts) => [post, ...prevPosts]);
+  const handleAddPost = async (post: PostInterface) => {
+    try {
+      const { data, error } = await supabase.from('posts').insert([post]);
+      if (error) {
+        throw error;
+      }
+      setPosts((prevPosts) => [data[0], ...prevPosts]);
+    } catch (error) {
+      console.log('Error adding post:', error);
+    }
   };
 
   // Handles removing a post from the list.
   // TODO: Relocate to popup
   // TODO: Push to database
-  const handlePostDelete = (postId: number) => {
-    const newPosts = posts.filter((post) => post.id !== postId);
-    setPosts(newPosts);
+  const handlePostDelete = async (postId: number) => {
+    try {
+      const { error } = await supabase.from('posts').delete().match({ id: postId });
+      if (error) {
+        throw error;
+      }
+      const newPosts = posts.filter((post) => post.id !== postId);
+      setPosts(newPosts);
+    } catch (error) {
+      console.log('Error deleting post:', error);
+    }
   };
 
   return (
@@ -64,10 +84,17 @@ export default function Home() {
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             <NewPost onPostRecieve={handleAddPost}/>
+<<<<<<< HEAD
             <ul className="flex flex-col gap-2 h-full w-[32rem]">
               {posts.map((post, index) => (
                 <li key={index}>
                   <Post key={index} post={post} onDelete={handlePostDelete} />
+=======
+            <ul className="flex flex-col gap-2 h-full w-[32rem] z-[50]">
+              {posts.map((post) => (
+                <li key={post.id}>
+                  <Post post={post} onDelete={handlePostDelete} />
+>>>>>>> 024fa287838c56b25b1c07585947942b5e2eb04b
                 </li>
               ))}
             </ul>
