@@ -13,6 +13,8 @@ import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
 import { Post as PostInterface } from '@/libraries/structures';
 
+import supabase from '@/src/app/backend/supabase';
+
 export default function Home() {
 
   let user = require('@/json/active.json'); // TODO: Load user info dynamically through auth
@@ -44,7 +46,9 @@ export default function Home() {
       if (error) {
         throw error;
       }
-      setPosts((prevPosts) => [data[0], ...prevPosts]);
+      if (data) {
+        setPosts((prevPosts) => [data[0], ...prevPosts]);
+      }
     } catch (error) {
       console.log('Error adding post:', error);
     }
@@ -84,17 +88,10 @@ export default function Home() {
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             <NewPost onPostRecieve={handleAddPost}/>
-<<<<<<< HEAD
-            <ul className="flex flex-col gap-2 h-full w-[32rem]">
-              {posts.map((post, index) => (
-                <li key={index}>
-                  <Post key={index} post={post} onDelete={handlePostDelete} />
-=======
             <ul className="flex flex-col gap-2 h-full w-[32rem] z-[50]">
               {posts.map((post) => (
                 <li key={post.id}>
                   <Post post={post} onDelete={handlePostDelete} />
->>>>>>> 024fa287838c56b25b1c07585947942b5e2eb04b
                 </li>
               ))}
             </ul>
