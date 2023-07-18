@@ -1,15 +1,24 @@
-import React from 'react';
+"use client"
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
+import RegisterCompletePopup from '../../components/dialogs/RegisterCompletePopup';
 
 export default function Register() {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowPopup(true);
+  };
+
   return (
     <main className="flex flex-col w-screen h-screen items-center justify-center">
     <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
     
     <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem] filter drop-shadow-2xl">
-        <div className="flex flex-col bg-[url('/backgrounds/login.png')] rounded-l-lg h-full aspect-square p-10 justify-between">
+        <div className="flex flex-col bg-[url('/root/login.png')] rounded-l-lg h-full aspect-square p-10 justify-between">
           <Italic className="opacity-70 text-violet-300" size={14} strokeWidth={3} />
           <div className="flex flex-col gap-4">
             <h6 className="text-white font-medium text-4xl leading-8 pr-20 tracking-tight">Find everything you need in one place.</h6>
@@ -22,8 +31,7 @@ export default function Register() {
         <div className="flex flex-col p-8 w-full justify-center">
           <h6 className="text-gray-800 font-medium text-2xl tracking-tight">Register an account</h6>
 
-          <form action="/">
-
+          <form>
             <div className="flex flex-row gap-4 w-full items-center pt-3">
               <div className="flex flex-col w-full">
               <label htmlFor="firstname" className="text-gray-800 font-regular text-xs leading-8">First name</label>
@@ -76,7 +84,7 @@ export default function Register() {
               </div>
             </div>
 
-            <button type="submit" className="my-6 w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
+            <button type="submit" className="my-6 w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2" onClick={handleButtonClick}>
               <h6 className="text-violet-300 font-light text-xs h-full cursor-pointer py-1.5">Continue with an Influx Account</h6>
             </button>
           </form>
@@ -85,8 +93,10 @@ export default function Register() {
             <Link href="/auth/login" className="text-gray-800 font-regular text-xs h-full cursor-pointer leading-2 hover:underline">Already have an account?&ensp;Log in here.</Link>
             <ChevronRight className="opacity-70" color="black" size={14} strokeWidth={3}/>
           </div>
+
         </div>
-      </div>
+      </div> 
+      {showPopup && <RegisterCompletePopup />}
     </main>
   )
 }
