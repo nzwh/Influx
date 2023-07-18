@@ -26,7 +26,7 @@ const LandingNav: React.FC = () => {
         </Link>
       </section>
       <section className="flex flex-row items-center gap-2">
-        <Link href="/auth/register" className="text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 
+        <Link href="/auth/login" className="text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 
           // rounded-full cursor-pointer">
           <h6 className="text-xs font-regular leading-3">Sign In</h6>
         </Link>
