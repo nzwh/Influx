@@ -9,6 +9,7 @@ import Post from '@/src/app/backend/components/template/PostTemplate';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import About from '@/src/app/backend/components/panels/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
+import Listings from '@/src/app/backend/components/panels/ProfileListingsPanel';
 
 import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
 import { Post as PostInterface } from '@/libraries/structures';
@@ -70,6 +71,23 @@ export default function Home() {
     }
   };
 
+  const Content = (props: any) => {
+    return (
+      (posts && posts.length) ?
+      <span>
+      <Listings handle={props.user.handle}/>
+      <ul className="flex flex-col gap-2 h-full w-[32rem]">
+        {posts.map((post, index) => (
+          <li key={index}>
+            <Post key={index} post={post} onDelete={handlePostDelete} />
+          </li>
+        ))}
+      </ul>
+      </span> :
+      <span className="z-0"><img src='/empty-illustration.png' className="mx-auto h-1/2"></img><p className='text-black text-center'>No Posts To Show</p></span>
+    )
+  } 
+
   return (
     <main>
 
@@ -88,12 +106,13 @@ export default function Home() {
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             <NewPost onPostRecieve={handleAddPost}/>
-            <ul className="flex flex-col gap-2 h-full w-[32rem] z-[50]">
+            <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
               {posts.map((post) => (
                 <li key={post.id}>
                   <Post post={post} onDelete={handlePostDelete} />
                 </li>
               ))}
+              <Content user={user}/>
             </ul>
           </div>
           

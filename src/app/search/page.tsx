@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
+import Listings from '@/src/app/backend/components/panels/ProfileListingsPanel';
 import Post from '@/src/app/backend/components/template/PostTemplate';
 import About from '@/src/app/backend/components/panels/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
@@ -39,6 +40,23 @@ export default function Search() {
     setPosts(newPosts);
   };
 
+  const Content = (props: any) => {
+    return (
+      (posts && posts.length) ?
+      <span>
+      <Listings handle={props.user.handle}/>
+      <ul className="flex flex-col gap-2 h-full w-[32rem]">
+        {posts.map((post, index) => (
+          <li key={index}>
+            <Post key={index} post={post} onDelete={handlePostDelete} />
+          </li>
+        ))}
+      </ul>
+      </span> :
+      <span className="z-0"><img src='/empty-illustration.png' className="mx-auto h-1/2"></img><p className='text-black text-center'>No Posts To Show</p></span>
+    )
+  } 
+
   let query : string = useSearchParams().get('q')?.toLowerCase() || "";
 
   return (
@@ -71,6 +89,7 @@ export default function Search() {
                   <Post key={index} post={post} onDelete={handlePostDelete} />
                 </li>
               ))}
+              <Content user={user}/>
             </ul>
           </div>
           
