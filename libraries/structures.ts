@@ -13,7 +13,7 @@ interface Post {
     tags?: string[];
     media?: string[];
 
-    edited: boolean;
+    is_edited: boolean;
     edited_at: Date;
 
     upvotes?: string[];
@@ -23,7 +23,7 @@ interface Post {
     bookmarks?: string[];
     comments?: number[];
 
-    open?: boolean;
+    is_open?: boolean;
     range?: Range;
 }
 
@@ -42,6 +42,8 @@ interface User {
 
     payment_methods: string[];
     delivery_methods: string[];
+
+    is_verified: boolean;
 }
 
 interface Community {
