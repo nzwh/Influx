@@ -75,7 +75,6 @@ export default function Home() {
     return (
       (posts && posts.length) ?
       <span>
-      <Listings handle={props.user.handle}/>
       <ul className="flex flex-col gap-2 h-full w-[32rem]">
         {posts.map((post, index) => (
           <li key={index}>
