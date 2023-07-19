@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
 
 import { X } from 'lucide-react';
+
+import supabase from '@/src/app/backend/supabase';
 
 interface Props {
   onClose: () => void;
@@ -17,7 +19,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
   const [formData, setFormData] = useState<PostInterface>({
     id: 0,
     origin: {
-      id: 0,
+      uuid: '',
       name: '',
       handle: '',
       description: '',
@@ -27,7 +29,8 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
       users: []
     },
     author: {
-      id: '',
+      id: 0,
+      uuid: '',
       handle: '',
       email_address: '',
       icon: '',
@@ -37,7 +40,8 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
       location: '',
       biography: '',
       payment_methods: [],
-      delivery_methods: []
+      delivery_methods: [],
+      is_verified:false
     },
 
     type: '',
@@ -50,7 +54,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
     tags: [],
     media: [],
 
-    edited: false,
+    is_edited: false,
     edited_at: new Date,
 
     upvotes: [],
@@ -59,7 +63,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
     interests: [],
     comments: [],
 
-    open: false,
+    is_open: false,
     range: {
       start: 0,
       end: 0
@@ -68,7 +72,27 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
   
   // Default values
   let conditions = require('@/json/conditions.json');
-  let communities = require('@/json/communities.json');
+  const [communities, setCommunities] = useState<CommunityInterface[]>([]);
+
+  useEffect(() => {
+    const fetchCommunities = async () => {
+      try {
+        console.log('Fetching communities...');
+        const { data, error } = await supabase.from('communities').select('*');
+  
+        if (error) {
+          throw error;
+        }
+  
+        setCommunities(data);
+        console.log(data.length > 0 ? `Fetched ${data.length} communities.` : `'Nocommunities found.'`)
+      } catch (error) {
+        console.log('Error fetching communities:', error);
+      }
+    };
+  
+    fetchCommunities();
+  }, []);
 
   // InputListener
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -86,10 +110,19 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
   // CommunitySelectListener
   const handleCommunitySelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = communities.find((com : CommunityInterface) => com.name === event.target.value);
-    setFormData({ ...formData, 
-      [event.target.name]: event.target.value,
-      origin: selected
-    });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      origin: {
+        uuid: selected?.uuid || '',
+        name: selected?.name || '',
+        handle: selected?.handle || '',
+        description: selected?.description || '',
+        icon: selected?.icon || '',
+        banner: selected?.banner || '',
+        posts: selected?.posts || [],
+        users: selected?.users || [],
+      },
+    }));
   };
 
   // SubmitListener
@@ -142,7 +175,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
           <select name="name" value={formData.origin.name} className="-full text-gray-800 text-xs px-2 py-[0.4rem] bg-gray-100 rounded-sm font-regular" onChange={handleCommunitySelectChange} required>
             <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" value="" disabled selected>Choose Community</option>
             {communities.map((com: CommunityInterface, index: React.Key | null | undefined) => (
-              <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" key={index} value={com.name}>
+              <option className="w-full text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-sm" key={com.uuid} value={com.name}>
                 {com.name}
               </option>
             ))}

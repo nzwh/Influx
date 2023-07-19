@@ -60,7 +60,7 @@ export default function Home() {
             },
           }));
 
-          const authorIds = formattedData.map((post) => post.author.uuid); // TODO: Read User data from database
+          const authorIds = formattedData.map((post) => post.author.uuid);
           const { data: profiles, error: profilesError } = await supabase
             .from('profiles')
             .select('*')
@@ -83,7 +83,7 @@ export default function Home() {
           console.log(data.length > 0 ? `Fetched ${data.length} posts.` : `'No posts found.'`)
         }
       } catch (error) {
-        console.log('Error reading posts:', error);
+        console.log('Error fetching posts:', error);
       }
     };
 
