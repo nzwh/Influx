@@ -43,27 +43,6 @@ export default function Profile() {
     setPosts(newPosts);
   };
 
-  const Content = (props: any) => {
-    return (
-      <span className="z-0">
-        <Listings handle={props.user.handle}/>
-      {(posts && posts.length) ?
-      <ul className="flex flex-col gap-2 h-full w-[32rem]">
-        {posts.map((post, index) => (
-          <li key={index}>
-            <Post key={index} post={post} onDelete={handlePostDelete} />
-          </li>
-        ))}
-      </ul>
-         :
-       <span>
-        <img src='/empty-illustration.png' className="mx-auto h-1/2"></img><p className='text-black text-center'>No Posts To Show</p>
-      </span>
-        }
-      </span>
-    )
-  }
-
   return (
     <main>
 
@@ -80,8 +59,23 @@ export default function Profile() {
         <div className="flex flex-row gap-2 justify-center w-full ">
 
           {/* New Post & Post Loader */}
-          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            <Content user={user}/>
+          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
+            <Listings handle={user.handle}/>
+            {posts && (
+              <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
+                {posts.map((post: PostInterface) => (
+                  <li key={post.id}>
+                    <Post post={post} onDelete={handlePostDelete} />
+                  </li>
+                ))}
+              </ul>
+            )}
+            {posts.length == 0 && (
+              <span className="flex flex-col items-center justify-center z-0">
+                <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
+                <p className='text-gray-700 text-sm'>No posts to show</p>
+              </span>
+            )}
           </div>
           
           {/* Panels */}

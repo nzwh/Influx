@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation'
+import Image from 'next/image';
 
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
@@ -40,23 +41,6 @@ export default function Search() {
     setPosts(newPosts);
   };
 
-  const Content = (props: any) => {
-    return (
-      (posts && posts.length) ?
-      <span>
-      <Listings handle={props.user.handle}/>
-      <ul className="flex flex-col gap-2 h-full w-[32rem]">
-        {posts.map((post, index) => (
-          <li key={index}>
-            <Post key={index} post={post} onDelete={handlePostDelete} />
-          </li>
-        ))}
-      </ul>
-      </span> :
-      <span className="z-0"><img src='/empty-illustration.png' className="mx-auto h-1/2"></img><p className='text-black text-center'>No Posts To Show</p></span>
-    )
-  } 
-
   let query : string = useSearchParams().get('q')?.toLowerCase() || "";
 
   return (
@@ -75,7 +59,7 @@ export default function Search() {
         <div className="flex flex-row gap-2 justify-center w-full ">
 
           {/* New Post & Post Loader */}
-          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
+          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
             
             <section id="listings" className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4">
               <h6 className="text-gray-800 font-regular text-xs leading-4">Showing results for "{query}".</h6>
@@ -89,7 +73,12 @@ export default function Search() {
                   <Post key={index} post={post} onDelete={handlePostDelete} />
                 </li>
               ))}
-              <Content user={user}/>
+              {posts.length == 0 && (
+                <span className="flex flex-col items-center justify-center z-0">
+                  <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
+                  <p className='text-gray-700 text-sm'>No posts to show</p>
+                </span>
+              )}
             </ul>
           </div>
           
