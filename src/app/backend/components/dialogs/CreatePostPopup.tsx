@@ -12,7 +12,7 @@ interface Props {
   onSubmit: (post: any) => void;
 }
 
-const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
+const CreatePostPopup: React.FC<Props> = ({ onClose }) => {
 
   const user = require('@/json/active.json');
 
@@ -25,10 +25,8 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
       description: '',
       icon: '',
       banner: '',
-      posts: [],
-      users: []
     },
-    author: {
+    /*author: {
       id: 0,
       uuid: '',
       handle: '',
@@ -42,7 +40,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
       payment_methods: [],
       delivery_methods: [],
       is_verified:false
-    },
+    },*/
 
     type: '',
     posted_at: new Date(),
@@ -61,7 +59,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
     downvotes: [],
     shares: 0,
     interests: [],
-    comments: [],
+    bookmarks: [],
 
     is_open: false,
     range: {
@@ -126,18 +124,53 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
   };
 
   // SubmitListener
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log(user);
     e.preventDefault();
-    setFormData({ ...formData, 
-      id: 0,  // auto
-      posted_at: new Date(Date.now()), 
-      edited_at: new Date() 
-    });
-
-    onSubmit(formData);
-    onClose();
-  };
+  
+    const newPost = {
+      origin: formData.origin.uuid,
+  
+      type: formData.type,
+      posted_at: new Date(),
+      price: formData.price,
+  
+      title: formData.title,
+      description: formData.description,
+      condition: formData.condition,
+      tags: formData.tags,
+      media: formData.media,
+  
+      is_edited: false,
+  
+      upvotes: formData.upvotes,
+      downvotes: formData.downvotes,
+      shares: formData.shares,
+      interests: formData.interests,
+      bookmarks: formData.bookmarks,
+      comments: formData.comments,
+  
+      is_open: formData.is_open,
+      range_start: formData.range?.start,
+      range_end: formData.range?.end
+    };
+  
+    try {
+      // Insert the new post into the "posts" table
+      const { data: newPostData, error: newPostError } = await supabase
+        .from('posts')
+        .insert([newPost]);
+  
+      if (newPostError) {
+        throw newPostError;
+      }
+  
+      console.log('New post added successfully:', newPostData);
+      onClose();
+    } catch (error) {
+      console.error('Error submitting post:', error);
+    }
+  };  
 
   // Autosizing
   const [titleValue, setTitleValue] = useState("");

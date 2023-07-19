@@ -1,7 +1,7 @@
 interface Post {
     id: number; 
     origin: Community;
-    author: User;
+    author?: User;
 
     type: string;
     posted_at: Date;
@@ -14,7 +14,7 @@ interface Post {
     media?: string[];
 
     is_edited: boolean;
-    edited_at: Date;
+    edited_at?: Date;
 
     upvotes?: string[];
     downvotes?: string[];
@@ -56,8 +56,8 @@ interface Community {
     icon: string;
     banner: string;
     
-    posts: number[];
-    users: number[];
+    posts?: number[];
+    users?: number[];
 }
 
 interface Range {
