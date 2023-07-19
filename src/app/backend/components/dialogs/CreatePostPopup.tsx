@@ -12,7 +12,7 @@ interface Props {
   onSubmit: (post: any) => void;
 }
 
-const CreatePostPopup: React.FC<Props> = ({ onClose }) => {
+const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
 
   const user = require('@/json/active.json');
 
@@ -166,6 +166,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose }) => {
       }
   
       console.log('New post added successfully:', newPostData);
+      onSubmit(newPostData);
       onClose();
     } catch (error) {
       console.error('Error submitting post:', error);
@@ -229,7 +230,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose }) => {
 
             {/* Open */}
             <div className="flex flex-row items-center bg-gray-100 rounded-sm px-3 py-[0.4rem]">
-              <input type="checkbox" value={formData.open ? 1 : 0} onChange={handleInputChange} className="rounded px-2 w-full" />
+              <input type="checkbox" value={formData.is_open ? 1 : 0} onChange={handleInputChange} className="rounded px-2 w-full" />
               <h6 className="text-gray-800 text-xs font-regular leading-4 pl-2">Negotiable?</h6>
             </div>
 
