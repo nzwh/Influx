@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
@@ -33,6 +34,7 @@ export default function Profile() {
     fetchPosts();
   }, []);
 
+  const [svg, setSvg] = useState('');
   // Handles removing a post from the list.
   // TODO: Relocate to popup
   // TODO: Push to database
@@ -40,6 +42,27 @@ export default function Profile() {
     const newPosts = posts.filter((post) => post.id !== postId);
     setPosts(newPosts);
   };
+
+  const Content = (props: any) => {
+    return (
+      <span className="z-0">
+        <Listings handle={props.user.handle}/>
+      {(posts && posts.length) ?
+      <ul className="flex flex-col gap-2 h-full w-[32rem]">
+        {posts.map((post, index) => (
+          <li key={index}>
+            <Post key={index} post={post} onDelete={handlePostDelete} />
+          </li>
+        ))}
+      </ul>
+         :
+       <span>
+        <img src='/empty-illustration.png' className="mx-auto h-1/2"></img><p className='text-black text-center'>No Posts To Show</p>
+      </span>
+        }
+      </span>
+    )
+  }
 
   return (
     <main>
@@ -58,14 +81,7 @@ export default function Profile() {
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            <Listings handle={user.handle}/>
-            <ul className="flex flex-col gap-2 h-full w-[32rem]">
-              {posts.map((post, index) => (
-                <li key={index}>
-                  <Post key={index} post={post} onDelete={handlePostDelete} />
-                </li>
-              ))}
-            </ul>
+            <Content user={user}/>
           </div>
           
           {/* Panels */}
@@ -81,7 +97,6 @@ export default function Profile() {
         {/* Quick Access & Padder */}
         <div id="quick" className="h-full w-40 min-w-[10rem] gap-4 flex flex-col fixed right-[12%] ex-br"></div>
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
-
       </div>
     </main>
   )
