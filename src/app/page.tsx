@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
@@ -9,7 +10,6 @@ import Post from '@/src/app/backend/components/template/PostTemplate';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import About from '@/src/app/backend/components/panels/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
-import Listings from '@/src/app/backend/components/panels/ProfileListingsPanel';
 
 import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
 import { Post as PostInterface, 
@@ -35,8 +35,8 @@ export default function Home() {
         if (data) {
           const formattedData = data.map((post) => ({
             id: post.id,
-            origin: { id: post.origin } as CommunityInterface,
-            author: { id: post.author } as UserInterface,
+            origin: { uuid: post.origin } as CommunityInterface,
+            author: { uuid: post.author } as UserInterface,
             type: post.type,
             posted_at: post.posted_at,
             price: post.price,
@@ -60,49 +60,27 @@ export default function Home() {
             },
           }));
 
-          const authorIds = formattedData.map((post) => post.author.id); // TODO: Read User data from database
+          const authorIds = formattedData.map((post) => post.author.uuid); // TODO: Read User data from database
           const { data: profiles, error: profilesError } = await supabase
             .from('profiles')
             .select('*')
-            .in('user_id', authorIds);
+            .in('uuid', authorIds);
 
-          const communityIds = formattedData.map((post) => post.origin.id);
+          const communityIds = formattedData.map((post) => post.origin.uuid);
           const { data: communities, error: communitiesError } = await supabase
             .from('communities')
             .select('*')
-            .in('id', communityIds);
+            .in('uuid', communityIds);
 
           formattedData.forEach((post) => {
-            const user = profiles?.find((user: UserInterface) => user.id === post.author.id);
-            const community = communities?.find((community: CommunityInterface) => community.id === post.origin.id);
-            
-            if (user) {
-              post.author = {
-                id: user.id,
-                handle: user.handle,
-                icon: user.icon,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                location: user.location,
-                biography: user.biography,
-                payment_methods: user.payment_methods,
-                delivery_methods: user.delivery_methods,
-                is_verified: user.is_verified,
-                email_address: "",
-                phone_number: "",
-              };
-            }
-            
-            if (community) {
-              post.origin = community;
-            }
+            const user = profiles?.find((user: UserInterface) => user.uuid === post.author.uuid);
+            const community = communities?.find((community: CommunityInterface) => community.uuid === post.origin.uuid);
+            user ? post.author = user : null;
+            community ? post.origin = community : null;
           });
+
           setPosts(formattedData);
-          if (data.length > 0) {
-            console.log('Fetched posts:', data); // Log the formatted data if it's not empty
-          } else {
-            console.log('No posts found.'); // Log a message if no posts are found
-          }
+          console.log(data.length > 0 ? `Fetched ${data.length} posts.` : `'No posts found.'`)
         }
       } catch (error) {
         console.log('Error reading posts:', error);
@@ -142,23 +120,7 @@ export default function Home() {
     } catch (error) {
       console.log('Error deleting post:', error);
     }
-  };
-
-  const Content = (props: any) => {
-    return (
-      (posts && posts.length) ?
-      <span>
-      <ul className="flex flex-col gap-2 h-full w-[32rem]">
-        {posts.map((post, index) => (
-          <li key={index}>
-            <Post key={index} post={post} onDelete={handlePostDelete} />
-          </li>
-        ))}
-      </ul>
-      </span> :
-      <span className="z-0"><img src='/empty-illustration.png' className="mx-auto h-1/2"></img><p className='text-black text-center'>No Posts To Show</p></span>
-    )
-  } 
+  }
 
   return (
     <main>
@@ -185,8 +147,13 @@ export default function Home() {
                     <Post post={post} onDelete={handlePostDelete} />
                   </li>
                 ))}
-              <Content user={user}/>
               </ul>
+            )}
+            {posts.length == 0 && (
+              <span className="flex flex-col items-center justify-center z-0">
+                <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
+                <p className='text-gray-700 text-sm'>No posts to show</p>
+              </span>
             )}
           </div>
           

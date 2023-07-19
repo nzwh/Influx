@@ -28,7 +28,8 @@ interface Post {
 }
 
 interface User {
-    id: string;
+    id: number;
+    uuid: string;
     handle: string;
     email_address: string;
 
@@ -47,7 +48,7 @@ interface User {
 }
 
 interface Community {
-    id: string;
+    uuid: string;
     name: string;
     handle: string;
     description: string;
