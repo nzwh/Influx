@@ -47,7 +47,7 @@ interface User {
 }
 
 interface Community {
-    id: number;
+    id: string;
     name: string;
     handle: string;
     description: string;
