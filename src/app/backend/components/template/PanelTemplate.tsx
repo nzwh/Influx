@@ -12,7 +12,7 @@ const PanelTemplate: React.FC<Props> = ({ title, children }) => {
 
 		{ title && (
 		<div className="flex flex-row justify-between items-center">
-			<h6 className="text-gray-800 font-regular text-xs">{title}</h6>
+			<h6 className="text-gray-800 font-normal text-xs">{title}</h6>
 			<MoveUpRight color="black" size={12}/>
 		</div>
 		)}
