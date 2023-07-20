@@ -138,10 +138,10 @@ export default function Home() {
         <div className="flex flex-row gap-2 justify-center w-full ">
 
           {/* New Post & Post Loader */}
-          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
+          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             <NewPost onPostRecieve={handleAddPost}/>
             {posts && (
-              <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
+              <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (
                   <li key={post.id}>
                     <Post post={post} onDelete={handlePostDelete} />
@@ -150,7 +150,7 @@ export default function Home() {
               </ul>
             )}
             {posts.length == 0 && (
-              <span className="flex flex-col items-center justify-center z-0">
+              <span className="flex flex-col items-center justify-center z-[-2]">
                 <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
                 <p className='text-gray-700 text-sm'>No posts to show</p>
               </span>

@@ -34,7 +34,7 @@ const TopbarNav: React.FC = () => {
   };
 
   return (
-    <nav className="bg-white // h-12 w-full // flex flex-row justify-between items-center // border-b-2 px-[12%] fixed z-30">
+    <nav className="bg-white // h-12 w-full // flex flex-row justify-between items-center // border-b-2 px-[12%] fixed z-60">
       <section className="flex flex-row items-center gap-4 w-auto">
         <Link href="/">
           <Image src="/root/influx.svg" alt="Logo" width={40} height={0} />

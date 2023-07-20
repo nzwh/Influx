@@ -91,7 +91,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
   post.tags ? post.tags.sort(function(a, b){return b.length - a.length}) : null;
 
 	return (
-    <article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible z-50 shadow-xl hover:shadow-2xl transition-shadow duration-400">
+    <article className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible z-0 shadow-xl hover:shadow-2xl transition-shadow duration-400">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-3">
         <div className="flex flex-row items-center gap-2">
@@ -123,7 +123,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
       <div className="flex flex-col gap-2 cursor-pointer" onClick={() => { handleExpandPostOpen(post) }}>
         <h1 className="text-gray-950 font-normal text-lg tracking-tight leading-[1.375rem] truncate break h-auto whitespace-pre-line">
           {post.title}
-          <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-400 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2">{post.condition}</span>
+          <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-400 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2 z-[-1]">{post.condition}</span>
         </h1>
         <p className="text-gray-800 font-light text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
           {post.description}
