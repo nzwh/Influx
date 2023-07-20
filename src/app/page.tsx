@@ -28,7 +28,7 @@ export default function Home() {
     const fetchPosts = async () => {
       try {
         console.log('Fetching posts...');
-        const { data, error } = await supabase.from('posts').select('*');
+        const { data, error } = await supabase.from('posts').select('*').order('posted_at', { ascending: false });
         if (error) {
           throw error;
         }
@@ -91,30 +91,33 @@ export default function Home() {
   }, []);
   
   // Handles adding new posts to the top of the list.
-  // TODO: Push to database
   const handleAddPost = async (post: PostInterface) => {
-    /*try {
+    try {
+      console.log('Adding post...');
       const { data, error } = await supabase.from('posts').insert([post]);
       if (error) {
         throw error;
       }
       if (data) {
+        console.log('Post added successfully:', data[0]);
         setPosts((prevPosts) => [data[0], ...prevPosts]);
+        //fetchPosts();
       }
     } catch (error) {
       console.log('Error adding post:', error);
-    }*/
+    }
   };
 
   // Handles removing a post from the list.
   // TODO: Relocate to popup
-  // TODO: Push to database
   const handlePostDelete = async (postId: number) => {
     try {
+      console.log('Deleting post...');
       const { error } = await supabase.from('posts').delete().match({ id: postId });
       if (error) {
         throw error;
       }
+      console.log('Post deleted successfully.');
       const newPosts = posts.filter((post) => post.id !== postId);
       setPosts(newPosts);
     } catch (error) {
