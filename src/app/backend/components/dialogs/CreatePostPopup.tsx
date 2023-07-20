@@ -124,7 +124,7 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
   };
 
   // SubmitListener
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async () => {
     console.log(user);
   
     const newPost = {

@@ -25,73 +25,72 @@ export default function Home() {
 
   // Renders existing posts on page load.
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        console.log('Fetching posts...');
+        const { data, error } = await supabase.from('posts').select('*');
+        if (error) {
+          throw error;
+        }
+        if (data) {
+          const formattedData = data.map((post) => ({
+            id: post.id,
+            origin: { uuid: post.origin } as CommunityInterface,
+            author: { uuid: post.author } as UserInterface,
+            type: post.type,
+            posted_at: post.posted_at,
+            price: post.price,
+            title: post.title,
+            description: post.description,
+            condition: post.condition,
+            tags: post.tags,
+            media: post.media,
+            is_edited: post.is_edited,
+            edited_at: post.edited_at,
+            upvotes: post.upvotes,
+            downvotes: post.downvotes,
+            shares: post.shares,
+            interests: post.interests,
+            bookmarks: post.bookmarks,
+            comments: post.comments,
+            is_open: post.is_open,
+            range: {
+              start: post.range_start,
+              end: post.range_end,
+            },
+          }));
+
+          const authorIds = formattedData.map((post) => post.author.uuid);
+          const { data: profiles, error: profilesError } = await supabase
+            .from('profiles')
+            .select('*')
+            .in('uuid', authorIds);
+
+          const communityIds = formattedData.map((post) => post.origin.uuid);
+          const { data: communities, error: communitiesError } = await supabase
+            .from('communities')
+            .select('*')
+            .in('uuid', communityIds);
+
+          formattedData.forEach((post) => {
+            const user = profiles?.find((user: UserInterface) => user.uuid === post.author.uuid);
+            const community = communities?.find((community: CommunityInterface) => community.uuid === post.origin.uuid);
+            user ? post.author = user : null;
+            community ? post.origin = community : null;
+          });
+
+          setPosts(formattedData);
+          console.log(data.length > 0 ? `Fetched ${data.length} posts.` : `'No posts found.'`)
+        }
+      } catch (error) {
+        console.log('Error fetching posts:', error);
+      }
+    };
+
     fetchPosts();
   }, []);
-
-  const fetchPosts = async () => {
-    try {
-      console.log('Fetching posts...');
-      const { data, error } = await supabase.from('posts').select('*');
-      if (error) {
-        throw error;
-      }
-      if (data) {
-        const formattedData = data.map((post) => ({
-          id: post.id,
-          origin: { uuid: post.origin } as CommunityInterface,
-          author: { uuid: post.author } as UserInterface,
-          type: post.type,
-          posted_at: post.posted_at,
-          price: post.price,
-          title: post.title,
-          description: post.description,
-          condition: post.condition,
-          tags: post.tags,
-          media: post.media,
-          is_edited: post.is_edited,
-          edited_at: post.edited_at,
-          upvotes: post.upvotes,
-          downvotes: post.downvotes,
-          shares: post.shares,
-          interests: post.interests,
-          bookmarks: post.bookmarks,
-          comments: post.comments,
-          is_open: post.is_open,
-          range: {
-            start: post.range_start,
-            end: post.range_end,
-          },
-        }));
-
-        const authorIds = formattedData.map((post) => post.author.uuid);
-        const { data: profiles, error: profilesError } = await supabase
-          .from('profiles')
-          .select('*')
-          .in('uuid', authorIds);
-
-        const communityIds = formattedData.map((post) => post.origin.uuid);
-        const { data: communities, error: communitiesError } = await supabase
-          .from('communities')
-          .select('*')
-          .in('uuid', communityIds);
-
-        formattedData.forEach((post) => {
-          const user = profiles?.find((user: UserInterface) => user.uuid === post.author.uuid);
-          const community = communities?.find((community: CommunityInterface) => community.uuid === post.origin.uuid);
-          user ? post.author = user : null;
-          community ? post.origin = community : null;
-        });
-
-        setPosts(formattedData);
-        console.log(data.length > 0 ? `Fetched ${data.length} posts.` : `'No posts found.'`)
-      }
-    } catch (error) {
-      console.log('Error fetching posts:', error);
-    }
-  };
   
   // Handles adding new posts to the top of the list.
-  // TODO: Push to database
   const handleAddPost = async (post: PostInterface) => {
     try {
       console.log('Adding post...');
@@ -99,7 +98,7 @@ export default function Home() {
       if (error) {
         throw error;
       }
-      if (data && data.length > 0) {
+      if (data) {
         console.log('Post added successfully:', data[0]);
         setPosts((prevPosts) => [data[0], ...prevPosts]);
         //fetchPosts();
