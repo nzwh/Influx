@@ -28,7 +28,7 @@ export default function Home() {
     const fetchPosts = async () => {
       try {
         console.log('Fetching posts...');
-        const { data, error } = await supabase.from('posts').select('*');
+        const { data, error } = await supabase.from('posts').select('*').order('posted_at', { ascending: false });
         if (error) {
           throw error;
         }
