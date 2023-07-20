@@ -126,7 +126,6 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
   // SubmitListener
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log(user);
-    e.preventDefault();
   
     const newPost = {
       origin: formData.origin.uuid,
