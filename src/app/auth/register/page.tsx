@@ -5,14 +5,70 @@ import Link from 'next/link';
 
 import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
 import RegisterCompletePopup from '@/src/app/backend/components/dialogs/RegisterCompletePopup';
+import { User as UserInterface } from '@/libraries/structures';
+import supabase from '@/src/app/backend/supabase';
 
 export default function Register() {
   const [showPopup, setShowPopup] = useState(false);
+  const [formData, setFormData] = useState<UserInterface>({
+      id: 0,
+      uuid: '',
+      handle: '',
+      email_address: '',
+      icon: '',
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      location: '',
+      biography: '',
+      payment_methods: [],
+      delivery_methods: [],
+      is_verified:false,
+  });
+  const [password, setPassword] = useState({
+    password: '',
+  });
 
-  const handleButtonClick = (e) => {
-    e.preventDefault();
-    setShowPopup(true);
+  const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: event.target.value
+      }
+    })
   };
+
+  const handleChangePw = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setPassword((prevPassword) => {
+      return {
+        ...prevPassword,
+        [event.target.name]: event.target.value
+      }
+    })
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const { data, error } = await supabase.auth.signUp(
+        {
+          email: formData.email_address,
+          password: password.password,
+          options: {
+            data: {
+              first_name: formData.first_name,
+              last_name: formData.last_name,
+              handle: formData.handle,
+            }
+          }
+        }
+      )
+    } catch (error) {
+      alert(error)
+    }
+
+    setShowPopup(true);
+  }
 
   return (
     <main className="flex flex-col w-screen h-screen items-center justify-center">
@@ -32,7 +88,7 @@ export default function Register() {
         <div className="flex flex-col p-8 w-full justify-center">
           <h6 className="text-gray-800 font-medium text-2xl tracking-tight">Register an account</h6>
 
-          <form onSubmit={handleButtonClick}>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-row gap-4 w-full items-center pt-3">
               <div className="flex flex-col w-full">
               <label htmlFor="firstname" className="text-gray-800 font-regular text-xs leading-8">First name</label>
@@ -40,7 +96,7 @@ export default function Register() {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input id="firstname" type="text" placeholder="Influx" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="first_name" onChange={handleChangeForm} id="first_name" type="text" placeholder="Influx" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
               </div>
               </div>
 
@@ -50,7 +106,7 @@ export default function Register() {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input id="lastname" type="text" placeholder="IO" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="last_name" onChange={handleChangeForm} id="last_name" type="text" placeholder="IO" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
               </div>
               </div>
             </div>
@@ -61,7 +117,7 @@ export default function Register() {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <AtSign className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input id="username" type="text" placeholder="@influx.io" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="handle" onChange={handleChangeForm} id="handle" type="text" placeholder="@influx.io" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
               </div>
             </div>
 
@@ -71,7 +127,7 @@ export default function Register() {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <Mail className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input id="email" type="email" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="email_address" onChange={handleChangeForm} id="email_address" type="email" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
               </div>
             </div>
 
@@ -81,7 +137,7 @@ export default function Register() {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
               </div>
             </div>
 
