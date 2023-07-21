@@ -22,8 +22,6 @@ export default function Register() {
             <h6 className="text-m font-regular leading-3">Get Started</h6>
           </Link>
         </div>
-        <span><img src='/empty-illustration.png'></img><p className='text-black text-center'>No Posts Yet</p></span>
-  
       </div>
         </main>
   )
