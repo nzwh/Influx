@@ -1,14 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
-import LandingNav from '@/src/app/backend/components/navigators/HomeNav';
+import HomeNav from '@/src/app/backend/components/navigators/HomeNav';
 
 export default function Register() {
   return (
     <main className="flex flex-col w-screen h-screen">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen from-zinc-100 to-zinc-300"></div>
-      <LandingNav />
+      <HomeNav />
 
       <div className="flex flex-col bg-cover bg-center bg-no-repeat bg-[url('/backgrounds/landing.jpg')] rounded-l-lg h-full aspect-square p-10 justify-center items-center">
         <div className="flex flex-col gap-4 pb-5 justify-center items-center">
