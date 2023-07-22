@@ -131,7 +131,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
       </div>
 
       {isExpandPostOpen && (
-        <ExpandPostPopup post={selectedPost!} onClose={handleExpandPostClose} />
+        <ExpandPostPopup post={selectedPost!} isOpen={isExpandPostOpen} onClose={handleExpandPostClose} />
       )}
 
       {(post.tags?.length === 0) ? <></> : 
