@@ -86,7 +86,7 @@ const TopbarNav: React.FC = () => {
           <Image className="rounded-full ml-2" src="/avatars/temp.jpg" alt="Profile" width={24} height={24} />
         </Link>
         <button onClick={handleLogout}>
-          <LogOut size={16} />
+          <LogOut size={16} color="black" />
         </button>
       </section>
     </nav>
