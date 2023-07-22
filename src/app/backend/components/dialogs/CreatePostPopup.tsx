@@ -4,15 +4,15 @@ import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTex
 import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
 
 import { X } from 'lucide-react';
-
 import supabase from '@/src/app/backend/supabase';
 
 interface Props {
+  type: number;
   onClose: () => void;
   onSubmit: (post: any) => void;
 }
 
-const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit }) => {
+const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit, type }) => {
 
   const user = require('@/json/active.json');
 
