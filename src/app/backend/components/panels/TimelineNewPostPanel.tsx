@@ -67,7 +67,7 @@ const TimelineNewPost: React.FC<Props> = ({ onCreatePost }) => {
     </section>
 
 		{isCreatePostPopupOpen && ( 
-			<CreatePostPopup onClose={() => { 
+			<CreatePostPopup isOpen={isCreatePostPopupOpen} onClose={() => { 
 				handleCreatePostPopupClose(); 
 				handlePostTypeInit(0); 
 			}} onSubmit={handleFormSubmit} type={postType} />

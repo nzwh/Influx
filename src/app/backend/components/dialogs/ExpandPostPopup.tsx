@@ -3,8 +3,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from 'next/image';
 
-import Comment from "@/src/app/backend/components/utilities/Comment";
+import useModal from "@/src/app/backend/hooks/useModal";
 import useNode from "@/src/app/backend/hooks/useNode";
+import Comment from "@/src/app/backend/components/utilities/Comment";
 import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
 import Action from "@/src/app/backend/components/utilities/Action";
 
@@ -24,29 +25,9 @@ const comments = {
 
 const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
 
-  const modalRef = useRef<HTMLElement | null>(null);
+  const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
   const [commentsData, setCommentsData] = useState(comments);
   const { insertNode, editNode, deleteNode } = useNode();
-
-  const handleClickOutside = (event: any) => {
-    if (modalRef.current === event.target) {
-      onClose();
-    }
-  };
-
-  useEffect(() => {  
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-  
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  });
-
-  if (!isOpen) return null;
 
   const handleInsertNode = (folderId: any, item: any) => {
     const finalStructure = insertNode(commentsData, folderId, item);

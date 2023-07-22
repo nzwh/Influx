@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
 
@@ -8,12 +9,14 @@ import supabase from '@/src/app/backend/supabase';
 
 interface Props {
   type: number;
+  isOpen: boolean;
   onClose: () => void;
   onSubmit: (post: any) => void;
 }
 
-const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit, type }) => {
+const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, type }) => {
 
+  const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
   const user = require('@/json/active.json');
 
   const [formData, setFormData] = useState<PostInterface>({
@@ -181,7 +184,10 @@ const CreatePostPopup: React.FC<Props> = ({ onClose, onSubmit, type }) => {
   AutosizeTextarea(textDescAreaRef.current, descValue);
 
   return (
-    <main className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
+    <main 
+      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
+      ref={modalRef} onClick={handleClickOutside}
+    >
       <div className="bg-white rounded-sm p-6 w-96 flex flex-col gap-2 z-[50]">
 
         {/* Header */}

@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import useModal from "@/src/app/backend/hooks/useModal";
+
 export default function RegisterCompletePopup() {
   return (
     <main className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
