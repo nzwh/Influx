@@ -61,13 +61,14 @@ export default function Register() {
               handle: formData.handle,
             }
           }
-        }
-      )
+        })
+      if (error) throw error
+      else setShowPopup(true); 
+      //alert("There's already an account with that email address.")
+      
     } catch (error) {
       alert(error)
     }
-
-    setShowPopup(true);
   }
 
   return (

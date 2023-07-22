@@ -1,9 +1,72 @@
-import React from 'react';
+"use client"
+
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
 
 import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
+import { User as UserInterface } from '@/libraries/structures';
+import supabase from '@/src/app/backend/supabase';
 
-export default function Login() {
+export default function Login({setToken}: any) {
+  let router = useRouter();
+  const [showPopup, setShowPopup] = useState(false);
+  const [formData, setFormData] = useState<UserInterface>({
+      id: 0,
+      uuid: '',
+      handle: '',
+      email_address: '',
+      icon: '',
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      location: '',
+      biography: '',
+      payment_methods: [],
+      delivery_methods: [],
+      is_verified:false,
+  });
+  const [password, setPassword] = useState({
+    password: '',
+  });
+
+  const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: event.target.value
+      }
+    })
+  };
+
+  const handleChangePw = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setPassword((prevPassword) => {
+      return {
+        ...prevPassword,
+        [event.target.name]: event.target.value
+      }
+    })
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email_address,
+        password: password.password,
+      })
+      if (error) throw error 
+      console.log(data)
+      setToken(data)
+      router.push('/')
+      // alert("Check your email for verification link")
+    } catch (error) {
+      alert(error)
+    }
+
+    setShowPopup(true);
+  }
+
   return (
     <main className="flex flex-col w-screen h-screen items-center justify-center">
     <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
@@ -22,14 +85,14 @@ export default function Login() {
         <div className="flex flex-col p-8 w-full gap-8 justify-center">
           <h6 className="text-gray-800 font-medium text-2xl tracking-tight">Log in to continue</h6>
           
-          <form action="/" className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-            <label htmlFor="u_name" className="text-gray-800 font-regular text-xs leading-8">Username&ensp;/&ensp;Email Address</label>
+            <label htmlFor="u_name" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
             <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
               <div className="h-full aspect-square flex items-center justify-center">
                 <AtSign className="opacity-50" color="black" strokeWidth={3} size={14}/>
               </div>
-              <input id="u_name" type="text" placeholder="@influx" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+              <input name="email_address" onChange={handleChangeForm} id="email_address" type="text" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
             </div>
 
             <label htmlFor="u_pass" className="text-gray-800 font-regular text-xs leading-8">Password</label>
@@ -37,7 +100,7 @@ export default function Login() {
               <div className="h-full aspect-square flex items-center justify-center">
                 <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
               </div>
-              <input id="u_pass" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+              <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
             </div>
             </div>
 
