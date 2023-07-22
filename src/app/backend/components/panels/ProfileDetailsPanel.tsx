@@ -100,7 +100,7 @@ const ProfileDetails: React.FC = () => {
       </aside>
 
       {isProfileEditOpen && (
-        <UpdateProfilePopup onClose={handleProfileEditClose} />
+        <UpdateProfilePopup isOpen={isProfileEditOpen} onClose={handleProfileEditClose} />
       )}
 		</main>
   );

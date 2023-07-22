@@ -1,15 +1,23 @@
 import React from 'react';
 import Image from 'next/image';
 
+import useModal from "@/src/app/backend/hooks/useModal";
+
 import { AlignJustify, AtSign, ChevronRight, CreditCard, FormInput, Mail, Package, Phone, SquareAsterisk, X } from 'lucide-react';
 
 interface Props {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
+const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
+
 	return (
-		<main className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
+		<main 
+      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
+      ref={modalRef} onClick={handleClickOutside}
+    > 
 		  <div className="bg-white rounded-sm p-6 flex flex-col h-[41rem] w-[32rem] gap-2">
 				
 				<div className="flex flex-row items-center justify-between cursor-pointer" onClick={onClose}>
