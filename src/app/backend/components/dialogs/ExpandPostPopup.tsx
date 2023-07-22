@@ -4,6 +4,8 @@ import React, { useRef, useState, useEffect } from "react";
 import Image from 'next/image';
 
 import useModal from "@/src/app/backend/hooks/useModal";
+import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
+import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 import useNode from "@/src/app/backend/hooks/useNode";
 import Comment from "@/src/app/backend/components/utilities/Comment";
 import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
@@ -26,6 +28,8 @@ const comments = {
 const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
 
   const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
+  const convertToMonetary = useMonetaryFormatter();
+  const convertToRelativeDate = useRelativeDateFormatter();
   const [commentsData, setCommentsData] = useState(comments);
   const { insertNode, editNode, deleteNode } = useNode();
 
@@ -43,21 +47,6 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
     const finalStructure = deleteNode(commentsData, folderId);
     const temp = { ...finalStructure };
     setCommentsData(temp);
-  };
-
-  const convertToMonetary = (value: number) => {
-    if (value >= 1000000) {
-      const formattedValue = (value / 1000000).toFixed(2);
-      return `${formattedValue}M`;
-    }	
-
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-    return formatter.format(value);
   };
 
   return (
@@ -118,7 +107,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
             <Image className="rounded-full" src={post.author.icon} alt="User Icon" width={36} height={36} />
             <div className="flex flex-col justify-center">
               <h6 className="text-gray-800 font-medium text-md leading-4 tracking-tight">{`${post.author.first_name} ${post.author.last_name}`}</h6>
-              <h6 className="text-gray-500 font-regular text-xs leading-4">{post.author.handle}<span className="text-gray-600 bg-gray-200 font-regular text-[0.5rem] relative top-[-0.05rem] tracking-wider rounded-xl px-1.5 py-0.5 ml-2">VERIFIED</span></h6>
+              <h6 className="text-gray-500 font-regular text-xs leading-4">{convertToRelativeDate(post.posted_at.toLocaleString())}&ensp;•&ensp;{`@${post.author?.handle}`}</h6>
             </div>
           </div>
           

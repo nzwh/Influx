@@ -20,7 +20,6 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
 
   const convertToMonetary = useMonetaryFormatter();
   const convertToRelativeDate = useRelativeDateFormatter();
-  
   const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostInterface>();
 
