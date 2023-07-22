@@ -20,7 +20,7 @@
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "dotenv": "^16.3.1",
-    "eslint": "8.43.0",
+    "eslint": "8.45.0",
     "eslint-config-next": "13.4.6",
     "lucide-react": "^0.246.0",
     "next": "13.4.6",
