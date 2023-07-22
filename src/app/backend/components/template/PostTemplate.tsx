@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
+import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
+import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
 import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
 
@@ -15,6 +17,9 @@ interface Props {
 }
 
 const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
+
+  const convertToMonetary = useMonetaryFormatter();
+  const convertToRelativeDate = useRelativeDateFormatter();
   
   const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostInterface>();
@@ -34,57 +39,6 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
   // TODO: Relocate to popup
   const handlePostDelete = (id:number) => {
     onDelete(id);
-  };
-
-  // Converts a number to a monetary value.
-  // TODO: Move to utilities
-  const convertToMonetary = (value: number) => {
-    if (value >= 1000000) {
-      const formattedValue = (value / 1000000).toFixed(2);
-      return `${formattedValue}M`;
-    }	
-
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-    return formatter.format(value);
-  };
-
-  // Converts a timestamp to a relative date.
-  // TODO: Move to utilities
-  const convertToRelativeDate = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const now = new Date();
-  
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    const weeks = Math.floor(days / 7);
-    const years = Math.floor(weeks / 52);
-  
-    if (years > 0) {
-      const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-      return formattedDate;
-    } 
-    else if (weeks > 0) {
-      return `${weeks}w ago`;
-    } 
-    else if (days > 0) {
-      return `${days}d ago`;
-    } 
-    else if (hours > 0) {
-      return `${hours}h ago`;
-    } 
-    else if (minutes > 0) {
-      return `${minutes}m ago`;
-    } 
-    else {
-      return `${seconds}s ago`;
-    }
   };
   
   // Sorts tags by length.
