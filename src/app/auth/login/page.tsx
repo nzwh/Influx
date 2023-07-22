@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 
@@ -8,9 +8,8 @@ import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
 import { User as UserInterface } from '@/libraries/structures';
 import supabase from '@/src/app/backend/supabase';
 
-export default function Login({setToken}: any) {
+const Login = () => {
   let router = useRouter();
-  const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState<UserInterface>({
       id: 0,
       uuid: '',
@@ -29,6 +28,19 @@ export default function Login({setToken}: any) {
   const [password, setPassword] = useState({
     password: '',
   });
+
+  const [token, setToken] = useState(false);
+
+    if(token) {
+      sessionStorage.setItem('token', JSON.stringify(token))
+    }
+
+    useEffect(() => {
+      if(sessionStorage.getItem('token')) {
+        let data = JSON.parse(sessionStorage.getItem('token')!)
+        setToken(data)
+      }
+    }, [])
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prevFormData) => {
@@ -59,18 +71,15 @@ export default function Login({setToken}: any) {
       console.log(data)
       setToken(data)
       router.push('/')
-      // alert("Check your email for verification link")
     } catch (error) {
       alert(error)
     }
-
-    setShowPopup(true);
   }
 
   return (
     <main className="flex flex-col w-screen h-screen items-center justify-center">
     <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
-
+    
       <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem] filter drop-shadow-2xl">
         <div className="flex flex-col bg-[url('/root/login.png')] rounded-l-lg h-full aspect-square p-10 justify-between">
           <Italic className="opacity-70 text-violet-300" size={14} strokeWidth={3} />
@@ -126,3 +135,5 @@ export default function Login({setToken}: any) {
     </main>
   )
 }
+
+export default Login;

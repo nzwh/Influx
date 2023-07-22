@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash } from 'lucide-react';
+import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash, LogOut } from 'lucide-react';
 
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
+
+import supabase from '@/src/app/backend/supabase';
 
 const TopbarNav: React.FC = () => {
 
@@ -32,6 +34,17 @@ const TopbarNav: React.FC = () => {
 
   const handleAddPost = () => {
   };
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      router.push('/home')
+      sessionStorage.removeItem('token');
+    } catch (error) {
+      alert(error)
+    }
+  }
 
   return (
     <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-2 px-[12%] fixed z-60">
@@ -72,6 +85,9 @@ const TopbarNav: React.FC = () => {
         <Link href="/profile" className="">
           <Image className="rounded-full ml-2" src="/avatars/temp.jpg" alt="Profile" width={24} height={24} />
         </Link>
+        <button onClick={handleLogout}>
+          <LogOut size={16} />
+        </button>
       </section>
     </nav>
   );
