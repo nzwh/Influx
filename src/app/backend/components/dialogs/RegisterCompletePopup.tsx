@@ -1,8 +1,5 @@
-import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-import useModal from "@/src/app/backend/hooks/useModal";
 
 export default function RegisterCompletePopup() {
   return (
