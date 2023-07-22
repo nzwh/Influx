@@ -24,7 +24,8 @@ interface Post {
     comments?: number[];
 
     is_open?: boolean;
-    range?: Range;
+    range_start?: number;
+    range_end?: number;
 }
 
 interface User {
@@ -58,11 +59,6 @@ interface Community {
     
     posts?: number[];
     users?: number[];
-}
-
-interface Range {
-    start: number;
-    end: number;
 }
 
 export type {
