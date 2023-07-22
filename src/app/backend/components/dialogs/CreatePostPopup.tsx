@@ -6,6 +6,7 @@ import { Post as PostInterface, Community as CommunityInterface } from '@/librar
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
 import supabase from '@/src/app/backend/supabase';
+import Link from 'next/link';
 
 interface Props {
   passType: number;
@@ -17,6 +18,7 @@ interface Props {
 const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType }) => {
 
   const mapping : any = { 1: "article", 2: "buying", 3: "selling" };
+  const mapping_flip : any = { "article": 1, "buying": 2, "selling": 3 };
 
   const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
 
@@ -211,7 +213,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
       title: formData.title,
       description: formData.description,
       condition: formData.condition,
-      tags: formData.tags,
+      tags: tags,
       media: formData.media,
   
       is_edited: false,
@@ -264,11 +266,11 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
 
         {/* Header */}
         <div className="flex flex-row items-center justify-between">
-          <h6 className="text-gray-800 font-regular text-xs">{`@${user.handle}`}</h6>
+          <Link href={"/profile"} className="text-gray-800 font-regular text-xs hover:text-violet-300 transition-colors duration-200 cursor-pointer">{`@${user.handle}`}</Link>
 
           <div className="flex flex-row items-center gap-3">
-          <div className="bg-gray-100 rounded-full flex flex-row items-center gap-1 px-2.5 py-0.5">
-            <select name="type" value={mapping[formData.type]} className="bg-gray-100 text-gray-800 text-[0.625rem] font-regular cursor-pointer appearance-none w-auto px-1" onChange={handleInputChange} required>
+          <div className="bg-gray-100 rounded-full flex flex-row items-center gap-1 px-2.5 py-0.5 border border-gray-200">
+            <select name="type" value={mapping_flip[formData.type]} className="bg-gray-100 text-gray-800 text-[0.625rem] font-regular cursor-pointer appearance-none w-auto pl-1" onChange={handleInputChange} required>
               <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={1}>Article</option>
               <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={2}>Buying</option>
               <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={3}>Selling</option>
@@ -303,11 +305,11 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
           ) : null}
           
           {/* Title */}
-          <div className="flex flex-row gap-2 w-full">
+          <div className="flex flex-row gap-2 w-full items-center">
             <textarea name="title" value={formData.title} onChange={handleInputChange} 
               placeholder="Title" className="w-full text-xl font-normal leading-5 h-5 resize-none" ref={textTitleAreaRef} rows={1} required maxLength={100}/>
-            <div className="flex flex-row justify-between bg-gray-200 h-fit px-2 py-0.5 rounded-full">
-              <h6 className="text-gray-800 text-[0.625rem] font-regular">{titleCount}/100</h6>
+            <div className="flex flex-row justify-between bg-gray-100 h-fit px-2 py-0.5 rounded-full border border-gray-200">
+              <h6 className="text-gray-800 text-[0.5rem] font-regular">{titleCount}/100</h6>
             </div>
           </div>
           
@@ -318,7 +320,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
           {/* Community */}
           <div className="flex flex-col gap-2 w-full">
           <label className="text-gray-800 text-xs font-regular">Post listing in</label>
-          <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-3 py-2 hover:bg-gray-200 transition-colors duration-200">
+          <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-3 py-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200">
             <Globe className="text-gray-800" size={14} strokeWidth={3} />
             <select name="name" value={formData.origin.name} className="w-full text-gray-800 text-xs font-regular bg-transparent px-2 appearance-none cursor-pointer" onChange={handleCommunitySelectChange} required>
               <option className="w-full text-gray-500 text-sm font-light bg-gray-100" value="" disabled selected>Select a community</option>
@@ -336,7 +338,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
           { formData.type === "selling" ? (
           <div className="flex flex-col gap-2 w-full">
           <label className="text-gray-800 text-xs font-regular">Listing Condition</label>
-          <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-3 py-2 hover:bg-gray-200 transition-colors duration-200">
+          <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-3 py-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200">
             <Sparkles className="text-gray-800" size={14} strokeWidth={3} />
             <select name="condition" value={formData.condition} className="w-full text-gray-800 text-xs font-regular bg-transparent px-2 appearance-none cursor-pointer" onChange={handleInputChange} required>
               <option className="w-full text-gray-500 text-sm font-light bg-gray-100" value="" disabled selected>Select a condition</option>
@@ -364,8 +366,8 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
             {selectedImages.length <= 3 ? (
               <div>
                 <input type="file" id="files" multiple onChange={handleImageChange} className="hidden"/>
-                <label htmlFor="files" id="lable_file" className="w-[4.75rem] h-[4.75rem] bg-gray-100 rounded-sm flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200">
-                  <ImagePlus className="text-gray-400" size={24} strokeWidth={2} />
+                <label htmlFor="files" id="lable_file" className="w-[4.75rem] h-[4.75rem] bg-gray-100 rounded-sm flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200 border border-gray-200">
+                  <ImagePlus className="text-gray-400" size={24} strokeWidth={1} />
                   <h6 className="text-gray-400 text-[0.625rem] font-light">Add Image</h6>
                 </label>
               </div>
@@ -378,11 +380,11 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
           <label className="text-gray-800 text-xs font-regular">Listing tags</label>
           <div className="flex flex-row flex-wrap gap-1">
             {tags.map((tag, index) => (
-              <span key={index} onClick={() => removeTag(tag)} className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full cursor-pointer text-[0.625rem] font-light items-center justify-center flex flex-row gap-1 hover:bg-gray-300 transition-colors duration-200">{tag}
+              <span key={index} onClick={() => removeTag(tag)} className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full cursor-pointer text-[0.625rem] font-light items-center justify-center flex flex-row gap-1 hover:bg-gray-300 transition-colors duration-200 border border-gray-200">{tag}
                 <X className="text-gray-800" size={8} strokeWidth={3} />
               </span>
             ))}
-            <input type="text" ref={tagInputRef} value={tagInput} onChange={handleTagInputChange} onKeyDown={handleTagInputKeyPress} placeholder="Type something" className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full text-[0.625rem] font-light w-full" maxLength={50}/>
+            <input type="text" ref={tagInputRef} value={tagInput} onChange={handleTagInputChange} onKeyDown={handleTagInputKeyPress} placeholder="Type something" className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full text-[0.625rem] font-light w-full border border-gray-200" maxLength={50}/>
           
           </div>
           </div>
