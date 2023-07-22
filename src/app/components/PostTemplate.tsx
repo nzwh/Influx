@@ -8,6 +8,9 @@ import VoteMechanism from './VoteMechanism';
 
 import { PostInterface } from "@/libraries/interfaces";
 import { ArrowDown, ArrowUp, MessageCircle, MoreHorizontal, Trash, Share2, ShoppingBag } from 'lucide-react';
+import MHorizontal from '@/src/app/components/MHorizontal'; 
+//	<Trash color="black" size={12} className="cursor-pointer" onClick={() => handlePostDelete(id)} />
+			
 
 const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => void }> = ({ id, shop_icon, shop_name, shop_handle, user_icon, user_name, user_handle, timestamp, price, negotiable, header, description, condition, tags, images, upvotes, downvotes, shares, interested, comments, onDelete }) => {
 
@@ -66,6 +69,17 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
   const handlePostDelete = () => {
     onDelete(id);
   };
+
+  const [isMoreHorizontalOpen, setIsMorHorizontalOpen] = useState(false);
+
+  const toggleMoreHorizontal = (previous: boolean) => {
+    console.log(previous)
+    return !previous;
+  }
+
+  const handleToggleMoreHorizontal = () => {
+    setIsMorHorizontalOpen(toggleMoreHorizontal);
+  };
   
   tags.sort(function(a, b){return b.length - a.length});
 
@@ -95,7 +109,11 @@ const PostTemplate: React.FC<PostInterface & { onDelete: (postId: number) => voi
 							<h6 className="text-white font-semibold tracking-wider text-[0.5rem] leading-3">{negotiable ? "NEGOTIABLE" : "FIXED"}</h6>
 						</div>
 						<h1 className="text-gray-950 font-regular text-2xl tracking-tight leading-4">${price}</h1>
-            <Trash color="black" size={12} className="cursor-pointer" onClick={() => handlePostDelete(id)} />
+						<div onClick={handleToggleMoreHorizontal}>
+						<MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} /> 
+						</div>
+						{isMoreHorizontalOpen && <MHorizontal></MHorizontal>}
+			
 					</div>
 					</div>
 				</div>
