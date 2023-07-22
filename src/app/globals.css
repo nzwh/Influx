@@ -77,3 +77,7 @@ input::-webkit-inner-spin-button {
     display: flex !important;
   }
 }
+
+.bg-radial {
+  background: radial-gradient(129.49% 129.49% at 50.00% 0%, #F5F7FA 0%, #CFD6DF 100%);
+}

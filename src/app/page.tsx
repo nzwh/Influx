@@ -20,10 +20,12 @@ import supabase from '@/src/app/backend/supabase';
 
 export default function Home() {
 
-  let user = require('@/json/active.json'); // TODO: Load user info dynamically through auth
+  // TODO: Load user info dynamically through auth
+  let user = require('@/json/active.json');
   const [posts, setPosts] = useState<PostInterface[]>([]);
 
   // Renders existing posts on page load.
+  // TODO: Move to its own function
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -91,6 +93,7 @@ export default function Home() {
   }, []);
   
   // Handles adding new posts to the top of the list.
+  // Todo: Move to its own function
   const handleAddPost = async (post: PostInterface) => {
     try {
       console.log('Adding post...');
@@ -109,8 +112,8 @@ export default function Home() {
   };
 
   // Handles removing a post from the list.
-  // TODO: Relocate to popup
-  const handlePostDelete = async (postId: number) => {
+  // TODO: Move to its own function
+  const handleDeletePost = async (postId: number) => {
     try {
       console.log('Deleting post...');
       const { error } = await supabase.from('posts').delete().match({ id: postId });
@@ -142,17 +145,16 @@ export default function Home() {
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            <NewPost onPostRecieve={handleAddPost}/>
-            {posts && (
+            <NewPost onCreatePost={handleAddPost}/>
+            {posts.length ? (
               <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (
                   <li key={post.id}>
-                    <Post post={post} onDelete={handlePostDelete} />
+                    <Post post={post} onDelete={handleDeletePost} />
                   </li>
                 ))}
               </ul>
-            )}
-            {posts.length == 0 && (
+            ):(
               <span className="flex flex-col items-center justify-center z-[-2]">
                 <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
                 <p className='text-gray-700 text-sm'>No posts to show</p>
