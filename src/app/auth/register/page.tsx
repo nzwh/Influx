@@ -9,7 +9,14 @@ import { User as UserInterface } from '@/libraries/structures';
 import supabase from '@/src/app/backend/supabase';
 
 export default function Register() {
+  const [errorFNameMessage, setErrorFNameMessage] = useState<string>(''); // Add error message state
+  const [errorLNameMessage, setErrorLNameMessage] = useState<string>(''); // Add error message state
+  const [errorHandleMessage, setErrorHandleMessage] = useState<string>(''); // Add error message state
+  const [errorEmailMessage, setErrorEmailMessage] = useState<string>(''); // Add error message state
+  const [errorPasswordMessage, setErrorPasswordMessage] = useState<string>(''); // Add error message state
   const [errorMessage, setErrorMessage] = useState<string>(''); // Add error message state
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // Add submission status state
+
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState<UserInterface>({
       id: 0,
@@ -32,6 +39,32 @@ export default function Register() {
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
+
+    if (event.target.name === "first_name") {
+      // Code to execute when the "first_name" input field changes
+      // For example, you can do validation or any other logic specific to this field.
+      // You can use the setErrorFNameMessage state to set an error message if needed.
+      if (event.target.value.length > 0) {
+        setErrorFNameMessage("");
+      } else {
+        setErrorFNameMessage("Required");
+      }
+    } else if (event.target.name === "last_name") {
+      if (event.target.value.length > 0) {
+        setErrorLNameMessage("");
+      } else {
+        setErrorLNameMessage("Required");
+      }
+    } else if (event.target.name === "handle") {
+      if (event.target.value.length > 0) {
+        setErrorHandleMessage("");
+      } else {
+        setErrorHandleMessage("Required");
+      }
+    }
+  };
+
+
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -42,6 +75,14 @@ export default function Register() {
 
   const handleChangePw = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
+    if (event.target.value.length >= 8) {
+      setErrorPasswordMessage("")
+    } else if (event.target.value.length == 0) {
+      setErrorPasswordMessage("Required")
+    } else {
+      setErrorPasswordMessage("Must be at least 8 characters")
+    }
+
     setPassword((prevPassword) => {
       return {
         ...prevPassword,
@@ -95,53 +136,73 @@ export default function Register() {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-row gap-4 w-full items-center pt-3">
               <div className="flex flex-col w-full">
-              <label htmlFor="firstname" className="text-gray-800 font-regular text-xs leading-8">First name</label>
-              <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                <div className="h-full aspect-square flex items-center justify-center">
-                  <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
+                <div className="flex flex-row gap-4 w-full items-center justify-between">
+                  <label htmlFor="firstname" className="text-gray-800 font-regular text-xs leading-8">First Name</label>
+                  <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorFNameMessage}</label>
                 </div>
-                <input name="first_name" onChange={handleChangeForm} id="first_name" type="text" placeholder="Influx" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
-              </div>
+
+                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
+                  <div className="h-full aspect-square flex items-center justify-center">
+                    <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
+                  </div>
+                  <input name="first_name" onChange={handleChangeForm} id="first_name" type="text" placeholder="Influx" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
+                </div>
               </div>
 
               <div className="flex flex-col w-full">
-              <label htmlFor="lastname" className="text-gray-800 font-regular text-xs leading-8">Last name</label>
-              <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                <div className="h-full aspect-square flex items-center justify-center">
-                  <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
+                <div className="flex flex-row gap-4 w-full items-center justify-between">
+                  <label htmlFor="lastname" className="text-gray-800 font-regular text-xs leading-8">Last Name</label>
+                  <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorLNameMessage}</label>
                 </div>
-                <input name="last_name" onChange={handleChangeForm} id="last_name" type="text" placeholder="IO" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
-              </div>
+                
+                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
+                  <div className="h-full aspect-square flex items-center justify-center">
+                    <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
+                  </div>
+                  <input name="last_name" onChange={handleChangeForm} id="last_name" type="text" placeholder="IO" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
+                </div>
               </div>
             </div>
 
             <div className="flex flex-col w-full">
-              <label htmlFor="username" className="text-gray-800 font-regular text-xs leading-8">Username</label>
+              <div className="flex flex-row gap-4 w-full items-center justify-between">
+                <label htmlFor="handle" className="text-gray-800 font-regular text-xs leading-8">Username</label>
+                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorHandleMessage}</label>
+              </div>
+
               <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
                 <div className="h-full aspect-square flex items-center justify-center">
                   <AtSign className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input name="handle" onChange={handleChangeForm} id="handle" type="text" placeholder="@influx.io" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="handle" onChange={handleChangeForm} id="handle" type="text" placeholder="@influx.io" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
               </div>
             </div>
 
             <div className="flex flex-col w-full">
-              <label htmlFor="email" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
+              <div className="flex flex-row gap-4 w-full items-center justify-between">
+                <label htmlFor="email" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
+                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorEmailMessage}</label>
+              </div>
+
               <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
                 <div className="h-full aspect-square flex items-center justify-center">
                   <Mail className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input name="email_address" onChange={handleChangeForm} id="email_address" type="email" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="email_address" onChange={handleChangeForm} id="email_address" type="email" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
               </div>
             </div>
 
             <div className="flex flex-col w-full">
-              <label htmlFor="password" className="text-gray-800 font-regular text-xs leading-8">Password</label>
+              <div className="flex flex-row gap-4 w-full items-center justify-between">
+                <label htmlFor="password" className="text-gray-800 font-regular text-xs leading-8">Password</label>
+                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorPasswordMessage}</label>
+              </div>
+
               <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
                 <div className="h-full aspect-square flex items-center justify-center">
                   <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required minLength={8}></input>
+                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required minLength={8}></input>
               </div>
             </div>
 
