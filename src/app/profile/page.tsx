@@ -6,6 +6,8 @@ import Image from 'next/image';
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
+import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
+import usePostActions from "@/src/app/backend/hooks/usePostActions";
 import Post from '@/src/app/backend/components/template/PostTemplate';
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
@@ -18,30 +20,9 @@ import { Post as PostInterface } from '@/libraries/structures';
 export default function Profile() {
 
   let user = require('@/json/active.json'); // TODO: Load user info dynamically through auth
-  const [posts, setPosts] = useState<PostInterface[]>([]);
-
-  // Renders existing posts on page load.
-  // TODO: Load from database
-  useEffect(() => {
-    const fetchPosts = () => {
-      try {
-        const existingPosts: PostInterface[] = require('@/json/posts.json');
-        setPosts(existingPosts);
-      } catch (error) {
-        console.log('Error reading posts:', error);
-      }
-    };
-    fetchPosts();
-  }, []);
-
+  const { posts, fetchPosts } = useFetchPosts({ type: 'all' }); // TODO: Change type to user
+  const { handleAddPost, handleDeletePost } = usePostActions();
   const [svg, setSvg] = useState('');
-  // Handles removing a post from the list.
-  // TODO: Relocate to popup
-  // TODO: Push to database
-  const handlePostDelete = (postId: number) => {
-    const newPosts = posts.filter((post) => post.id !== postId);
-    setPosts(newPosts);
-  };
 
   return (
     <main>
@@ -65,7 +46,7 @@ export default function Profile() {
               <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
                 {posts.map((post: PostInterface) => (
                   <li key={post.id}>
-                    <Post post={post} onDelete={handlePostDelete} />
+                    <Post post={post} onDelete={handleDeletePost} />
                   </li>
                 ))}
               </ul>

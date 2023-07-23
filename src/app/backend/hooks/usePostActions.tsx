@@ -1,0 +1,45 @@
+import { useState } from 'react';
+
+import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
+import { Post as PostInterface } from '@/libraries/structures';
+
+import supabase from '@/src/app/backend/supabase';
+
+const usePostActions = () => {
+  
+  const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
+
+  // Handles adding new posts to the top of the list.
+  const handleAddPost = async (post: PostInterface) => {
+    try {
+      console.log('Adding post...');
+      const { data, error } = await supabase.from('posts').insert([post]);
+      if (error) {
+        throw error;
+      }
+      if (data) {
+        console.log('Post added successfully:', data[0]);
+      }
+    } catch (error) {
+      console.log('Error adding post:', error);
+    }
+  };
+
+  // Handles removing a post from the list.
+  const handleDeletePost = async (postId: number) => {
+    try {
+      console.log('Deleting post...');
+      const { error } = await supabase.from('posts').delete().match({ id: postId });
+      if (error) {
+        throw error;
+      }
+      console.log('Post deleted successfully.');
+    } catch (error) {
+      console.log('Error deleting post:', error);
+    }
+  }
+
+  return { handleAddPost, handleDeletePost };
+};
+
+export default usePostActions;
