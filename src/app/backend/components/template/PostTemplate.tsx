@@ -7,6 +7,7 @@ import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
 import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
+import Panel from '@/src/app/backend/components/template/PanelTemplate';
 
 import { Post as PostInterface } from "@/libraries/structures";
 import { Bookmark, MessageCircle, ShoppingBag } from 'lucide-react';
@@ -46,7 +47,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
   // post.tags ? post.tags.sort(function(a, b){return b.length - a.length}) : null;
 
 	return (
-    <main className="bg-white flex flex-col w-full rounded-sm p-4 gap-3 overflow-visible z-0 shadow-xl hover:shadow-2xl transition-shadow duration-400">
+    <Panel classes="flex-col p-4 gap-4">
 
       {/* Header */}
       <div className="flex flex-row justify-between">
@@ -190,7 +191,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
         </div>
         
       </div>
-    </main>
+    </Panel>
 	);
 };
   

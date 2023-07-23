@@ -161,11 +161,8 @@ export default function Home() {
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
-
-            <Panel title="Explore" />
-            <Panel title="Communities" />
+          
             <About />
-
           </div>
         </div>
         

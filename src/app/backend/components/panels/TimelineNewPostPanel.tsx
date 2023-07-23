@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
+import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import { Post as PostInterface } from '@/libraries/structures';
 import { Glasses, Megaphone, Tag } from 'lucide-react';
 
@@ -30,7 +31,7 @@ const TimelineNewPost: React.FC<Props> = ({ onCreatePost }) => {
 
   return (
 		<main>
-    <section className="bg-white flex flex-row w-full justify-between rounded-sm py-2 px-4 cursor-pointer shadow-xl hover:shadow-2xl transition-shadow duration-400">
+    <Panel classes="flex-row px-4 py-2 gap-4 cursor-pointer">
 		<div className="flex flex-row gap-3 items-center w-full" onClick={() => { 
 			handleCreatePostPopupOpen(); 
 			handlePostTypeInit(1); 
@@ -64,7 +65,7 @@ const TimelineNewPost: React.FC<Props> = ({ onCreatePost }) => {
 				<Tag className="text-gray-800" size={14}/>
 			</div>
 		</div>
-    </section>
+    </Panel>
 
 		{isCreatePostPopupOpen && ( 
 			<CreatePostPopup isOpen={isCreatePostPopupOpen} onClose={() => { 
