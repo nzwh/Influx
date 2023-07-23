@@ -6,8 +6,11 @@ import Image from 'next/image';
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
+import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
+import usePostActions from "@/src/app/backend/hooks/usePostActions";
 import Post from '@/src/app/backend/components/template/PostTemplate';
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
+import SearchFilters from './backend/components/panels/columns/SearchFiltersPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
 import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
@@ -21,108 +24,8 @@ export default function Home() {
 
   // TODO: Load user info dynamically through auth
   let user = require('@/json/active.json');
-  const [posts, setPosts] = useState<PostInterface[]>([]);
-
-  // Renders existing posts on page load.
-  // TODO: Move to its own function
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        console.log('Fetching posts...');
-        const { data, error } = await supabase.from('posts').select('*').order('posted_at', { ascending: false });
-        if (error) {
-          throw error;
-        }
-        if (data) {
-          const formattedData = data.map((post) => ({
-            id: post.id,
-            origin: { uuid: post.origin } as CommunityInterface,
-            author: { uuid: post.author } as UserInterface,
-            type: post.type,
-            posted_at: post.posted_at,
-            price: post.price,
-            title: post.title,
-            description: post.description,
-            condition: post.condition,
-            tags: post.tags,
-            media: post.media,
-            is_edited: post.is_edited,
-            edited_at: post.edited_at,
-            upvotes: post.upvotes,
-            downvotes: post.downvotes,
-            interests: post.interests,
-            bookmarks: post.bookmarks,
-            comments: post.comments,
-            is_open: post.is_open,
-            range_start: post.range_start,
-            range_end: post.range_end,
-          }));
-
-          const authorIds = formattedData.map((post) => post.author.uuid);
-          const { data: profiles, error: profilesError } = await supabase
-            .from('profiles')
-            .select('*')
-            .in('uuid', authorIds);
-
-          const communityIds = formattedData.map((post) => post.origin.uuid);
-          const { data: communities, error: communitiesError } = await supabase
-            .from('communities')
-            .select('*')
-            .in('uuid', communityIds);
-
-          formattedData.forEach((post) => {
-            const user = profiles?.find((user: UserInterface) => user.uuid === post.author.uuid);
-            const community = communities?.find((community: CommunityInterface) => community.uuid === post.origin.uuid);
-            user ? post.author = user : null;
-            community ? post.origin = community : null;
-          });
-
-          setPosts(formattedData);
-          console.log(data.length > 0 ? `Fetched ${data.length} posts.` : `'No posts found.'`)
-        }
-      } catch (error) {
-        console.log('Error fetching posts:', error);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-  
-  // Handles adding new posts to the top of the list.
-  // Todo: Move to its own function
-  const handleAddPost = async (post: PostInterface) => {
-    try {
-      console.log('Adding post...');
-      const { data, error } = await supabase.from('posts').insert([post]);
-      if (error) {
-        throw error;
-      }
-      if (data) {
-        console.log('Post added successfully:', data[0]);
-        setPosts((prevPosts) => [data[0], ...prevPosts]);
-        //fetchPosts();
-      }
-    } catch (error) {
-      console.log('Error adding post:', error);
-    }
-  };
-
-  // Handles removing a post from the list.
-  // TODO: Move to its own function
-  const handleDeletePost = async (postId: number) => {
-    try {
-      console.log('Deleting post...');
-      const { error } = await supabase.from('posts').delete().match({ id: postId });
-      if (error) {
-        throw error;
-      }
-      console.log('Post deleted successfully.');
-      const newPosts = posts.filter((post) => post.id !== postId);
-      setPosts(newPosts);
-    } catch (error) {
-      console.log('Error deleting post:', error);
-    }
-  }
+  const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
+  const { handleAddPost, handleDeletePost } = usePostActions();
 
   return (
     <main>
@@ -160,7 +63,7 @@ export default function Home() {
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
-          
+            <SearchFilters />
             <About />
           </div>
         </div>

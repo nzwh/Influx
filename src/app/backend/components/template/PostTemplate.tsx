@@ -40,8 +40,6 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
   const handlePostDelete = (id:number) => {
     onDelete(id);
   };
-
-  console.log(JSON.stringify(post));
   
   // Sorts tags by length.
   // post.tags ? post.tags.sort(function(a, b){return b.length - a.length}) : null;
@@ -101,7 +99,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
 
           {/* Open */}
           { post.type === "selling" ? (
-            <span className="text-white font-normal tracking-wide text-[0.5rem] bg-gray-800 rounded-full px-2 py-0.5 pt-[0.2rem]">
+            <span className="text-white font-normal tracking-wide text-[0.5rem] bg-gray-800 rounded-full px-2 py-0.5 pt-[0.2rem] leading-3">
               {post.is_open ? "NEGOTIABLE" : "FIXED"}
             </span>
           ) : null}
@@ -116,6 +114,8 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
             <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{convertToMonetary(post.range_end || 0)}</h1>
             </div>
           ) : null }
+
+
 
         </div>
       </div>

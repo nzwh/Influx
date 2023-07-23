@@ -83,3 +83,35 @@ input::-webkit-inner-spin-button {
 .bg-radial {
   background: radial-gradient(129.49% 129.49% at 50.00% 0%, #F5F7FA 0%, #CFD6DF 100%);
 }
+
+input[type="range"] {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  /* creating a custom design */
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Thumb: webkit */
+input[type="range"]::-webkit-slider-thumb {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  /* creating a custom design */
+  height: 0.625rem;
+  width: 0.625rem;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 0.15rem solid #000;
+}
+
+/* Thumb: Firefox */
+input[type="range"]::-moz-range-thumb {
+  height: 0.625rem;
+  width: 0.625rem;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 0.15rem solid #000;
+}
