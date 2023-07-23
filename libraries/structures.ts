@@ -60,6 +60,19 @@ interface Community {
     users?: number[];
 }
 
+interface Filter {
+    username: string;
+    sort: string;
+    sort_order: string;
+    condition: string;
+    type: string;
+    range_start: number;
+    range_end: number;
+    tags: string[];
+    open: boolean;
+    owner: boolean;
+  }
+
 export type {
-    Post, User, Community
+    Post, User, Community, Filter
 }

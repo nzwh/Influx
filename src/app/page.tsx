@@ -8,6 +8,7 @@ import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
 import Post from '@/src/app/backend/components/template/PostTemplate';
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
+import SearchFilters from './backend/components/panels/columns/SearchFiltersPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
 import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
@@ -160,7 +161,7 @@ export default function Home() {
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
-          
+            <SearchFilters />
             <About />
           </div>
         </div>
