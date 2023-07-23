@@ -9,6 +9,7 @@ import { User as UserInterface } from '@/libraries/structures';
 import supabase from '@/src/app/backend/supabase';
 
 export default function Register() {
+  const [errorMessage, setErrorMessage] = useState<string>(''); // Add error message state
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState<UserInterface>({
       id: 0,
@@ -30,6 +31,7 @@ export default function Register() {
   });
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    console.log(event.target.name, event.target.value);
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -39,6 +41,7 @@ export default function Register() {
   };
 
   const handleChangePw = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    console.log(event.target.name, event.target.value);
     setPassword((prevPassword) => {
       return {
         ...prevPassword,
@@ -138,13 +141,14 @@ export default function Register() {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
+                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required minLength={8}></input>
               </div>
             </div>
 
             <button type="submit" className="my-6 w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
               <h6 className="text-violet-300 font-light text-xs h-full cursor-pointer py-1.5">Continue with an Influx Account</h6>
             </button>
+            {errorMessage ? <div className="text-red-500 text-xs h-1">{errorMessage}</div> : <div className="text-xs h-1"></div>}
           </form>
 
           <div className="flex flex-row gap-1 items-center py-2">
