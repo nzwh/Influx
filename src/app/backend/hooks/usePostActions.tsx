@@ -1,13 +1,10 @@
 import { useState } from 'react';
 
-import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
 import { Post as PostInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/supabase';
 
 const usePostActions = () => {
-  
-  const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
 
   // Handles adding new posts to the top of the list.
   const handleAddPost = async (post: PostInterface) => {
