@@ -51,15 +51,12 @@ export default function Home() {
             edited_at: post.edited_at,
             upvotes: post.upvotes,
             downvotes: post.downvotes,
-            shares: post.shares,
             interests: post.interests,
             bookmarks: post.bookmarks,
             comments: post.comments,
             is_open: post.is_open,
-            range: {
-              start: post.range_start,
-              end: post.range_end,
-            },
+            range_start: post.range_start,
+            range_end: post.range_end,
           }));
 
           const authorIds = formattedData.map((post) => post.author.uuid);

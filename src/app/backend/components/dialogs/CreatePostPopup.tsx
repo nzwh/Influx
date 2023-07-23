@@ -132,7 +132,6 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
   
     upvotes: [],
     downvotes: [],
-    shares: 0,
     interests: [],
     bookmarks: [],
   
@@ -228,7 +227,6 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
   
       upvotes: formData.upvotes,
       downvotes: formData.downvotes,
-      shares: formData.shares,
       interests: formData.interests,
       bookmarks: formData.bookmarks,
       comments: formData.comments,
