@@ -11,7 +11,7 @@ const useMonetaryFormatter = () => {
 
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'PHP',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });

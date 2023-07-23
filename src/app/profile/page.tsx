@@ -7,12 +7,12 @@ import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
 import Post from '@/src/app/backend/components/template/PostTemplate';
-import About from '@/src/app/backend/components/panels/AboutPanel';
+import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
-import Listings from '@/src/app/backend/components/panels/ProfileListingsPanel';
-import ProfileDetails from '@/src/app/backend/components/panels/ProfileDetailsPanel';
-import ProfileComments from '@/src/app/backend/components/panels/ProfileCommentsPanel';
+import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
+import ProfileDetails from '@/src/app/backend/components/panels/columns/ProfileDetailsPanel';
+import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 import { Post as PostInterface } from '@/libraries/structures';
 
 export default function Profile() {

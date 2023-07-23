@@ -18,7 +18,6 @@ interface Post {
 
     upvotes?: string[];
     downvotes?: string[];
-    shares?: number;
     interests?: string[];
     bookmarks?: string[];
     comments?: number[];

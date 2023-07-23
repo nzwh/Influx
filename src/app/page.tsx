@@ -7,11 +7,10 @@ import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
 import Post from '@/src/app/backend/components/template/PostTemplate';
-import Panel from '@/src/app/backend/components/template/PanelTemplate';
-import About from '@/src/app/backend/components/panels/AboutPanel';
+import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
-import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
+import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 import { Post as PostInterface, 
          Community as CommunityInterface, 
          User as UserInterface } from '@/libraries/structures';
@@ -51,15 +50,12 @@ export default function Home() {
             edited_at: post.edited_at,
             upvotes: post.upvotes,
             downvotes: post.downvotes,
-            shares: post.shares,
             interests: post.interests,
             bookmarks: post.bookmarks,
             comments: post.comments,
             is_open: post.is_open,
-            range: {
-              start: post.range_start,
-              end: post.range_end,
-            },
+            range_start: post.range_start,
+            range_end: post.range_end,
           }));
 
           const authorIds = formattedData.map((post) => post.author.uuid);
@@ -135,7 +131,7 @@ export default function Home() {
       <Background />
       <TopbarNav /> { /*// TODO: Add Create Post hook */ }
       
-      <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
+      <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 
         {/* ExplorerNav & Padder */}
         <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" />
@@ -164,11 +160,8 @@ export default function Home() {
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
-
-            <Panel title="Explore" />
-            <Panel title="Communities" />
+          
             <About />
-
           </div>
         </div>
         

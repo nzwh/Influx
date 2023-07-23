@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import { RotateCcw, Star } from 'lucide-react';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 
 const ProfileListings: React.FC<Props> = ({ handle }) => {
   return (
-    <section id="listings" className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4 filter drop-shadow-2xl">
+    <Panel classes="flex-row p-4 gap-4">
       <div className="flex flex-row gap-4 items-center">
       <h6 className="text-gray-800 font-regular text-xs leading-4">Listings by @{handle}</h6>
       <h6 className="text-gray-800 font-regular text-xs leading-4">View all</h6>
@@ -30,7 +31,7 @@ const ProfileListings: React.FC<Props> = ({ handle }) => {
         <h6 className="text-gray-800 font-regular text-xs leading-3">Popular</h6>
       </div>
       </div>
-    </section>
+    </Panel>
   );
 };
 

@@ -7,9 +7,9 @@ import Image from 'next/image';
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
-import Listings from '@/src/app/backend/components/panels/ProfileListingsPanel';
+import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
 import Post from '@/src/app/backend/components/template/PostTemplate';
-import About from '@/src/app/backend/components/panels/AboutPanel';
+import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
 import { Post as PostInterface } from '@/libraries/structures';

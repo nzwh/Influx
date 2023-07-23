@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash, LogOut } from 'lucide-react';
 
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
-import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
+import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 
 import supabase from '@/src/app/backend/supabase';
 
@@ -47,7 +47,7 @@ const TopbarNav: React.FC = () => {
   }
 
   return (
-    <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-2 px-[12%] fixed z-60">
+    <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-[1px] px-[12%] fixed z-[50]">
       <section className="flex flex-row items-center gap-4 w-auto">
         <Link href="/">
           <Image src="/root/influx.svg" alt="Logo" width={40} height={0} />
