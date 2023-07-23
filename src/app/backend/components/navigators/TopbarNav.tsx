@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash, LogOut } from 'lucide-react';
 
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
-import Dropdown from '@/src/app/backend/components/utilities/Dropdown';
+import TopbarNavPopover from '@/src/app/backend/components/popovers/TopbarNavPopover';
 import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 
 import supabase from '@/src/app/backend/supabase';
@@ -24,7 +24,7 @@ const TopbarNav: React.FC = () => {
     }
   };
 
-  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const [isTopbarNavPopoverOpen, setIsTopbarNavPopoverOpen] = useState(false);
 
   const toggleDropDown = (previous: boolean) => {
     console.log(previous)
@@ -32,7 +32,7 @@ const TopbarNav: React.FC = () => {
   }
 
   const handleToggleDropDown = () => {
-    setIsDropDownOpen(toggleDropDown);
+    setIsTopbarNavPopoverOpen(toggleDropDown);
   };
 
   const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
@@ -94,17 +94,13 @@ const TopbarNav: React.FC = () => {
           <ShoppingBag size={12} strokeWidth={3} />
           <h6 className="text-xs font-regular leading-3">12 items</h6>
         </Link>
-
-        <div onClick={handleToggleDropDown}>
-          <Image className="cursor-pointer rounded-full ml-2" src="/avatars/temp.jpg" alt="Profile" width={24} height={24} />
+        &nbsp;
+        <div className="flex justify-center">
+        <div onClick={handleToggleDropDown} className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6">
         </div>
-        {isDropDownOpen && <Dropdown></Dropdown>}
-        <Link href="/profile" className="">
-          <Image className="rounded-full ml-2" src="/avatars/temp.jpg" alt="Profile" width={24} height={24} />
-        </Link>
-        <button onClick={handleLogout}>
-          <LogOut size={16} color="black" />
-        </button>
+        {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} />}  
+        </div>
+        
       </section>
     </nav>
   );
