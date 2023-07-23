@@ -33,7 +33,7 @@ const ExplorerNav: React.FC<WrapperProps> = ({ user, wrapperClass }) => {
         <Bookmark size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Bookmarks</h6>
       </Link>
-      <Link href="/shopping-cart" className="flex flex-row items-center gap-2 text-gray-700 px-2 py-1.5 rounded-sm hover:bg-slate-300 transition-colors duration-200">
+      <Link href="/cart" className="flex flex-row items-center gap-2 text-gray-700 px-2 py-1.5 rounded-sm hover:bg-slate-300 transition-colors duration-200">
         <ShoppingBag size={16} strokeWidth={3}/>
         <h6 className="font-regular text-sm">Shopping Cart</h6>
       </Link>
