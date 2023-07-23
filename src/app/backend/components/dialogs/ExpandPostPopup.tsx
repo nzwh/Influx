@@ -123,9 +123,9 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
 
           <div className="flex flex-row w-full py-1 items-center gap-3">
             <div className="flex flex-row items-center gap-2">
-              <Image className="rounded-full" src={post.author.icon} alt="User Icon" width={36} height={36} />
+              <Image className="rounded-full" src={post.author?.icon || ""} alt="User Icon" width={36} height={36} />
               <div className="flex flex-col justify-center">
-                <h6 className="text-gray-800 font-medium text-sm leading-4 tracking-tight">{`${post.author.first_name} ${post.author.last_name}`}</h6>
+                <h6 className="text-gray-800 font-medium text-sm leading-4 tracking-tight">{`${post.author?.first_name} ${post.author?.last_name}`}</h6>
                 <h6 className="text-gray-500 font-regular text-xs leading-4">{convertToRelativeDate(post.posted_at.toLocaleString())}&ensp;•&ensp;{`@${post.author?.handle}`}</h6>
               </div>
             </div>
@@ -135,22 +135,22 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
                   <MapPin size={12} strokeWidth={3} className="mr-1" /> Located at
                 </h6>
                 <div className="text-gray-600 font-medium text-xs tracking-tighter leading-4 flex items-center">
-                  <span className="break-words">{post.author.location}</span>
+                  <span className="break-words">{post.author?.location}</span>
                 </div>
               </div>
               <div className="ml-2">
                 <h6 className="text-gray-600 font-medium text-xs tracking-tighter leading-4 flex items-center">
                   <Package size={12} strokeWidth={3} className="mr-1" /> Delivers using
                 </h6>
-                {(post.author.delivery_methods.length === 0) ? (
+                {(post.author?.delivery_methods.length === 0) ? (
                   <></>
                 ) : (
                   <div className="text-gray-600 font-medium text-xs tracking-tighter leading-4 flex items-center">
                     <span className="break-words">
-                      {post.author.delivery_methods.map((delivery_method, index) => (
+                      {post.author?.delivery_methods.map((delivery_method, index) => (
                         <React.Fragment key={index}>
                           {delivery_method}
-                          {index !== post.author.delivery_methods.length - 1 ? ', ' : ''}
+                          {index !== post.author?.delivery_methods.length || 0 - 1 ? ', ' : ''}
                         </React.Fragment>
                       ))}
                     </span>
