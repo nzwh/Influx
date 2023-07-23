@@ -67,7 +67,7 @@ const Login = () => {
 
   const handleChangePw = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
-    if (event.target.value.length >= 6 || event.target.value.length == 0) {
+    if (event.target.value.length >= 8 || event.target.value.length == 0) {
       setErrorPasswordMessage("")
     } else {
       setErrorPasswordMessage("Must be at least 8 characters")
