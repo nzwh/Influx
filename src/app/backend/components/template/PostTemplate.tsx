@@ -50,7 +50,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
         <div className="flex flex-row items-center gap-2">
           <Image className="rounded-full" src={post.origin.icon} alt="Shop Icon" width={16} height={16} />
           <h6 className="text-gray-800 font-medium text-[0.65rem]">{post.origin.name}</h6>
-          <h6 className="text-gray-500 font-normal text-[0.65rem]">{`@i/${post.origin.handle}`}</h6>
+          <h6 className="text-gray-500 font-normal text-[0.65rem]">{`@c/${post.origin.handle}`}</h6>
         </div>
         
         <div className="flex flex-row items-center gap-2">
@@ -76,7 +76,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
       <div className="flex flex-col gap-2 cursor-pointer" onClick={() => { handleExpandPostOpen(post) }}>
         <h1 className="text-gray-950 font-normal text-lg tracking-tight leading-[1.375rem] truncate break h-auto whitespace-pre-line">
           {post.title}
-          <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-400 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2 z-[-1]">{post.condition}</span>
+          <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-800 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2">{post.condition}</span>
         </h1>
         <p className="text-gray-800 font-light text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
           {post.description}
