@@ -149,7 +149,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
                       {post.author?.delivery_methods.map((delivery_method, index) => (
                         <React.Fragment key={index}>
                           {delivery_method}
-                          {index !== post.author?.delivery_methods.length || 0 - 1 ? ', ' : ''}
+                          {index !== post.author?.delivery_methods.length - 1 ? ', ' : ''}
                         </React.Fragment>
                       ))}
                     </span>
