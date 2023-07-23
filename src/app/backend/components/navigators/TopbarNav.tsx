@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash, LogOut } from 'lucide-react';
 
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
-import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
+import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 
 import supabase from '@/src/app/backend/supabase';
 

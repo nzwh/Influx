@@ -7,11 +7,10 @@ import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
 import Post from '@/src/app/backend/components/template/PostTemplate';
-import Panel from '@/src/app/backend/components/template/PanelTemplate';
-import About from '@/src/app/backend/components/panels/AboutPanel';
+import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
-import NewPost from '@/src/app/backend/components/panels/TimelineNewPostPanel';
+import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 import { Post as PostInterface, 
          Community as CommunityInterface, 
          User as UserInterface } from '@/libraries/structures';

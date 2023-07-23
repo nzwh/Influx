@@ -10,7 +10,7 @@ interface Props {
 	onCreatePost: (post: PostInterface) => void;
 }
 
-const TimelineNewPost: React.FC<Props> = ({ onCreatePost }) => {
+const DashNewPost: React.FC<Props> = ({ onCreatePost }) => {
 
 	const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
 	const [postType, setPostType] = useState(0);
@@ -77,4 +77,4 @@ const TimelineNewPost: React.FC<Props> = ({ onCreatePost }) => {
   );
 };
 
-export default TimelineNewPost;
+export default DashNewPost;
