@@ -17,38 +17,41 @@ interface Props {
 
 const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType }) => {
 
+  // Mapping for type
   const mapping : any = { 1: "article", 2: "buying", 3: "selling" };
   const mapping_flip : any = { "article": 1, "buying": 2, "selling": 3 };
 
+  // Allows clicking outside of the modal to close it
   const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
 
-  const user = require('@/json/active.json');
+  // Import static data from JSONs
+  const user = require('@/json/active.json'); // TODO: Replace with actual user data
   let conditions = require('@/json/conditions.json');
 
+  // Counter for title length
   const [titleCount, setTitleCount] = useState(0);
 
-  // tags
+  // Tags
   const [tagInput, setTagInput] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
   const tagInputRef = useRef<HTMLInputElement>(null);
-
   const handleTagInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === " " || event.key === "Enter") {
-      addTag();
+      handleAddTag();
     }
   };
 
-  const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTagInput(event.target.value);
-    event.target.width = event.target.value.length;
-  };
+  const handleAddTag = () => {
+    if (formData.tags?.length === 20) {
+      alert("You can only add up to 20 tags.");
+      return;
+    }
 
-  const addTag = () => {
-    const trimmedTag = tagInput.trim();
-    if (trimmedTag !== "" && !tags.includes(trimmedTag)) {
-      setTags((prevTags) => [...prevTags, trimmedTag]);
+    const trimmedTag = tagInput.trim().replace(/\s+/g, "");
+    if (trimmedTag !== "" && !formData.tags?.includes(trimmedTag)) {
+      setFormData({ ...formData, tags: [...formData.tags!, trimmedTag] });
       setTagInput("");
     }
+
     setTimeout(() => {
       if (tagInputRef.current) {
         tagInputRef.current.focus();
@@ -56,8 +59,8 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
     }, 0);
   };
 
-  const removeTag = (tagToRemove: string) => {
-    setTags((prevTags) => prevTags.filter((tag) => tag !== tagToRemove));
+  const handleRemoveTag = (tagToRemove: string) => {
+    setFormData({ ...formData, tags: formData.tags?.filter((tag) => tag !== tagToRemove) });
   };
 
   useEffect(() => {
@@ -67,7 +70,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
     }
   }, [tagInput]);
 
-  // images
+  // Images
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -78,6 +81,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
         alert("You can only upload up to 4 images.");
         return;
       }
+
       setSelectedImages(prevSelectedImages => [...prevSelectedImages, ...imageArray]);
     }
   };
@@ -136,6 +140,8 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
     range_start: 0,
     range_end: 0
   });
+
+  // Communities
   const [communities, setCommunities] = useState<CommunityInterface[]>([]);
 
   useEffect(() => {
@@ -161,6 +167,11 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
   // InputListener
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 
+    if (event.target.name === "tags") {
+      setTagInput(event.target.value.replace(/\s+/g, ""));
+      return;
+    }
+
     if (event.target.name === "type") {
       setFormData({ ...formData, [event.target.name]: mapping[event.target.value] });
       return;
@@ -174,9 +185,6 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
         break;
       case "description":
         setDescValue(event.target.value);
-        break;
-      case "tags":
-        setFormData({ ...formData, [event.target.name]: tags });
         break;
     }
   };
@@ -213,7 +221,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
       title: formData.title,
       description: formData.description,
       condition: formData.condition,
-      tags: tags,
+      tags: formData.tags,
       media: formData.media,
   
       is_edited: false,
@@ -229,8 +237,6 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
       range_start: formData.range_start,
       range_end: formData.range_end
     };
-
-    console.log(JSON.stringify(newPost));
   
     try {
       // Insert the new post into the "posts" table
@@ -262,7 +268,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
     <main  
       className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
       ref={modalRef} onClick={handleClickOutside}>
-      <div className="bg-white rounded-sm p-6 w-96 flex flex-col gap-2 z-[50]">
+      <div className="bg-white rounded-sm p-6 w-96 flex flex-col gap-2 z-[40]">
 
         {/* Header */}
         <div className="flex flex-row items-center justify-between">
@@ -358,14 +364,14 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
           <label className="text-gray-800 text-xs font-regular">Listing Media</label>
           <div className="flex flex-row gap-2">
             {selectedImages.map((image, index) => (
-              <div key={index} className="w-[4.75rem] h-[4.75rem] relative" onClick={() => handleImageRemove(image)}>
+              <div key={index} className="w-[4.75rem] h-[4.75rem] relative overflow-hidden flex items-center" onClick={() => handleImageRemove(image)}>
                 <span className="absolute text-[0.625rem] text-gray-200 font-light opacity-0 hover:opacity-100 transition-all duration-200 z-[1] w-[4.75rem] h-[4.75rem] hover:bg-black hover:bg-opacity-50 flex items-center justify-center cursor-pointer ">Delete</span>
-                <img src={image} alt={`Image ${index}`} className="rounded-sm duration-200 z-[0]" />
+                <img src={image} alt={`Image ${index}`} className="rounded-sm duration-200 z-[0] w-100" />
               </div>
             ))}
             {selectedImages.length <= 3 ? (
               <div>
-                <input type="file" id="files" multiple onChange={handleImageChange} className="hidden"/>
+                <input type="file" id="files" multiple onChange={handleImageChange} className="hidden" accept="image/*"/>
                 <label htmlFor="files" id="lable_file" className="w-[4.75rem] h-[4.75rem] bg-gray-100 rounded-sm flex flex-col gap-1 justify-center items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200 border border-gray-200">
                   <ImagePlus className="text-gray-400" size={24} strokeWidth={1} />
                   <h6 className="text-gray-400 text-[0.625rem] font-light">Add Image</h6>
@@ -379,13 +385,12 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
           <div className="flex flex-col gap-2 w-full">
           <label className="text-gray-800 text-xs font-regular">Listing tags</label>
           <div className="flex flex-row flex-wrap gap-1">
-            {tags.map((tag, index) => (
-              <span key={index} onClick={() => removeTag(tag)} className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full cursor-pointer text-[0.625rem] font-light items-center justify-center flex flex-row gap-1 hover:bg-gray-300 transition-colors duration-200 border border-gray-200">{tag}
+            {formData.tags?.map((tag, index) => (
+              <span key={index} onClick={() => handleRemoveTag(tag)} className="bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full cursor-pointer text-[0.625rem] font-light items-center justify-center flex flex-row gap-1 hover:bg-gray-200 transition-colors duration-200 border border-gray-200">{tag}
                 <X className="text-gray-800" size={8} strokeWidth={3} />
               </span>
             ))}
-            <input type="text" ref={tagInputRef} value={tagInput} onChange={handleTagInputChange} onKeyDown={handleTagInputKeyPress} placeholder="Type something" className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full text-[0.625rem] font-light w-full border border-gray-200" maxLength={50}/>
-          
+            <input type="text" name="tags" ref={tagInputRef} value={tagInput} onChange={handleInputChange} onKeyDown={handleTagInputKeyPress} placeholder="Type something" className="bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full text-[0.625rem] font-light w-full border border-gray-200 hover:bg-gray-200 transition-colors duration-200" maxLength={50}/>
           </div>
           </div>
           

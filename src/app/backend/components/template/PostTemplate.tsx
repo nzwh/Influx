@@ -54,7 +54,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
         </div>
         
         <div className="flex flex-row items-center gap-2">
-          <Image className="rounded-full" src={post.author?.icon} alt="User Icon" width={36} height={36} />
+          <Image className="rounded-full" src={post.author?.icon || ""} alt="User Icon" width={36} height={36} />
           <div className="flex flex-col justify-center">
             <h6 className="text-gray-800 font-medium text-base leading-4 tracking-tight">{`${post.author?.first_name} ${post.author?.last_name}`}</h6>
             <h6 className="text-gray-500 font-normal text-[0.65rem] leading-4">{`@${post.author?.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
