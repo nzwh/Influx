@@ -1,15 +1,13 @@
 import { useRouter } from 'next/navigation';
 
-const useNavigateToProfile = () => {
+const useNavigateToProfile = (handle: string) => {
 
   const router = useRouter();
 
   const navigateToProfile = (handle: string) => {
 
-    const profileUrl = `/profile/@${handle}`;
-    router.push(`/profile`, profileUrl);
-
-    return handle;
+    const profileUrl = `/profile/${handle}`;
+    router.push(profileUrl);
   };
 
   return navigateToProfile;

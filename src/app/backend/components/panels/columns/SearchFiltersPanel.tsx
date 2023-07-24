@@ -149,7 +149,7 @@ const SearchFilters: React.FC = () => {
   };
 
   return (
-    <Panel classes="flex-col p-4 gap-4">
+    <Panel classes="flex-col p-4 gap-4 z-[1]">
 
       {/* <form className="flex flex-col gap-4"> */}
 

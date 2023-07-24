@@ -14,18 +14,17 @@ import SearchFilters from './backend/components/panels/columns/SearchFiltersPane
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
 import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
-import { Post as PostInterface, 
-         Community as CommunityInterface, 
-         User as UserInterface } from '@/libraries/structures';
+import { Post as PostInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/supabase';
+import ProfileAccount from './backend/components/panels/columns/ProfileAccountPanel';
 
 export default function Home() {
 
   // TODO: Load user info dynamically through auth
-  let user = require('@/json/active.json');
+  // let user = require('@/json/active.json');
   const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
-  const { handleAddPost, handleDeletePost } = usePostActions();
+  const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
 
   return (
     <main>
@@ -37,10 +36,11 @@ export default function Home() {
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 
         {/* ExplorerNav & Padder */}
-        <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" />
+        {/* <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" /> */}
+        <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" />
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
-        <div className="flex flex-row gap-2 justify-center w-full ">
+        <div className="flex flex-row gap-2 justify-center w-full">
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
@@ -49,7 +49,7 @@ export default function Home() {
               <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (
                   <li key={post.id}>
-                    <Post post={post} onDelete={handleDeletePost} />
+                    <Post post={post} onDelete={handleDeletePost} onEdit={handleEditPost} />
                   </li>
                 ))}
               </ul>
@@ -62,7 +62,8 @@ export default function Home() {
           </div>
           
           {/* Panels */}
-          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
+          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
+            <ProfileAccount />
             <SearchFilters />
             <About />
           </div>

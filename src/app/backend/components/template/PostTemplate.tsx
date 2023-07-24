@@ -11,16 +11,18 @@ import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism'
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 
 import { Post as PostInterface } from "@/libraries/structures";
-import { Bookmark, MessageCircle, ShoppingBag } from 'lucide-react';
+import { Bookmark, MessageCircle, MoreHorizontal, ShoppingBag } from 'lucide-react';
 
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import PostPopover from '@/src/app/backend/components/popovers/PostPopover';
 
 interface Props {
   post: PostInterface;
   onDelete: (postId: number) => void;
+  onEdit: (postId: number) => void;
 }
 
-const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
+const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
 
   const navigateToProfile = useNavigateToProfile();
   
@@ -46,8 +48,20 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
 
   // Handles deleting a post from the list.
   // TODO: Relocate to popup
-  const handlePostDelete = (id:number) => {
+  const handleDelete = (id:number) => {
     onDelete(id);
+  };
+  const handleEdit = (id:number) => {
+    onEdit(id);
+  }
+
+  const [isPostPopoverOpen, setIsPostPopoverOpen] = useState(false);
+
+  const handleToggleDropDown = () => {
+    setIsPostPopoverOpen((previous) => !previous);
+  };
+  const handleClosePostPopover = () => {
+    setIsPostPopoverOpen(false);
   };
 
 	return (
@@ -121,7 +135,12 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
             </div>
           ) : null }
 
-
+          {/* More */}
+          <div className="flex justify-end relative">
+          <MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} 
+            onClick={handleToggleDropDown} />
+          {isPostPopoverOpen && <PostPopover isOpen={isPostPopoverOpen} onClose={handleClosePostPopover} handleEditPost={handleEdit} handleDeletePost={handleDelete} />}
+          </div>
 
         </div>
       </div>

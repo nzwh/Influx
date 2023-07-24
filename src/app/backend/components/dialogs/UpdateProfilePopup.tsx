@@ -1,142 +1,243 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import useModal from "@/src/app/backend/hooks/useModal";
+import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
+import { User as UserInterface } from '@/libraries/structures';
+import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesPopover';
 
-import { AlignJustify, AtSign, ChevronRight, CreditCard, FormInput, Mail, Package, Phone, SquareAsterisk, X } from 'lucide-react';
+import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
+import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Star } from 'lucide-react';
+import supabase from '@/src/app/backend/supabase';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  onSubmit: (user: UserInterface) => void;
 }
 
-const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose }) => {
+const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
+
+  // Allows clicking outside of the modal to close it
   const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
 
-	return (
-		<main 
-      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
-      ref={modalRef} onClick={handleClickOutside}
-    > 
-		  <div className="bg-white rounded-sm p-6 flex flex-col h-[41rem] w-[32rem] gap-2">
-				
-				<div className="flex flex-row items-center justify-between cursor-pointer" onClick={onClose}>
-					<div className="flex flex-row gap-2 items-center">
-						<h6 className="font-medium text-xs h-full">Return to profile</h6>
-						<ChevronRight className="opacity-70" color="black" size={14} strokeWidth={3}/>
-					</div>
-					<X className="opacity-70" color="black" size={14} strokeWidth={3}/>
-				</div>
+  // Import static data from JSONs
+  const user = require('@/json/active.json'); // TODO: Replace with actual user data
+  const defaults = require("@/json/defaults.json");
 
-				<div className="flex flex-row gap-6 w-full items-start">
-					<Image className="rounded-full mt-6" src="/avatars/temp.jpg" alt="User Icon" width={110} height={110} />
-					<form className="flex flex-col w-full">
-							<div className="flex flex-row gap-4 w-full items-center pt-3">
-                <div className="flex flex-col w-full">
-                <label htmlFor="firstname" className="text-gray-800 font-regular text-xs leading-8">First name</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="firstname" type="text" placeholder="Influx" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
-                </div>
-                </div>
+  // Images
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const imageArray: string[] = Array.from(files).map(file => URL.createObjectURL(file));
 
-                <div className="flex flex-col w-full">
-                <label htmlFor="lastname" className="text-gray-800 font-regular text-xs leading-8">Last name</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <FormInput className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="lastname" type="text" placeholder="IO" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
-                </div>
-                </div>
-              </div>
+      if (selectedImages.length + imageArray.length > 4) {
+        alert("You can only upload up to 4 images.");
+        return;
+      }
 
-              <div className="flex flex-col w-full">
-                <label htmlFor="username" className="text-gray-800 font-regular text-xs leading-8">Username</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <AtSign className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="username" type="text" placeholder="@influx.io" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
-                </div>
-              </div>
-						
-							<div className="flex flex-col w-full">
-                <label htmlFor="email" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <Mail className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="email" type="email" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
-                </div>
-              </div>
+      setSelectedImages(prevSelectedImages => [...prevSelectedImages, ...imageArray]);
+    }
+  };
 
-              <div className="flex flex-col w-full">
-                <label htmlFor="password" className="text-gray-800 font-regular text-xs leading-8">Password</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic" required></input>
-                </div>
-              </div>
+  const handleImageRemove = (image: string) => {
+    setSelectedImages(prevSelectedImages => prevSelectedImages.filter(img => img !== image));
+  };
 
-							<div className="flex flex-col w-full">
-                <label htmlFor="phnumber" className="text-gray-800 font-regular text-xs leading-8">Phone Number</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <Phone className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="phnumber" type="text" placeholder="+63" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic"></input>
-                </div>
-              </div>
+  // form
+  const [formData, setFormData] = useState<UserInterface>({
+    id: user.id,
+    uuid: user.uuid,
+    handle: user.handle,
+    email_address: user.email_address,
 
-							<div className="flex flex-col w-full">
-                <label htmlFor="bio" className="text-gray-800 font-regular text-xs leading-8">Biography</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <AlignJustify className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="bio" type="text" placeholder="Welcome to Influx!" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic"></input>
-                </div>
-              </div>
+    icon: user.icon,
+    banner: user.banner,
+    first_name: user.first_name,
+    last_name: user.last_name,
 
-							<div className="flex flex-col w-full">
-                <label htmlFor="pmethod" className="text-gray-800 font-regular text-xs leading-8">Payment Methods</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <CreditCard className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="pmethod" type="text" placeholder="Mastercard, VISA" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic"></input>
-                </div>
-              </div>
+    phone_number: user.phone_number,
+    location: user.location,
+    biography: user.biography,
 
-							<div className="flex flex-col w-full">
-                <label htmlFor="dmethod" className="text-gray-800 font-regular text-xs leading-8">Delivery Methods</label>
-                <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                  <div className="h-full aspect-square flex items-center justify-center">
-                    <Package className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                  </div>
-                  <input id="dmethod" type="text" placeholder="J&T, GOGO, SPX" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2 italic"></input>
-                </div>
-              </div>
-					</form>
-				</div>
+    payment_methods: user.payment_methods,
+    delivery_methods: user.delivery_methods,
 
-				<div className="flex flex-row items-center justify-end gap-2 pt-6">
-					<button onClick={onClose} className="px-4 flex flex-row rounded-2xl items-center justify-center cursor-pointer gap-2">
-						<h6 className="text-gray-800 font-light text-xs h-full cursor-pointer py-1.5">Cancel</h6>
-					</button>
-					<button type="submit" className="px-4 flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
-						<h6 className="text-violet-300 font-light text-xs h-full cursor-pointer py-1.5">Save changes</h6>
-					</button>
-				</div>
+    is_verified: user.is_verified,
+  });
 
-			</div>
-		</main>
-	);
-};
+  // InputListener
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+    if (event.target.name === "biography") {
+      setBioValue(event.target.value);
+    }
+  };
+
+  const handlePMSubmit = (data: string[]) => {
+    setFormData({ ...formData, payment_methods: data });
+  };
+  const handleDMSubmit = (data: string[]) => {
+    setFormData({ ...formData, delivery_methods: data });
+  };
+
+  // SubmitListener
+  const handleSubmit = async () => {
   
+    const updatedUser : UserInterface = {
+      id: formData.id,
+      uuid: formData.uuid,
+      handle: formData.handle,
+      email_address: formData.email_address,
+
+      icon: formData.icon,
+      banner: formData.banner,
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+
+      phone_number: formData.phone_number,
+      location: formData.location,
+      biography: formData.biography,
+
+      payment_methods: formData.payment_methods,
+      delivery_methods: formData.delivery_methods,
+
+      is_verified: formData.is_verified,
+    };
+  
+    // try {
+    //   // Insert the new post into the "posts" table
+    //   const { data: newPostData, error: newPostError } = await supabase
+    //     .from('posts')
+    //     .insert([newPost]);
+  
+    //   if (newPostError) {
+    //     throw newPostError;
+    //   }
+  
+    //   console.log('New post added successfully:', newPostData);
+    //   onSubmit(newPostData);
+    //   onClose();
+    // } catch (error) {
+    //   console.error('Error submitting post:', error);
+    // }
+  };  
+  
+  const [isPMSelectExpanded, setIsPMSelectExpanded] = useState(false);
+  const handleExpandPMSelect = () => {
+    setIsPMSelectExpanded(!isPMSelectExpanded);
+  };
+
+  const [isDMSelectExpanded, setIsDMSelectExpanded] = useState(false);
+  const handleExpandDMSelect = () => {
+    setIsDMSelectExpanded(!isDMSelectExpanded);
+  };
+
+  // Autosizing
+  const [bioValue, setBioValue] = useState("");
+  const textBioAreaRef = useRef<HTMLTextAreaElement>(null);
+  AutosizeTextarea(textBioAreaRef.current, bioValue);
+
+  return (
+    <main  
+      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-[60]"
+      ref={modalRef} onClick={handleClickOutside}>
+
+      <div className="bg-white rounded-sm w-[24rem] flex flex-col gap-2 z-[40] relative">
+
+        <div className="absolute bg-[url('/root/login.png')] bg-cover w-full h-[11rem] rounded-sm" />
+        <div className="absolute z-[0] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-[24rem] rounded-sm top-32 bg-no-repeat" />
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+          {/* Account */}
+        <div className="z-[1] flex flex-col gap-2 p-4">
+
+          {/* Padder */}
+          <div className="h-28"></div>
+
+          {/* Profile */}
+          <div className="flex flex-row items-center gap-2 w-full py-2 px-4">
+
+            {/* Author Avatar */}
+            <Image className="rounded-full w-12 h-12" src={user.icon} alt="User Icon" width={48} height={48} />
+
+            <div className="flex flex-col justify-center w-full">
+
+              <div className="flex flex-row gap-2 w-full">
+
+              {/* Author Name */}
+              <input type="text" name="first_name" value={formData.first_name} onChange={handleInputChange} className="text-gray-800 font-normal text-lg leading-3 tracking-tight focus:border-b-[1px] cursor-pointer overflow-y-hidden w-full" placeholder="First Name"/>
+
+              {/* Author Name */}
+              <input type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} className="text-gray-800 font-normal text-lg leading-3 tracking-tight focus:border-b-[1px] cursor-pointer overflow-y-hidden w-full" placeholder="Last Name"/>
+
+              </div>
+
+              {/* Author Handle */}
+              <h6 className="text-gray-500 font-light text-sm leading-4">{`@${user?.handle}`}</h6>
+
+            </div>
+          </div>
+
+          {/* Biography */}
+          <textarea name="biography" value={formData.biography} onChange={handleInputChange} ref={textBioAreaRef} className="text-gray-800 font-light text-xs leading-4 focus:border-b-[1px] focus:outline-none resize-none cursor-pointer overflow-y-hidden" placeholder="Biography" rows={1} maxLength={100}/>
+
+          {/* Location */}
+          <div className="flex flex-row items-center gap-1 w-full">
+            <Map className="opacity-70" color="black" size={14} />
+            <input type="text" name="location" value={formData.location} onChange={handleInputChange} className="text-gray-800 font-light text-xs leading-3 focus:border-b-[1px] focus:outline-none w-full cursor-pointer" placeholder="Location" />
+          </div>
+
+          {/* Divider */}
+          <div className="py-2">
+            <hr/>
+          </div>
+
+          <div className="flex flex-wrap gap-4">
+
+          {/* Payment Methods */}
+          <div className="flex flex-row gap-2 w-full">
+            
+            <div className="flex justify-center relative w-full">
+            <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 py-2 justify-between cursor-pointer" onClick={handleExpandPMSelect}>
+              <div className="flex flex-row gap-2">
+                <Star className="text-gray-800" size={12} strokeWidth={3} />
+                <h6 className="text-gray-800 font-light text-xs leading-3">Payment Methods</h6>
+              </div>
+              <ChevronDown className="text-gray-800" size={12} strokeWidth={3} />
+            </div>
+            {isPMSelectExpanded && <CheckboxesPopover prevData={formData.payment_methods} onSubmit={handlePMSubmit} onClose={handleExpandPMSelect} data={defaults.payment_methods as string[]} />}
+            </div>
+
+            <div className="flex justify-center relative w-full">
+            <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 py-2 justify-between cursor-pointer" onClick={handleExpandDMSelect}>
+              <div className="flex flex-row gap-2">
+                <Star className="text-gray-800" size={12} strokeWidth={3} />
+                <h6 className="text-gray-800 font-light text-xs leading-3">Delivery Methods</h6>
+              </div>
+              <ChevronDown className="text-gray-800" size={12} strokeWidth={3} />
+            </div>
+            {isDMSelectExpanded && <CheckboxesPopover prevData={formData.delivery_methods} onSubmit={handleDMSubmit} onClose={handleExpandDMSelect} data={defaults.delivery_methods as string[]} />}
+            </div>
+          </div>
+          
+          </div>
+
+          {/* Submit */}
+          <div className="flex justify-end pt-4">
+            <button type="button" className="text-xs font-light px-4 py-1.5 text-gray-500" onClick={onClose}>Cancel</button>
+            <button type="submit" className="text-xs font-light px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-violet-300 rounded-full transition-colors duration-200">Save changes</button>
+          </div>
+          </div>
+        </form>
+      </div>
+    </main>
+  );
+};
+
 export default UpdateProfilePopup;
