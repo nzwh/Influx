@@ -27,7 +27,7 @@ const TopbarNav: React.FC = () => {
     }
   }, [])
   
-  const { user, fetchUser} = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
+  const { user, fetchUser } = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
   const activeData = user[0];
 
   const [ query, setQuery ] = useState('');

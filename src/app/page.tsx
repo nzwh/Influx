@@ -17,6 +17,7 @@ import Welcome from '@/src/app/backend/components/panels/columns/WelcomePanel';
 import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 
 import { Post as PostInterface } from '@/libraries/structures';
+import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFiltersPanel';
 
 export default function Home() {
 
@@ -63,6 +64,7 @@ export default function Home() {
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
             <Welcome />
+            <SearchFilters />
             <About />
           </div>
         </div>
