@@ -35,7 +35,7 @@ const usePostActions = () => {
   }
 
    // Handles adding new posts to the top of the list.
-   const handleEditPost = async (postId: number, post: PostInterface) => {
+   const handleEditPost = async (post: PostInterface) => {
     try {
       console.log('Editing post...');
       const { error } = await supabase.from('posts').delete().match({ id: postId });
