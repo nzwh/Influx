@@ -9,22 +9,25 @@ import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
 import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
-import Post from '@/src/app/backend/components/template/PostTemplate';
-import About from '@/src/app/backend/components/panels/columns/AboutPanel';
-import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
-import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
+import Background from '@/src/app/backend/components/panels/BackgroundPanel';
+import Post from '@/src/app/backend/components/template/PostTemplate';
+
+import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
+import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
+
 import { Post as PostInterface } from '@/libraries/structures';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 
 export default function Profile() {
+
   let activeD = JSON.parse(sessionStorage.getItem('token')!)
   const router = useRouter();
-  // let user = require('@/json/active.json'); // TODO: Load user info dynamically through auth
+
   const { posts, fetchPosts } = useFetchPosts({ type: 'user', userId: activeD.user.id as string }); // TODO: Change type to user
-  const { handleAddPost, handleDeletePost } = usePostActions();
+  const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
   const [svg, setSvg] = useState('');
 
   useEffect(() => {
@@ -40,59 +43,55 @@ export default function Profile() {
   const { user, fetchUser} = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
   const activeData = user[0];
 
-  if (user && user.length > 0) {
-    return (
-      <main>
+  return (
+    <main>
 
-        {/* Templates */}
-        <Background />
-        <TopbarNav /> { /*// TODO: Add Create Post hook */ }
+      {/* Templates */}
+      <Background />
+      <TopbarNav />
 
-        <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
+      <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
 
-          {/* ExplorerNav & Padder */}
-          <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" />
-          <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
+        {/* ExplorerNav & Padder */}
+        <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" />
+        <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
-          <div className="flex flex-row gap-2 justify-center w-full ">
+        <div className="flex flex-row gap-2 justify-center w-full ">
 
-            {/* New Post & Post Loader */}
-            <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
-              <Listings handle={activeData.handle}/>
-              {posts && (
-                <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
-                  {posts.map((post: PostInterface) => (
-                    <li key={post.id}>
-                      <Post post={post} onDelete={handleDeletePost} />
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {posts.length == 0 && (
-                <span className="flex flex-col items-center justify-center z-0">
-                  <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
-                  <p className='text-gray-700 text-sm'>No posts to show</p>
-                </span>
-              )}
-            </div>
-            
-            {/* Panels */}
-            <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
-
-              <ProfileAccount />
-              <ProfileComments />
-              <About />
-
-            </div>
+          {/* New Post & Post Loader */}
+          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
+            <Listings handle={activeData ? activeData.handle : ""}/>
+            {posts.length ? (
+              <ul className="flex flex-col gap-2 h-full w-[32rem]">
+                {posts.map((post: PostInterface) => (
+                  <li key={post.id}>
+                    <Post post={post} onDelete={handleDeletePost} onEdit={handleEditPost} />
+                  </li>
+                ))}
+              </ul>
+            ):(
+              <span className="flex flex-col items-center justify-center z-[-2]">
+                <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
+                <p className='text-gray-700 text-sm'>No posts to show</p>
+              </span>
+            )}
           </div>
+          
+          {/* Panels */}
+          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
 
-          {/* Quick Access & Padder */}
-          <div id="quick" className="h-full w-40 min-w-[10rem] gap-4 flex flex-col fixed right-[12%] ex-br"></div>
-          <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
+            <ProfileAccount />
+            <ProfileComments />
+            <About />
+
+          </div>
         </div>
-      </main>
-    );
-  } else {
-    console.log("User data is not available yet.");
-  }
+
+        {/* Quick Access & Padder */}
+        <div id="quick" className="h-full w-40 min-w-[10rem] gap-4 flex flex-col fixed right-[12%] ex-br"></div>
+        <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
+
+      </div>
+    </main>
+  );
 }

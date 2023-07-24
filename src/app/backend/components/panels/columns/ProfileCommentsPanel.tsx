@@ -5,7 +5,7 @@ import Panel from '@/src/app/backend/components/template/PanelTemplate';
 
 const ProfileComments: React.FC = () => {
   return (
-    <Panel>
+    <Panel classes="flex-col p-4 gap-4 z-[1]" title="Comments">
       <div className="flex flex-col justify-center gap-1">
         <div className="flex flex-row items-center gap-1">
           <Image className="rounded-full" src="/avatars/temp.jpg" alt="Shop Icon" width={10} height={10} />

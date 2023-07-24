@@ -2,11 +2,13 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
 import useModal from "@/src/app/backend/hooks/useModal";
 import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
+// import useFetchPost from "@/src/app/backend/hooks/useFetchPost";
 import useNode from "@/src/app/backend/hooks/useNode";
 import Comment from "@/src/app/backend/components/utilities/Comment";
 import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
@@ -55,6 +57,22 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
   const handleProfileClick = () => {
     post.author?.handle ? navigateToProfile(post.author?.handle) : null;
   };
+
+  // let activeD = JSON.parse(sessionStorage.getItem('token')!)
+  // let router = useRouter();
+  
+  // useEffect(() => {
+  //   if(sessionStorage.getItem('token')) {
+  //     activeD = JSON.parse(sessionStorage.getItem('token')!)
+  //     console.log(activeD.user.id)
+  //   }
+  //   else {
+  //     router.push('/home')
+  //   }
+  // }, [])
+  
+  // const { user, fetchUser} = useFetchPost({ type: 'userId', userId: activeD.user.id as string });
+  // const activeData = user[0];
 
   return (
     <main 
