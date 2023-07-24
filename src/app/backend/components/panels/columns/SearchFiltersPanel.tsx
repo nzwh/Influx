@@ -3,11 +3,14 @@ import { useRouter } from 'next/navigation';
 
 import { Filter as FilterInterface } from '@/libraries/structures';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 
-import { ArrowDown01, ArrowUp10, ChevronDown, ChevronDownSquare, Option, ChevronsDown, RefreshCw, Search, Star, X } from 'lucide-react';
+import { ChevronDown, Option, ChevronsDown, RefreshCw, Search, Star, X } from 'lucide-react';
 import { ChevronsUp } from 'lucide-react';
 
 const SearchFilters: React.FC = () => {
+
+  const defaults = require('@/json/defaults.json');
 
   const [query, setQuery] = useState('');
   const router = useRouter();
@@ -28,33 +31,6 @@ const SearchFilters: React.FC = () => {
     owner: false
   });
 
-  const sorts = [
-    "Price",
-    "Popularity",
-    "Upvoted",
-    "Date Posted",
-  ];
-
-  const types = [
-    "All",
-    "Article",
-    "Buying",
-    "Selling",
-  ];
-
-  const conditions = [
-    "All",
-    "Pre-order", 
-    "Brand New",
-    "Mint", 
-    "Excellent", 
-    "Lightly-used", 
-    "Well-used", 
-    "Refurbished",
-    "Deteriorated",
-    "Broken" 
-  ]
-
   const [isAscending, setIsAscending] = useState(false);
   const [isDescending, setIsDescending] = useState(false);
 
@@ -71,12 +47,6 @@ const SearchFilters: React.FC = () => {
     setIsAscending(false);
     setFormData({ ...formData, 
       sort_order: !isDescending ? 'descending' : '' });
-  };
-
-  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      router.push(`/search?u=${query}`);
-    }
   };
 
   // Tags
@@ -123,14 +93,10 @@ const SearchFilters: React.FC = () => {
     if (event.target.name === "tags") {
       setTagInput(event.target.value.replace(/\s+/g, ""));
       return;
-    }
-
-    if (event.target.name === "open" || event.target.name === "owner") {
+    } else if (event.target.name === "open" || event.target.name === "owner") {
       setFormData({ ...formData, [event.target.name]: !formData[event.target.name as keyof FilterInterface] });
       return;
-    }
-
-    if (event.target.name.includes('min')) {
+    } else if (event.target.name.includes('min')) {
       setFormData({ ...formData, range_start: parseInt(event.target.value) });
       if (parseInt(event.target.value) > formData.range_end) {
         setFormData({ ...formData, range_end: parseInt(event.target.value) });
@@ -204,9 +170,9 @@ const SearchFilters: React.FC = () => {
             <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
               <Star className="text-gray-800" size={12} strokeWidth={3} />
               <select name="sort" value={formData.sort} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
-                {sorts.map((method: string, index: React.Key | null | undefined) => (
-                  <option className="w-full text-gray-500 text-sm font-light bg-gray-100" key={index} value={method}>
-                    {method}
+                {defaults.search_sorts.map((method: string, index: React.Key | null | undefined) => (
+                  <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={method}>
+                    {ToTitleCase(method)}
                   </option>
                 ))}
               </select>
@@ -234,9 +200,9 @@ const SearchFilters: React.FC = () => {
             <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
               <Star className="text-gray-800" size={12} strokeWidth={3} />
               <select name="condition" value={formData.condition} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
-                {conditions.map((condition: string, index: React.Key | null | undefined) => (
-                  <option className="w-full text-gray-500 text-sm font-light bg-gray-100" key={index} value={condition}>
-                    {condition}
+                {defaults.search_conditions.map((condition: string, index: React.Key | null | undefined) => (
+                  <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={condition}>
+                    {ToTitleCase(condition)}
                   </option>
                 ))}
               </select>
@@ -246,9 +212,9 @@ const SearchFilters: React.FC = () => {
             <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
               <Star className="text-gray-800" size={12} strokeWidth={3} />
               <select name="type" value={formData.type} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
-                {types.map((type: string, index: React.Key | null | undefined) => (
-                  <option className="w-full text-gray-500 text-sm font-light bg-gray-100" key={index} value={type}>
-                    {type}
+                {defaults.search_types.map((type: string, index: React.Key | null | undefined) => (
+                  <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={type}>
+                    {ToTitleCase(type)}
                   </option>
                 ))}
               </select>
