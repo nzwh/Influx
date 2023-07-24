@@ -27,13 +27,8 @@ const TopbarNav: React.FC = () => {
 
   const [isTopbarNavPopoverOpen, setIsTopbarNavPopoverOpen] = useState(false);
 
-  const toggleDropDown = (previous: boolean) => {
-    console.log(previous)
-    return !previous;
-  }
-
   const handleToggleDropDown = () => {
-    setIsTopbarNavPopoverOpen(toggleDropDown);
+    setIsTopbarNavPopoverOpen((previous) => !previous);
   };
 
   const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
@@ -55,6 +50,10 @@ const TopbarNav: React.FC = () => {
       alert(error)
     }
   }
+
+  const handleCloseTopbarNavPopover = () => {
+    setIsTopbarNavPopoverOpen(false);
+    };
 
   return (
     <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-[1px] px-[12%] fixed z-[50]">
@@ -94,10 +93,13 @@ const TopbarNav: React.FC = () => {
         </Link>
         &nbsp;
         <div className="flex justify-center">
-        <div onClick={handleToggleDropDown} className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6">
-        </div>
-        {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} />}  
-        </div>
+    <main>
+        <aside onClick={handleToggleDropDown}>
+          <div className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6"></div>
+        </aside>
+        {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
+      </main> 
+      </div>
         
       </section>
     </nav>

@@ -16,5 +16,8 @@
 
     "bookmarks": [],
     "shopping_cart": [],
-    "posts": []
+    "posts": [],
+
+    "is_verified": true,
+    "banner": "/root/login.png"
 }

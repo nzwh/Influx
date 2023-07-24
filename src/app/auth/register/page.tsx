@@ -17,6 +17,12 @@ export default function Register() {
   const [errorMessage, setErrorMessage] = useState<string>(''); // Add error message state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // Add submission status state
 
+  const [checkFName, setCheckFName] = useState<boolean>(false);
+  const [checkLName, setCheckLName] = useState<boolean>(false);
+  const [checkHandle, setCheckHandle] = useState<boolean>(false);
+  const [checkEmail, setCheckEmail] = useState<boolean>(false);
+  const [checkPassword, setCheckPassword] = useState<boolean>(false);
+
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState<UserInterface>({
       id: 0,
@@ -41,29 +47,43 @@ export default function Register() {
     console.log(event.target.name, event.target.value);
 
     if (event.target.name === "first_name") {
-      // Code to execute when the "first_name" input field changes
-      // For example, you can do validation or any other logic specific to this field.
-      // You can use the setErrorFNameMessage state to set an error message if needed.
       if (event.target.value.length > 0) {
         setErrorFNameMessage("");
+        setCheckFName(true)
       } else {
         setErrorFNameMessage("Required");
+        setCheckFName(false)
       }
     } else if (event.target.name === "last_name") {
       if (event.target.value.length > 0) {
         setErrorLNameMessage("");
+        setCheckLName(true)
       } else {
         setErrorLNameMessage("Required");
+        setCheckLName(false)
       }
     } else if (event.target.name === "handle") {
       if (event.target.value.length > 0) {
         setErrorHandleMessage("");
+        setCheckHandle(true)
       } else {
         setErrorHandleMessage("Required");
+        setCheckHandle(false)
+      }
+    } else if (event.target.name === "email_address") {
+      if (event.target.value.length > 0) {
+        if (event.target.value.includes("@")) {
+          setErrorEmailMessage("");
+          setCheckEmail(true)
+        } else {
+          setErrorEmailMessage("Invalid email address")
+          setCheckEmail(false)
+        }
+      } else {
+        setErrorEmailMessage("Required");
+        setCheckEmail(false)
       }
     }
-  };
-
 
     setFormData((prevFormData) => {
       return {
@@ -77,10 +97,13 @@ export default function Register() {
     console.log(event.target.name, event.target.value);
     if (event.target.value.length >= 8) {
       setErrorPasswordMessage("")
+      setCheckPassword(true)
     } else if (event.target.value.length == 0) {
       setErrorPasswordMessage("Required")
+      setCheckPassword(false)
     } else {
       setErrorPasswordMessage("Must be at least 8 characters")
+      setCheckPassword(false)
     }
 
     setPassword((prevPassword) => {
@@ -93,8 +116,14 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    
     try {
-      const { data, error } = await supabase.auth.signUp(
+      if (!checkFName || !checkLName || !checkHandle || !checkEmail || !checkPassword) {
+        setErrorMessage('Please correctly fill out all fields.');
+      }
+      else {
+        const { data, error } = await supabase.auth.signUp(
         {
           email: formData.email_address,
           password: password.password,
@@ -106,12 +135,13 @@ export default function Register() {
             }
           }
         })
-      if (error) throw error
-      else setShowPopup(true); 
-      //alert("There's already an account with that email address.")
-      
+        if (error) throw error
+        setShowPopup(true)
+      }
     } catch (error) {
-      alert(error)
+      setErrorMessage('Error.')
+    } finally {
+      setIsSubmitting(false) // Reset isSubmitting when the form submission process is complete
     }
   }
 
@@ -130,10 +160,10 @@ export default function Register() {
           <h6 className="text-white font-light text-[0.6rem] ">All Rights Reserved. ©2023 influx.io</h6>
         </div>
 
-        <div className="flex flex-col p-8 w-full justify-center">
+        <div className="flex flex-col p-8 w-full gap-2 justify-center">
           <h6 className="text-gray-800 font-medium text-2xl tracking-tight">Register an account</h6>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="flex flex-col">
             <div className="flex flex-row gap-4 w-full items-center pt-3">
               <div className="flex flex-col w-full">
                 <div className="flex flex-row gap-4 w-full items-center justify-between">
@@ -164,52 +194,46 @@ export default function Register() {
               </div>
             </div>
 
-            <div className="flex flex-col w-full">
-              <div className="flex flex-row gap-4 w-full items-center justify-between">
-                <label htmlFor="handle" className="text-gray-800 font-regular text-xs leading-8">Username</label>
-                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorHandleMessage}</label>
-              </div>
-
-              <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                <div className="h-full aspect-square flex items-center justify-center">
-                  <AtSign className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                </div>
-                <input name="handle" onChange={handleChangeForm} id="handle" type="text" placeholder="@influx.io" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
-              </div>
+            <div className="flex flex-row gap-4 w-full items-center justify-between">
+              <label htmlFor="handle" className="text-gray-800 font-regular text-xs leading-8">Username</label>
+              <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorHandleMessage}</label>
             </div>
 
-            <div className="flex flex-col w-full">
-              <div className="flex flex-row gap-4 w-full items-center justify-between">
-                <label htmlFor="email" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
-                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorEmailMessage}</label>
+            <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
+              <div className="h-full aspect-square flex items-center justify-center">
+                <AtSign className="opacity-50" color="black" strokeWidth={3} size={14}/>
               </div>
-
-              <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                <div className="h-full aspect-square flex items-center justify-center">
-                  <Mail className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                </div>
-                <input name="email_address" onChange={handleChangeForm} id="email_address" type="email" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
-              </div>
+              <input name="handle" onChange={handleChangeForm} id="handle" type="text" placeholder="@influx.io" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
             </div>
 
-            <div className="flex flex-col w-full">
-              <div className="flex flex-row gap-4 w-full items-center justify-between">
-                <label htmlFor="password" className="text-gray-800 font-regular text-xs leading-8">Password</label>
-                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorPasswordMessage}</label>
-              </div>
-
-              <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
-                <div className="h-full aspect-square flex items-center justify-center">
-                  <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
-                </div>
-                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required minLength={8}></input>
-              </div>
+            <div className="flex flex-row gap-4 w-full items-center justify-between">
+              <label htmlFor="email" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
+              <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorEmailMessage}</label>
             </div>
 
-            <button type="submit" className="my-6 w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
-              <h6 className="text-violet-300 font-light text-xs h-full cursor-pointer py-1.5">Continue with an Influx Account</h6>
+            <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
+              <div className="h-full aspect-square flex items-center justify-center">
+                <Mail className="opacity-50" color="black" strokeWidth={3} size={14}/>
+              </div>
+              <input name="email_address" onChange={handleChangeForm} id="email_address" type="email" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
+            </div>
+
+            <div className="flex flex-row gap-4 w-full items-center justify-between">
+              <label htmlFor="password" className="text-gray-800 font-regular text-xs leading-8">Password</label>
+              <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorPasswordMessage}</label>
+            </div>
+
+            <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
+              <div className="h-full aspect-square flex items-center justify-center">
+                <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
+              </div>
+              <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required minLength={8}></input>
+            </div>
+
+            <button type="submit"  disabled={isSubmitting} className="my-6 w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
+              <h6 className="text-violet-300 font-light text-xs h-full cursor-pointer py-1.5">{isSubmitting ? 'Creating an account...' : 'Continue with an Influx Account'}</h6>
             </button>
-            {errorMessage ? <div className="text-red-500 text-xs h-1">{errorMessage}</div> : <div className="text-xs h-1"></div>}
+            <label className="text-red-500 font-regular text-xs h-1">{errorMessage}</label>
           </form>
 
           <div className="flex flex-row gap-1 items-center py-2">
