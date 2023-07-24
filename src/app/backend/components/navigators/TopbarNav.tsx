@@ -70,18 +70,6 @@ const TopbarNav: React.FC = () => {
     setIsTopbarNavPopoverOpen(false);
     };
 
-<<<<<<< HEAD
-  return (
-    <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-[1px] px-[12%] fixed z-[50]">
-      <section className="flex flex-row items-center gap-4 w-auto">
-        <Link href="/">
-          <Image src="/root/influx.svg" alt="Logo" width={40} height={0} />
-        </Link>
-        <div className="bg-gray-200 text-gray-600 // h-6 px-3 // flex flex-row justify-between items-center gap-2 // rounded-full cursor-pointer">
-          <div className="flex flex-row items-center gap-2">
-            <Search size={12} strokeWidth={3}/>
-            <input className="text-gray-800 w-44 text-xs font-light bg-gray-200 focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearch} />
-=======
   if (user && user.length > 0) {
     return (
       <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-[1px] px-[12%] fixed z-[40]">
@@ -95,7 +83,6 @@ const TopbarNav: React.FC = () => {
               <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearch} />
             </div>
             <SquareSlash size={12} strokeWidth={3}/>
->>>>>>> dc08b34eb7ba37a440cbe5764b8b18c0ee616186
           </div>
         </section>
         <section className="flex flex-row items-center gap-2">
