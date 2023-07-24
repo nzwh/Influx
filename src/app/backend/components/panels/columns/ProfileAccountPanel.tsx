@@ -27,16 +27,20 @@ const ProfileAccount: React.FC = () => {
     setIsProfileEditOpen(false);
   };
 
+  const handleProfileSubmit = (data: any) => {
+    console.log(data);
+  };
+
   return (
 		<main>
-      <Panel classes="flex-col relative">
+      <Panel classes="flex-col relative z-[1]">
 
         {/* Header */}
-        <div className="absolute z-[0] bg-[url('/root/login.png')] bg-cover w-full h-20 rounded-sm" />
-        <div className="absolute z-[1] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-14 rounded-sm top-10 bg-no-repeat" />
+        <div className="absolute bg-[url('/root/login.png')] bg-cover w-full h-20 rounded-sm" />
+        <div className="absolute z-[0] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-14 rounded-sm top-10 bg-no-repeat" />
 
         {/* Account */}
-        <div className="z-[2] flex flex-col gap-2 p-4">
+        <div className="z-[1] flex flex-col gap-2 p-4">
 
           {/* Padder */}
           <div className="h-4"></div>
@@ -94,7 +98,7 @@ const ProfileAccount: React.FC = () => {
           {/* Postcount */}
           <div className="flex flex-row items-center gap-1">
             <Repeat2 className="opacity-70" color="black" size={12} />
-            <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{user.posts.length} Posts</h6>
+            <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{user.posts?.length || 0} Posts</h6>
           </div>
 
           </div>
@@ -146,7 +150,7 @@ const ProfileAccount: React.FC = () => {
       </Panel>
 
       {isProfileEditOpen && (
-        <UpdateProfilePopup isOpen={isProfileEditOpen} onClose={handleProfileEditClose} />
+        <UpdateProfilePopup isOpen={isProfileEditOpen} onClose={handleProfileEditClose} onSubmit={handleProfileSubmit} />
       )}
 		</main>
   );

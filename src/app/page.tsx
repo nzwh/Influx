@@ -19,6 +19,7 @@ import { Post as PostInterface,
          User as UserInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/supabase';
+import ProfileAccount from './backend/components/panels/columns/ProfileAccountPanel';
 
 export default function Home() {
 
@@ -40,7 +41,7 @@ export default function Home() {
         <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" />
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
-        <div className="flex flex-row gap-2 justify-center w-full ">
+        <div className="flex flex-row gap-2 justify-center w-full">
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
@@ -62,7 +63,8 @@ export default function Home() {
           </div>
           
           {/* Panels */}
-          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
+          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
+            <ProfileAccount />
             <SearchFilters />
             <About />
           </div>

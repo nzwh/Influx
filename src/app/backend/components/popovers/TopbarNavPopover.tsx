@@ -10,7 +10,7 @@ interface Props {
 
 const TopbarNavPopover: React.FC<Props> = ({ handleLogOut }) => {
   return (
-    <Popover>
+    <Popover classes="top-10">
       <Link href="/profile" className="text-gray-600 flex flex-row gap-2 items-center hover:bg-gray-200 py-1 px-2 justify-start cursor-pointer select-none transition-colors duration-200">
         <User size={12} strokeWidth={3}/>
         <h6 className="text-xs font-normal">Profile</h6>
