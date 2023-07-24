@@ -53,7 +53,8 @@ export default function Search() {
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
 
         {/* ExplorerNav & Padder */}
-        <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" />
+        {/* <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" /> */}
+        <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" />
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
         <div className="flex flex-row gap-2 justify-center w-full ">

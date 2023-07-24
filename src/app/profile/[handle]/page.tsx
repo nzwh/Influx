@@ -69,7 +69,7 @@ export default function Profile() {
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
-            <Listings handle={activeUser.handle}/>
+            <Listings handle={userData.handle}/>
             {posts && (
               <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
                 {posts.map((post: PostInterface) => (
