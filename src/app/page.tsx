@@ -17,7 +17,9 @@ import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPan
 import { Post as PostInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/supabase';
-import ProfileAccount from './backend/components/panels/columns/ProfileAccountPanel';
+import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
+import Media from '@/src/app/backend/components/panels/columns/MediaPanel';
+import Welcome from '@/src/app/backend/components/panels/columns/WelcomePanel';
 
 export default function Home() {
 
@@ -63,8 +65,10 @@ export default function Home() {
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
+            <Welcome />
             <ProfileAccount />
             <SearchFilters />
+            <Media />
             <About />
           </div>
         </div>
