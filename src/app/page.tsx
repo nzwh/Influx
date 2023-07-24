@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
@@ -8,18 +8,15 @@ import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
 import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
-import Post from '@/src/app/backend/components/template/PostTemplate';
-import About from '@/src/app/backend/components/panels/columns/AboutPanel';
-import SearchFilters from './backend/components/panels/columns/SearchFiltersPanel';
+
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
+import Post from '@/src/app/backend/components/template/PostTemplate';
 
-import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
-import { Post as PostInterface } from '@/libraries/structures';
-
-import supabase from '@/src/app/backend/supabase';
-import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
-import Media from '@/src/app/backend/components/panels/columns/MediaPanel';
+import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Welcome from '@/src/app/backend/components/panels/columns/WelcomePanel';
+import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
+
+import { Post as PostInterface } from '@/libraries/structures';
 
 export default function Home() {
 
@@ -66,9 +63,6 @@ export default function Home() {
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
             <Welcome />
-            <ProfileAccount />
-            <SearchFilters />
-            <Media />
             <About />
           </div>
         </div>

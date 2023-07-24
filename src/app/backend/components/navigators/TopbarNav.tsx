@@ -68,59 +68,40 @@ const TopbarNav: React.FC = () => {
 
   const handleCloseTopbarNavPopover = () => {
     setIsTopbarNavPopoverOpen(false);
-    };
-
-  if (user && user.length > 0) {
-    return (
-      <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-[1px] px-[12%] fixed z-[40]">
-        <section className="flex flex-row items-center gap-4 w-auto">
-          <Link href="/">
-            <Image src="/root/influx.svg" alt="Logo" width={40} height={0} />
-          </Link>
-          <div className="bg-gray-200 text-gray-600 // h-6 px-3 // flex flex-row justify-between items-center gap-2 // rounded-full cursor-pointer">
-            <div className="flex flex-row items-center gap-2">
-              <Search size={12} strokeWidth={3}/>
-              <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearch} />
-            </div>
-            <SquareSlash size={12} strokeWidth={3}/>
+  };
+  
+  return (
+    <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-[1px] px-[12%] fixed z-[40]">
+      <section className="flex flex-row items-center gap-4 w-auto">
+        <Link href="/">
+          <Image src="/root/influx.svg" alt="Logo" width={40} height={0} />
+        </Link>
+        <div className="bg-gray-200 text-gray-600 // h-6 px-3 // flex flex-row justify-between items-center gap-2 // rounded-full cursor-pointer">
+          <div className="flex flex-row items-center gap-2">
+            <Search size={12} strokeWidth={3}/>
+            <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearch} />
           </div>
-        </section>
-        <section className="flex flex-row items-center gap-2">
-          <div onClick={handleCreatePostPopupOpen} className="bg-gray-200 text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 
-            // rounded-full cursor-pointer // hover:bg-slate-900 hover:text-violet-300 transition-colors duration-200">
-            <Plus size={12} strokeWidth={3} />
-            <h6 className="text-xs font-regular leading-3">New</h6>
-          </div>
-          {isCreatePostPopupOpen && ( 
-            <CreatePostPopup passType={1} isOpen={isCreatePostPopupOpen} onClose={handleCreatePostPopupClose} onSubmit={handleAddPost} />
-          )}
-          <Link href="/" className="bg-gray-200 text-gray-600 // h-6 py-1 px-1.5 // flex items-center // rounded-full cursor-pointer
-            // hover:bg-gray-300 transition-colors duration-200">
-            <Inbox size={14} strokeWidth={3}/>
-          </Link>
-          <Link href="/" className="bg-gray-200 text-gray-600 // h-6 py-1 px-1.5 // flex items-center // rounded-full cursor-pointer
-            // hover:bg-gray-300 transition-colors duration-200">
-            <Megaphone size={14} strokeWidth={3} />
-          </Link>
-          <Link href="/" className="bg-gray-200 text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 // rounded-full cursor-pointer
-            // hover:bg-gray-300 transition-colors duration-200">
-            <ShoppingBag size={12} strokeWidth={3} />
-            <h6 className="text-xs font-regular leading-3">12 items</h6>
-          </Link>
-          &nbsp;
-
-        <div className="flex justify-center">
-          <Image onClick={handleToggleDropDown} className="cursor-pointer rounded-full" src={activeData.icon} alt="User Icon" width={30} height={30} />
-            {/* <div className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6"></div> */}
-          {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
+          <SquareSlash size={12} strokeWidth={3}/>
         </div>
-
       </section>
-      </nav>
-    );
-  } else {
-    console.log("User data is not available yet.");
-  }
+      <section className="flex flex-row items-center gap-2">
+        <div onClick={handleCreatePostPopupOpen} className="bg-gray-200 text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 
+          // rounded-full cursor-pointer // hover:bg-slate-900 hover:text-violet-300 transition-colors duration-200">
+          <Plus size={12} strokeWidth={3} />
+          <h6 className="text-xs font-regular leading-3">New</h6>
+        </div>
+        {isCreatePostPopupOpen && ( 
+          <CreatePostPopup passType={1} isOpen={isCreatePostPopupOpen} onClose={handleCreatePostPopupClose} onSubmit={handleAddPost} />
+        )}
+
+      <div className="flex justify-center">
+        <Image onClick={handleToggleDropDown} className="cursor-pointer rounded-full" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={30} height={30} />
+        {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
+      </div>
+
+    </section>
+    </nav>
+  );
 };
 
 export default TopbarNav;
