@@ -55,9 +55,11 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
     onEdit(id);
   }
 
+  const [isMoreHorizontal, setIsMoreHorizontal] = useState(false);
   const [isPostPopoverOpen, setIsPostPopoverOpen] = useState(false);
 
   const handleToggleDropDown = () => {
+    setIsMoreHorizontal((previous) => !previous);
     setIsPostPopoverOpen((previous) => !previous);
   };
   const handleClosePostPopover = () => {
@@ -137,10 +139,10 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
 
           {/* More */}
           <div className="flex justify-end relative">
-          <MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} 
-            onClick={handleToggleDropDown} />
-          {isPostPopoverOpen && <PostPopover isOpen={isPostPopoverOpen} onClose={handleClosePostPopover}
-            handleEditPost={handleEdit} handleDeletePost={() => handleDelete(post.id)} />}
+          {/* <MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} 
+            onClick={handleToggleDropDown} /> */}
+            {isMoreHorizontal && (<MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} onClick={handleToggleDropDown} />)}
+            {isPostPopoverOpen && <PostPopover isOpen={isPostPopoverOpen} onClose={handleClosePostPopover} handleEditPost={handleEdit} handleDeletePost={handleDelete} />}
           </div>
 
         </div>
