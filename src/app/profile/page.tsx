@@ -59,7 +59,7 @@ export default function Profile() {
         <div className="flex flex-row gap-2 justify-center w-full ">
 
           {/* New Post & Post Loader */}
-          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
+          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
             <Listings handle={activeData ? activeData.handle : ""}/>
             {posts.length ? (
               <ul className="flex flex-col gap-2 h-full w-[32rem]">
@@ -78,7 +78,7 @@ export default function Profile() {
           </div>
           
           {/* Panels */}
-          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
+          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-[40]">
 
             <ProfileAccount />
             <ProfileComments />

@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import UpdateProfilePopup from '@/src/app/backend/components/dialogs/UpdateProfilePopup';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Star } from 'lucide-react';
+import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
+import { useRouter } from 'next/navigation';
 
 const ProfileAccount: React.FC = () => {
 
-  let user = require('@/json/active.json'); // TODO: Load user info dynamically through auth
+  const router = useRouter();
+  let activeD = JSON.parse(sessionStorage.getItem('token')!)
+  
+  useEffect(() => {
+    if(sessionStorage.getItem('token')) {
+      activeD = JSON.parse(sessionStorage.getItem('token')!)
+      console.log(activeD.user.id)
+    }
+    else {
+      router.push('/home')
+    }
+  }, [])
+  
+  const { user, fetchUser } = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
+  const activeData = user[0];
   
   // Handles editing the user's profile.
 	// const [formData, setFormData] = useState<any>(null);
@@ -50,18 +67,18 @@ const ProfileAccount: React.FC = () => {
           <div className="flex flex-row items-center gap-2 w-full">
 
             {/* Author Avatar */}
-            <Image className="rounded-full" src={user?.icon || ""} alt="User Icon" width={36} height={36} />
+            <Image className="rounded-full" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={36} height={36} />
 
             <div className="flex flex-col justify-center w-full">
               <div className="flex flex-row gap-0.5 items-center">
 
                 {/* Author Name */}
                 <h6 className="text-gray-800 font-medium text-base leading-3 tracking-tight">
-                  {`${user?.first_name} ${user?.last_name}`}
+                  {`${activeData ? activeData.first_name : ""} ${activeData ? activeData.last_name : ""}`}
                 </h6>
 
                 {/* Verified Status */}
-                { user?.is_verified ? (
+                { activeData ? activeData.is_verified : false ? (
                   <Image src="/root/verified.svg" width={18} height={18} alt="Verified" />
                 ) : (
                   <div className="w-1"></div>
@@ -70,7 +87,7 @@ const ProfileAccount: React.FC = () => {
               </div>
 
               {/* Author Handle */}
-              <h6 className="text-gray-500 font-light text-[0.65rem] leading-4">{`@${user?.handle}`}</h6>
+              <h6 className="text-gray-500 font-light text-[0.65rem] leading-4">{`@${activeData ? activeData.handle : ""}`}</h6>
 
             </div>
           </div>
@@ -84,7 +101,7 @@ const ProfileAccount: React.FC = () => {
 
           {/* Biography */}
           <p className="text-gray-800 font-light text-[0.625rem] leading-[0.78125rem]">
-            For questions or actual photos of the products, please DM us. Thanks!
+            {activeData ? activeData.biography : ""}
           </p>
           
           <div className="flex flex-wrap items-center gap-2">
@@ -92,13 +109,7 @@ const ProfileAccount: React.FC = () => {
           {/* Location */}
           <div className="flex flex-row items-center gap-1">
             <Map className="opacity-70" color="black" size={12} />
-            <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{user.location}</h6>
-          </div>
-
-          {/* Postcount */}
-          <div className="flex flex-row items-center gap-1">
-            <Repeat2 className="opacity-70" color="black" size={12} />
-            <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{user.posts?.length || 0} Posts</h6>
+            <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{activeData ? activeData.location : ""}</h6>
           </div>
 
           </div>
@@ -117,15 +128,12 @@ const ProfileAccount: React.FC = () => {
             <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">Payment Methods</h6>
           </div>
           <div className="flex flex-wrap items-center gap-1">
-            <div className="w-7">
-              <Image className="rounded-sm" src="/minicards/pm_paypal.svg" alt="Paypal" width={1000} height={2000} />
-            </div>
-            <div className="w-7">
-              <Image className="rounded-sm" src="/minicards/pm_card.svg" alt="Card" width={1000} height={2000} />
-            </div>
-            <div className="w-7">
-              <Image className="rounded-sm" src="/minicards/pm_cash.svg" alt="Cash" width={1000} height={2000} />
-            </div>
+            {activeData ? activeData.payment_methods.map((method: any) => (
+              <div className="flex flex-row items-center gap-1">
+                <CreditCard className="opacity-70" color="black" size={12} />
+                <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{ToTitleCase(method)}</h6>
+              </div>
+            )) : null}
           </div>
           </div>
 
@@ -136,12 +144,12 @@ const ProfileAccount: React.FC = () => {
             <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">Delivery Methods</h6>
           </div>
           <div className="flex flex-wrap items-center gap-1">
-            <div className="w-7">
-              <Image className="rounded-sm" src="/minicards/dm_spx.svg" alt="Paypal" width={1000} height={2000} />
-            </div>
-            <div className="w-7">
-              <Image className="rounded-sm" src="/minicards/dm_meetup.svg" alt="Card" width={1000} height={2000} />
-            </div>
+          {activeData ? activeData.delivery_methods.map((method: any) => (
+              <div className="flex flex-row items-center gap-1">
+                <CreditCard className="opacity-70" color="black" size={12} />
+                <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{ToTitleCase(method)}</h6>
+              </div>
+            )) : null}
           </div>
           </div>
 
