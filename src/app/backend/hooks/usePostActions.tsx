@@ -34,7 +34,21 @@ const usePostActions = () => {
     }
   }
 
-  return { handleAddPost, handleDeletePost };
+   // Handles adding new posts to the top of the list.
+   const handleEditPost = async (postId: number, post: PostInterface) => {
+    try {
+      console.log('Editing post...');
+      const { error } = await supabase.from('posts').delete().match({ id: postId });
+      if (error) {
+        throw error;
+      }
+      console.log('Post deleted successfully.');
+    } catch (error) {
+      console.log('Error deleting post:', error);
+    }
+  }
+
+  return { handleAddPost, handleDeletePost, handleEditPost };
 };
 
 export default usePostActions;

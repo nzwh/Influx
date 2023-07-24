@@ -14,9 +14,7 @@ import SearchFilters from './backend/components/panels/columns/SearchFiltersPane
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
 import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
-import { Post as PostInterface, 
-         Community as CommunityInterface, 
-         User as UserInterface } from '@/libraries/structures';
+import { Post as PostInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/supabase';
 import ProfileAccount from './backend/components/panels/columns/ProfileAccountPanel';
@@ -26,7 +24,7 @@ export default function Home() {
   // TODO: Load user info dynamically through auth
   let user = require('@/json/active.json');
   const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
-  const { handleAddPost, handleDeletePost } = usePostActions();
+  const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
 
   return (
     <main>
@@ -50,7 +48,7 @@ export default function Home() {
               <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (
                   <li key={post.id}>
-                    <Post post={post} onDelete={handleDeletePost} />
+                    <Post post={post} onDelete={handleDeletePost} onEdit={handleEditPost} />
                   </li>
                 ))}
               </ul>

@@ -92,14 +92,11 @@ const TopbarNav: React.FC = () => {
           <h6 className="text-xs font-regular leading-3">12 items</h6>
         </Link>
         &nbsp;
+
         <div className="flex justify-center">
-    <main>
-        <aside onClick={handleToggleDropDown}>
-          <div className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6"></div>
-        </aside>
-        {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
-      </main> 
-      </div>
+          <div className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6" onClick={handleToggleDropDown}></div>
+          {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
+        </div>  
         
       </section>
     </nav>

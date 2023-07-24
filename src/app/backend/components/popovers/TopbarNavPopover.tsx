@@ -19,7 +19,7 @@ const TopbarNavPopover: React.FC<Props> = ({ handleLogOut, isOpen, onClose }) =>
   };
 
   return (
-    <Popover>
+    <Popover classes="top-10">
       <div ref={modalRef}>
         <Link href="/profile" onClick={handleOptionClick} className="text-gray-600 flex flex-row gap-2 items-center hover:bg-gray-200 py-1 px-2 justify-start cursor-pointer select-none transition-colors duration-200">
           <User size={12} strokeWidth={3}/>
