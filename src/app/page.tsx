@@ -21,8 +21,6 @@ import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFil
 
 export default function Home() {
 
-  // TODO: Load user info dynamically through auth
-  // let user = require('@/json/active.json');
   const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
   const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
 
@@ -31,7 +29,7 @@ export default function Home() {
 
       {/* Templates */}
       <Background />
-      <TopbarNav /> { /*// TODO: Add Create Post hook */ }
+      <TopbarNav />
       
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 

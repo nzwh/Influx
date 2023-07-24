@@ -5,18 +5,15 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash, LogOut } from 'lucide-react';
-
-import usePostActions from "@/src/app/backend/hooks/usePostActions";
-import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import TopbarNavPopover from '@/src/app/backend/components/popovers/TopbarNavPopover';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 
 import supabase from '@/src/app/backend/supabase';
+import { Search, SquareSlash } from 'lucide-react';
 
 const TopbarNav: React.FC = () => {
-  let activeD = JSON.parse(sessionStorage.getItem('token')!)
   
+  let activeD = JSON.parse(sessionStorage.getItem('token')!)
   useEffect(() => {
     if(sessionStorage.getItem('token')) {
       activeD = JSON.parse(sessionStorage.getItem('token')!)
@@ -32,7 +29,6 @@ const TopbarNav: React.FC = () => {
 
   const [ query, setQuery ] = useState('');
   const router = useRouter();
-  const { handleAddPost, handleDeletePost } = usePostActions();
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -44,15 +40,6 @@ const TopbarNav: React.FC = () => {
 
   const handleToggleDropDown = () => {
     setIsTopbarNavPopoverOpen((previous) => !previous);
-  };
-
-  const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
-  
-  const handleCreatePostPopupOpen = () => {
-    setIsCreatePostPopupOpen(true);
-  };
-  const handleCreatePostPopupClose = () => {
-    setIsCreatePostPopupOpen(false);
   };
 
   const handleLogout = async () => {
@@ -85,20 +72,10 @@ const TopbarNav: React.FC = () => {
         </div>
       </section>
       <section className="flex flex-row items-center gap-2">
-        <div onClick={handleCreatePostPopupOpen} className="bg-gray-200 text-gray-600 // h-6 py-1 px-2.5 // flex items-center gap-1 
-          // rounded-full cursor-pointer // hover:bg-slate-900 hover:text-violet-300 transition-colors duration-200">
-          <Plus size={12} strokeWidth={3} />
-          <h6 className="text-xs font-regular leading-3">New</h6>
-        </div>
-        {isCreatePostPopupOpen && ( 
-          <CreatePostPopup passType={1} isOpen={isCreatePostPopupOpen} onClose={handleCreatePostPopupClose} onSubmit={handleAddPost} />
-        )}
-
       <div className="flex justify-center">
         <Image onClick={handleToggleDropDown} className="cursor-pointer rounded-full" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={30} height={30} />
         {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
       </div>
-
     </section>
     </nav>
   );
