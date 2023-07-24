@@ -16,7 +16,7 @@ import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
 import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
-import ProfileDetails from '@/src/app/backend/components/panels/columns/ProfileDetailsPanel';
+import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 import { Post as PostInterface } from '@/libraries/structures';
 
@@ -69,7 +69,7 @@ export default function Profile() {
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
-            <Listings handle={userData.handle}/>
+            <Listings handle={activeUser.handle}/>
             {posts && (
               <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
                 {posts.map((post: PostInterface) => (
@@ -90,7 +90,7 @@ export default function Profile() {
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
 
-            <ProfileDetails />
+            <ProfileAccount />
             <ProfileComments />
             <About />
 
