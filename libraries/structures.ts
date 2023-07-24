@@ -87,30 +87,6 @@ interface Filter {
     owner: boolean;
 }
 
-interface PM {
-    apple_pay: boolean;
-    cash_on_delivery: boolean;
-    gcash: boolean;
-    google_pay: boolean;
-    mastercard: boolean;
-    maya: boolean;
-    other: boolean;
-    paypal: boolean;
-    visa: boolean;
-}
-
-interface DM {
-    gogo_express: boolean;
-    grab_express: boolean;
-    jnt_express: boolean;
-    lalamove: boolean;
-    lbc_express: boolean;
-    meetup: boolean;
-    ninjavan: boolean;
-    other: boolean;
-    spx: boolean;
-}
-
 export type {
-    Post, User, Community, Filter, PM, DM
+    Post, User, Community, Filter, Comment
 }

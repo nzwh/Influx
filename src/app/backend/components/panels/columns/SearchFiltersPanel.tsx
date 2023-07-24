@@ -170,7 +170,7 @@ const SearchFilters: React.FC = () => {
             <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
               <Star className="text-gray-800" size={12} strokeWidth={3} />
               <select name="sort" value={formData.sort} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
-                {defaults.search_sorts.map((method: string, index: React.Key | null | undefined) => (
+                {defaults.search.sorts.map((method: string, index: React.Key | null | undefined) => (
                   <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={method}>
                     {ToTitleCase(method)}
                   </option>
@@ -200,7 +200,7 @@ const SearchFilters: React.FC = () => {
             <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
               <Star className="text-gray-800" size={12} strokeWidth={3} />
               <select name="condition" value={formData.condition} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
-                {defaults.search_conditions.map((condition: string, index: React.Key | null | undefined) => (
+                {defaults.search.conditions.map((condition: string, index: React.Key | null | undefined) => (
                   <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={condition}>
                     {ToTitleCase(condition)}
                   </option>
@@ -212,7 +212,7 @@ const SearchFilters: React.FC = () => {
             <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
               <Star className="text-gray-800" size={12} strokeWidth={3} />
               <select name="type" value={formData.type} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
-                {defaults.search_types.map((type: string, index: React.Key | null | undefined) => (
+                {defaults.search.types.map((type: string, index: React.Key | null | undefined) => (
                   <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={type}>
                     {ToTitleCase(type)}
                   </option>

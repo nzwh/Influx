@@ -44,30 +44,32 @@
     "selling": 3
   },
 
-  "search_sorts": [
-    "price",
-    "popularity",
-    "upvotes",
-    "date_posted"
-  ],
+  "search": {
+    "sorts": [
+      "price",
+      "popularity",
+      "upvotes",
+      "date_posted"
+    ],
 
-  "search_types": [
-    "all",
-    "article",
-    "buying",
-    "selling"
-  ],
-
-  "search_conditions": [
-    "all",
-    "pre-order", 
-    "brand_new",
-    "mint", 
-    "excellent", 
-    "lightly-used", 
-    "well-used", 
-    "refurbished",
-    "deteriorated",
-    "broken" 
-  ]
+    "types": [
+      "all",
+      "article",
+      "buying",
+      "selling"
+    ],
+    
+    "conditions": [
+      "all",
+      "pre-order", 
+      "brand_new",
+      "mint", 
+      "excellent", 
+      "lightly-used", 
+      "well-used", 
+      "refurbished",
+      "deteriorated",
+      "broken" 
+    ]
+  }
 }
