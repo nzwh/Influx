@@ -11,6 +11,8 @@ import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesP
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
 import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Star } from 'lucide-react';
 import supabase from '@/src/app/backend/supabase';
+import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
+import { useRouter } from 'next/navigation';
 
 interface Props {
   isOpen: boolean;
@@ -23,8 +25,22 @@ const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
   // Allows clicking outside of the modal to close it
   const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
 
-  // Import static data from JSONs
-  const user = require('@/json/active.json'); // TODO: Replace with actual user data
+  const router = useRouter();
+  let activeD = JSON.parse(sessionStorage.getItem('token')!)
+  
+  useEffect(() => {
+    if(sessionStorage.getItem('token')) {
+      activeD = JSON.parse(sessionStorage.getItem('token')!)
+      console.log(activeD.user.id)
+    }
+    else {
+      router.push('/home')
+    }
+  }, [])
+  
+  const { user, fetchUser } = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
+  const activeData = user[0];
+
   const defaults = require("@/json/defaults.json");
 
   // Images
@@ -49,24 +65,24 @@ const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
 
   // form
   const [formData, setFormData] = useState<UserInterface>({
-    id: user.id,
-    uuid: user.uuid,
-    handle: user.handle,
-    email_address: user.email_address,
+    id: activeData ? activeData.id : 0,
+    uuid: activeData ? activeData.uuid : "",
+    handle: activeData ? activeData.handle : "",
+    email_address: activeData ? activeData.email_address : "",
 
-    icon: user.icon,
-    banner: user.banner,
-    first_name: user.first_name,
-    last_name: user.last_name,
+    icon: activeData ? activeData.icon : "",
+    banner: activeData ? activeData.banner : "",
+    first_name: activeData ? activeData.first_name : "",
+    last_name: activeData ? activeData.last_name : "",
 
-    phone_number: user.phone_number,
-    location: user.location,
-    biography: user.biography,
+    phone_number: activeData ? activeData.phone_number : "",
+    location: activeData ? activeData.location : "",
+    biography: activeData ? activeData.biography : "",
 
-    payment_methods: user.payment_methods,
-    delivery_methods: user.delivery_methods,
+    payment_methods: activeData ? activeData.payment_methods : [],
+    delivery_methods: activeData ? activeData.delivery_methods : [],
 
-    is_verified: user.is_verified,
+    is_verified: activeData ? activeData.is_verified : false
   });
 
   // InputListener
@@ -164,7 +180,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
           <div className="flex flex-row items-center gap-2 w-full py-2 px-4">
 
             {/* Author Avatar */}
-            <Image className="rounded-full w-12 h-12" src={user.icon} alt="User Icon" width={48} height={48} />
+            <Image className="rounded-full w-12 h-12" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={48} height={48} />
 
             <div className="flex flex-col justify-center w-full">
 
@@ -179,7 +195,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
               </div>
 
               {/* Author Handle */}
-              <h6 className="text-gray-500 font-light text-sm leading-4">{`@${user?.handle}`}</h6>
+              <h6 className="text-gray-500 font-light text-sm leading-4">{`@${activeData ? activeData.handle : ""}`}</h6>
 
             </div>
           </div>
