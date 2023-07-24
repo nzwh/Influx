@@ -6,12 +6,8 @@ import Image from 'next/image';
 import Action from "@/src/app/backend/components/utilities/Action";
 import { ArrowDown, ArrowUp, Film, Paperclip, Reply, Send, Smile, Tag } from 'lucide-react';
 
-const Comment = ({ 
-  comment,
-  handleInsertNode,
-  handleEditNode,
-  handleDeleteNode
-  }) => {
+const Comment = ({ comment,handleInsertNode,handleEditNode, handleDeleteNode }) => {
+  
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);

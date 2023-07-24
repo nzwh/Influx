@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { Post as PostInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/supabase';

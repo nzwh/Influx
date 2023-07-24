@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
+import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
 import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
@@ -20,6 +21,12 @@ interface Props {
 }
 
 const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
+
+  const navigateToProfile = useNavigateToProfile();
+  
+  const handleProfileClick = () => {
+    navigateToProfile(post.author.handle);
+  };
 
   const convertToMonetary = useMonetaryFormatter();
   const convertToRelativeDate = useRelativeDateFormatter();
@@ -63,13 +70,13 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
           <div className="flex flex-row items-center gap-2 w-full">
 
             {/* Author Avatar */}
-            <Image className="rounded-full" src={post.author?.icon || ""} alt="User Icon" width={36} height={36} />
+            <Image onClick={handleProfileClick} className="rounded-full cursor-pointer" src={post.author?.icon || ""} alt="User Icon" width={36} height={36} />
 
             <div className="flex flex-col justify-center w-full">
               <div className="flex flex-row gap-0.5 items-center">
 
                 {/* Author Name */}
-                <h6 className="text-gray-800 font-medium text-base leading-4 tracking-tight w-full">
+                <h6 onClick={handleProfileClick} className="text-gray-800 font-medium text-base leading-4 tracking-tight w-full cursor-pointer">
                   {`${post.author?.first_name} ${post.author?.last_name}`}
                 </h6>
 
@@ -88,7 +95,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
               </div>
 
               {/* Author Handle */}
-              <h6 className="text-gray-500 font-light text-[0.65rem] leading-4">{`@${post.author?.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
+              <h6 onClick={handleProfileClick} className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer">{`@${post.author?.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
 
             </div>
           </div>
