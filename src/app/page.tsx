@@ -33,8 +33,6 @@ export default function Home() {
       
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 
-        {/* ExplorerNav & Padder */}
-        {/* <ExplorerNav user={user} wrapperClass="w-40 min-w-[10rem] ex-br" /> */}
         <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" />
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
@@ -61,9 +59,11 @@ export default function Home() {
           
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
+
             <Welcome />
             <SearchFilters />
             <About />
+            
           </div>
         </div>
         

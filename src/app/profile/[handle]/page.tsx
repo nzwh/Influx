@@ -47,9 +47,8 @@ export default function Profile() {
     }
   }, [userData]);
 
-  let activeUser = require('@/json/active.json'); // TODO: Load user info dynamically through auth
-  const { posts, fetchPosts } = useFetchPosts({ type: 'all' }); // TODO: Change type to user
-  const { handleAddPost, handleDeletePost } = usePostActions();
+  const { posts, fetchPosts } = useFetchPosts({ type: 'user', userId: userData ? userData.uuid : "" });
+  const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
   const [svg, setSvg] = useState('');
 
   return (
@@ -62,25 +61,24 @@ export default function Profile() {
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between">
 
         {/* ExplorerNav & Padder */}
-        <ExplorerNav user={activeUser} wrapperClass="w-40 min-w-[10rem] ex-br" />
+        <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" />
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
         <div className="flex flex-row gap-2 justify-center w-full ">
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem] z-50">
-            <Listings handle={userData.handle}/>
-            {posts && (
-              <ul className="flex flex-col gap-2 h-full w-[32rem] z-0">
+            <Listings handle={userData ? userData.handle : ""}/>
+            {posts.length ? (
+              <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (
                   <li key={post.id}>
-                    <Post post={post} onDelete={handleDeletePost} />
+                    <Post post={post} onDelete={handleDeletePost} onEdit={handleEditPost} />
                   </li>
                 ))}
               </ul>
-            )}
-            {posts.length == 0 && (
-              <span className="flex flex-col items-center justify-center z-0">
+            ):(
+              <span className="flex flex-col items-center justify-center z-[-2]">
                 <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
                 <p className='text-gray-700 text-sm'>No posts to show</p>
               </span>
@@ -100,6 +98,7 @@ export default function Profile() {
         {/* Quick Access & Padder */}
         <div id="quick" className="h-full w-40 min-w-[10rem] gap-4 flex flex-col fixed right-[12%] ex-br"></div>
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
+
       </div>
     </main>
   )
