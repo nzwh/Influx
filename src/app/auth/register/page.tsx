@@ -30,6 +30,7 @@ export default function Register() {
       handle: '',
       email_address: '',
       icon: '',
+      banner: '',
       first_name: '',
       last_name: '',
       phone_number: '',

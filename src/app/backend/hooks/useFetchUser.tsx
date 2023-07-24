@@ -36,6 +36,7 @@ const useFetchUser = ({ type, userId, handle }: Props) => {
           handle: user.handle,
           email_address: '',
           icon: user.icon,
+          banner: user.banner,
           first_name: user.first_name,
           last_name: user.last_name,
           phone_number: '',
