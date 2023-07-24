@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
+import ToTileCase from '@/src/app/backend/functions/ToTitleCase';
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
 import supabase from '@/src/app/backend/supabase';
-import Link from 'next/link';
 
 interface Props {
   passType: number;
@@ -17,16 +18,12 @@ interface Props {
 
 const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType }) => {
 
-  // Mapping for type
-  const mapping : any = { 1: "article", 2: "buying", 3: "selling" };
-  const mapping_flip : any = { "article": 1, "buying": 2, "selling": 3 };
-
   // Allows clicking outside of the modal to close it
   const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
 
   // Import static data from JSONs
   const user = require('@/json/active.json'); // TODO: Replace with actual user data
-  let conditions = require('@/json/conditions.json');
+  const defaults = require("@/json/defaults.json");
 
   // Counter for title length
   const [titleCount, setTitleCount] = useState(0);
@@ -117,7 +114,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
       is_verified:false
     },*/
   
-    type: mapping[passType],
+    type: defaults.mapping[passType],
     posted_at: new Date(),
     price: 0,
   
@@ -172,7 +169,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
     }
 
     if (event.target.name === "type") {
-      setFormData({ ...formData, [event.target.name]: mapping[event.target.value] });
+      setFormData({ ...formData, [event.target.name]: defaults.mapping[event.target.value] });
       return;
     }
 
@@ -270,11 +267,12 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
 
         {/* Header */}
         <div className="flex flex-row items-center justify-between">
-          <Link href={"/profile"} className="text-gray-800 font-regular text-xs hover:text-violet-300 transition-colors duration-200 cursor-pointer">{`@${user.handle}`}</Link>
-
+          <Link href={"/profile"} className="text-gray-800 font-regular text-xs hover:text-violet-300 transition-colors duration-200 cursor-pointer">
+            {`@${user.handle}`}
+          </Link>
           <div className="flex flex-row items-center gap-3">
           <div className="bg-gray-100 rounded-full flex flex-row items-center gap-1 px-2.5 py-0.5 border border-gray-200">
-            <select name="type" value={mapping_flip[formData.type]} className="bg-gray-100 text-gray-800 text-[0.625rem] font-regular cursor-pointer appearance-none w-auto pl-1" onChange={handleInputChange} required>
+            <select name="type" value={defaults.mapping[formData.type]} className="bg-gray-100 text-gray-800 text-[0.625rem] font-regular cursor-pointer appearance-none w-auto pl-1" onChange={handleInputChange} required>
               <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={1}>Article</option>
               <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={2}>Buying</option>
               <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={3}>Selling</option>
@@ -346,9 +344,9 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
             <Sparkles className="text-gray-800" size={14} strokeWidth={3} />
             <select name="condition" value={formData.condition} className="w-full text-gray-800 text-xs font-regular bg-transparent px-2 appearance-none cursor-pointer" onChange={handleInputChange} required>
               <option className="w-full text-gray-500 text-sm font-light bg-gray-100" value="" disabled selected>Select a condition</option>
-              {conditions.map((condition: string, index: React.Key | null | undefined) => (
+              {defaults.conditions.map((condition: string, index: React.Key | null | undefined) => (
                 <option className="w-full text-gray-500 text-sm font-light bg-gray-100" key={index} value={condition}>
-                  {condition}
+                  {ToTileCase(condition)}
                 </option>
               ))}
             </select>

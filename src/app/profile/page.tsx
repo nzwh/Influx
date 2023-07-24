@@ -13,7 +13,7 @@ import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 
 import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
-import ProfileDetails from '@/src/app/backend/components/panels/columns/ProfileDetailsPanel';
+import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 import { Post as PostInterface } from '@/libraries/structures';
 
@@ -62,7 +62,7 @@ export default function Profile() {
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br">
 
-            <ProfileDetails />
+            <ProfileAccount />
             <ProfileComments />
             <About />
 

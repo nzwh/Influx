@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
+import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
 import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
@@ -12,12 +13,20 @@ import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import { Post as PostInterface } from "@/libraries/structures";
 import { Bookmark, MessageCircle, ShoppingBag } from 'lucide-react';
 
+import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+
 interface Props {
   post: PostInterface;
   onDelete: (postId: number) => void;
 }
 
 const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
+
+  const navigateToProfile = useNavigateToProfile();
+  
+  const handleProfileClick = () => {
+    navigateToProfile(post.author.handle);
+  };
 
   const convertToMonetary = useMonetaryFormatter();
   const convertToRelativeDate = useRelativeDateFormatter();
@@ -40,9 +49,6 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
   const handlePostDelete = (id:number) => {
     onDelete(id);
   };
-  
-  // Sorts tags by length.
-  // post.tags ? post.tags.sort(function(a, b){return b.length - a.length}) : null;
 
 	return (
     <Panel classes="flex-col p-4 gap-4">
@@ -64,32 +70,32 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
           <div className="flex flex-row items-center gap-2 w-full">
 
             {/* Author Avatar */}
-            <Image className="rounded-full" src={post.author?.icon || ""} alt="User Icon" width={36} height={36} />
+            <Image onClick={handleProfileClick} className="rounded-full cursor-pointer" src={post.author?.icon || ""} alt="User Icon" width={36} height={36} />
 
             <div className="flex flex-col justify-center w-full">
               <div className="flex flex-row gap-0.5 items-center">
 
                 {/* Author Name */}
-                <h6 className="text-gray-800 font-medium text-base leading-4 tracking-tight w-full">
+                <h6 onClick={handleProfileClick} className="text-gray-800 font-medium text-base leading-4 tracking-tight w-full cursor-pointer">
                   {`${post.author?.first_name} ${post.author?.last_name}`}
                 </h6>
 
                 {/* Verified Status */}
                 { post.author?.is_verified ? (
-                  <Image src="/root/verified.svg" width={20} height={20} alt="Verified" />
+                  <Image src="/root/verified.svg" width={18} height={18} alt="Verified" />
                 ) : (
                   <div className="w-1"></div>
                 )}
 
                 {/* Post Type */}
                 <span className="bg-gray-200 rounded-full px-2 py-[0.15rem] text-black font-normal tracking-wider text-[0.5rem] leading-[0.6rem] pt-[0.3rem]">
-                  {post.type.charAt(0).toUpperCase() + post.type.slice(1)}
+                  {ToTitleCase(post.type || "")}
                 </span>
 
               </div>
 
               {/* Author Handle */}
-              <h6 className="text-gray-500 font-light text-[0.65rem] leading-4">{`@${post.author?.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
+              <h6 onClick={handleProfileClick} className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer">{`@${post.author?.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
 
             </div>
           </div>
@@ -129,7 +135,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
           {/* Condition */}
           {post.type === "selling" ? (
           <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-800 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2">
-            {post.condition}
+            {ToTitleCase(post.condition || "")}
           </span>
           ) : null}
 
@@ -139,6 +145,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete }) => {
         <p className="text-gray-800 font-light text-sm tracking-tight leading-4 truncate break h-auto whitespace-pre-line">
           {post.description.trim()}
         </p>
+
       </div>
 
       {isExpandPostOpen && selectedPost && (

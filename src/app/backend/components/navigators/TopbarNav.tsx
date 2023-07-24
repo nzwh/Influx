@@ -7,9 +7,9 @@ import Link from 'next/link'
 
 import { Inbox, Megaphone, Plus, Search, ShoppingBag, SquareSlash, LogOut } from 'lucide-react';
 
+import usePostActions from "@/src/app/backend/hooks/usePostActions";
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import TopbarNavPopover from '@/src/app/backend/components/popovers/TopbarNavPopover';
-import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 
 import supabase from '@/src/app/backend/supabase';
 
@@ -17,6 +17,7 @@ const TopbarNav: React.FC = () => {
 
   const [ query, setQuery ] = useState('');
   const router = useRouter();
+  const { handleAddPost, handleDeletePost } = usePostActions();
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -37,9 +38,6 @@ const TopbarNav: React.FC = () => {
   };
   const handleCreatePostPopupClose = () => {
     setIsCreatePostPopupOpen(false);
-  };
-
-  const handleAddPost = () => {
   };
 
   const handleLogout = async () => {
@@ -78,7 +76,7 @@ const TopbarNav: React.FC = () => {
           <h6 className="text-xs font-regular leading-3">New</h6>
         </div>
         {isCreatePostPopupOpen && ( 
-          <CreatePostPopup onClose={handleCreatePostPopupClose} onAddPost={handleAddPost} />
+          <CreatePostPopup passType={1} isOpen={isCreatePostPopupOpen} onClose={handleCreatePostPopupClose} onSubmit={handleAddPost} />
         )}
         <Link href="/" className="bg-gray-200 text-gray-600 // h-6 py-1 px-1.5 // flex items-center // rounded-full cursor-pointer
           // hover:bg-gray-300 transition-colors duration-200">
