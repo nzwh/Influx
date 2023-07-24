@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
 import supabase from '@/src/app/backend/supabase';
@@ -22,7 +24,23 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
   const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
 
   // Import static data from JSONs
-  const user = require('@/json/active.json'); // TODO: Replace with actual user data
+  // const user = require('@/json/active.json'); // TODO: Replace with actual user data
+  let activeD = JSON.parse(sessionStorage.getItem('token')!)
+  let router = useRouter();
+  
+  useEffect(() => {
+    if(sessionStorage.getItem('token')) {
+      activeD = JSON.parse(sessionStorage.getItem('token')!)
+      console.log(activeD.user.id)
+    }
+    else {
+      router.push('/home')
+    }
+  }, [])
+
+  const { user, fetchUser} = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
+  const activeData = user[0];
+  
   const defaults = require("@/json/defaults.json");
 
   // Counter for title length
@@ -98,12 +116,13 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
       icon: '',
       banner: '',
     },
-    /*author: {
+    author: {
       id: 0,
       uuid: '',
       handle: '',
       email_address: '',
       icon: '',
+      banner: '',
       first_name: '',
       last_name: '',
       phone_number: '',
@@ -112,7 +131,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
       payment_methods: [],
       delivery_methods: [],
       is_verified:false
-    },*/
+    },
   
     type: defaults.mapping[passType],
     posted_at: new Date(),
@@ -205,10 +224,11 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
 
   // SubmitListener
   const handleSubmit = async () => {
-    console.log(user);
+    console.log(activeData);
   
     const newPost = {
       origin: formData.origin.uuid,
+      author: activeData.uuid,
   
       type: formData.type,
       posted_at: new Date(),
@@ -268,7 +288,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
         {/* Header */}
         <div className="flex flex-row items-center justify-between">
           <Link href={"/profile"} className="text-gray-800 font-regular text-xs hover:text-violet-300 transition-colors duration-200 cursor-pointer">
-            {`@${user.handle}`}
+            @{activeData ? activeData.handle : ""}
           </Link>
           <div className="flex flex-row items-center gap-3">
           <div className="bg-gray-100 rounded-full flex flex-row items-center gap-1 px-2.5 py-0.5 border border-gray-200">
