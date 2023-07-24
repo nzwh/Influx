@@ -32,4 +32,4 @@ After the installation process, you can start the local development server by ru
 npm run dev
 ```
 
-This command will build and start the application on a local server. Once the server is up and running, you can access Influx by visiting `http://localhost:3000` in your web browser.
+This command will build and start the application on a local server. Once the server is up and running, you can access Influx by visiting `http://localhost:3000/home` in your web browser.
