@@ -115,3 +115,10 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   border: 0.15rem solid #000;
 }
+
+input {
+  background: transparent;
+}
+select {
+  background: transparent;
+}

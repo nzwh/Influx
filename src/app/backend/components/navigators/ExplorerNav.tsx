@@ -33,14 +33,20 @@ const ExplorerNav: React.FC<WrapperProps> = ({ wrapperClass }) => {
   if (user && user.length > 0) {
     return (
       <section id="profile" className={`gap-6 flex flex-col fixed ${wrapperClass}`}>
-        <Link href="/profile" className="flex flex-row items-center gap-2">
-          <Image className="rounded-full" src={activeData.icon} alt="User Icon" width={36} height={36} />
+        <Link href="/profile" className="flex flex-row items-start gap-2">
+          <Image className="rounded-full" src={activeData.icon} alt="User Icon" width={48} height={48} />
           <div className="flex flex-col justify-center">
-            <div className="flex flex-row items-center gap-0.5 w-fit items-start">
-              <h6 className="text-gray-800 font-medium text-base leading-4 tracking-tight w-fit">{activeData.first_name} {activeData.last_name}</h6>
-              <Image src="/root/verified.svg" width={20} height={20} alt="Verified" />
+            <div className="flex flex-row gap-0.5 items-start">
+              <h6 className="text-gray-800 font-medium text-base leading-4 tracking-tight">
+                {activeData.first_name}<br/>{activeData.last_name}
+                { activeData.is_verified ? (
+                <span className="inline-block w-4 h-4 relative top-[0.125rem]"> 
+                  <Image src="/root/verified.svg" alt="verified" width={16} height={16} />
+                </span>
+                ) : null }
+              </h6>
             </div>
-            <h6 className="text-gray-500 font-regular text-xs leading-4">@{activeData.handle}</h6>
+            <h6 className="text-gray-500 font-regular text-[0.625rem] leading-4">@{activeData.handle}</h6>
           </div>
         </Link>
     
