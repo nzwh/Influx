@@ -27,7 +27,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
   const navigateToProfile = useNavigateToProfile();
   
   const handleProfileClick = () => {
-    navigateToProfile(post.author.handle);
+    post.author?.handle ? navigateToProfile(post.author?.handle) : null;
   };
 
   const convertToMonetary = useMonetaryFormatter();
@@ -139,7 +139,8 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
           <div className="flex justify-end relative">
           <MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} 
             onClick={handleToggleDropDown} />
-          {isPostPopoverOpen && <PostPopover isOpen={isPostPopoverOpen} onClose={handleClosePostPopover} handleEditPost={handleEdit} handleDeletePost={handleDelete} />}
+          {isPostPopoverOpen && <PostPopover isOpen={isPostPopoverOpen} onClose={handleClosePostPopover}
+            handleEditPost={handleEdit} handleDeletePost={() => handleDelete(post.id)} />}
           </div>
 
         </div>
@@ -189,26 +190,9 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
 
       {/* Controls */}
       <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row items-center gap-4">
 
         {/* Upvotes */}
-        <VoteMechanism post={post!} />
-
-        {/* Interests */}
-        { post.type === "selling" ? (
-        <div className="flex flex-row gap-1 items-center">
-          <ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3} />  
-          <h6 className="text-gray-800 font-normal text-xs">{post.interests?.length} interested</h6>
-        </div>
-        ) : null}
-
-        {/* Bookmarks */}
-        <div className="flex flex-row gap-1 items-center">
-          <Bookmark className="opacity-70" color="black" size={12} strokeWidth={3} /> 
-          <h6 className="text-gray-800 font-normal text-xs">{post.bookmarks?.length} bookmarks</h6>
-        </div>
-
-        </div>
+        <VoteMechanism post={post} />
 
         {/* Comments */}
         <div className="flex flex-row gap-1 items-center">
