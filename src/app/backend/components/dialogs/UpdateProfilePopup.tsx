@@ -10,7 +10,7 @@ import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesP
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
 import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Star } from 'lucide-react';
-import supabase from '@/src/app/backend/supabase';
+import supabase from '@/src/app/backend/model/supabase';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { useRouter } from 'next/navigation';
 

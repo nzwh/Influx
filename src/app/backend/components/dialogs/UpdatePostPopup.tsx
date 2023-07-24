@@ -7,7 +7,7 @@ import { Post as PostInterface, Community as CommunityInterface } from '@/librar
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
-import supabase from '@/src/app/backend/supabase';
+import supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
   passType: number;

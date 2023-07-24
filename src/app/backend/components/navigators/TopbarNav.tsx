@@ -8,7 +8,7 @@ import Link from 'next/link'
 import TopbarNavPopover from '@/src/app/backend/components/popovers/TopbarNavPopover';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 
-import supabase from '@/src/app/backend/supabase';
+import supabase from '@/src/app/backend/model/supabase';
 import { Search, SquareSlash } from 'lucide-react';
 
 const TopbarNav: React.FC = () => {

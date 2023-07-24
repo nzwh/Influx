@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
 import RegisterCompletePopup from '@/src/app/backend/components/dialogs/RegisterCompletePopup';
 import { User as UserInterface } from '@/libraries/structures';
-import supabase from '@/src/app/backend/supabase';
+import supabase from '@/src/app/backend/model/supabase';
 
 export default function Register() {
   const [errorFNameMessage, setErrorFNameMessage] = useState<string>(''); // Add error message state

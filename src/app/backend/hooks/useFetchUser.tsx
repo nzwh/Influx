@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { User as UserInterface } from '@/libraries/structures';
 
-import supabase from '@/src/app/backend/supabase';
+import supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
   type: string;

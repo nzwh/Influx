@@ -9,7 +9,7 @@ import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
-import supabase from '@/src/app/backend/supabase';
+import supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
   passType: number;

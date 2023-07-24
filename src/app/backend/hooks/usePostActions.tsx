@@ -1,6 +1,6 @@
 import { Post as PostInterface } from '@/libraries/structures';
 
-import supabase from '@/src/app/backend/supabase';
+import supabase from '@/src/app/backend/model/supabase';
 
 const usePostActions = () => {
 
