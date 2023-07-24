@@ -27,6 +27,19 @@ interface Post {
     range_end?: number;
 }
 
+interface Comment {
+    id: number;
+    enclosing_post: number;
+    enclosing_comment: number;
+    author: User;
+    posted_at: Date;
+
+    content: string;
+    upvotes?: string[];
+    downvotes?: string[];
+    replies?: number[];
+}
+
 interface User {
     id: number;
     uuid: string;
