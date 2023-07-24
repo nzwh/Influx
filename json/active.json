@@ -1,9 +1,11 @@
 {
-    "id": "fff01",
+    "id": 2,
+    "uuid": "2b2b2b2b-2b2b-2b2b-2b2b-2b2b2b2b2b2b",
     "handle": "arkustore",
     "email_address": "hq@arkustore.com",
     
     "icon": "/avatars/temp.jpg",
+    "banner": "/root/login.png",
     "first_name": "Arkustore",
     "last_name": "",
 
@@ -11,13 +13,8 @@
     "location": "1234, Somewhere, Anywhere",
     "biography": "All items on hand.",
 
-    "payment_methods": ["Credit Card", "Paypal"],
-    "delivery_methods": ["Meetup", "Shipping"],
+    "payment_methods": ["mastercard", "paypal"],
+    "delivery_methods": ["meetup", "shopee_express"],
 
-    "bookmarks": [],
-    "shopping_cart": [],
-    "posts": [],
-
-    "is_verified": true,
-    "banner": "/root/login.png"
+    "is_verified": true
 }

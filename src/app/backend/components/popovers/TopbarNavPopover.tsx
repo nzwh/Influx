@@ -11,7 +11,6 @@ interface Props {
   handleLogOut: () => void;
 }
 
-
 const TopbarNavPopover: React.FC<Props> = ({ handleLogOut, isOpen, onClose }) => {
   const { modalRef } = useModal({ isOpen, onClose });
 

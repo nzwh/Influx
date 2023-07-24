@@ -69,7 +69,7 @@ const TopbarNav: React.FC = () => {
   const handleCloseTopbarNavPopover = () => {
     setIsTopbarNavPopoverOpen(false);
     };
-  
+
   if (user && user.length > 0) {
     return (
       <nav className="bg-[#F9FAFD] // h-12 w-full // flex flex-row justify-between items-center // border-b-[1px] px-[12%] fixed z-[50]">
@@ -111,8 +111,7 @@ const TopbarNav: React.FC = () => {
           <div className="flex justify-center">
       <main>
           <aside onClick={handleToggleDropDown}>
-          <Image className="cursor-pointer rounded-full" src={activeData.icon} alt="User Icon" width={30} height={30} />
-            {/* <div className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6"></div> */}
+            <div className="cursor-pointer rounded-full relative bg-[url('/root/temp.jpg')] bg-cover w-6 h-6"></div>
           </aside>
           {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
         </main> 

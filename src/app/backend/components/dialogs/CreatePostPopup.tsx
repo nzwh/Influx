@@ -4,7 +4,7 @@ import Link from 'next/link';
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
-import ToTileCase from '@/src/app/backend/functions/ToTitleCase';
+import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
 import supabase from '@/src/app/backend/supabase';
@@ -346,7 +346,7 @@ const CreatePostPopup: React.FC<Props> = ({ isOpen, onClose, onSubmit, passType 
               <option className="w-full text-gray-500 text-sm font-light bg-gray-100" value="" disabled selected>Select a condition</option>
               {defaults.conditions.map((condition: string, index: React.Key | null | undefined) => (
                 <option className="w-full text-gray-500 text-sm font-light bg-gray-100" key={index} value={condition}>
-                  {ToTileCase(condition)}
+                  {ToTitleCase(condition)}
                 </option>
               ))}
             </select>
