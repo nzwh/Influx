@@ -85,7 +85,7 @@ const useFetchPosts = ({type, userId, query}: Props) => {
 
   useEffect(() => {
     fetchPosts();
-  });
+  }, []);
 
   return { posts, fetchPosts };
 };

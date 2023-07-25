@@ -59,7 +59,7 @@ const useFetchUser = ({ type, userId, handle }: Props) => {
 
   useEffect(() => {
     fetchUser();
-  });
+  }, []);
 
   return { user, fetchUser };
 };
