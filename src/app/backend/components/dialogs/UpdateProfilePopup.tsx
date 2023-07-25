@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
-import { User as UserInterface } from '@/libraries/structures';
+import { UserInterface } from '@/libraries/structures';
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesPopover';
 

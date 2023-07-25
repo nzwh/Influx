@@ -13,7 +13,7 @@ import useNode from "@/src/app/backend/hooks/useNode";
 import Comment from "@/src/app/backend/components/utilities/Comment";
 import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
 
-import { Post as PostInterface } from "@/libraries/structures";
+import { PostInterface } from "@/libraries/structures";
 import { MessageSquare, Share2, ShoppingBag, Filter, X, MapPin, Package, MessageCircle } from 'lucide-react';
 import ToTitleCase from "../../functions/ToTitleCase";
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
-import { Post as PostInterface } from '@/libraries/structures';
+import { PostInterface } from '@/libraries/structures';
 import { Glasses, Megaphone, Tag } from 'lucide-react';
 
 interface Props {

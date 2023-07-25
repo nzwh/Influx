@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 
 import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
-import { User as UserInterface } from '@/libraries/structures';
+import { UserInterface } from '@/libraries/structures';
 import supabase from '@/src/app/backend/model/supabase';
 
 const Login = () => {

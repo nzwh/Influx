@@ -14,7 +14,7 @@ import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
 import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFiltersPanel';
 
-import { Post as PostInterface } from '@/libraries/structures';
+import { PostInterface } from '@/libraries/structures';
 
 export default function Search() {
 

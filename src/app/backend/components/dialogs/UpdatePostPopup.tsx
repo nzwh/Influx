@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
-import { Post as PostInterface, Community as CommunityInterface } from '@/libraries/structures';
+import { PostInterface, CommunityInterface } from '@/libraries/structures';
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';

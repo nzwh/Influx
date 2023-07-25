@@ -10,7 +10,7 @@ import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopu
 import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 
-import { Post as PostInterface } from "@/libraries/structures";
+import { PostInterface } from "@/libraries/structures";
 import { Bookmark, MessageCircle, MoreHorizontal, ShoppingBag } from 'lucide-react';
 
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';

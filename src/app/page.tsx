@@ -16,13 +16,15 @@ import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Welcome from '@/src/app/backend/components/panels/columns/WelcomePanel';
 import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
 
-import { Post as PostInterface } from '@/libraries/structures';
+import { PostInterface } from '@/libraries/structures';
 import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFiltersPanel';
 
 export default function Home() {
 
   const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
   const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
+
+
 
   return (
     <main>

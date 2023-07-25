@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { User as UserInterface } from '@/libraries/structures';
+import { UserInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/model/supabase';
 

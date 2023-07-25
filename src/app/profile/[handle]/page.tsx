@@ -18,7 +18,7 @@ import Background from '@/src/app/backend/components/panels/BackgroundPanel';
 import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
 import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
-import { Post as PostInterface } from '@/libraries/structures';
+import { PostInterface } from '@/libraries/structures';
 
 export default function Profile() {
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Post as PostInterface, Community as CommunityInterface, User as UserInterface } from '@/libraries/structures';
+import { PostInterface, CommunityInterface, UserInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/model/supabase';
 

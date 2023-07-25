@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { Filter as FilterInterface } from '@/libraries/structures';
+import { FilterInterface } from '@/libraries/structures';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 

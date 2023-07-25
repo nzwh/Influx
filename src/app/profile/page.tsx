@@ -18,7 +18,7 @@ import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileA
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
 
-import { Post as PostInterface } from '@/libraries/structures';
+import { PostInterface } from '@/libraries/structures';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 
 export default function Profile() {

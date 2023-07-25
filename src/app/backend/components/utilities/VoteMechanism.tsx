@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Post as PostInterface } from "@/libraries/structures";
+import { PostInterface } from "@/libraries/structures";
 import { ArrowUp, ArrowDown } from 'lucide-react';
 
 const VoteMechanism: React.FC<{ post: PostInterface }> = ({ post }) => {

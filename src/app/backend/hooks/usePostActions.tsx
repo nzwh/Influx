@@ -1,4 +1,4 @@
-import { Post as PostInterface } from '@/libraries/structures';
+import { PostInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/model/supabase';
 
