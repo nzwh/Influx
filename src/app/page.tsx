@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React,{ useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
@@ -19,12 +19,38 @@ import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPan
 import { PostInterface } from '@/libraries/structures';
 import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFiltersPanel';
 
+import { UserClass } from '@/libraries/structures';
+import useFetchUser from '@/src/app/backend/hooks/useFetchUser';
+
 export default function Home() {
 
   const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
   const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
 
+  let user = new UserClass();
+  const localToken = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
 
+  // If there is no session token, set user to guest
+  if (!localToken) {
+    user = (new UserClass({
+      id: -1,
+      uuid: '-1',
+      handle: 'guest',
+      first_name: 'Guest',
+      last_name: 'User',
+    }));
+
+  } else {
+    const sessionData = JSON.parse(localToken);
+    const { user: fetchedUser } = useFetchUser({ 
+      type: 'userId', userId: sessionData.user.id
+    });
+    user = (fetchedUser[0]);
+  }
+
+  useEffect(() => {
+    console.log("Logged in as:", user);
+  }, [user]);
 
   return (
     <main>
