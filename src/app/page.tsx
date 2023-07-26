@@ -19,34 +19,54 @@ import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPan
 import { PostInterface } from '@/libraries/structures';
 import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFiltersPanel';
 
+// for user fetch
 import { UserClass } from '@/libraries/structures';
-import useFetchUser from '@/src/app/backend/hooks/useFetchUser';
+import supabase from '@/src/app/backend/model/supabase';
 
 export default function Home() {
 
   const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
   const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
 
-  let user = new UserClass();
+  // Instantiate the user, set the icon to a default value
+  const [user, setUser] = useState<UserClass>(new UserClass({
+    icon: '/root/temp.jpg',
+    banner: '/root/temp.jpg'
+  }));
   const localToken = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
 
-  // If there is no session token, set user to guest
-  if (!localToken) {
-    user = (new UserClass({
-      id: -1,
-      uuid: '-1',
-      handle: 'guest',
-      first_name: 'Guest',
-      last_name: 'User',
-    }));
+  const fetchUser = async (id : string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('uuid', id)
+      .single();
 
-  } else {
-    const sessionData = JSON.parse(localToken);
-    const { user: fetchedUser } = useFetchUser({ 
-      type: 'userId', userId: sessionData.user.id
-    });
-    user = (fetchedUser[0]);
-  }
+    if (error) {
+      throw error;
+    }
+    
+    if (data) {
+      setUser((previousData) => ({ ...previousData, ...data }));
+    }
+  };
+
+  useEffect(() => {
+    if (!localToken) {
+      setUser(new UserClass({
+        id: -1,
+        handle: 'Guest',
+        first_name: 'Guest',
+        last_name: 'User',
+        icon: '/root/temp.jpg',
+        email_address: '',
+      }));
+      
+    } else {
+      const localData = JSON.parse(localToken);
+      fetchUser(localData.user.id);
+    }
+  }, [localToken]);
 
   useEffect(() => {
     console.log("Logged in as:", user);
@@ -57,18 +77,17 @@ export default function Home() {
 
       {/* Templates */}
       <Background />
-      <TopbarNav />
+      <TopbarNav user={user} />
       
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 
-        <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" />
+        {/* <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" /> */}
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
         <div className="flex flex-row gap-2 justify-center w-full">
-
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            <NewPost onCreatePost={handleAddPost}/>
+            {/* <NewPost onCreatePost={handleAddPost}/> */}
             {posts.length ? (
               <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (
@@ -88,7 +107,7 @@ export default function Home() {
           {/* Panels */}
           <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
 
-            <Welcome />
+            {/* <Welcome /> */}
             <SearchFilters />
             <About />
             
