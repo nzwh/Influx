@@ -11,21 +11,13 @@ import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import supabase from '@/src/app/backend/model/supabase';
 import { Search, SquareSlash } from 'lucide-react';
 
-const TopbarNav: React.FC = () => {
-  
-  let activeD = JSON.parse(sessionStorage.getItem('token')!)
-  useEffect(() => {
-    if(sessionStorage.getItem('token')) {
-      activeD = JSON.parse(sessionStorage.getItem('token')!)
-      console.log(activeD.user.id)
-    }
-    else {
-      router.push('/home')
-    }
-  }, [])
-  
-  const { user, fetchUser } = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
-  const activeData = user[0];
+import { UserClass } from '@/libraries/structures';
+
+interface Props {
+  user: UserClass;
+}
+
+const TopbarNav: React.FC<Props> = ({ user }) => {
 
   const [ query, setQuery ] = useState('');
   const router = useRouter();
@@ -73,7 +65,7 @@ const TopbarNav: React.FC = () => {
       </section>
       <section className="flex flex-row items-center gap-2">
       <div className="flex justify-center">
-        <Image onClick={handleToggleDropDown} className="cursor-pointer rounded-full" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={30} height={30} />
+        <Image onClick={handleToggleDropDown} className="cursor-pointer rounded-full" src={user.icon} alt="User Icon" width={30} height={30} />
         {isTopbarNavPopoverOpen && <TopbarNavPopover handleLogOut={handleLogout} isOpen={isTopbarNavPopoverOpen} onClose={handleCloseTopbarNavPopover} />}
       </div>
     </section>
