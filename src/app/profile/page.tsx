@@ -19,14 +19,20 @@ import ProfileComments from '@/src/app/backend/components/panels/columns/Profile
 import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
 
 import { PostInterface } from '@/libraries/structures';
+import { UserClass } from '@/libraries/structures';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 
-export default function Profile() {
+interface Props {
+  user: UserClass;
+}
+
+// export default function Profile() {
+const Profile: React.FC<Props> = ({ user }) => {
 
   let activeD = JSON.parse(sessionStorage.getItem('token')!)
   const router = useRouter();
 
-  const { posts, fetchPosts } = useFetchPosts({ type: 'user', userId: activeD.user.id as string }); // TODO: Change type to user
+  const { posts, fetchPosts } = useFetchPosts({ type: 'all' }); // TODO: Change type to user
   const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
   const [svg, setSvg] = useState('');
 
@@ -39,9 +45,6 @@ export default function Profile() {
       router.push('/home')
     }
   }, [])
-  
-  const { user, fetchUser} = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
-  const activeData = user[0];
 
   return (
     <main>
@@ -60,7 +63,7 @@ export default function Profile() {
 
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            <Listings handle={activeData ? activeData.handle : ""}/>
+            <Listings handle={user ? user.handle : ""}/>
             {posts.length ? (
               <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (
@@ -95,3 +98,5 @@ export default function Profile() {
     </main>
   );
 }
+
+export default Profile;
