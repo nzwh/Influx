@@ -21,7 +21,7 @@ import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFil
 
 // for user fetch
 import { UserClass } from '@/libraries/structures';
-import supabase from '@/src/app/backend/model/supabase';
+import FetchToken from '@/src/app/backend/hooks/FetchToken';
 
 export default function Home() {
 
@@ -33,44 +33,9 @@ export default function Home() {
     icon: '/root/temp.jpg',
     banner: '/root/temp.jpg'
   }));
-  const localToken = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
 
-  const fetchUser = async (id : string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('uuid', id)
-      .single();
-
-    if (error) {
-      throw error;
-    }
-    
-    if (data) {
-      setUser((previousData) => ({ ...previousData, ...data }));
-    }
-  };
-
-  useEffect(() => {
-    if (!localToken) {
-      setUser(new UserClass({
-        id: -1,
-        handle: 'Guest',
-        first_name: 'Guest',
-        last_name: 'User',
-        icon: '/root/temp.jpg',
-        email_address: '',
-      }));
-      
-    } else {
-      const localData = JSON.parse(localToken);
-      fetchUser(localData.user.id);
-    }
-  }, [localToken]);
-
-  useEffect(() => {
-    console.log("Logged in as:", user);
-  }, [user]);
+  // Fetch the user data
+  FetchToken({user, setUser});
 
   return (
     <main>
