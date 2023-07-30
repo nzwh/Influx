@@ -52,7 +52,7 @@ export default function Home() {
         <div className="flex flex-row gap-2 justify-center w-full">
           {/* New Post & Post Loader */}
           <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
-            {/* <NewPost onCreatePost={handleAddPost}/> */}
+            <NewPost onCreatePost={handleAddPost} user={user}/>
             {posts.length ? (
               <ul className="flex flex-col gap-2 h-full w-[32rem]">
                 {posts.map((post: PostInterface) => (

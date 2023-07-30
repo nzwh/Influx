@@ -1,34 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
-import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
+
 import { PostInterface } from '@/libraries/structures';
 import { Glasses, Megaphone, Tag } from 'lucide-react';
 
+import { UserClass } from '@/libraries/structures';
+
 interface Props {
 	onCreatePost: (post: PostInterface) => void;
+  user: UserClass;
 }
 
-const DashNewPost: React.FC<Props> = ({ onCreatePost }) => {
-  let activeD = JSON.parse(sessionStorage.getItem('token')!)
-  let router = useRouter();
-  
-  useEffect(() => {
-    if(sessionStorage.getItem('token')) {
-      activeD = JSON.parse(sessionStorage.getItem('token')!)
-      console.log(activeD.user.id)
-    }
-    else {
-      router.push('/home')
-    }
-  }, [])
-  
-  const { user, fetchUser} = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
-  const activeData = user[0];
-
+const DashNewPost: React.FC<Props> = ({ onCreatePost, user }) => {
+ 
 	const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
 	const [postType, setPostType] = useState(0);
   
@@ -53,7 +40,7 @@ const DashNewPost: React.FC<Props> = ({ onCreatePost }) => {
       handleCreatePostPopupOpen(); 
       handlePostTypeInit(1); 
     }}>
-      <Image className="rounded-full" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={22} height={22} />
+      <Image className="rounded-full" src={user.icon} alt="User Icon" width={22} height={22} />
       <h6 className="text-gray-500 font-light text-xs">Post about something...</h6>
     </div>
 
