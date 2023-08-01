@@ -10,7 +10,7 @@ import { Cog, Inbox, LogOut, Megaphone, Plus, Search, ShoppingBag, SquareSlash, 
 
 import { UserClass } from '@/libraries/structures';
 import CreatePostPopup from '../dialogs/CreatePostPopup';
-import Popover from '@/src/app/backend/components/popovers/Popover';
+import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
 interface Props {
   user: UserClass;

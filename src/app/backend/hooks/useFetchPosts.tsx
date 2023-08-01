@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { PostInterface, CommunityInterface, UserInterface } from '@/libraries/structures';
+import { PostClass, CommunityInterface, UserInterface } from '@/libraries/structures';
 
 import supabase from '@/src/app/backend/model/supabase';
 
@@ -12,7 +12,7 @@ interface Props {
 
 const useFetchPosts = ({type, userId, query}: Props) => {
 
-  const [posts, setPosts] = useState<PostInterface[]>([]);
+  const [posts, setPosts] = useState<PostClass[]>([]);
 
   // Renders existing posts on page load.
   const fetchPosts = async () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import UpdateProfilePopup from '@/src/app/backend/components/dialogs/UpdateProfilePopup';
-import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
 import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Star } from 'lucide-react';
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";

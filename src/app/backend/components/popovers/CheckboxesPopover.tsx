@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import Popover from '@/src/app/backend/components/template/PopoverTemplate';
+import Popover from '@/src/app/backend/components/layouts/PopoverTemplate';
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 import { Cog, LogOut, User } from 'lucide-react';
 

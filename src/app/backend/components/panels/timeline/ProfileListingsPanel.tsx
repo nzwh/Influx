@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
 
 interface Props {
   handle: string;

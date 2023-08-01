@@ -10,8 +10,8 @@ import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
 
-import Background from '@/src/app/backend/components/panels/BackgroundPanel';
-import Post from '@/src/app/backend/components/template/PostTemplate';
+import Background from '@/src/app/backend/components/Background';
+import Post from '@/src/app/backend/components/layouts/PostLayout';
 
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
 
 const ProfileComments: React.FC = () => {
   return (

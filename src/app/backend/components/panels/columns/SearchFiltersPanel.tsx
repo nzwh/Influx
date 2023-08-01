@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { FilterInterface } from '@/libraries/structures';
-import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 
 import { ChevronDown, Option, ChevronsDown, RefreshCw, Search, Star, X } from 'lucide-react';

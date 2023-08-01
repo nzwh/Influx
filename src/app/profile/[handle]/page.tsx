@@ -11,9 +11,9 @@ import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
-import Post from '@/src/app/backend/components/template/PostTemplate';
+import Post from '@/src/app/backend/components/layouts/PostLayout';
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
-import Background from '@/src/app/backend/components/panels/BackgroundPanel';
+import Background from '@/src/app/backend/components/Background';
 
 import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
 import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';

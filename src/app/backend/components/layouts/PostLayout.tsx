@@ -8,18 +8,17 @@ import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
 import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
-import Panel from '@/src/app/backend/components/template/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
 
-import { PostInterface } from "@/libraries/structures";
+import { PostClass } from "@/libraries/structures";
 import { Bookmark, MessageCircle, MoreHorizontal, Pencil, ShoppingBag, Trash2 } from 'lucide-react';
 
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
-import PostPopover from '@/src/app/backend/components/popovers/PostPopover';
 
-import Popover from '@/src/app/backend/components/popovers/Popover';
+import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
 interface Props {
-  post: PostInterface;
+  post: PostClass;
   onDelete: (postId: number) => void;
   onEdit: (postId: number) => void;
 }
@@ -36,10 +35,10 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
   const convertToRelativeDate = useRelativeDateFormatter();
 
   const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<PostInterface>();
+  const [selectedPost, setSelectedPost] = useState<PostClass>();
 
   // Handles opening the ExpandPostPopup.
-  const handleExpandPostOpen = ( post: PostInterface ) => {
+  const handleExpandPostOpen = ( post: PostClass ) => {
     setSelectedPost(post);
     setIsExpandPostOpen(true);
   };
@@ -56,17 +55,6 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
   const handleEdit = (id:number) => {
     onEdit(id);
   }
-
-  const [isMoreHorizontal, setIsMoreHorizontal] = useState(false);
-  const [isPostPopoverOpen, setIsPostPopoverOpen] = useState(false);
-
-  const handleToggleDropDown = () => {
-    setIsMoreHorizontal((previous) => !previous);
-    setIsPostPopoverOpen((previous) => !previous);
-  };
-  const handleClosePostPopover = () => {
-    setIsPostPopoverOpen(false);
-  };
 
 	return (
     <Panel classes="flex-col p-4 gap-4">
