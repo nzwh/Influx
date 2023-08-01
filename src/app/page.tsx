@@ -12,16 +12,19 @@ import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPan
 
 // Hooks
 import useFetchToken from '@/src/app/backend/hooks/FetchToken';
-import useFetchPosts from '@/src/app/backend/hooks/useFetchPosts';
+import useFetchPosts from '@/src/app/backend/hooks/FetchPosts';
+import usePostActions from '@/src/app/backend/hooks/usePostActions';
 
 // Classes
-import { UserClass } from '@/libraries/structures';
+import { UserClass, PostClass } from '@/libraries/structures';
 
 // Page
 export default function Home() {
 
-  const { posts, fetchPosts } = useFetchPosts({ type: 'all' });
   const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
+
+  const [posts, setPosts] = useState<PostClass[]>([]);
+  useFetchPosts({ posts, setPosts });
 
   // Instantiate the user, set the icon to a default value
   const [user, setUser] = useState<UserClass>(new UserClass({
@@ -30,7 +33,7 @@ export default function Home() {
   }));
 
   // Fetch the user data
-  useFetchToken({user, setUser});
+  useFetchToken({ user, setUser });
 
   return (
     <Timeline 
