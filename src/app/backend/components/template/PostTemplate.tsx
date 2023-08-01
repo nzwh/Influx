@@ -11,10 +11,12 @@ import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism'
 import Panel from '@/src/app/backend/components/template/PanelTemplate';
 
 import { PostInterface } from "@/libraries/structures";
-import { Bookmark, MessageCircle, MoreHorizontal, ShoppingBag } from 'lucide-react';
+import { Bookmark, MessageCircle, MoreHorizontal, Pencil, ShoppingBag, Trash2 } from 'lucide-react';
 
 import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
 import PostPopover from '@/src/app/backend/components/popovers/PostPopover';
+
+import Popover from '@/src/app/backend/components/popovers/Popover';
 
 interface Props {
   post: PostInterface;
@@ -138,12 +140,15 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
           ) : null }
 
           {/* More */}
-          <div className="flex justify-end relative">
-          {/* <MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} 
-            onClick={handleToggleDropDown} /> */}
-            {isMoreHorizontal && (<MoreHorizontal className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} onClick={handleToggleDropDown} />)}
-            {isPostPopoverOpen && <PostPopover isOpen={isPostPopoverOpen} onClose={handleClosePostPopover} handleEditPost={handleEdit} handleDeletePost={handleDelete} />}
-          </div>
+          <Popover classes={"top-4 z-[45]"} 
+            trigger={
+              <MoreHorizontal className="opacity-70 cursor-pointer relative" color="black" size={12} strokeWidth={3} />
+            }
+            elements={[
+              ["Edit", <Pencil size={12} strokeWidth={3}/>, () => handleEdit(post.id)],
+              ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDelete(post.id)]
+            ]} 
+          />
 
         </div>
       </div>
