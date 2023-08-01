@@ -21,13 +21,10 @@ const FetchToken = ({ user, setUser }: Props) => {
       .eq('uuid', id)
       .single();
 
-    if (error) {
-      throw error;
-    }
-    
-    if (data) {
-      setUser((previousData) => ({ ...previousData, ...data }));
-    }
+    if (error) throw error;
+    if (!data) return;
+
+    setUser((previousData) => ({ ...previousData, ...data }));
   };
 
   useEffect(() => {

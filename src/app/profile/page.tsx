@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
-import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
+import useFetchPosts from "@/src/app/backend/hooks/FetchPosts";
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
 
 import Background from '@/src/app/backend/components/Background';

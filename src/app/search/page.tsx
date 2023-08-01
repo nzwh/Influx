@@ -10,7 +10,7 @@ import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 import Post from '@/src/app/backend/components/layouts/PostLayout';
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Background from '@/src/app/backend/components/Background';
-import useFetchPosts from "@/src/app/backend/hooks/useFetchPosts";
+import useFetchPosts from "@/src/app/backend/hooks/FetchPosts";
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
 import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFiltersPanel';
 
