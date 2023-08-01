@@ -113,60 +113,10 @@ export class UserClass {
   }
 }
 
-// export class UserClass {
-//   id: number;
-//   uuid: string;
-//   handle: string;
-
-//   email_address: string;
-//   icon: string;
-//   banner: string;
-
-//   first_name: string;
-//   last_name: string;
-//   phone_number: string;
-
-//   location: string;
-//   biography: string;
-  
-//   payment_methods: string[];
-//   delivery_methods: string[];
-
-//   is_verified: boolean;
-
-//   constructor(userObj?: Partial<UserClass>) {
-//     this.id = 0;
-//     this.uuid = '';
-//     this.handle = '';
-
-//     this.email_address = '';
-//     this.icon = '';
-//     this.banner = '';
-
-//     this.first_name = '';
-//     this.last_name = '';
-//     this.phone_number = '';
-
-//     this.location = '';
-//     this.biography = '';
-  
-//     this.payment_methods = [];
-//     this.delivery_methods = [];
-
-//     this.is_verified = false;
-
-//     if (userObj) {
-//       Object.assign(this, userObj);
-//     }
-//   }
-// }
-
-
-
 export class PostClass {
   id: number = 0;
-  origin: CommunityInterface = new CommunityClass();
-  author: UserInterface = new UserClass();
+  origin: CommunityClass = new CommunityClass();
+  author: UserClass = new UserClass();
 
   type: string = '';
   posted_at: Date = new Date();
