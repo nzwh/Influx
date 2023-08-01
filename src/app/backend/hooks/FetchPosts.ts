@@ -39,10 +39,10 @@ const FetchPosts = ({ type, query, posts, setPosts }: Props) => {
       origin: { uuid: post.origin_id }
     }));
     
-    const fetchUsers = useFetchUsers({ type: "root", users, setUsers, uuids: newData.map((post) => post.author.uuid) });
+    const fetchUsers = useFetchUsers({ type: 'subquery', users, setUsers, uuids: newData.map((post) => post.author.uuid) });
     await fetchUsers();
 
-    const fetchCommunities = useFetchCommunities({ type: "root", communities, setCommunities, uuids: newData.map((post) => post.origin.uuid) });
+    const fetchCommunities = useFetchCommunities({ type: 'subquery', communities, setCommunities, uuids: newData.map((post) => post.origin.uuid) });
     await fetchCommunities();
 
     newData.forEach((post) => {

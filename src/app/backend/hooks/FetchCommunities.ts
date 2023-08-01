@@ -6,7 +6,7 @@ import Supabase from '@/src/app/backend/model/supabase';
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 
 interface Props {
-  type: string;
+  type?: string;
   communities: CommunityClass[];
   setCommunities: Dispatcher<CommunityClass[]>;
   uuids?: string[];
@@ -27,12 +27,19 @@ const FetchCommunities = ({ type, communities, setCommunities, uuids }: Props) =
     if (error) throw error;
     if (!data) return;
 
-    if (type === 'state') {
+    if (type === 'all') {
       setCommunities(data.map((community) => new CommunityClass(community)));
     } else {
       communities.push(...data.map((community) => new CommunityClass(community)));
     }
   };
+
+  if (type === 'all') {
+    useEffect(() => {
+      if (communities.length === 0)
+        fetchCommunities();
+    }, [communities]);
+  }
 
   return fetchCommunities;
 };

@@ -6,7 +6,7 @@ import Supabase from '@/src/app/backend/model/supabase';
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 
 interface Props {
-  type: string;
+  type?: string;
   users: UserClass[];
   setUsers: Dispatcher<UserClass[]>;
   uuids?: string[];
@@ -27,12 +27,19 @@ const FetchUsers = ({ type, users, setUsers, uuids }: Props) => {
     if (error) throw error;
     if (!data) return;
 
-    if (type === 'state') {
+    if (type === 'all') {
       setUsers(data.map((user) => new UserClass(user)));
     } else {
       users.push(...data.map((user) => new UserClass(user)));
     }
   };
+
+  if (type === 'all') {
+    useEffect(() => {
+      if (users.length === 0)
+        fetchUsers();
+    }, [users]);
+  }
 
   return fetchUsers;
 };
