@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
-import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
-import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
+import CreatePost from '@/src/app/backend/components/dialogs/CreatePostPopup';
+import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 
-import { PostInterface } from '@/libraries/structures';
 import { Glasses, Megaphone, Tag } from 'lucide-react';
 
 import { UserClass } from '@/libraries/structures';
 
 interface Props {
-	onCreatePost: (post: PostInterface) => void;
   user: UserClass;
 }
 
-const DashNewPost: React.FC<Props> = ({ onCreatePost, user }) => {
+const DashNewPost: React.FC<Props> = ({ user }) => {
  
 	const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
 	const [postType, setPostType] = useState(0);
@@ -72,7 +70,7 @@ const DashNewPost: React.FC<Props> = ({ onCreatePost, user }) => {
     </Panel>
 
     {isCreatePostPopupOpen && ( 
-      <CreatePostPopup isOpen={isCreatePostPopupOpen} onClose={() => { 
+      <CreatePost isOpen={isCreatePostPopupOpen} onClose={() => { 
         handleCreatePostPopupClose(); 
         handlePostTypeInit(0); 
       }} onSubmit={handleFormSubmit} passType={postType} />

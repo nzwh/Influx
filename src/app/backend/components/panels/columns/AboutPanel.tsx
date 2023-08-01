@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 
 const About: React.FC = () => {
   return (

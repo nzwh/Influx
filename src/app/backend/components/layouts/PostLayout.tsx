@@ -8,7 +8,7 @@ import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
 import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
-import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 
 import { PostClass } from "@/libraries/structures";
 import { Bookmark, MessageCircle, MoreHorizontal, Pencil, ShoppingBag, Trash2 } from 'lucide-react';

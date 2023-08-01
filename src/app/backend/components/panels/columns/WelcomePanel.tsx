@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Panel from '@/src/app/backend/components/layouts/PanelTemplate';
+import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 import { UserClass } from '@/libraries/structures';
 
 interface Props {
