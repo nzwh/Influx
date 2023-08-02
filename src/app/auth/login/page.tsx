@@ -37,17 +37,6 @@ const Login = () => {
 
   const [token, setToken] = useState(false);
 
-  if(token) {
-    sessionStorage.setItem('token', JSON.stringify(token))
-  }
-
-  useEffect(() => {
-    if(sessionStorage.getItem('token')) {
-      let data = JSON.parse(sessionStorage.getItem('token')!)
-      setToken(data)
-    }
-  }, [])
-
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
     
