@@ -1,5 +1,7 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 
+import useFetchUsers from '@/src/app/backend/hooks/FetchUsers';
+import useFetchCommunities from '@/src/app/backend/hooks/FetchCommunities';
 import { PostClass, CommunityClass, UserClass } from '@/libraries/structures';
 import Supabase from '@/src/app/backend/model/supabase';
 
@@ -8,12 +10,14 @@ type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 interface Props {
   type?: string;
   query?: string;
-
   posts: PostClass[];
   setPosts: Dispatcher<PostClass[]>;
 }
 
 const FetchPosts = ({ type, query, posts, setPosts }: Props) => {
+
+  const [users, setUsers] = useState<UserClass[]>([]);
+  const [communities, setCommunities] = useState<CommunityClass[]>([]);
 
   const fetchPosts = async () => {
 
@@ -26,7 +30,6 @@ const FetchPosts = ({ type, query, posts, setPosts }: Props) => {
       SupabaseQuery = SupabaseQuery.eq(type, query);
 
     const { data, error } = await SupabaseQuery;
-
     if (error) throw error;
     if (!data) return;
 
@@ -35,22 +38,18 @@ const FetchPosts = ({ type, query, posts, setPosts }: Props) => {
       author: { uuid: post.author_id },
       origin: { uuid: post.origin_id }
     }));
+    
+    const fetchUsers = useFetchUsers({ type: 'subquery', users, setUsers, uuids: newData.map((post) => post.author.uuid) });
+    await fetchUsers();
 
-    const { data: profiles } = await Supabase
-      .from('profiles')
-      .select('*')
-      .in('uuid', newData.map((post) => post.author.uuid));
-
-    const { data: communities } = await Supabase
-      .from('communities')
-      .select('*')
-      .in('uuid', newData.map((post) => post.origin.uuid));
+    const fetchCommunities = useFetchCommunities({ type: 'subquery', communities, setCommunities, uuids: newData.map((post) => post.origin.uuid) });
+    await fetchCommunities();
 
     newData.forEach((post) => {
-      post.author = profiles?.find(
-        (user: UserClass) => user.uuid === post.author.uuid) || null;
+      post.author = users?.find(
+        (user: UserClass) => user.uuid === post.author.uuid) || new UserClass();
       post.origin = communities?.find(
-        (community: CommunityClass) => community.uuid === post.origin.uuid) || null;
+        (community: CommunityClass) => community.uuid === post.origin.uuid) || new CommunityClass();
     });
 
     setPosts(newData);
