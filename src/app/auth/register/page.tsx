@@ -169,7 +169,7 @@ export default function Register() {
               <div className="flex flex-col w-full">
                 <div className="flex flex-row gap-4 w-full items-center justify-between">
                   <label htmlFor="firstname" className="text-gray-800 font-regular text-xs leading-8">First Name</label>
-                  <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorFNameMessage}</label>
+                  <label className="text-[#FF0000] font-light text-[0.6rem] leading-8">{errorFNameMessage}</label>
                 </div>
 
                 <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
@@ -183,7 +183,7 @@ export default function Register() {
               <div className="flex flex-col w-full">
                 <div className="flex flex-row gap-4 w-full items-center justify-between">
                   <label htmlFor="lastname" className="text-gray-800 font-regular text-xs leading-8">Last Name</label>
-                  <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorLNameMessage}</label>
+                  <label className="text-[#FF0000] font-light text-[0.6rem] leading-8">{errorLNameMessage}</label>
                 </div>
                 
                 <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
@@ -197,7 +197,7 @@ export default function Register() {
 
             <div className="flex flex-row gap-4 w-full items-center justify-between">
               <label htmlFor="handle" className="text-gray-800 font-regular text-xs leading-8">Username</label>
-              <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorHandleMessage}</label>
+              <label className="text-[#FF0000] font-light text-[0.6rem] leading-8">{errorHandleMessage}</label>
             </div>
 
             <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
@@ -209,7 +209,7 @@ export default function Register() {
 
             <div className="flex flex-row gap-4 w-full items-center justify-between">
               <label htmlFor="email" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
-              <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorEmailMessage}</label>
+              <label className="text-[#FF0000] font-light text-[0.6rem] leading-8">{errorEmailMessage}</label>
             </div>
 
             <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
@@ -221,7 +221,7 @@ export default function Register() {
 
             <div className="flex flex-row gap-4 w-full items-center justify-between">
               <label htmlFor="password" className="text-gray-800 font-regular text-xs leading-8">Password</label>
-              <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorPasswordMessage}</label>
+              <label className="text-[#FF0000] font-light text-[0.6rem] leading-8">{errorPasswordMessage}</label>
             </div>
 
             <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
@@ -234,7 +234,7 @@ export default function Register() {
             <button type="submit"  disabled={isSubmitting} className="my-6 w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
               <h6 className="text-violet-300 font-light text-xs h-full cursor-pointer py-1.5">{isSubmitting ? 'Creating an account...' : 'Continue with an Influx Account'}</h6>
             </button>
-            <label className="text-red-500 font-regular text-xs h-1">{errorMessage}</label>
+            <label className="text-[#FF0000] font-regular text-xs h-1">{errorMessage}</label>
           </form>
 
           <div className="flex flex-row gap-1 items-center py-2">
