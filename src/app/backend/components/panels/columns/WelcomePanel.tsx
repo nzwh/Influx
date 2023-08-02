@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import { UserClass } from '@/libraries/structures';
 
-interface Props {
-  user: UserClass;
-}
+import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
-const Welcome: React.FC<Props> = ({ user }) => {
+const Welcome: React.FC = ({ }) => {
+
+  const { user, setUser, posts, setPosts } = useGlobalContext();
+
   return (
     <Panel classes="flex-col relative">
       <div className="z-0 w-full h-1 bg-back"></div>

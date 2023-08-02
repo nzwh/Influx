@@ -3,19 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { User, Bookmark, Inbox, ShoppingBag, Settings, Sparkle, Truck, Moon, Megaphone, LayoutGrid } from 'lucide-react';
-import { UserClass } from '@/libraries/structures';
+import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
-interface WrapperProps {
-  // user: UserInterface;
-  wrapperClass: string;
-  user: UserClass;
-}
-
-// const ExplorerNav: React.FC<WrapperProps> = ({ user, wrapperClass }) => {
-const ExplorerNav: React.FC<WrapperProps> = ({ wrapperClass, user }) => {
-
+const ExplorerNav: React.FC = () => {
+  const { user } = useGlobalContext();
   return (
-    <section id="profile" className={`gap-4 flex flex-col fixed ${wrapperClass}`}>
+    <section id="profile" className="w-40 min-w-[10rem] ex-br gap-4 flex flex-col fixed">
     <Link href="/profile" className="flex flex-row items-start gap-2">
       <Image className="rounded-full" src={user.icon} alt="User Icon" width={48} height={48} />
       <div className="flex flex-col justify-center">

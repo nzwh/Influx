@@ -10,31 +10,31 @@ import Background from '@/src/app/backend/components/Background';
 import Post from '@/src/app/backend/components/layouts/PostLayout';
 
 // Classes
-import { UserClass, PostClass } from '@/libraries/structures';
+import { PostClass } from '@/libraries/structures';
 
 // Hooks
 import usePostActions from "@/src/app/backend/hooks/usePostActions";
+import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
 interface Props {
-  user: UserClass;
-  posts: PostClass[];
   header?: React.ReactNode;
   panels?: React.ReactNode;
 }
 
-const Timeline: React.FC<Props> = ({ user, posts, header, panels }) => {
+const Timeline: React.FC<Props> = ({ header, panels }) => {
 
+  const { posts } = useGlobalContext();
   const { handleAddPost, handleDeletePost, handleEditPost } = usePostActions();
 
   return (
     <main>
 
       <Background />
-      <TopbarNav user={user} />
+      <TopbarNav />
       
       <div id="wrapper" className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 
-        <ExplorerNav wrapperClass="w-40 min-w-[10rem] ex-br" user={user} />
+        <ExplorerNav />
         <div id="padder" className="w-40 min-w-[10rem] ex-br"></div>
 
         <div className="flex flex-row gap-2 justify-center w-full">

@@ -1,6 +1,7 @@
 // Import global stylesheets, and the Inter font.
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { GlobalProvider } from './backend/hooks/GlobalContext'
 
 // Creates an instance of the Inter font.
 const inter = Inter({ subsets: ['latin'] })
@@ -111,8 +112,10 @@ export default function RootLayout({
   return (
     // Renders normal HTML elements.
     <html lang="en">
+      <GlobalProvider>
       {/* Place all children inside the body tag. */}
       <body className={sohne.className}>{children}</body>
+      </GlobalProvider>
     </html>
   )
 }

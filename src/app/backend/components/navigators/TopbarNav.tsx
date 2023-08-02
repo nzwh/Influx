@@ -8,17 +8,14 @@ import Link from 'next/link'
 import supabase from '@/src/app/backend/model/supabase';
 import { Cog, Inbox, LogOut, Megaphone, Plus, Search, ShoppingBag, SquareSlash, User } from 'lucide-react';
 
-import { UserClass } from '@/libraries/structures';
 import CreatePostPopup from '../dialogs/CreatePostPopup';
 import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
+import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
-interface Props {
-  user: UserClass;
-}
-
-const TopbarNav: React.FC<Props> = ({ user }) => {
+const TopbarNav: React.FC = () => {
 
   const router = useRouter();
+  const { user } = useGlobalContext();
 
   // Redirect to search page with the query
   const [query, setQuery] = useState('');
