@@ -130,7 +130,7 @@ const Login = () => {
             <div>
               <div className="flex flex-row gap-4 w-full items-center justify-between">
                 <label htmlFor="u_name" className="text-gray-800 font-regular text-xs leading-8">Email Address</label>
-                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorEmailMessage}</label>  
+                <label className="text-[#FF0000] font-light text-[0.6rem] leading-8">{errorEmailMessage}</label>  
               </div>
               
               <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
@@ -142,7 +142,7 @@ const Login = () => {
 
               <div className="flex flex-row gap-4 w-full items-center justify-between">
                 <label htmlFor="u_pass" className="text-gray-800 font-regular text-xs leading-8">Password</label>
-                <label className="text-red-500 font-light text-[0.6rem] leading-8">{errorPasswordMessage}</label>
+                <label className="text-[#FF0000] font-light text-[0.6rem] leading-8">{errorPasswordMessage}</label>
               </div>
 
               <div className="flex flex-row bg-gray-300 rounded-sm h-8 w-full items-center">
@@ -164,7 +164,7 @@ const Login = () => {
             <button type="submit" disabled={isSubmitting} className="w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
               <h6 className="text-violet-300 font-light text-xs h-full cursor-pointer py-1.5">{isSubmitting ? 'Logging in...' : 'Continue with an Influx Account'}</h6>
             </button>
-            <label className="text-red-500 font-regular text-xs h-1">{errorMessage}</label>
+            <label className="text-[#FF0000] font-regular text-xs h-1">{errorMessage}</label>
           </form>
 
           <div className="flex flex-row gap-1 items-center py-2">
