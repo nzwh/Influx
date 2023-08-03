@@ -1,21 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
-import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
+// Hooks & Classes
 import { PostClass, CommunityClass } from '@/libraries/structures';
-import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
-
-import PostActions from '../../hooks/PostActions';
-
-import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
-import supabase from '@/src/app/backend/model/supabase';
-import { UserClass } from '@/libraries/structures';
+import usePostActions from '@/src/app/backend/hooks/PostActions';
 import useFetchCommunities from '@/src/app/backend/hooks/FetchCommunities';
-import { useRouter } from 'next/navigation';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 import useSaveImages from '@/src/app/backend/hooks/SaveImages';
+import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
+// Utilities
+import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
+import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
 import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
+
+// Icons
+import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
+
 interface Props {
   type: number;
   onClose: () => void;
@@ -29,7 +29,7 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
   const defaults = require("@/json/defaults.json");
 
   // Post actions
-  const { AddPost } = PostActions();
+  const { AddPost } = usePostActions();
 
   // Allow outside click to close modal
   const modalRef = useRef<HTMLDivElement | null>(null);

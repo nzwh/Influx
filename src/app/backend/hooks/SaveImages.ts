@@ -21,8 +21,6 @@ const SaveImages = (files: File[]) : string[] => {
 
     const filename = `${uuidv4()}-${file.name.replace(/\s/g, '-')}`;
     saveImages(file, filename);
-    console.log("filename:", filename);
-    console.log(file.name);
     images.push("https://pmjwqjsoojzbascysdbk.supabase.co/storage/v1/object/public/images/" + filename);
     
   });
