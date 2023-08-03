@@ -181,7 +181,7 @@ const PostTemplate: React.FC<Props> = ({ post }) => {
         </div>
 
         {isExpandPostOpen && selectedPost && (
-          <ExpandPostPopup post={selectedPost} isOpen={isExpandPostOpen} onClose={handleExpandPostClose} />
+          <ExpandPostPopup post={selectedPost} onClose={handleExpandPostClose} />
         )}
       </Wrapper>
 

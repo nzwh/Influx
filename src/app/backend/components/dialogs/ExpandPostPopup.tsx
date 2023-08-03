@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
-import useModal from "@/src/app/backend/hooks/useModal";
+import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
 import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 // import useFetchPost from "@/src/app/backend/hooks/useFetchPost";
@@ -14,13 +14,16 @@ import Comment from "@/src/app/backend/components/utilities/CommentSection";
 import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
 
 import { PostInterface } from "@/libraries/structures";
-import { MessageSquare, Share2, ShoppingBag, Filter, X, MapPin, Package, MessageCircle } from 'lucide-react';
-import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
+import { MessageSquare, Share2, ShoppingBag, Filter, X, MapPin, Package, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { PostClass } from "@/libraries/structures";
+import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
+import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
+import Carousel from "../layouts/ImageCarousel";
 
 interface Props {
-  isOpen: boolean;
+  post: PostClass;
   onClose: () => void;
-  post: PostInterface;
 }
 
 const comments = {
@@ -28,92 +31,76 @@ const comments = {
   items: []
 };
 
-const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
+const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
 
-  const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
-  const convertToMonetary = useMonetaryFormatter();
-  const convertToRelativeDate = useRelativeDateFormatter();
+  // Export posts from global context
+  const { user } = useGlobalContext();
+  post = new PostClass(post);
+
+  // Allow outside click to close modal
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  OutsideClick(modalRef, onClose);
+
+  const navigateToProfile = useNavigateToProfile();
+  const handleProfileClick = () => {
+    navigateToProfile(post.author.handle);
+  };
+
+  // TODO: Turn into component @shiopao
   const [commentsData, setCommentsData] = useState(comments);
   const { insertNode, editNode, deleteNode } = useNode();
-
   const handleInsertNode = (folderId: any, item: any) => {
     const finalStructure = insertNode(commentsData, folderId, item);
     setCommentsData(finalStructure);
   };
-
   const handleEditNode = (folderId: any, value: any) => {
     const finalStructure = editNode(commentsData, folderId, value);
     setCommentsData(finalStructure);
   };
-
   const handleDeleteNode = (folderId: any) => {
     const finalStructure = deleteNode(commentsData, folderId);
     const temp = { ...finalStructure };
     setCommentsData(temp);
   };
 
-  const navigateToProfile = useNavigateToProfile();
-  
-  const handleProfileClick = () => {
-    post.author?.handle ? navigateToProfile(post.author?.handle) : null;
-  };
-
-  // let activeD = JSON.parse(sessionStorage.getItem('token')!)
-  // let router = useRouter();
-  
-  // useEffect(() => {
-  //   if(sessionStorage.getItem('token')) {
-  //     activeD = JSON.parse(sessionStorage.getItem('token')!)
-  //     console.log(activeD.user.id)
-  //   }
-  //   else {
-  //     router.push('/home')
-  //   }
-  // }, [])
-  
-  // const { user, fetchUser} = useFetchPost({ type: 'userId', userId: activeD.user.id as string });
-  // const activeData = user[0];
-
   return (
     <main 
-      className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
-      ref={modalRef} onClick={handleClickOutside}
-    > 
-      <div className="flex flex-row gap-2 h-[72%] z-50">
+      className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
+      <div className="flex flex-row gap-2 h-[72%] w-auto justify-center z-50" ref={modalRef}>
 
-        {post.media && post.media.length > 0 && (
-          <Image className="h-full w-auto bg-white rounded-sm" src={post.media[0]} alt="Images" width={0} height={0} sizes="100%" />
-        )}
+        <Carousel media={post.media || []} />
               
-        <div className="flex flex-col gap-2 h-full w-[26rem] bg-white rounded-sm p-6">
+        <Wrapper className="flex flex-col gap-4 h-full w-[26rem] bg-white rounded-sm p-6 shadow-xl hover:shadow-2xl transition-shadow duration-400">
 
           <div className="flex flex-col gap-4 w-full">
 
-          <div className="flex flex-row justify-between items-center">
-            <div className="flex flex-row items-center gap-2">
+            {/* Community */}
+            <div className="flex flex-row justify-between items-center">
+              <div className="flex flex-row items-center gap-2">
 
-            {/* Community Avatar */}
-            <Image className="rounded-full" src={post.origin.icon} alt="Shop Icon" width={16} height={16} />
+                {/* Community Avatar */}
+                <Image className="rounded-full" src={post.origin.icon} alt="Shop Icon" width={16} height={16} />
 
-            {/* Community Details */}
-            <h6 className="text-gray-800 font-medium text-[0.65rem]">{post.origin.name}</h6>
-            <h6 className="text-gray-500 font-normal text-[0.65rem]">{`@c/${post.origin.handle}`}</h6>
+                {/* Community Details */}
+                <h6 className="text-gray-800 font-medium text-[0.65rem]">{post.origin.name}</h6>
+                <h6 className="text-gray-500 font-normal text-[0.65rem]">{`@c/${post.origin.handle}`}</h6>
 
+              </div>
+
+              <X className="cursor-pointer" color="black" size={14} strokeWidth={3} onClick={onClose} />
             </div>
 
-            <X className="cursor-pointer" color="black" size={16} strokeWidth={3} onClick={onClose} />
-          </div>
-
+          { post.type === "article" ? null : (
           <div className="flex flex-row gap-2 items-start h-fit">
 
             {/* Price */}
             { post.type === "selling" ? (
-              <h1 className="text-gray-950 font-normal text-2xl tracking-tight leading-4">{convertToMonetary(post.price || 0)}</h1>
+              <h1 className="text-gray-950 font-normal text-[1.75rem] tracking-tight leading-5">{ToMonetary(post.price || 0)}</h1>
             ) : post.type === "buying" ? (
               <div className="flex flex-row gap-2 items-center">
-              <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{convertToMonetary(post.range_start || 0)}</h1>
+              <h1 className="text-gray-950 font-normal text-[1.75rem] tracking-tight leading-5">{ToMonetary(post.range_start || 0)}</h1>
               <h1 className="text-gray-950 font-normal text-[0.625rem]">to</h1>
-              <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{convertToMonetary(post.range_end || 0)}</h1>
+              <h1 className="text-gray-950 font-normal text-[1.75rem] tracking-tight leading-5">{ToMonetary(post.range_end || 0)}</h1>
               </div>
             ) : null }
             
@@ -124,6 +111,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
               </span>
             ) : null}
           </div>
+          )}
           
           <div className="flex flex-col gap-2 cursor-pointer">
 
@@ -133,7 +121,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
 
             {/* Condition */ }
             {post.type === "selling" ? (
-            <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-800 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2">
+            <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-800 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2 whitespace-nowrap">
               {ToTitleCase(post.condition || "")}
             </span>
             ) : null}
@@ -173,7 +161,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
             </div>
           </div>
           
-          <div className="w-full h-[2px] my-2 bg-gray-500 opacity-30"></div>
+          <hr />
 
           <div className="flex flex-row items-center gap-2 w-full">
 
@@ -203,12 +191,12 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
               </div>
 
               {/* Author Handle */}
-              <h6 onClick={handleProfileClick} className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer">{`@${post.author?.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
+              <h6 onClick={handleProfileClick} className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer">{`@${post.author?.handle}`}&ensp;•&ensp;{ToRelativeTime(post.posted_at)}</h6>
 
             </div>
           </div>
 
-          <div className="w-full h-[2px] my-2 bg-gray-500 opacity-30"></div>
+          <hr />
           
           <div className="flex flex-col gap-4 py-1 max-h-full h-full overflow-auto">
             <div className="flex flex-row justify-between">
@@ -226,7 +214,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
               </div>
             </div>
           </div>
-        </div>
+        </Wrapper>
       </div>
     </main>
   );
