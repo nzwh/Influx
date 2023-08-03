@@ -227,8 +227,8 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
         
         <Wrapper className="flex flex-row items-center">
           <ToggleVote type="post" post={post} />
-          <ToggleCart post={post} />
-          <ToggleBookmark post={post} />
+          <ToggleCart value={true} name="interested" post={post} />
+          <ToggleBookmark value={true} name="bookmarks" post={post} />
         </Wrapper>
 
         {/* Comments */}

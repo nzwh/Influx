@@ -11,10 +11,12 @@ import { PostClass } from "@/libraries/structures";
 import { ShoppingBag } from 'lucide-react';
 
 interface Props {
+  name: string;
+  value?: boolean
   post: PostClass;
 }
 
-const ToggleCart: React.FC<Props> = ({ post }) => {
+const ToggleCart: React.FC<Props> = ({ name, value, post }) => {
 
   const savePostCart = async () => {
     const { data, error } = await Supabase
@@ -61,12 +63,12 @@ const ToggleCart: React.FC<Props> = ({ post }) => {
       { carted ? (<>
         <ShoppingBag className="text-gray-800" size={12} strokeWidth={3} /> 
         <h6 className="text-gray-800 font-normal text-xs">
-          {post.cart?.length || 0} interested
+          {value ? (post.cart?.length || 0) : ""} {name}
         </h6>
       </>) : (<>
         <ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3} /> 
         <h6 className="text-gray-800 font-normal text-xs">
-        {post.cart?.length || 0} {post.cart?.length === 1 ? 'interested' : 'interested'}
+          {value ? (post.cart?.length || 0) : ""} {name}
         </h6>
       </>)}
       

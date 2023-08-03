@@ -84,7 +84,7 @@ const ToggleVote: React.FC<Props> = ({ type, post, commentId }) => {
           <ArrowUp className="text-gray-800 m-1" size={14} strokeWidth={3} onClick={handleUpvote}/>
         </div>
 
-        <h6 className="text-gray-800 font-normal text-xs px-1">{(post.upvotes?.length || 0) - (post.downvotes?.length || 0)}</h6>
+        <h6 className="text-gray-800 font-normal text-xs px-2">{(post.upvotes?.length || 0) - (post.downvotes?.length || 0)}</h6>
 
         <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 ${downvoted ? "bg-gray-300" : ""}`}>
           <ArrowDown className="text-gray-800 m-1" size={14} strokeWidth={3} onClick={handleDownvote}/>

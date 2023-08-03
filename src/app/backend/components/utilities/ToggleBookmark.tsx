@@ -11,10 +11,12 @@ import { PostClass } from "@/libraries/structures";
 import { Bookmark } from 'lucide-react';
 
 interface Props {
+  name: string;
+  value?: boolean
   post: PostClass;
 }
 
-const ToggleBookmark: React.FC<Props> = ({ post }) => {
+const ToggleBookmark: React.FC<Props> = ({ name, value, post }) => {
 
   const savePostBookmarks = async () => {
     const { data, error } = await Supabase
@@ -61,12 +63,12 @@ const ToggleBookmark: React.FC<Props> = ({ post }) => {
       { bookmarked ? (<>
         <Bookmark className="text-gray-800" size={12} strokeWidth={3} /> 
         <h6 className="text-gray-800 font-normal text-xs">
-          {post.bookmarks?.length || 0} bookmarked
+          {value ? (post.bookmarks?.length || 0) : ""} {name}
         </h6>
       </>) : (<>
         <Bookmark className="opacity-70" color="black" size={12} strokeWidth={3} /> 
         <h6 className="text-gray-800 font-normal text-xs">
-        {post.bookmarks?.length || 0} {post.bookmarks?.length === 1 ? 'bookmarked' : 'bookmarked'}
+        {value ? (post.bookmarks?.length || 0) : ""} {name}
         </h6>
       </>)}
       
