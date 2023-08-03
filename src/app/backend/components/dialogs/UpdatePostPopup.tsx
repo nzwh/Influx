@@ -4,7 +4,7 @@ import Link from 'next/link';
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { PostInterface, CommunityInterface } from '@/libraries/structures';
-import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
 import supabase from '@/src/app/backend/model/supabase';

@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 
 import { FilterInterface } from '@/libraries/structures';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 
 import { ChevronDown, Option, ChevronsDown, RefreshCw, Search, Star, X } from 'lucide-react';
 import { ChevronsUp } from 'lucide-react';

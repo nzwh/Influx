@@ -37,12 +37,12 @@ const Popover: React.FC<Props> = ({ classes, trigger, elements }) => {
 
         <div ref={popoverRef}>
         {elements.map((element, index) => {
-          const [string, icon, onClick] = element;
+          const [name, icon, onClick] = element;
           return (
             <div onClick={onClick} 
               className="text-gray-600 flex flex-row gap-2 items-center hover:bg-gray-200 py-1 px-2 justify-start cursor-pointer select-none transition-colors duration-200">
               {icon}
-              <h6 className="text-xs font-normal">{string}</h6>
+              <h6 className="text-xs font-normal">{name}</h6>
             </div>
           )
         })}
