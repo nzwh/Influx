@@ -49,7 +49,7 @@ const Timeline: React.FC<Props> = ({ header, panels }) => {
             <ul className="flex flex-col gap-2 h-full w-[32rem]">
               {posts.map((post: PostClass) => (
                 <li key={post.id}>
-                  <Post p_post={post} />
+                  <Post post={post} />
                 </li>
               ))}
             </ul>
