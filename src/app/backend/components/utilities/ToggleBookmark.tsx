@@ -36,7 +36,7 @@ const ToggleBookmark: React.FC<Props> = ({ name, value, post }) => {
     if (error) throw error;
   };
 
-  const { user } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   const [bookmarked, setBookmarked] = useState(post.bookmarks?.includes(user.uuid));
 
@@ -46,6 +46,7 @@ const ToggleBookmark: React.FC<Props> = ({ name, value, post }) => {
       user.bookmarks?.push(post.id);
       savePostBookmarks();
       saveUserBookmarks();
+      setUser(user);
       setBookmarked(true);
     }
     else {
@@ -53,6 +54,7 @@ const ToggleBookmark: React.FC<Props> = ({ name, value, post }) => {
       user.bookmarks?.splice(user.bookmarks?.indexOf(post.id), 1);
       savePostBookmarks();
       saveUserBookmarks();
+      setUser(user);
       setBookmarked(false);
     }
   };

@@ -46,6 +46,7 @@ const ToggleCart: React.FC<Props> = ({ name, value, post }) => {
       user.cart?.push(post.id);
       savePostCart();
       saveUserCart();
+      setUser(user);
       setCarted(true);
     }
     else {
@@ -53,6 +54,7 @@ const ToggleCart: React.FC<Props> = ({ name, value, post }) => {
       user.cart?.splice(user.cart?.indexOf(post.id), 1);
       savePostCart();
       saveUserCart();
+      setUser(user);
       setCarted(false);
     }
   };
