@@ -104,7 +104,7 @@ const TopbarNav: React.FC = () => {
           <Link href="/cart" className="bg-gray-200 text-gray-600 h-6 py-1 px-2.5 flex items-center gap-1 rounded-full cursor-pointer
             hover:bg-gray-300 transition-colors duration-200">
             <ShoppingBag size={12} strokeWidth={3} />
-            <h6 className="text-xs font-regular leading-3">{user.bookmarks.length}</h6>
+            <h6 className="text-xs font-regular leading-3">{user.bookmarks?.length || 0}</h6>
           </Link>
         </>) : null }
         
