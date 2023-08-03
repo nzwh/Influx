@@ -56,7 +56,7 @@ const ToggleCart: React.FC<Props> = ({ post }) => {
   };
 
   return (
-    <div className={`flex flex-row gap-1 items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200 px-2 py-1 rounded-sm ${carted ? "bg-violet-100":""}`} onClick={handleBookmarkToggle}>
+    <div className={`flex flex-row gap-1 items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200 px-2 py-1 rounded-sm h-6 ${carted ? "bg-violet-100":""}`} onClick={handleBookmarkToggle}>
   
       { carted ? (<>
         <ShoppingBag className="text-gray-800" size={12} strokeWidth={3} /> 

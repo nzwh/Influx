@@ -22,9 +22,9 @@ import { Bookmark, Focus, MessageCircle, MoreHorizontal, Pencil, ShoppingBag, Tr
 
 // TODO
 import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
-import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
-import ToggleBookmark from '../utilities/ToggleBookmark';
-import ToggleCart from '../utilities/ToggleCart';
+import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
+import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
+import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
 
 interface Props {
   p_post: PostClass;
@@ -226,7 +226,7 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
       <div className="flex flex-row justify-between items-center">
         
         <Wrapper className="flex flex-row items-center">
-          <VoteMechanism type="post" postId={post.id} />
+          <ToggleVote type="post" post={post} />
           <ToggleCart post={post} />
           <ToggleBookmark post={post} />
         </Wrapper>

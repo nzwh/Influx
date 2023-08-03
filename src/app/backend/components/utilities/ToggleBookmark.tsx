@@ -37,7 +37,7 @@ const ToggleBookmark: React.FC<Props> = ({ post }) => {
   const { user } = useGlobalContext();
 
   const [bookmarked, setBookmarked] = useState(post.bookmarks?.includes(user.uuid));
-  
+
   const handleBookmarkToggle = () => {
     if (!bookmarked) {
       post.bookmarks?.push(user.uuid);
@@ -56,7 +56,7 @@ const ToggleBookmark: React.FC<Props> = ({ post }) => {
   };
 
   return (
-    <div className={`flex flex-row gap-1 items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200 px-2 py-1 rounded-sm ${bookmarked ? "bg-violet-100":""}`} onClick={handleBookmarkToggle}>
+    <div className={`flex flex-row gap-1 items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200 px-2 py-1 rounded-sm h-6 ${bookmarked ? "bg-violet-100":""}`} onClick={handleBookmarkToggle}>
   
       { bookmarked ? (<>
         <Bookmark className="text-gray-800" size={12} strokeWidth={3} /> 
