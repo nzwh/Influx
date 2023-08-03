@@ -11,7 +11,7 @@ import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFor
 // import useFetchPost from "@/src/app/backend/hooks/useFetchPost";
 import useNode from "@/src/app/backend/hooks/useNode";
 import Comment from "@/src/app/backend/components/utilities/CommentSection";
-import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
+import VoteMechanism from "@/src/app/backend/components/utilities/ToggleVote";
 
 import { PostInterface } from "@/libraries/structures";
 import { MessageSquare, Share2, ShoppingBag, Filter, X, MapPin, Package, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -20,6 +20,10 @@ import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
 import Carousel from "../layouts/ImageCarousel";
+
+import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
+import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
+import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
 
 interface Props {
   post: PostClass;
@@ -149,13 +153,16 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
             {/* Controls */}
             <div className="flex flex-row justify-between items-center">
 
-              {/* Upvotes */}
-              <VoteMechanism post={post} />
+            <Wrapper className="flex flex-row items-center">
+              <ToggleVote type="post" post={post} />
+              <ToggleCart value={false} name="Add to cart" post={post} />
+              <ToggleBookmark value={false} name="Save" post={post} />
+            </Wrapper>
 
               {/* Comments */}
               <div className="flex flex-row gap-1 items-center">
                 <MessageCircle className="opacity-70" color="black" size={12} strokeWidth={3} />
-                <h6 className="text-gray-800 font-normal text-xs">{post.comments?.length || 0} comments</h6>
+                <h6 className="text-gray-800 font-normal text-xs">Message</h6>
               </div>
 
             </div>
