@@ -106,6 +106,9 @@ export class UserClass {
   payment_methods: string[] = [];
   delivery_methods: string[] = [];
 
+  bookmarks: string[] = [];
+  cart: string[] = [];
+
   is_verified: boolean = false;
 
   constructor(userObj?: Partial<UserClass>) {
