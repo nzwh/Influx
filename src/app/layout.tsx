@@ -98,6 +98,9 @@ const sohne = localFont({
 export const metadata = {
   title: 'Influx',
   description: 'Find the best deals on the internet.',
+  metadata: {
+    charset: 'utf-8',
+  }
 }
 
 // Defines the RootLayout component. The children

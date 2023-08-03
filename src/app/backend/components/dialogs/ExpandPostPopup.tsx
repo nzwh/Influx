@@ -15,7 +15,7 @@ import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism"
 
 import { PostInterface } from "@/libraries/structures";
 import { MessageSquare, Share2, ShoppingBag, Filter, X, MapPin, Package, MessageCircle } from 'lucide-react';
-import ToTitleCase from "../../functions/ToTitleCase";
+import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 
 interface Props {
   isOpen: boolean;

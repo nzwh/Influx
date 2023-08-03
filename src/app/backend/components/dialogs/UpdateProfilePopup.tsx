@@ -5,7 +5,7 @@ import Link from 'next/link';
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { UserInterface } from '@/libraries/structures';
-import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesPopover';
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';

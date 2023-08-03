@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Popover from '@/src/app/backend/components/layouts/PopoverTemplate';
-import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 import { Cog, LogOut, User } from 'lucide-react';
 
 interface Props {
