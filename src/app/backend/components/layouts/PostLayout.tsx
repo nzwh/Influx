@@ -27,15 +27,16 @@ import ToggleBookmark from '../utilities/ToggleBookmark';
 import ToggleCart from '../utilities/ToggleCart';
 
 interface Props {
-  post: PostClass;
+  p_post: PostClass;
+  userId: string;
 }
 
-const PostTemplate: React.FC<Props> = ({ post }) => {
+const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
 
   const router = useRouter();
 
   const { user } = useGlobalContext();
-  post = new PostClass(post);
+  const post = new PostClass(p_post);
 
   const navigateToProfile = useNavigateToProfile();
   const handleProfileClick = () => {
@@ -223,9 +224,9 @@ const PostTemplate: React.FC<Props> = ({ post }) => {
 
       {/* Controls */}
       <div className="flex flex-row justify-between items-center">
-
+        
         <Wrapper className="flex flex-row items-center">
-          <VoteMechanism post={post} />
+          <VoteMechanism type="post" postId={post.id} />
           <ToggleCart post={post} />
           <ToggleBookmark post={post} />
         </Wrapper>

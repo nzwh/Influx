@@ -24,7 +24,7 @@ interface Props {
 const Timeline: React.FC<Props> = ({ header, panels }) => {
 
   // Export posts from global context
-  const { posts } = useGlobalContext();
+  const { posts, user } = useGlobalContext();
 
   return (
     <main>
@@ -49,7 +49,7 @@ const Timeline: React.FC<Props> = ({ header, panels }) => {
             <ul className="flex flex-col gap-2 h-full w-[32rem]">
               {posts.map((post: PostClass) => (
                 <li key={post.id}>
-                  <Post post={post} />
+                  <Post p_post={post} userId={user.uuid} />
                 </li>
               ))}
             </ul>
