@@ -13,17 +13,15 @@ import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 import { PostClass } from "@/libraries/structures";
 import { Bookmark, MessageCircle, MoreHorizontal, Pencil, ShoppingBag, Trash2 } from 'lucide-react';
 
-import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
+import { ToTitleCase, ToRelativeTime } from '../../hooks/ToConvert';
 
 import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
 interface Props {
   post: PostClass;
-  onDelete: (postId: number) => void;
-  onEdit: (postId: number) => void;
 }
 
-const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
+const PostTemplate: React.FC<Props> = ({ post }) => {
 
   const navigateToProfile = useNavigateToProfile();
   
@@ -101,7 +99,7 @@ const PostTemplate: React.FC<Props> = ({ post, onDelete, onEdit }) => {
               </div>
 
               {/* Author Handle */}
-              <h6 onClick={handleProfileClick} className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer">{`@${post.author?.handle}`}&ensp;•&ensp;{convertToRelativeDate(post.posted_at.toLocaleString())}</h6>
+              <h6 onClick={handleProfileClick} className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer">{`@${post.author?.handle}`}&ensp;•&ensp;{ToRelativeTime(post.posted_at)}</h6>
 
             </div>
           </div>

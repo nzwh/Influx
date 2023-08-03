@@ -36,7 +36,9 @@ const FetchPosts = ({ type, query, posts, setPosts }: Props) => {
     const newData = data.map((post) => new PostClass({
       ...post,
       author: { uuid: post.author_id },
-      origin: { uuid: post.origin_id }
+      origin: { uuid: post.origin_id },
+      posted_at: new Date(post.posted_at),
+      edited_at: post.is_edited ? new Date(post.edited_at) : null,
     }));
     
     const fetchUsers = useFetchUsers({ type: 'subquery', users, setUsers, uuids: newData.map((post) => post.author.uuid) });
