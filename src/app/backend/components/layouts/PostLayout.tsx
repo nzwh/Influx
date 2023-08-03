@@ -25,9 +25,10 @@ import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism'
 
 interface Props {
   p_post: PostClass;
+  userId: string;
 }
 
-const PostTemplate: React.FC<Props> = ({ p_post }) => {
+const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
 
   const { user } = useGlobalContext();
   const post = new PostClass(p_post);
@@ -221,7 +222,7 @@ const PostTemplate: React.FC<Props> = ({ p_post }) => {
         <Wrapper className="flex flex-row items-center gap-4">
 
           {/* Upvotes */}
-          <VoteMechanism post={post} />
+          <VoteMechanism type="post" postId={post.id} />
 
           {/* Interests */}
           {/* TODO: Add onClick functionality */}
