@@ -80,19 +80,18 @@ const TopbarNav: React.FC = () => {
       {/* Right */}
       <Wrapper className="flex flex-row items-center gap-2">
 
-        {/* Create Post */}
-        <Wrapper>
-          <div onClick={handleCreatePostPopupOpen} className="bg-gray-200 text-gray-600 h-6 py-1 px-2.5 flex items-center gap-1 rounded-full cursor-pointer hover:bg-slate-900 hover:text-violet-300 transition-colors duration-200">
-            <Plus size={12} strokeWidth={3} />
-            <h6 className="text-xs font-regular leading-3">New</h6>
-          </div>
-          {isCreatePostPopupOpen && ( 
-            <CreatePostPopup type={1} onClose={handleCreatePostPopupClose} />
-          )}
-        </Wrapper>
-        
         {/* User Actions */}
         { user.uuid ? (<>
+          {/* Create Post */}
+          <Wrapper>
+            <div onClick={handleCreatePostPopupOpen} className="bg-gray-200 text-gray-600 h-6 py-1 px-2.5 flex items-center gap-1 rounded-full cursor-pointer hover:bg-slate-900 hover:text-violet-300 transition-colors duration-200">
+              <Plus size={12} strokeWidth={3} />
+              <h6 className="text-xs font-regular leading-3">New</h6>
+            </div>
+            {isCreatePostPopupOpen && ( 
+              <CreatePostPopup type={1} onClose={handleCreatePostPopupClose} />
+            )}
+          </Wrapper>
           <Link href="/" className="bg-gray-200 text-gray-600 h-6 py-1 px-1.5 flex items-center rounded-full cursor-pointer
               hover:bg-gray-300 transition-colors duration-200">
             <Inbox size={14} strokeWidth={3}/>
@@ -104,7 +103,7 @@ const TopbarNav: React.FC = () => {
           <Link href="/cart" className="bg-gray-200 text-gray-600 h-6 py-1 px-2.5 flex items-center gap-1 rounded-full cursor-pointer
             hover:bg-gray-300 transition-colors duration-200">
             <ShoppingBag size={12} strokeWidth={3} />
-            <h6 className="text-xs font-regular leading-3">{user.bookmarks?.length || 0}</h6>
+            <h6 className="text-xs font-regular leading-3">{user.cart?.length || 0} items</h6>
           </Link>
         </>) : null }
         
