@@ -182,7 +182,7 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
         </div>
 
         {isExpandPostOpen && selectedPost && (
-          <ExpandPostPopup post={selectedPost} isOpen={isExpandPostOpen} onClose={handleExpandPostClose} />
+          <ExpandPostPopup post={selectedPost} onClose={handleExpandPostClose} />
         )}
       </Wrapper>
 
@@ -199,10 +199,10 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
       }
       
       {/* Media */}
-      { post.media && post.media.length >= 1 ? (
-        <Wrapper className="relative w-full h-full rounded-sm cursor-pointer">
+      { post.media && post.media.length >= 1 && !post.media.includes("") ? (
+        <Wrapper className="relative w-full h-full rounded-sm cursor-pointer overflow-hidden">
           
-          <Image className="w-full h-full" src={post.media[0]} alt="Media" width={0} height={0} sizes="100vw" />
+          <Image className="w-full h-full text-xs" src={post.media[0]} alt="Media" width={0} height={0} sizes="100vw" priority={false} />
 
           <div className="absolute top-0 left-0 w-full h-full rounded-sm bg-black opacity-0 hover:opacity-20 transition-all duration-300" onClick={() => { handleExpandPostOpen(post) }}></div>
 

@@ -1,60 +1,60 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
-import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
+// Hooks & Classes
 import { PostClass, CommunityClass } from '@/libraries/structures';
-import ToTitleCase from '@/src/app/backend/functions/ToTitleCase';
-import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
-
-import PostActions from '../../hooks/PostActions';
-
-import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
-import supabase from '@/src/app/backend/model/supabase';
-import { UserClass } from '@/libraries/structures';
+import usePostActions from '@/src/app/backend/hooks/PostActions';
 import useFetchCommunities from '@/src/app/backend/hooks/FetchCommunities';
-import { useRouter } from 'next/navigation';
+import useSaveImages from '@/src/app/backend/hooks/SaveImages';
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
+// Utilities
+import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
+import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
+import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
+
+// Icons
+import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
+
 interface Props {
-  user: UserClass;
   type: number;
-  isOpen: boolean;
   onClose: () => void;
 }
 
-const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
+const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
 
-  const { setPosts } = useGlobalContext(); // Access the setPosts function using the context
-
-  // Default form data
+  // Export posts from global context
+  const { user, setPosts } = useGlobalContext();
+  // Export default form data
   const defaults = require("@/json/defaults.json");
 
-  const { AddPost } = PostActions();
+  // Post actions
+  const { AddPost } = usePostActions();
 
-  // Community dropdown
-  const [communities, setCommunities] = useState<CommunityClass[]>([]);
-  useFetchCommunities({ type: 'all', communities, setCommunities });
-
+  // Allow outside click to close modal
   const modalRef = useRef<HTMLDivElement | null>(null);
   OutsideClick(modalRef, onClose);
 
+  // Export communities from the database
+  const [communities, setCommunities] = useState<CommunityClass[]>([]);
+  useFetchCommunities({ type: 'all', communities, setCommunities });
 
-  // Counter for title length
+  // Initialize form data
+  const [formData, setFormData] = useState<PostClass>(new PostClass({
+    type: defaults.mapping[type],
+  }));
+
+  // Ease of access states
   const [titleCount, setTitleCount] = useState(0);
-  // Images
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  // Tags
-  const [tagInput, setTagInput] = useState<string>("");
 
+  // TODO: Turn this into a component
   const tagInputRef = useRef<HTMLInputElement>(null);
-
-
+  const [tagInput, setTagInput] = useState<string>("");
   const handleTagInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === " " || event.key === "Enter") {
       handleAddTag();
     }
   };
-
   const handleAddTag = () => {
     if (formData.tags?.length === 20) {
       alert("You can only add up to 20 tags.");
@@ -73,11 +73,9 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
       }
     }, 0);
   };
-
   const handleRemoveTag = (tagToRemove: string) => {
     setFormData({ ...formData, tags: formData.tags?.filter((tag) => tag !== tagToRemove) });
   };
-
   useEffect(() => {
     if (tagInputRef.current) {
       tagInputRef.current.style.width = "auto"; // Reset width to auto for correct sizing
@@ -85,16 +83,13 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
     }
   }, [tagInput]);
 
-  const handleImageRemove = (image: string) => {
-    setSelectedImages(prevSelectedImages => prevSelectedImages.filter(img => img !== image));
+  // TODO: Turn this into a component
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const handleImageRemove = (image: File) => {
+    setSelectedImages(selectedImages.filter((img) => img !== image));
   };
 
-  // form
-  const [formData, setFormData] = useState<PostClass>(new PostClass({
-    type: defaults.mapping[type],
-  }));
-
-  // InputListener
+  // Listens to all input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 
     switch (event.target.name) {
@@ -119,15 +114,29 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
       case "media":
         const files = (event.target as HTMLInputElement).files;
         if (!files) return;
-
-        const imageArray: string[] = Array.from(files).map(file => URL.createObjectURL(file));
-
+        
+        const imageArray = Array.from(files);
+        
+        // Function to check if a file size is less than 5MB
+        const isFileSizeValid = (file: File) => {
+          const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+          return file.size <= maxSize;
+        };
+        
+        // Check the total number of selected images
         if (selectedImages.length + imageArray.length > 4) {
           alert("You can only upload up to 4 images.");
           return;
         }
-
-        setSelectedImages(prevSelectedImages => [...prevSelectedImages, ...imageArray]);
+        
+        // Check the file size of each image before adding it to selectedImages
+        imageArray.forEach((file) => {
+          if (isFileSizeValid(file)) {
+            setSelectedImages((prevSelectedImages) => [...prevSelectedImages, file]);
+          } else {
+            alert("One or more images exceed the 5MB size limit.");
+          }
+        });        
         break;
 
       default:
@@ -148,7 +157,7 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
     }
   };
 
-  // SubmitListener
+  // Listens to submit actions
   const handleSubmit = async () => {
 
     const partial = new PostClass(formData);
@@ -156,11 +165,12 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
       ...partial,
       posted_at: new Date(),
       is_edited: false,
+      media: useSaveImages(selectedImages)
     }
     
-    setPosts(prevPosts => [new PostClass(new PostClass({
+    setPosts(prevPosts => [new PostClass({
       ...newPost, author: user
-    })), ...prevPosts]);
+    }), ...prevPosts]);
 
     const { id, uuid, origin, author, ...postData } = newPost
     postData.author_id = user.uuid;
@@ -168,6 +178,8 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
 
     AddPost(postData);
     onClose();
+
+    // TODO: Push images to user profile
   };  
 
   // Autosizing
@@ -180,25 +192,29 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
 
   return (
     <main  
-      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
-      ref={modalRef}>
-      <div className="bg-white rounded-sm p-6 w-96 flex flex-col gap-2 z-[40]">
+      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
+      <div className="bg-white rounded-sm p-6 w-96 flex flex-col gap-2 z-[40]" ref={modalRef}>
 
         {/* Header */}
         <div className="flex flex-row items-center justify-between">
+
           <Link href={"/profile"} className="text-gray-800 font-regular text-xs hover:text-violet-300 transition-colors duration-200 cursor-pointer">
-            @{user ? user.handle : ""}
+            @{user.handle}
           </Link>
+
           <div className="flex flex-row items-center gap-3">
-          <div className="bg-gray-100 rounded-full flex flex-row items-center gap-1 px-2.5 py-0.5 border border-gray-200">
-            <select name="type" value={defaults.mapping[formData.type]} className="bg-gray-100 text-gray-800 text-[0.625rem] font-regular cursor-pointer appearance-none w-auto pl-1" onChange={handleInputChange} required>
-              <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={1}>Article</option>
-              <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={2}>Buying</option>
-              <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={3}>Selling</option>
-            </select>
-            <ChevronDown className="text-gray-800" size={10} strokeWidth={3} />
-          </div>
-          <X className="cursor-pointer text-gray-800" size={14} strokeWidth={3} onClick={onClose}/>
+            <div className="bg-gray-100 rounded-full flex flex-row items-center gap-1 px-2.5 py-0.5 border border-gray-200">
+
+              {/* TODO: Turn into a custom dropdown */}
+              <select name="type" value={defaults.mapping[formData.type]} className="bg-gray-100 text-gray-800 text-[0.625rem] font-regular cursor-pointer appearance-none w-auto pl-1" onChange={handleInputChange} required>
+                <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={1}>Article</option>
+                <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={2}>Buying</option>
+                <option className="w-full text-gray-500 text-[0.625rem] font-light rounded-sm" value={3}>Selling</option>
+              </select>
+
+              <ChevronDown className="text-gray-800" size={10} strokeWidth={3} />
+            </div>
+            <X className="cursor-pointer text-gray-800" size={14} strokeWidth={3} onClick={onClose}/>
           </div>
         </div>
 
@@ -235,6 +251,7 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
           </div>
           
           {/* Description */}
+          {/* TODO: Add support for markdown */}
           <textarea name="description" value={formData.description} onChange={handleInputChange} 
             placeholder="Write your text here." className="w-full text-sm min-h-[4rem] leading-4 font-extralight resize-none" ref={textDescAreaRef} rows={1} required maxLength={255}/>
 
@@ -281,7 +298,7 @@ const CreatePostPopup: React.FC<Props> = ({ user, type, isOpen, onClose }) => {
             {selectedImages.map((image, index) => (
               <div key={index} className="w-[4.75rem] h-[4.75rem] relative overflow-hidden flex items-center" onClick={() => handleImageRemove(image)}>
                 <span className="absolute text-[0.625rem] text-gray-200 font-light opacity-0 hover:opacity-100 transition-all duration-200 z-[1] w-[4.75rem] h-[4.75rem] hover:bg-black hover:bg-opacity-50 flex items-center justify-center cursor-pointer ">Delete</span>
-                <img src={image} alt={`Image ${index}`} className="rounded-sm duration-200 z-[0] w-100" />
+                <img src={URL.createObjectURL(image)} alt={`Image ${index}`} className="rounded-sm duration-200 z-[0] w-100" />
               </div>
             ))}
             {selectedImages.length <= 3 ? (
