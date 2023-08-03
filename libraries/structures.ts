@@ -64,9 +64,12 @@ interface CommunityInterface {
 interface CommentInterface {
   id: number;
   enclosing_post: number;
-  enclosing_comment: number;
+  enclosing_comment?: number;
   author: UserInterface;
   posted_at: Date;
+
+  is_edited: boolean;
+  edited_at?: Date;
 
   content: string;
   upvotes?: string[];

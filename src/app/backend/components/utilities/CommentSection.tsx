@@ -8,22 +8,67 @@ import Action from "@/src/app/backend/components/utilities/Action";
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { ArrowDown, ArrowUp, Film, Paperclip, Reply, Send, Smile, Tag } from 'lucide-react';
 
-const Comment = ({ comment,handleInsertNode,handleEditNode, handleDeleteNode }) => {
-  let activeD = JSON.parse(sessionStorage.getItem('token')!)
-  let router = useRouter();
-  
-  useEffect(() => {
-    if(sessionStorage.getItem('token')) {
-      activeD = JSON.parse(sessionStorage.getItem('token')!)
-      console.log(activeD.user.id)
-    }
-    else {
-      router.push('/home')
-    }
-  }, [])
+import { CommentInterface, UserInterface } from '@/libraries/structures';
 
-  const { user, fetchUser} = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
-  const activeData = user[0];
+import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import Supabase from '@/src/app/backend/model/supabase';
+
+interface Props {
+  postId: number,
+  comment: any,
+  handleInsertNode: (folderId: any, item: any) => void,
+  handleEditNode: (folderId: any, value: any) => void,
+  handleDeleteNode: (folderId: any) => void
+}
+
+const Comment = ({ postId, comment, handleInsertNode, handleEditNode, handleDeleteNode }: Props) => {
+
+  const { user, setUser, posts, setPosts } = useGlobalContext();
+
+  const [comments, setComments] = useState<CommentInterface[]>([]);
+
+  // Loads comments from the database.
+  useEffect(() => {
+
+    // Fetches and sets comments under the post based on the comment IDs.
+    async function fetchComments(commentIds: number[]) {
+      const commentPromises = commentIds.map(async (commentId) => {
+        const { data: commentData, error } = await Supabase
+          .from('comments')
+          .select('*')
+          .eq('commentid', commentId)
+          .single();
+
+        if (error) {
+          console.error(`Error fetching comment with ID ${commentId}:`, error);
+          return null;
+        } else {
+          return commentData as CommentInterface;
+        }
+      });
+
+      const fetchedComments = await Promise.all(commentPromises);
+      setComments(fetchedComments.filter(comment => comment !== null) as CommentInterface[]);
+    }
+
+    // Fetches comment IDs of comments under the post. 
+    async function fetchCommentsArray() {
+      const { data: postData, error } = await Supabase
+        .from('posts')
+        .select('comments')
+        .eq('id', postId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching comments array from post with ID ${postId}:', error);
+      } else {
+        const commentsArray = postData.comments || [];
+        fetchComments(commentsArray);
+      }
+    }
+
+    fetchCommentsArray();
+  }, [postId]);
 
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -42,11 +87,57 @@ const Comment = ({ comment,handleInsertNode,handleEditNode, handleDeleteNode }) 
     setShowInput(true);
   };
 
-  const onAddComment = () => {
-    if (editMode) {
-      handleEditNode(comment.id, inputRef?.current?.innerText + " (edited)");
-    } else {
-      handleInsertNode(comment.id, input);
+  // Handles adding and editing comments.
+  const onAddComment = async () => {
+    if (editMode) { // Handles editing an existing comment.
+      // handleEditNode(comment.id, inputRef?.current?.innerText + " (edited)");
+      const editedContent = inputRef?.current?.innerText + " (edited)";
+
+      setComments(prevComments => {
+        return prevComments.map(prevComment => {
+          if (prevComment.id === comment.id) {
+            return { ...prevComment, content: editedContent };
+          }
+          return prevComment;
+        });
+      });
+
+      const { data, error } = await Supabase
+      .from('comments')
+      .update({ content: editedContent })
+      .eq('id', comment.id);
+
+      if (error) {
+        console.error('Error updating comment with ID ${commentId}:', error);
+      }
+    } else { // Handles adding a new comment.
+      const newComment : any = {
+        id: 0, // Auto
+        enclosing_post: postId,
+        // enclosing_comment: 0, // If the comment is a reply
+        author: user as UserInterface,
+        posted_at: new Date(),
+        is_edited: false,
+        content: input,
+        upvotes: [],
+        downvotes: [],
+        replies: []
+      };
+
+      setComments(prevComments => [
+        newComment,
+        ...prevComments,
+      ]);
+
+      newComment.author = user.uuid;
+
+      const { data, error } = await Supabase.from('comments').insert([newComment]);
+
+      if (error) {
+        console.error('Error inserting new comment:', error);
+      }
+
+      // handleInsertNode(comment.id, input);
       setShowInput(false);
       setInput("");
     }
@@ -54,65 +145,52 @@ const Comment = ({ comment,handleInsertNode,handleEditNode, handleDeleteNode }) 
     if (editMode) setEditMode(false);
   };
 
-  const handleDelete = () => {
-    handleDeleteNode(comment.id);
-  };
+  const handleDelete = async () => {
+    // handleDeleteNode(comment.id);
+    const { data, error } = await Supabase
+    .from('comments')
+    .delete()
+    .eq('id', comment.id);
 
-  const upvote = () => {
-    if (!upvoted && !downvoted) {
-      upvotes += 1;
-      setUpvoted(true);
-      console.log(upvotes);
-      console.log(downvotes);
-    }
-    else if (upvoted && !downvoted) {
-      upvotes -= 1;
-      setUpvoted(false);
-      console.log(upvotes);
-      console.log(downvotes);
-    }
-    else if (!upvoted && downvoted) {
-      upvotes += 1;
-      downvotes -= 1;
-      setUpvoted(true);
-      setDownvoted(false);
-      console.log(upvotes);
-      console.log(downvotes);
-    }
-  };
-
-  const downvote = () => {
-    if (!upvoted && !downvoted) {
-      downvotes += 1;
-      setDownvoted(true);
-      console.log(upvotes);
-      console.log(downvotes);
-    }
-    else if (!upvoted && downvoted) {
-      downvotes -= 1;
-      setDownvoted(false);
-      console.log(upvotes);
-      console.log(downvotes);
-    }
-    else if (upvoted && !downvoted) {
-      upvotes -= 1;
-      downvotes += 1;
-      setUpvoted(false);
-      setDownvoted(true);
-      console.log(upvotes);
-      console.log(downvotes);
+    if (error) {
+      console.error('Error deleting comment with ID ${comment.id}:', error);
+    } else {
+      setComments(prevComments => prevComments.filter(prevComment => prevComment.id !== comment.id));
     }
   };
 
   return ( 
     <main>
 
+      <div style={{ width: "100%" }}>
+        <div className="inputContainer">
+          <div className="flex flex-row items-center justify-between w-full gap-4">
+            <div className="flex flex-row gap-2 w-full">
+              <Image className="rounded-full" src={user ? user.icon : "/root/temp.jpg"} alt="User Icon" width={20} height={20} />
+              <input 
+                type="text" 
+                className="inputContainer__input font-extralight text-xs w-full" 
+                autoFocus 
+                value={input} 
+                onChange={(e) => setInput(e.target.value)} 
+                placeholder="Write a comment..."
+              />
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <Send className="opacity-70 cursor-pointer" color="black" size={12} strokeWidth={3} onClick={onAddComment}/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/*
       <div className={comment?.id === 1? "inputContainer" : "commentContainer"} style={{ width: "100%" }}>
         {comment?.id === 1 ? (
           <>
             <div className= "flex flex-row items-center justify-between w-full gap-4">
               <div className="flex flex-row gap-2 w-full">
-                <Image className="rounded-full" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={20} height={20} />
+                <Image className="rounded-full"src={user ? user.icon : "/root/temp.jpg"} alt="User Icon" width={20} height={20} />
                 <input 
                   type="text" 
                   className="inputContainer__input font-extralight text-xs w-full" 
@@ -238,6 +316,7 @@ const Comment = ({ comment,handleInsertNode,handleEditNode, handleDeleteNode }) 
             </div>
           </div>
         )}
+        
       
         {comment?.items?.map((cmnt) => {
           return ( 
@@ -252,6 +331,7 @@ const Comment = ({ comment,handleInsertNode,handleEditNode, handleDeleteNode }) 
         })}
       </div>
       </div>
+      */}
     </main>
   );
 }

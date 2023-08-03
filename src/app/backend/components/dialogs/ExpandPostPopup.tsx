@@ -10,7 +10,7 @@ import useMonetaryFormatter from "@/src/app/backend/hooks/useMonetaryFormatter";
 import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
 // import useFetchPost from "@/src/app/backend/hooks/useFetchPost";
 import useNode from "@/src/app/backend/hooks/useNode";
-import Comment from "@/src/app/backend/components/utilities/Comment";
+import Comment from "@/src/app/backend/components/utilities/CommentSection";
 import VoteMechanism from "@/src/app/backend/components/utilities/VoteMechanism";
 
 import { PostInterface } from "@/libraries/structures";
@@ -216,7 +216,8 @@ const ExpandPostPopup: React.FC<Props> = ({ post, isOpen, onClose }) => {
             </div>
             <div className="flex flex-col gap-4 max-h-full overflow-auto no-scrollbar w-full">
               <div className="Home">
-                <Comment 
+                <Comment
+                  postId={post.id}
                   handleInsertNode={handleInsertNode} 
                   handleEditNode={handleEditNode}
                   handleDeleteNode={handleDeleteNode} 
