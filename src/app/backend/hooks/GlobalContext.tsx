@@ -27,16 +27,21 @@ const GlobalContext = createContext<Props>({
 
 export const useGlobalContext = () => useContext(GlobalContext);
 
+export const useRefreshContext = () => {
+  const { user, setUser, posts, setPosts } = useGlobalContext();
+  useFetchToken({ user, setUser });
+  useFetchPosts({ posts, setPosts });
+}
+
+
 export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   
   const [user, setUser] = useState<UserClass>(new UserClass({
     icon: '/root/temp.jpg',
     banner: '/root/temp.jpg'
   }));
-  useFetchToken({ user, setUser });
-
   const [posts, setPosts] = useState<PostClass[]>([]);
-  useFetchPosts({ posts, setPosts });
+  useRefreshContext();
 
   return (
     <GlobalContext.Provider value={{ user, setUser, posts, setPosts }}>

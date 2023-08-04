@@ -64,9 +64,12 @@ interface CommunityInterface {
 interface CommentInterface {
   id: number;
   enclosing_post: number;
-  enclosing_comment: number;
+  enclosing_comment?: number;
   author: UserInterface;
   posted_at: Date;
+
+  is_edited: boolean;
+  edited_at?: Date;
 
   content: string;
   upvotes?: string[];
@@ -106,8 +109,8 @@ export class UserClass {
   payment_methods: string[] = [];
   delivery_methods: string[] = [];
 
-  bookmarks: string[] = [];
-  cart: string[] = [];
+  bookmarks?: number[] = [];
+  cart?: number[] = [];
 
   is_verified: boolean = false;
 
@@ -136,7 +139,7 @@ export class PostClass {
 
   upvotes?: string[] = [];
   downvotes?: string[] = [];
-  interests?: string[] = [];
+  cart?: string[] = [];
   bookmarks?: string[] = [];
   comments?: number[] = [];
 

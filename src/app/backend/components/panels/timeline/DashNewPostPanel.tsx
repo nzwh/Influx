@@ -10,7 +10,6 @@ import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
 // Hooks, Icons & Classes
 import { Glasses, Megaphone, Tag } from 'lucide-react';
-import { UserClass } from '@/libraries/structures';
 
 const NewPost: React.FC = () => {
 
@@ -53,7 +52,7 @@ const NewPost: React.FC = () => {
     </Panel>
 
     {isCreatePostPopupOpen && ( 
-      <CreatePost isOpen={isCreatePostPopupOpen} onClose={() => handleTypeClick(0, false)} type={postType} user={user} />
+      <CreatePost onClose={() => handleTypeClick(0, false)} type={postType} />
     )}
     
     </main>
