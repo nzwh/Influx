@@ -49,13 +49,13 @@ const Timeline: React.FC<Props> = ({ header, panels }) => {
             <ul className="flex flex-col gap-2 h-full w-[32rem]">
               {posts.map((post: PostClass) => (
                 <li key={post.id}>
-                  <Post p_post={post} userId={user.uuid} />
+                  <Post post={post} userId={user.uuid} />
                 </li>
               ))}
             </ul>
           ):(
             <span className="flex flex-col items-center justify-center z-[-2]">
-              <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]"/>
+              <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]" priority={true}/>
               <p className='text-gray-700 text-sm'>No posts to show</p>
             </span>
           )}

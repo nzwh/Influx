@@ -12,7 +12,28 @@ const PostActions = () => {
     if (!data) return;
   };
 
-  return { AddPost };
+  const DeletePost = async (postId: number) => {
+    const { data : post, error } = await Supabase
+      .from('posts')
+      .delete()
+      .match({ id: postId });
+
+    if (error) throw error;
+    if (!post) return;
+  };
+
+  const DeletePhotos = async (post_media : string[]) => {
+    const filenames = post_media.map((url) => url.substring(url.lastIndexOf('/') + 1));
+    const { data, error } = await Supabase
+      .storage
+      .from('images')
+      .remove(filenames);
+
+    if (error) throw error;
+    if (!data) return;
+  };
+
+  return { AddPost, DeletePost, DeletePhotos };
 };
 
 export default PostActions;

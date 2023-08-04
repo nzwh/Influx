@@ -298,7 +298,7 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
             {selectedImages.map((image, index) => (
               <div key={index} className="w-[4.75rem] h-[4.75rem] relative overflow-hidden flex items-center" onClick={() => handleImageRemove(image)}>
                 <span className="absolute text-[0.625rem] text-gray-200 font-light opacity-0 hover:opacity-100 transition-all duration-200 z-[1] w-[4.75rem] h-[4.75rem] hover:bg-black hover:bg-opacity-50 flex items-center justify-center cursor-pointer ">Delete</span>
-                <img src={URL.createObjectURL(image)} alt={`Image ${index}`} className="rounded-sm duration-200 z-[0] w-100" />
+                <img src={URL.createObjectURL(image)} alt={`Image ${index}`} className="rounded-sm duration-200 z-[0] w-full h-full object-cover" />
               </div>
             ))}
             {selectedImages.length <= 3 ? (

@@ -46,10 +46,10 @@
 
   "search": {
     "sorts": [
+      "date_posted",
       "price",
       "popularity",
-      "upvotes",
-      "date_posted"
+      "upvotes"
     ],
 
     "types": [

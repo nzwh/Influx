@@ -1,6 +1,7 @@
 "use client" // * Uses interactable components
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 // Layouts
@@ -16,22 +17,30 @@ import { PostClass } from "@/libraries/structures";
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
+import PostActions from '@/src/app/backend/hooks/PostActions';
+import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
+import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
+import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
+
 // Icons
-import { Bookmark, Focus, MessageCircle, MoreHorizontal, Pencil, ShoppingBag, Trash2 } from 'lucide-react';
+import { Focus, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 
 // TODO
 import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
-import VoteMechanism from '@/src/app/backend/components/utilities/VoteMechanism';
 
 interface Props {
-  p_post: PostClass;
+  post: PostClass;
   userId: string;
 }
 
-const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
+const PostLayout: React.FC<Props> = ({ post, userId }) => {
 
-  const { user } = useGlobalContext();
-  const post = new PostClass(p_post);
+  const { DeletePost, DeletePhotos } = PostActions();
+
+  const router = useRouter();
+
+  const { user, posts, setPosts } = useGlobalContext();
+  post = new PostClass(post);
 
   const navigateToProfile = useNavigateToProfile();
   const handleProfileClick = () => {
@@ -45,25 +54,33 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
   };
 
   const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
-  const handleExpandPostClose = () => {
+  const handleExpandPostClose = () => {    
+    let temp = posts;
+    temp.map((post, index) => {
+      if (post.id == selectedPost?.id) {
+        temp[index] = selectedPost;
+      }
+    });
+    setPosts(temp);
     setIsExpandPostOpen(false);
   };
 
-  const [isEditPostOpen, setIsEditPostOpen] = useState(false);
-  const handleEditPostOpen = (post_id: number) => {
-    setIsEditPostOpen(true);
-  };
-  const handleEditPostClose = () => {
-    setIsEditPostOpen(false);
+  const handleEditPost = (post_id: number) => {
+    
   };
 
-  const [isDeletePostDialogOpen, setIsDeletePostDialogOpen] = useState(false);
-  const handleDeletePostDialogOpen = (post_id: number) => {
-    setIsDeletePostDialogOpen(true);
+  const handleDeletePost = async (post: PostClass) => {
+    await DeletePost(post.id);
+    post.media && await DeletePhotos(post.media);
   };
-  const handleDeletePostDialogClose = () => {
-    setIsDeletePostDialogOpen(false);
-  };
+
+  const [firstMedia, setFirstMedia] = useState(post.media![0]);
+  useEffect(() => {
+    if (post.media) {
+      setFirstMedia(post.media[0]);
+    }
+  }
+  , [post.media]);
 
   // TODO: Handle delete and edit using hooks
 
@@ -106,7 +123,7 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
                 )}
 
                 {/* Post Type */}
-                <span className="bg-gray-200 rounded-full px-2 text-black font-normal text-[0.5rem] leading-[0.75rem] flex items-center justify-center py-[0.125rem]">
+                <span className="bg-gray-200 rounded-full px-1.5 text-black  font-light tracking-wider text-[0.5rem] py-0.5 pt-[0.2rem] leading-[0.5rem]">
                   {ToTitleCase(post.type)}
                 </span>
 
@@ -126,7 +143,7 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
 
           {/* Open */}
           { post.type === "selling" ? (
-            <span className="text-white font-normal tracking-wide text-[0.5rem] bg-gray-800 rounded-full px-2 py-0.5 pt-[0.2rem] leading-3">
+            <span className="text-white font-light tracking-wider text-[0.5rem] bg-slate-500 rounded-full px-1.5 py-0.5 pt-[0.2rem] leading-[0.5rem]">
               {post.is_open ? "NEGOTIABLE" : "FIXED"}
             </span>
           ) : null}
@@ -149,8 +166,8 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
                 <MoreHorizontal className="opacity-70 cursor-pointer relative" color="black" size={12} strokeWidth={3} />
               }
               elements={[
-                ["Edit", <Pencil size={12} strokeWidth={3}/>, () => handleEditPostOpen(post.id)],
-                ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDeletePostDialogOpen(post.id)]
+                ["Edit", <Pencil size={12} strokeWidth={3}/>, () => handleEditPost(post.id)],
+                ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDeletePost(post)]
               ]} 
             />
           ) : null }
@@ -167,7 +184,7 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
 
             {/* Condition */}
             {post.type === "selling" ? (
-            <span className="text-white font-light tracking-wide text-[0.625rem] bg-gray-800 relative top-[-0.15rem] rounded-full px-2 py-1 ml-2">
+            <span className="text-black font-light tracking-wider text-[0.55625rem] bg-violet-200 relative top-[-0.20rem] rounded-full px-2 py-1 ml-2">
               {ToTitleCase(post.condition || "")}
             </span>
             ) : null}
@@ -187,22 +204,23 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
       </Wrapper>
 
       {/* Tags */}
-      {/* TODO: Add onClick events that redirect to search */}
       {(post.tags?.length === 0) ? <></> : 
         <div className="flex flex-row gap-2 items-start w-full">
           <div className="flex flex-wrap gap-1">
-            {post.tags?.map((tag) => (
-              <span className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block"># {tag}</span>
+            {post.tags?.map((tag, index) => (
+              <span key={index} className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block cursor-pointer hover:bg-gray-300 transition-colors duration-200" onClick={() => router.push(`/search?q=${tag}`)}>
+                # {tag}
+              </span>
             ))}
           </div>
         </div>
       }
       
       {/* Media */}
-      { post.media && post.media.length >= 1 && !post.media.includes("") ? (
+      { post.media && post.media.length >= 1  ? (
         <Wrapper className="relative w-full h-full rounded-sm cursor-pointer overflow-hidden">
           
-          <Image className="w-full h-full text-xs" src={post.media[0]} alt="Media" width={0} height={0} sizes="100vw" priority={false} />
+          <Image className="w-full h-full text-xs" src={firstMedia} alt="Media" width={0} height={0} sizes="100vw" priority={true} />
 
           <div className="absolute top-0 left-0 w-full h-full rounded-sm bg-black opacity-0 hover:opacity-20 transition-all duration-300" onClick={() => { handleExpandPostOpen(post) }}></div>
 
@@ -212,47 +230,28 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
               <h6 className="text-white font-light text-[0.5rem] leading-3">{post.media.length} photos</h6>
             </div>
           ) : null }
-
+          
         </Wrapper>
       ) : null }
 
       {/* Controls */}
       <div className="flex flex-row justify-between items-center">
-
-        <Wrapper className="flex flex-row items-center gap-4">
-
-          {/* Upvotes */}
-          <VoteMechanism type="post" postId={post.id} />
-
-          {/* Interests */}
-          {/* TODO: Add onClick functionality */}
-          {/* TODO: Update state if added to cart */}
-          { post.type === "selling" ? (
-          <div className="flex flex-row gap-1 items-center">
-            <ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3} />  
-            <h6 className="text-gray-800 font-normal text-xs">{post.interests?.length} interested</h6>
-          </div>
-          ) : null}
-
-          {/* Bookmarks */}
-          {/* TODO: Add onClick functionality */}
-          {/* TODO: Update state if bookmarked */}
-          <div className="flex flex-row gap-1 items-center">
-            <Bookmark className="opacity-70" color="black" size={12} strokeWidth={3} /> 
-            <h6 className="text-gray-800 font-normal text-xs">{post.bookmarks?.length} bookmarks</h6>
-          </div>
-
+        
+        <Wrapper className="flex flex-row items-center gap-1">
+          <ToggleVote type="post" post={post} />
+          <ToggleCart value={true} enabled="interested" disabled="interested" post={post} />
+          <ToggleBookmark value={true} enabled="bookmarks" disabled="bookmarks" post={post} />
         </Wrapper>
 
         {/* Comments */}
-        <div className="flex flex-row gap-1 items-center">
+        <Wrapper className="flex flex-row gap-1 items-center">
           <MessageCircle className="opacity-70" color="black" size={12} strokeWidth={3} />
           <h6 className="text-gray-800 font-normal text-xs">{post.comments?.length || 0} comments</h6>
-        </div>
+        </Wrapper>
         
       </div>
     </Panel>
 	);
 };
   
-export default PostTemplate;
+export default PostLayout;
