@@ -162,7 +162,7 @@ const Comment = ({ postId }: Props) => {
 
   const renderCommentTree = (comments, parentCommentId) => {
     return comments
-      .filter(comment => comment.enclosing_post === parentCommentId)
+      .filter(comment => comment.enclosing_comment === parentCommentId)
       .map(comment => (
         <div key={comment.id} className="nestedComment">
           <CommentLayout comment={comment} />
@@ -171,25 +171,19 @@ const Comment = ({ postId }: Props) => {
       ));
   };
 
-  const rootComments = comments.filter(comment => !comment.enclosing_post);
+  const rootComments = comments.filter(comment => !comment.enclosing_comment);
 
   return ( 
     <main>
 
       <div className="flex flex-col" style={{ width: "100%" }}>
-        {/*<div className="commentContainer">
-          {comments.map(comment => (
-            <CommentLayout
-              key={comment.id} 
-              comment={comment}
-            />
-          ))}
-          </div>*/}
         <div className="commentContainer">
           {rootComments.map(rootComment => (
             <div key={rootComment.id} className="rootComment">
               <CommentLayout comment={rootComment} />
-              {renderCommentTree(comments, rootComment.id)}
+              <div className="pl-2">
+                {renderCommentTree(comments, rootComment.id)}
+              </div>
             </div>
           ))}
         </div>
