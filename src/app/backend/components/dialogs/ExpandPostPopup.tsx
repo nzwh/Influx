@@ -17,6 +17,7 @@ import { PostInterface } from "@/libraries/structures";
 import { MessageSquare, Share2, ShoppingBag, Filter, X, MapPin, Package, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PostClass } from "@/libraries/structures";
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { CommentsProvider } from '@/src/app/backend/hooks/CommentsContext';
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
 import Carousel from "../layouts/ImageCarousel";
@@ -204,6 +205,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
             </div>
             <div className="flex flex-col gap-4 max-h-full overflow-auto no-scrollbar w-full">
               <div className="Home">
+                <CommentsProvider>
                 <Comment
                   postId={post.id}
                   handleInsertNode={handleInsertNode} 
@@ -211,6 +213,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
                   handleDeleteNode={handleDeleteNode} 
                   comment={commentsData}
                 />
+                </CommentsProvider>
               </div>
             </div>
           </div>
