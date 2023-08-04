@@ -182,6 +182,7 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
                   ) : (
                     <>
                     <div className="flex flex-row gap-2">
+                      { comment.author.uuid === user.uuid ? (
                       <Popover classes={"top-4 z-[45]"} 
                         trigger={
                           <MoreHorizontal className="opacity-70 cursor-pointer relative" color="black" size={12} strokeWidth={3} />
@@ -191,6 +192,7 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
                           ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDelete()]
                         ]} 
                       />
+                      ) : null }
                     </div>
                     </>
                   )}
