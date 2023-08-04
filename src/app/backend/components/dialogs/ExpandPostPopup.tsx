@@ -11,30 +11,20 @@ import Comment from "@/src/app/backend/components/utilities/CommentSection";
 
 // Hooks & Classes
 import { PostClass } from "@/libraries/structures";
+import { CommentsProvider } from '@/src/app/backend/hooks/CommentsContext';
+import OutsideClick from "@/src/app/backend/hooks/OutsideClick";
+import ToggleBookmark from "@/src/app/backend/components/utilities/ToggleBookmark";
+import ToggleCart from "@/src/app/backend/components/utilities/ToggleCart";
+import ToggleVote from "@/src/app/backend/components/utilities/ToggleVote";
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
-import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
+import { X,MessageCircle } from 'lucide-react';
 
-// Utilities
-import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
-import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
-import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
-
-// Icons
-import { X, MessageCircle } from 'lucide-react';
-
-// Backend
-import useNode from "@/src/app/backend/hooks/useNode";
-import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
+import useNavigateToProfile from "@/src/app/backend/hooks/useNavigateToProfile";
 
 interface Props {
   post: PostClass;
   onClose: () => void;
 }
-
-const comments = {
-  id: 1,
-  items: []
-};
 
 const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
 
@@ -48,23 +38,6 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
   const navigateToProfile = useNavigateToProfile();
   const handleProfileClick = () => {
     navigateToProfile(post.author.handle);
-  };
-
-  // TODO: Turn into component @shiopao
-  const [commentsData, setCommentsData] = useState(comments);
-  const { insertNode, editNode, deleteNode } = useNode();
-  const handleInsertNode = (folderId: any, item: any) => {
-    const finalStructure = insertNode(commentsData, folderId, item);
-    setCommentsData(finalStructure);
-  };
-  const handleEditNode = (folderId: any, value: any) => {
-    const finalStructure = editNode(commentsData, folderId, value);
-    setCommentsData(finalStructure);
-  };
-  const handleDeleteNode = (folderId: any) => {
-    const finalStructure = deleteNode(commentsData, folderId);
-    const temp = { ...finalStructure };
-    setCommentsData(temp);
   };
 
   return (
@@ -216,13 +189,11 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
             </div>
             <div className="flex flex-col gap-4 max-h-full overflow-auto no-scrollbar w-full">
               <div className="Home">
+                <CommentsProvider>
                 <Comment
                   postId={post.id}
-                  handleInsertNode={handleInsertNode} 
-                  handleEditNode={handleEditNode}
-                  handleDeleteNode={handleDeleteNode} 
-                  comment={commentsData}
                 />
+                </CommentsProvider>
               </div>
             </div>
           </div>
