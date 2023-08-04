@@ -78,16 +78,16 @@ const ToggleVote: React.FC<Props> = ({ type, post, commentId }) => {
   
   return (
     <main>
-      <div className="flex flex-row items-center mr-2">
+      <div className="flex flex-row items-center">
 
-        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 ${upvoted ? "bg-gray-300" : ""}`}>
-          <ArrowUp className="text-gray-800 m-1" size={14} strokeWidth={3} onClick={handleUpvote}/>
+        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 ${upvoted ? "bg-slate-800 hover:bg-violet-300" : ""}`}>
+          <ArrowUp className={`text-gray-800 m-1 ${upvoted ? "text-white" : ""}`} size={14} strokeWidth={3} onClick={handleUpvote}/>
         </div>
 
-        <h6 className="text-gray-800 font-normal text-xs px-2">{(post.upvotes?.length || 0) - (post.downvotes?.length || 0)}</h6>
+        <h6 className="text-gray-800 font-normal text-xs px-3">{(post.upvotes?.length || 0) - (post.downvotes?.length || 0)}</h6>
 
-        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 ${downvoted ? "bg-gray-300" : ""}`}>
-          <ArrowDown className="text-gray-800 m-1" size={14} strokeWidth={3} onClick={handleDownvote}/>
+        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 ${downvoted ? "bg-slate-800 hover:bg-violet-300" : ""}`}>
+          <ArrowDown className={`text-gray-800 m-1 ${downvoted ? "text-white" : ""}`} size={14} strokeWidth={3} onClick={handleDownvote}/>
         </div>
         
       </div>

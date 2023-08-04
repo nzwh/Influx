@@ -225,7 +225,7 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
       {/* Controls */}
       <div className="flex flex-row justify-between items-center">
         
-        <Wrapper className="flex flex-row items-center">
+        <Wrapper className="flex flex-row items-center gap-1">
           <ToggleVote type="post" post={post} />
           <ToggleCart value={true} name="interested" post={post} />
           <ToggleBookmark value={true} name="bookmarks" post={post} />

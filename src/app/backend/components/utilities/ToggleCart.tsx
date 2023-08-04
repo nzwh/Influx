@@ -40,7 +40,7 @@ const ToggleCart: React.FC<Props> = ({ name, value, post }) => {
 
   const [carted, setCarted] = useState(post.cart?.includes(user.uuid));
   
-  const handleBookmarkToggle = () => {
+  const handleCartedToggle = () => {
     if (!carted) {
       post.cart?.push(user.uuid);
       user.cart?.push(post.id);
@@ -60,15 +60,15 @@ const ToggleCart: React.FC<Props> = ({ name, value, post }) => {
   };
 
   return (
-    <div className={`flex flex-row gap-1 items-center cursor-pointer hover:bg-gray-200 transition-colors duration-200 px-2 py-1 rounded-sm h-6 ${carted ? "bg-violet-100":""}`} onClick={handleBookmarkToggle}>
+    <div className={`flex flex-row gap-1 items-center cursor-pointer transition-colors duration-200 px-1.5 py-1 rounded-sm h-6 ${carted ? "bg-slate-800 hover:bg-violet-300" : "hover:bg-gray-200 "}`} onClick={handleCartedToggle}>
   
       { carted ? (<>
-        <ShoppingBag className="text-gray-800" size={12} strokeWidth={3} /> 
-        <h6 className="text-gray-800 font-normal text-xs">
+        <ShoppingBag className="text-white" size={12} strokeWidth={3} /> 
+        <h6 className="text-white font-extralight text-xs">
           {value ? (post.cart?.length || 0) : ""} {name}
         </h6>
       </>) : (<>
-        <ShoppingBag className="opacity-70" color="black" size={12} strokeWidth={3} /> 
+        <ShoppingBag className="text-gray-800" size={12} strokeWidth={3} /> 
         <h6 className="text-gray-800 font-normal text-xs">
           {value ? (post.cart?.length || 0) : ""} {name}
         </h6>
