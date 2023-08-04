@@ -153,10 +153,10 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
             {/* Controls */}
             <div className="flex flex-row justify-between items-center">
 
-            <Wrapper className="flex flex-row items-center">
+            <Wrapper className="flex flex-row items-center gap-1">
               <ToggleVote type="post" post={post} />
-              <ToggleCart value={false} name="Add to cart" post={post} />
-              <ToggleBookmark value={false} name="Save" post={post} />
+              <ToggleCart value={false} enabled="Added to cart" disabled="Add to cart" post={post} />
+              <ToggleBookmark value={false} enabled="Saved" disabled="Save" post={post} />
             </Wrapper>
 
               {/* Comments */}

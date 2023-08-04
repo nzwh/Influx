@@ -35,7 +35,7 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
 
   const router = useRouter();
 
-  const { user } = useGlobalContext();
+  const { user, posts, setPosts } = useGlobalContext();
   const post = new PostClass(p_post);
 
   const navigateToProfile = useNavigateToProfile();
@@ -50,7 +50,14 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
   };
 
   const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
-  const handleExpandPostClose = () => {
+  const handleExpandPostClose = () => {    
+    let temp = posts;
+    temp.map((post, index) => {
+      if (post.id == selectedPost?.id) {
+        temp[index] = selectedPost;
+      }
+    });
+    setPosts(temp);
     setIsExpandPostOpen(false);
   };
 
@@ -227,8 +234,8 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
         
         <Wrapper className="flex flex-row items-center gap-1">
           <ToggleVote type="post" post={post} />
-          <ToggleCart value={true} name="interested" post={post} />
-          <ToggleBookmark value={true} name="bookmarks" post={post} />
+          <ToggleCart value={true} enabled="interested" disabled="interested" post={post} />
+          <ToggleBookmark value={true} enabled="bookmarks" disabled="bookmarks" post={post} />
         </Wrapper>
 
         {/* Comments */}

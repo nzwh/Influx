@@ -80,14 +80,14 @@ const ToggleVote: React.FC<Props> = ({ type, post, commentId }) => {
     <main>
       <div className="flex flex-row items-center">
 
-        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 ${upvoted ? "bg-slate-800 hover:bg-violet-300" : ""}`}>
-          <ArrowUp className={`text-gray-800 m-1 ${upvoted ? "text-white" : ""}`} size={14} strokeWidth={3} onClick={handleUpvote}/>
+        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 rounded-sm ${upvoted ? "bg-violet-200 hover:bg-violet-300" : ""}`}>
+          <ArrowUp className={`text-gray-800 m-1 ${upvoted ? "text-[#6157ff]" : ""}`} size={14} strokeWidth={3} onClick={handleUpvote}/>
         </div>
 
         <h6 className="text-gray-800 font-normal text-xs px-3">{(post.upvotes?.length || 0) - (post.downvotes?.length || 0)}</h6>
 
-        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 ${downvoted ? "bg-slate-800 hover:bg-violet-300" : ""}`}>
-          <ArrowDown className={`text-gray-800 m-1 ${downvoted ? "text-white" : ""}`} size={14} strokeWidth={3} onClick={handleDownvote}/>
+        <div className={`flex items-center justify-center cursor-pointer hover:bg-gray-200 h-6 w-6 transition-colors duration-200 rounded-sm ${downvoted ? "bg-violet-200 hover:bg-violet-300" : ""}`}>
+          <ArrowDown className={`text-gray-800 m-1 ${downvoted ? "text-[#6157ff]" : ""}`} size={14} strokeWidth={3} onClick={handleDownvote}/>
         </div>
         
       </div>

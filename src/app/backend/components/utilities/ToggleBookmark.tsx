@@ -11,12 +11,13 @@ import { PostClass } from "@/libraries/structures";
 import { Bookmark } from 'lucide-react';
 
 interface Props {
-  name: string;
+  enabled?: string;
+  disabled?: string;
   value?: boolean
   post: PostClass;
 }
 
-const ToggleBookmark: React.FC<Props> = ({ name, value, post }) => {
+const ToggleBookmark: React.FC<Props> = ({ enabled, disabled, value, post }) => {
 
   const savePostBookmarks = async () => {
     const { data, error } = await Supabase
@@ -60,17 +61,17 @@ const ToggleBookmark: React.FC<Props> = ({ name, value, post }) => {
   };
 
   return (
-    <div className={`flex flex-row gap-1 items-center cursor-pointer transition-colors duration-200 px-1.5 py-1 rounded-sm h-6 ${bookmarked ? "bg-slate-800 hover:bg-violet-300" : "hover:bg-gray-200 "}`} onClick={handleBookmarkToggle}>
+    <div className={`flex flex-row gap-1 items-center cursor-pointer transition-colors duration-200 px-2 py-1 rounded-sm h-6 ${bookmarked ? "bg-violet-200 hover:bg-violet-300" : "hover:bg-gray-200 "}`} onClick={handleBookmarkToggle}>
   
       { bookmarked ? (<>
-        <Bookmark className="text-white" size={12} strokeWidth={3} /> 
-        <h6 className="text-white font-extralight text-xs">
-          {value ? (post.bookmarks?.length || 0) : ""} {name}
+        <Bookmark className="text-[#6157ff]" size={12} strokeWidth={3} /> 
+        <h6 className="text-[#6157ff] font-normal text-xs">
+          {value ? (post.bookmarks?.length || 0) : ""} {enabled}
         </h6>
       </>) : (<>
         <Bookmark className="text-gray-800" size={12} strokeWidth={3} /> 
         <h6 className="text-gray-800 font-normal text-xs">
-        {value ? (post.bookmarks?.length || 0) : ""} {name}
+        {value ? (post.bookmarks?.length || 0) : ""} {disabled}
         </h6>
       </>)}
       
