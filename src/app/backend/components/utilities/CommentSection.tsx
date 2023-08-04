@@ -140,7 +140,18 @@ const Comment = ({ postId }: Props) => {
       if (insertError) {
         console.error('Error inserting new comment:', insertError);
       } else {
-        console.log('Comment inserted into query:', newComment);
+          // Instead of updating state directly, prepare the updated state first
+        const updatedComments = [newComment, ...comments];
+        setComments(updatedComments);
+
+        // Assuming commentData contains the inserted comment's ID
+        const updatedCommentsArray = [...commentsArray, commentData[0].id];
+        setCommentsArray(updatedCommentsArray);
+
+        // Update the post in the database
+        await updatePostInDatabase(postId, updatedCommentsArray);
+        console.log('Comments array updated:', updatedCommentsArray);
+        /*console.log('Comment inserted into query:', newComment);
         console.log('Comment inserted:', commentData);
     
         setComments(prevComments => [commentInstance, ...prevComments]); 
@@ -149,7 +160,7 @@ const Comment = ({ postId }: Props) => {
         setCommentsArray(prevCommentsArray => [...prevCommentsArray, commentData[0].id]);
     
         await updatePostInDatabase(postId, commentsArray);
-        console.log('Comments array updated:', commentsArray);
+        console.log('Comments array updated:', commentsArray);*/
       }
     } catch (e) {
       console.error('Error during insertion:', e);
@@ -161,16 +172,24 @@ const Comment = ({ postId }: Props) => {
   };
 
   const renderCommentTree = (comments, parentCommentId) => {
-    return comments
-      .filter(comment => comment.enclosing_comment === parentCommentId)
-      .map(comment => (
-        <div key={comment.id} className="nestedComment">
-          <CommentLayout comment={comment} />
-          {renderCommentTree(comments, comment.id)}
-        </div>
-      ));
+    const childComments = comments.filter(comment => comment.enclosing_comment === parentCommentId);
+  
+    if (childComments.length === 0) {
+      return null; // No child comments, terminate recursion
+    }
+  
+    return (
+      <div className="nestedComment">
+        {childComments.map(comment => (
+          <div key={comment.id} className="nestedComment">
+            <CommentLayout comment={comment} />
+            {renderCommentTree(comments, comment.id)}
+          </div>
+        ))}
+      </div>
+    );
   };
-
+  
   const rootComments = comments.filter(comment => !comment.enclosing_comment);
 
   return ( 

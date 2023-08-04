@@ -142,18 +142,26 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
     // handleDeleteNode(comment.id);
     const { data, error } = await Supabase
     .from('comments')
-    .delete()
+    .update({
+      is_deleted: true,
+      enclosing_comment: null,
+      author: null,
+      content: '',
+      upvotes: [],
+      downvotes: [],
+      replies: []
+    })
     .eq('id', comment.id);
 
     if (error) {
       console.error('Error deleting comment with ID ${comment.id}:', error);
     } else {
-      setComments(prevComments => prevComments.filter(prevComment => prevComment.id !== comment.id));
+      {/*setComments(prevComments => prevComments.filter(prevComment => prevComment.id !== comment.id));
 
       const updatedCommentsArray = commentsArray.filter(commentId => commentId !== comment.id);
       setCommentsArray(updatedCommentsArray);
     
-      await updatePostInDatabase(comment.enclosing_post, updatedCommentsArray);
+      await updatePostInDatabase(comment.enclosing_post, updatedCommentsArray);*/}
     }
   };
 
@@ -164,16 +172,27 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
       <div className="flex flex-row gap-10">
         <div className="flex flex-col gap-2 w-full">
           <div className="flex flex-row items-start gap-2">
-            <Image className="rounded-full cursor-pointer mt-0.5" src={comment.author.icon} alt="User Icon" width={28} height={28} />
+            <Image className="rounded-full cursor-pointer mt-0.5" src={comment.is_deleted ? "/root/temp.jpg" : comment.author.icon} alt="User Icon" width={28} height={28} />
             <div className="flex flex-col w-full">
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-2">
-                  <h6 className="text-gray-800 font-regular text-xs cursor-pointer">{`${comment.author?.first_name} ${comment.author?.last_name}`}</h6>
-                  <h6 className="text-gray-500 font-light text-xs">{convertToRelativeDate(comment.posted_at.toLocaleString())}</h6>
-                  {comment.is_edited && (
-                    <><h6 className="text-gray-500 font-light text-xs">•</h6><h6 className="text-gray-500 font-light text-xs">
-                      Edited {convertToRelativeDate(comment.edited_at!.toLocaleString())}
-                    </h6></>
+                  <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
+                    {comment.is_deleted ? "Deleted" : `${comment.author?.first_name} ${comment.author?.last_name}`}
+                  </h6>
+                  {!comment.is_deleted && (
+                    <>
+                      <h6 className="text-gray-500 font-light text-xs">
+                        {convertToRelativeDate(comment.posted_at.toLocaleString())}
+                      </h6>
+                      {comment.is_edited && (
+                        <>
+                          <h6 className="text-gray-500 font-light text-xs">•</h6>
+                          <h6 className="text-gray-500 font-light text-xs">
+                            Edited {convertToRelativeDate(comment.edited_at!.toLocaleString())}
+                          </h6>
+                        </>
+                      )}
+                    </>
                   )}
                 </div>
                 <div>
@@ -181,22 +200,30 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
                     <></>
                   ) : (
                     <>
-                    <div className="flex flex-row gap-2">
-                      { comment.author.uuid === user.uuid ? (
-                      <Popover classes={"top-4 z-[45]"} 
-                        trigger={
-                          <MoreHorizontal className="opacity-70 cursor-pointer relative" color="black" size={12} strokeWidth={3} />
-                        }
-                        elements={[
-                          ["Edit", <Pencil size={12} strokeWidth={3}/>, () => handleEdit()],
-                          ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDelete()]
-                        ]} 
-                      />
-                      ) : null }
-                    </div>
+                      {!comment.is_deleted && (
+                        <div className="flex flex-row gap-2">
+                          {comment.author.uuid === user.uuid ? (
+                            <Popover
+                              classes={"top-4 z-[45]"}
+                              trigger={
+                                <MoreHorizontal
+                                  className="opacity-70 cursor-pointer relative"
+                                  color="black"
+                                  size={12}
+                                  strokeWidth={3}
+                                />
+                              }
+                              elements={[
+                                ["Edit", <Pencil size={12} strokeWidth={3} />, () => handleEdit()],
+                                ["Delete", <Trash2 size={12} strokeWidth={3} />, () => handleDelete()],
+                              ]}
+                            />
+                          ) : null}
+                        </div>
+                      )}
                     </>
                   )}
-                </div>    
+                </div>
               </div>
               <p className="text-gray-800 font-light text-xs word-wrap">
               <span 
@@ -205,11 +232,12 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
                 style={{ wordWrap: "break-word" }}
                 ref={inputRef}
               >
-                {comment.content}
+                {comment.is_deleted ? "This comment has been deleted." : comment.content}
               </span>
               </p>
             </div>
           </div>
+          {!comment.is_deleted && (
           <div className="flex flex-row items-center gap-2 ">
             {editMode ? (
             <>
@@ -226,11 +254,6 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
             </>
             ) : (
             <>
-            {/*<div className="flex flex-row gap-1">
-              <ArrowUp className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={upvote}/>
-              <h6 className="text-gray-800 font-regular text-xs">{comment.upvotes.length - comment.downvotes.length}</h6>
-              <ArrowDown className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={downvote}/>
-            </div>*/}
             <ToggleVote type="comment" comment={comment} />
             <div className="flex flex-row gap-1 cursor-pointer">
               <Reply className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={handleNewComment}/>
@@ -241,6 +264,7 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
             </>
             )}
           </div>
+          )}
         </div>
       </div>
 

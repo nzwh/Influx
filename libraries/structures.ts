@@ -75,6 +75,8 @@ interface CommentInterface {
   upvotes?: string[];
   downvotes?: string[];
   replies?: number[];
+
+  is_deleted: boolean;
 }
 
 interface FilterInterface {
@@ -183,6 +185,8 @@ export class CommentClass {
   upvotes?: string[] = [];
   downvotes?: string[] = [];
   replies?: number[] = [];
+
+  is_deleted: boolean = false;
 
   constructor(commentObj?: Partial<CommentClass>) {
     Object.assign(this, commentObj);
