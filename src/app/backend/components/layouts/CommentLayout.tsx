@@ -5,6 +5,7 @@ import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFor
 import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
 import { CommentClass, UserClass } from '@/libraries/structures';
+import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
 import { ArrowDown, ArrowUp, MoreHorizontal, Pencil, Reply, Trash2 } from 'lucide-react';
 
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
@@ -190,16 +191,6 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
                           ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDelete()]
                         ]} 
                       />
-                      {/*
-                      <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
-                        <Action className="reply" type="E" handleClick={() => {
-                          setEditMode(true);
-                        }} 
-                        />
-                      </h6>
-                      <h6 className="text-gray-800 font-regular text-xs cursor-pointer">
-                        <Action className="reply" type="D" handleClick={handleDelete}/>
-                      </h6>*/}
                     </div>
                     </>
                   )}
@@ -238,6 +229,7 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
               <h6 className="text-gray-800 font-regular text-xs">{comment.upvotes.length - comment.downvotes.length}</h6>
               <ArrowDown className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={downvote}/>
             </div>*/}
+            <ToggleVote type="comment" comment={comment} />
             <div className="flex flex-row gap-1 cursor-pointer">
               <Reply className="opacity-70 cursor-pointer" color="black" size={14} strokeWidth={3} onClick={handleNewComment}/>
               <h6 className="text-gray-800 font-regular text-xs">
