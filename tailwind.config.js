@@ -26,6 +26,7 @@ module.exports = {
     colors: {
       // Define any other custom colors here if needed
       'primary': '#FFFFFF',
+      transparent: 'transparent',
       'secondary': '#FFEAFF',
       'tertiary': '#CACFFF',
       'back': '#30333F',

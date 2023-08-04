@@ -20,7 +20,7 @@ const Module = (
     {elements.map((element, index) => {
       const [name, icon, route] = element;
       return (
-        <Link href={route} className="flex flex-row items-center gap-2 text-gray-700 px-2 py-1.5 rounded-sm hover:bg-slate-300 transition-colors duration-200">
+        <Link key={index} href={route} className="flex flex-row items-center gap-2 text-gray-700 px-2 py-1.5 rounded-sm hover:bg-slate-300 transition-colors duration-200">
           {icon}
           <h6 className="font-normal leading-4 text-sm">{name}</h6>
         </Link>

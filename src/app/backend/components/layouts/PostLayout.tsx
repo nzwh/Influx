@@ -1,6 +1,6 @@
 "use client" // * Uses interactable components
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -17,26 +17,30 @@ import { PostClass } from "@/libraries/structures";
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
-// Icons
-import { Bookmark, Focus, MessageCircle, MoreHorizontal, Pencil, ShoppingBag, Trash2 } from 'lucide-react';
-
-// TODO
-import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
+import PostActions from '@/src/app/backend/hooks/PostActions';
 import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
 import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
 import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
 
+// Icons
+import { Focus, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+
+// TODO
+import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
+
 interface Props {
-  p_post: PostClass;
+  post: PostClass;
   userId: string;
 }
 
-const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
+const PostLayout: React.FC<Props> = ({ post, userId }) => {
+
+  const { DeletePost, DeletePhotos } = PostActions();
 
   const router = useRouter();
 
   const { user, posts, setPosts } = useGlobalContext();
-  const post = new PostClass(p_post);
+  post = new PostClass(post);
 
   const navigateToProfile = useNavigateToProfile();
   const handleProfileClick = () => {
@@ -61,21 +65,22 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
     setIsExpandPostOpen(false);
   };
 
-  const [isEditPostOpen, setIsEditPostOpen] = useState(false);
-  const handleEditPostOpen = (post_id: number) => {
-    setIsEditPostOpen(true);
-  };
-  const handleEditPostClose = () => {
-    setIsEditPostOpen(false);
+  const handleEditPost = (post_id: number) => {
+    
   };
 
-  const [isDeletePostDialogOpen, setIsDeletePostDialogOpen] = useState(false);
-  const handleDeletePostDialogOpen = (post_id: number) => {
-    setIsDeletePostDialogOpen(true);
+  const handleDeletePost = async (post: PostClass) => {
+    await DeletePost(post.id);
+    post.media && await DeletePhotos(post.media);
   };
-  const handleDeletePostDialogClose = () => {
-    setIsDeletePostDialogOpen(false);
-  };
+
+  const [firstMedia, setFirstMedia] = useState(post.media![0]);
+  useEffect(() => {
+    if (post.media) {
+      setFirstMedia(post.media[0]);
+    }
+  }
+  , [post.media]);
 
   // TODO: Handle delete and edit using hooks
 
@@ -161,8 +166,8 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
                 <MoreHorizontal className="opacity-70 cursor-pointer relative" color="black" size={12} strokeWidth={3} />
               }
               elements={[
-                ["Edit", <Pencil size={12} strokeWidth={3}/>, () => handleEditPostOpen(post.id)],
-                ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDeletePostDialogOpen(post.id)]
+                ["Edit", <Pencil size={12} strokeWidth={3}/>, () => handleEditPost(post.id)],
+                ["Delete", <Trash2 size={12} strokeWidth={3}/>, () => handleDeletePost(post)]
               ]} 
             />
           ) : null }
@@ -202,8 +207,8 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
       {(post.tags?.length === 0) ? <></> : 
         <div className="flex flex-row gap-2 items-start w-full">
           <div className="flex flex-wrap gap-1">
-            {post.tags?.map((tag) => (
-              <span className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block cursor-pointer hover:bg-gray-300 transition-colors duration-200" onClick={() => router.push(`/search?q=${tag}`)}>
+            {post.tags?.map((tag, index) => (
+              <span key={index} className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block cursor-pointer hover:bg-gray-300 transition-colors duration-200" onClick={() => router.push(`/search?q=${tag}`)}>
                 # {tag}
               </span>
             ))}
@@ -212,10 +217,10 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
       }
       
       {/* Media */}
-      { post.media && post.media.length >= 1 && !post.media.includes("") ? (
+      { post.media && post.media.length >= 1  ? (
         <Wrapper className="relative w-full h-full rounded-sm cursor-pointer overflow-hidden">
           
-          <Image className="w-full h-full text-xs" src={post.media[0]} alt="Media" width={0} height={0} sizes="100vw" priority={false} />
+          <Image className="w-full h-full text-xs" src={firstMedia} alt="Media" width={0} height={0} sizes="100vw" priority={true} />
 
           <div className="absolute top-0 left-0 w-full h-full rounded-sm bg-black opacity-0 hover:opacity-20 transition-all duration-300" onClick={() => { handleExpandPostOpen(post) }}></div>
 
@@ -249,4 +254,4 @@ const PostTemplate: React.FC<Props> = ({ p_post, userId }) => {
 	);
 };
   
-export default PostTemplate;
+export default PostLayout;
