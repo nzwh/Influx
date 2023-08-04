@@ -20,17 +20,11 @@ import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks
 import { X,MessageCircle } from 'lucide-react';
 
 import useNavigateToProfile from "@/src/app/backend/hooks/useNavigateToProfile";
-import useNode from "@/src/app/backend//hooks/useNode";
 
 interface Props {
   post: PostClass;
   onClose: () => void;
 }
-
-const comments = {
-  id: 1,
-  items: []
-};
 
 const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
 
@@ -44,23 +38,6 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
   const navigateToProfile = useNavigateToProfile();
   const handleProfileClick = () => {
     navigateToProfile(post.author.handle);
-  };
-
-  // TODO: Turn into component @shiopao
-  const [commentsData, setCommentsData] = useState(comments);
-  const { insertNode, editNode, deleteNode } = useNode();
-  const handleInsertNode = (folderId: any, item: any) => {
-    const finalStructure = insertNode(commentsData, folderId, item);
-    setCommentsData(finalStructure);
-  };
-  const handleEditNode = (folderId: any, value: any) => {
-    const finalStructure = editNode(commentsData, folderId, value);
-    setCommentsData(finalStructure);
-  };
-  const handleDeleteNode = (folderId: any) => {
-    const finalStructure = deleteNode(commentsData, folderId);
-    const temp = { ...finalStructure };
-    setCommentsData(temp);
   };
 
   return (
