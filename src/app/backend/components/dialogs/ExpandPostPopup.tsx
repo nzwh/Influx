@@ -12,7 +12,15 @@ import Comment from "@/src/app/backend/components/utilities/CommentSection";
 // Hooks & Classes
 import { PostClass } from "@/libraries/structures";
 import { CommentsProvider } from '@/src/app/backend/hooks/CommentsContext';
+import OutsideClick from "@/src/app/backend/hooks/OutsideClick";
+import ToggleBookmark from "@/src/app/backend/components/utilities/ToggleBookmark";
+import ToggleCart from "@/src/app/backend/components/utilities/ToggleCart";
+import ToggleVote from "@/src/app/backend/components/utilities/ToggleVote";
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
+import { X,MessageCircle } from 'lucide-react';
+
+import useNavigateToProfile from "@/src/app/backend/hooks/useNavigateToProfile";
+import useNode from "@/src/app/backend//hooks/useNode";
 
 interface Props {
   post: PostClass;
@@ -207,10 +215,6 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
                 <CommentsProvider>
                 <Comment
                   postId={post.id}
-                  handleInsertNode={handleInsertNode} 
-                  handleEditNode={handleEditNode}
-                  handleDeleteNode={handleDeleteNode} 
-                  comment={commentsData}
                 />
                 </CommentsProvider>
               </div>

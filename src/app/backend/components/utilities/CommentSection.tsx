@@ -17,14 +17,10 @@ import { useCommentsContext } from '@/src/app/backend/hooks/CommentsContext';
 import Supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
-  postId: number,
-  comment: any,
-  handleInsertNode: (folderId: any, item: any) => void,
-  handleEditNode: (folderId: any, value: any) => void,
-  handleDeleteNode: (folderId: any) => void
+  postId: number
 }
 
-const Comment = ({ postId, comment, handleInsertNode, handleEditNode, handleDeleteNode }: Props) => {
+const Comment = ({ postId }: Props) => {
 
   const { user, setUser, posts, setPosts } = useGlobalContext();
   const { comments, setComments, commentsArray, setCommentsArray } = useCommentsContext();
@@ -164,16 +160,37 @@ const Comment = ({ postId, comment, handleInsertNode, handleEditNode, handleDele
     setInput("");
   };
 
+  const renderCommentTree = (comments, parentCommentId) => {
+    return comments
+      .filter(comment => comment.enclosing_post === parentCommentId)
+      .map(comment => (
+        <div key={comment.id} className="nestedComment">
+          <CommentLayout comment={comment} />
+          {renderCommentTree(comments, comment.id)}
+        </div>
+      ));
+  };
+
+  const rootComments = comments.filter(comment => !comment.enclosing_post);
+
   return ( 
     <main>
 
       <div className="flex flex-col" style={{ width: "100%" }}>
-          <div className="commentContainer">
+        {/*<div className="commentContainer">
           {comments.map(comment => (
             <CommentLayout
               key={comment.id} 
               comment={comment}
             />
+          ))}
+          </div>*/}
+        <div className="commentContainer">
+          {rootComments.map(rootComment => (
+            <div key={rootComment.id} className="rootComment">
+              <CommentLayout comment={rootComment} />
+              {renderCommentTree(comments, rootComment.id)}
+            </div>
           ))}
         </div>
         <div className="inputContainer">
