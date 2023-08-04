@@ -17,22 +17,23 @@ import { PostClass } from "@/libraries/structures";
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
+import PostActions from '@/src/app/backend/hooks/PostActions';
+import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
+import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
+import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
+
 // Icons
 import { Focus, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 
 // TODO
 import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
-import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
-import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
-import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
-import PostActions from '../../hooks/PostActions';
 
 interface Props {
   post: PostClass;
   userId: string;
 }
 
-const PostTemplate: React.FC<Props> = ({ post, userId }) => {
+const PostLayout: React.FC<Props> = ({ post, userId }) => {
 
   const { DeletePost, DeletePhotos } = PostActions();
 
@@ -67,7 +68,7 @@ const PostTemplate: React.FC<Props> = ({ post, userId }) => {
   const handleEditPost = (post_id: number) => {
     
   };
-  
+
   const handleDeletePost = async (post: PostClass) => {
     await DeletePost(post.id);
     post.media && await DeletePhotos(post.media);
@@ -253,4 +254,4 @@ const PostTemplate: React.FC<Props> = ({ post, userId }) => {
 	);
 };
   
-export default PostTemplate;
+export default PostLayout;
