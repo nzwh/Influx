@@ -157,7 +157,7 @@ const SearchFilters: React.FC = () => {
         <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 py-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
           <div className="flex flex-row items-center gap">
             <Search className="text-gray-500" size={12} strokeWidth={3}/>
-            <input className="w-full text-gray-800 leading-3 text-[0.625rem] font-light bg-transparent px-2 appearance-none" name="username" type="text" placeholder="Look for anything..." value={formData.username} onChange={handleInputChange} />
+            <input className="w-full text-gray-800 leading-3 text-[0.625rem] font-light bg-transparent px-2 appearance-none" name="username" type="text" placeholder="Look for anyone..." value={formData.username} onChange={handleInputChange} />
           </div>
         </div>
 
@@ -282,7 +282,7 @@ const SearchFilters: React.FC = () => {
         </div>
         
         <div className="flex flex-col gap-1">
-          <button onClick={handleSubmit} className="text-[0.625rem] font-light bg-slate-900 hover:bg-slate-800 text-violet-300 rounded-sm transition-colors duration-200">
+          <button onClick={() => {handleSubmit(); handleResetInput();}} className="text-[0.625rem] font-light bg-slate-900 hover:bg-slate-800 text-violet-300 rounded-sm transition-colors duration-200">
             Apply filters
           </button>
           <button type="button" className="text-[0.625rem] font-light bg-gray-100 hover:bg-gray-300 text-black border border-gray-200 rounded-sm transition-colors duration-200" onClick={handleResetInput}>
