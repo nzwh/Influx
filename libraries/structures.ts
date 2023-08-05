@@ -75,6 +75,8 @@ interface CommentInterface {
   upvotes?: string[];
   downvotes?: string[];
   replies?: number[];
+
+  is_deleted: boolean;
 }
 
 interface FilterInterface {
@@ -166,6 +168,28 @@ export class CommunityClass {
 
   constructor(communityObj?: Partial<CommunityClass>) {
     Object.assign(this, communityObj);
+  }
+}
+
+export class CommentClass {
+  id: number = 0;
+  enclosing_post: number = 0;
+  enclosing_comment?: number;
+  author: UserInterface = new UserClass();
+  posted_at: Date = new Date();
+
+  is_edited: boolean = false;
+  edited_at?: Date;
+
+  content: string = '';
+  upvotes?: string[] = [];
+  downvotes?: string[] = [];
+  replies?: number[] = [];
+
+  is_deleted: boolean = false;
+
+  constructor(commentObj?: Partial<CommentClass>) {
+    Object.assign(this, commentObj);
   }
 }
 

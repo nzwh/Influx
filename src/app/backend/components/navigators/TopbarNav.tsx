@@ -11,6 +11,7 @@ import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 
 // Panels & Popups
 import CreatePostPopup from '@/src/app/backend/components/dialogs/CreatePostPopup';
+import LoggingOutPopup from '@/src/app/backend/components/dialogs/LoggingOutPopup';
 
 // Hooks & Classes
 import Supabase from '@/src/app/backend/model/supabase';
@@ -20,6 +21,8 @@ import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 import { Bookmark, Cog, Inbox, LogIn, LogOut, Plus, Search, ShoppingBag, SquareSlash, User } from 'lucide-react';
 
 const TopbarNav: React.FC = () => {
+
+  const [showPopup, setShowPopup] = useState(false);
 
   // Instantiate router
   const router = useRouter();
@@ -50,6 +53,7 @@ const TopbarNav: React.FC = () => {
       if (error) throw error
       router.push('/home')
       localStorage.removeItem('token');
+      setShowPopup(true);
     } catch (error) {
       alert(error)
     }
@@ -124,7 +128,7 @@ const TopbarNav: React.FC = () => {
         />
       
       </Wrapper>
-
+      {showPopup && <LoggingOutPopup />}
     </nav>
   );
 };

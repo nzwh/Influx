@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
@@ -23,6 +23,8 @@ export default function Register() {
   const [checkEmail, setCheckEmail] = useState<boolean>(false);
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
 
+  const [handles, setHandles] = useState<string[]>([]);
+
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState<UserInterface>({
       id: 0,
@@ -44,6 +46,36 @@ export default function Register() {
     password: '',
   });
 
+  const fetchHandles = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('handle');
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const usernames = data.map((user) => user.handle);
+        return usernames;
+      } else {
+        console.log('No user found.');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const usernames = await fetchHandles();
+      setHandles(usernames);
+    }
+    fetchData();
+  }, [])
+
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
 
@@ -64,12 +96,26 @@ export default function Register() {
         setCheckLName(false)
       }
     } else if (event.target.name === "handle") {
-      if (event.target.value.length > 0) {
+      // if (event.target.value.length > 0) {
+      //   setErrorHandleMessage("");
+      //   setCheckHandle(true)
+      // } else {
+      //   setErrorHandleMessage("Required");
+      //   setCheckHandle(false)
+      // }
+      const enteredHandle = event.target.value;
+      if (enteredHandle.length > 0) {
         setErrorHandleMessage("");
-        setCheckHandle(true)
+        // Check if the entered handle already exists in the usernames array
+        if (handles.includes(enteredHandle)) {
+          setErrorHandleMessage("Username already exists");
+          setCheckHandle(false);
+        } else {
+          setCheckHandle(true);
+        }
       } else {
         setErrorHandleMessage("Required");
-        setCheckHandle(false)
+        setCheckHandle(false);
       }
     } else if (event.target.name === "email_address") {
       if (event.target.value.length > 0) {
