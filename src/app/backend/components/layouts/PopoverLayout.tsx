@@ -39,11 +39,11 @@ const Popover: React.FC<Props> = ({ classes, trigger, elements }) => {
         {elements.map((element, index) => {
           const [name, icon, onClick] = element;
           return (
-            <div onClick={onClick} 
+            <li key={index} onClick={onClick} 
               className="text-gray-600 flex flex-row gap-2 items-center hover:bg-gray-200 py-1 px-2 justify-start cursor-pointer select-none transition-colors duration-200">
               {icon}
               <h6 className="text-xs font-normal">{name}</h6>
-            </div>
+            </li>
           )
         })}
         </div>

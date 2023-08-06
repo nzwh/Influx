@@ -97,13 +97,13 @@ export class UserClass {
   uuid: string = '';
   handle: string = '';
 
-  email_address: string = '';
+  email_address?: string = '';
   icon: string = '';
   banner: string = '';
 
   first_name: string = '';
   last_name: string = '';
-  phone_number: string = '';
+  phone_number?: string = '';
 
   location: string = '';
   biography: string = '';
@@ -175,7 +175,7 @@ export class CommentClass {
   id: number = 0;
   enclosing_post: number = 0;
   enclosing_comment?: number;
-  author: UserInterface = new UserClass();
+  author: UserClass = new UserClass();
   posted_at: Date = new Date();
 
   is_edited: boolean = false;

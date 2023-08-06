@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
-import { UserInterface } from '@/libraries/structures';
+import { UserClass ,PostClass } from '@/libraries/structures';
 import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesPopover';
 
@@ -13,83 +13,77 @@ import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Sta
 import supabase from '@/src/app/backend/model/supabase';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { useRouter } from 'next/navigation';
+import { useGlobalContext } from '../../hooks/GlobalContext';
+import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
+import SaveImages from '../../hooks/PushImages';
+import { v4 as uuidv4 } from "uuid";
+import { get } from 'http';
+import PushImages from '../../hooks/PushImages';
 
 interface Props {
-  isOpen: boolean;
   onClose: () => void;
-  onSubmit: (user: UserInterface) => void;
 }
 
-const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
+const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
-  // Allows clicking outside of the modal to close it
-  const { modalRef, handleClickOutside } = useModal({ isOpen: isOpen, onClose: onClose });
+  // Export user data from global context
+  const { user, posts, setUser, setPosts } = useGlobalContext();
 
-  const router = useRouter();
-  let activeD = JSON.parse(sessionStorage.getItem('token')!)
-  
-  useEffect(() => {
-    if(sessionStorage.getItem('token')) {
-      activeD = JSON.parse(sessionStorage.getItem('token')!)
-      console.log(activeD.user.id)
-    }
-    else {
-      router.push('/home')
-    }
-  }, [])
-  
-  const { user, fetchUser } = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
-  const activeData = user[0];
+  // Allow outside click to exit
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  OutsideClick(modalRef, onClose);
 
+  // Load default values
   const defaults = require("@/json/defaults.json");
 
-  // Images
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const imageArray: string[] = Array.from(files).map(file => URL.createObjectURL(file));
+  // useStates for images
+  const [iconFile, setIconFile] = useState<File>();
+  const [bannerFile, setBannerFile] = useState<File>();
 
-      if (selectedImages.length + imageArray.length > 4) {
-        alert("You can only upload up to 4 images.");
-        return;
-      }
+  // useState for form data
+  const [formData, setFormData] = useState<UserClass>(new UserClass(user));
 
-      setSelectedImages(prevSelectedImages => [...prevSelectedImages, ...imageArray]);
-    }
-  };
-
-  const handleImageRemove = (image: string) => {
-    setSelectedImages(prevSelectedImages => prevSelectedImages.filter(img => img !== image));
-  };
-
-  // form
-  const [formData, setFormData] = useState<UserInterface>({
-    id: activeData ? activeData.id : 0,
-    uuid: activeData ? activeData.uuid : "",
-    handle: activeData ? activeData.handle : "",
-    email_address: activeData ? activeData.email_address : "",
-
-    icon: activeData ? activeData.icon : "",
-    banner: activeData ? activeData.banner : "",
-    first_name: activeData ? activeData.first_name : "",
-    last_name: activeData ? activeData.last_name : "",
-
-    phone_number: activeData ? activeData.phone_number : "",
-    location: activeData ? activeData.location : "",
-    biography: activeData ? activeData.biography : "",
-
-    payment_methods: activeData ? activeData.payment_methods : [],
-    delivery_methods: activeData ? activeData.delivery_methods : [],
-
-    is_verified: activeData ? activeData.is_verified : false
-  });
-
-  // InputListener
+  // Listens to all input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-    if (event.target.name === "biography") {
-      setBioValue(event.target.value);
+
+    const getFile = (target: HTMLInputElement) => {
+      const files = target.files;
+      if (!files) return;
+
+      const file = Array.from(files)[0];
+      if (file.size > (5 * 1024 * 1024)) {
+        alert("One or more images exceed the 5MB size limit.");
+        return;
+      } else {
+        return file;
+      }
+    }
+
+    switch (event.target.name) {
+
+      case "icon_image":
+        const i_result = getFile(event.target as HTMLInputElement);
+        if (!i_result) return;
+        setIconFile(i_result);
+        setFormData({ ...formData, icon: URL.createObjectURL(i_result)});
+        break;
+        
+      case "banner_image":
+        const b_result = getFile(event.target as HTMLInputElement);
+        if (!b_result) return;
+        setBannerFile(b_result);
+        setFormData({ ...formData, banner: URL.createObjectURL(b_result)});
+        break;
+
+      default:
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+        break;
+    }
+
+    switch (event.target.name) {
+      case "biography":
+        setBioValue(event.target.value);
+        break;
     }
   };
 
@@ -101,45 +95,51 @@ const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
   };
 
   // SubmitListener
-  const handleSubmit = async () => {
-  
-    const updatedUser : UserInterface = {
-      id: formData.id,
-      uuid: formData.uuid,
-      handle: formData.handle,
-      email_address: formData.email_address,
+  const handleSubmit = async (event: React.FormEvent) => {
 
-      icon: formData.icon,
-      banner: formData.banner,
-      first_name: formData.first_name,
-      last_name: formData.last_name,
+    event.preventDefault();
 
-      phone_number: formData.phone_number,
-      location: formData.location,
-      biography: formData.biography,
+    if (iconFile) {
+      let icon = await PushImages([iconFile], user.uuid);
+      icon = icon?.map((str) => str.replace(/[\n\s]/g, ''));
+      setFormData({ ...formData, icon: icon[0] });
+    }
 
-      payment_methods: formData.payment_methods,
-      delivery_methods: formData.delivery_methods,
+    if (bannerFile) {
+      let banner = await PushImages([bannerFile], user.uuid);
+      banner = banner?.map((str) => str.replace(/[\n\s]/g, ''));
+      setFormData({ ...formData, banner: banner[0] });
+    }
+    
+    const partial = new UserClass(formData);
+    setUser(partial);
 
-      is_verified: formData.is_verified,
-    };
-  
-    // try {
-    //   // Insert the new post into the "posts" table
-    //   const { data: newPostData, error: newPostError } = await supabase
-    //     .from('posts')
-    //     .insert([newPost]);
-  
-    //   if (newPostError) {
-    //     throw newPostError;
-    //   }
-  
-    //   console.log('New post added successfully:', newPostData);
-    //   onSubmit(newPostData);
-    //   onClose();
-    // } catch (error) {
-    //   console.error('Error submitting post:', error);
-    // }
+    console.log("partial:", JSON.stringify(partial));
+
+    const { email_address, phone_number, ...userData } = partial;
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({...userData})
+      .match({ uuid: user.uuid });
+
+    if (error) throw error;
+    
+    setUser(new UserClass({
+      ...partial
+    }));
+    
+    setPosts(posts.map((post) => {
+      if (post.author.uuid === user.uuid) {
+        return new PostClass({
+          ...post,
+          author: partial
+        });
+      } else {
+        return post;
+      }
+    }));
+
+    onClose();
   };  
   
   const [isPMSelectExpanded, setIsPMSelectExpanded] = useState(false);
@@ -159,28 +159,35 @@ const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
 
   return (
     <main  
-      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-[60]"
-      ref={modalRef} onClick={handleClickOutside}>
+      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-[60]">
 
-      <div className="bg-white rounded-sm w-[24rem] flex flex-col gap-2 z-[40] relative">
+      <div className="bg-white rounded-sm w-[24rem] flex flex-col gap-[-12rem] z-[40] relative" ref={modalRef}>
 
-        <div className="absolute bg-[url('/root/login.png')] bg-cover w-full h-[11rem] rounded-sm" />
-        <div className="absolute z-[0] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-[24rem] rounded-sm top-32 bg-no-repeat" />
+        <input type="file" id="banner" onChange={handleInputChange} className="hidden w-12 h-12" accept="image/*" name="banner_image"/>
+        <label htmlFor="banner" className="cursor-pointer flex items-center w-full h-44 z-[2]">
+          <img className="w-full rounded-sm h-44 object-cover z-[-1]" src={formData.banner} alt="" width={1000} height={1000} />
+          <span className="absolute text-[0.625rem] text-gray-200 font-light opacity-0 hover:opacity-100 transition-all duration-200 z-[1] w-full h-44 hover:bg-black hover:bg-opacity-50 flex items-center justify-center cursor-pointer ">Change banner</span>
+        </label>
+
+        <div className="absolute z-[2] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-[6rem] rounded-sm top-[8rem] bg-no-repeat" />
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="mt-[-2rem] flex flex-col gap-4 z-[3]">
 
           {/* Account */}
-        <div className="z-[1] flex flex-col gap-2 p-4">
-
-          {/* Padder */}
-          <div className="h-28"></div>
+        <div className="z-[1] flex flex-col gap-2 pb-4 px-4">
 
           {/* Profile */}
-          <div className="flex flex-row items-center gap-2 w-full py-2 px-4">
+          <div className="flex flex-row items-center gap-2 w-full px-5 pb-2">
 
             {/* Author Avatar */}
-            <Image className="rounded-full w-12 h-12" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={48} height={48} />
+            <div>
+              <input type="file" id="icon_files" onChange={handleInputChange} className="hidden w-12 h-12" accept="image/*" name="icon_image"/>
+              <label htmlFor="icon_files" className="cursor-pointer flex items-center w-12 h-12">
+                <img className="rounded-full w-12 h-12 object-cover" src={formData.icon} alt="User Icon" width={48} height={48} />
+                <span className="absolute text-[0.625rem] text-gray-200 font-light opacity-0 hover:opacity-100 transition-all duration-200 z-[1] w-12 h-12 rounded-full hover:bg-black hover:bg-opacity-50 flex items-center justify-center cursor-pointer ">New</span>
+              </label>
+            </div>
 
             <div className="flex flex-col justify-center w-full">
 
@@ -195,13 +202,13 @@ const UpdateProfilePopup: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
               </div>
 
               {/* Author Handle */}
-              <h6 className="text-gray-500 font-light text-sm leading-4">{`@${activeData ? activeData.handle : ""}`}</h6>
+              <h6 className="text-gray-500 font-light text-sm leading-4">{`@${formData.handle}`}</h6>
 
             </div>
           </div>
 
           {/* Biography */}
-          <textarea name="biography" value={formData.biography} onChange={handleInputChange} ref={textBioAreaRef} className="text-gray-800 font-light text-xs leading-4 focus:border-b-[1px] focus:outline-none resize-none cursor-pointer overflow-y-hidden" placeholder="Biography" rows={1} maxLength={100}/>
+          <textarea name="biography" value={formData.biography} onChange={handleInputChange} ref={textBioAreaRef} className="text-gray-800 font-light text-xs leading-4 focus:border-b-[1px] focus:outline-none resize-none cursor-pointer overflow-y-hidden" placeholder="Biography" rows={1} maxLength={256}/>
 
           {/* Location */}
           <div className="flex flex-row items-center gap-1 w-full">

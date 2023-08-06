@@ -114,7 +114,7 @@ const TopbarNav: React.FC = () => {
         {/* User Popover */}
         <Popover classes={"top-8"} 
           trigger={
-            <Image className="cursor-pointer rounded-full" src={user.icon} alt="User Icon" width={30} height={30} />
+            <Image className="cursor-pointer rounded-full  w-8 h-8 object-cover" src={user.icon} alt="User Icon" width={30} height={30} />
           }
           elements={
             user.uuid ? [
