@@ -175,7 +175,7 @@ export class CommentClass {
   id: number = 0;
   enclosing_post: number = 0;
   enclosing_comment?: number;
-  author: UserInterface = new UserClass();
+  author: UserClass = new UserClass();
   posted_at: Date = new Date();
 
   is_edited: boolean = false;
