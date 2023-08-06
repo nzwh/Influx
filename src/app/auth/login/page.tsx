@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
 import { UserInterface } from '@/libraries/structures';
 import supabase from '@/src/app/backend/model/supabase';
+import { AuthError } from '@supabase/supabase-js';
 
 const Login = () => {
   let router = useRouter();
@@ -26,16 +27,15 @@ const Login = () => {
       delivery_methods: [],
       is_verified:false,
   });
-  const [password, setPassword] = useState({
-    password: '',
-  });
+  const [email, setEmail] = useState({ email: '' });
+  const [password, setPassword] = useState({ password: '' });
 
   const [errorEmailMessage, setErrorEmailMessage] = useState<string>(''); // Add error message state
   const [errorPasswordMessage, setErrorPasswordMessage] = useState<string>(''); // Add error message state
   const [errorMessage, setErrorMessage] = useState<string>(''); // Add error message state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // Add submission status state
 
-  const [token, setToken] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
@@ -79,14 +79,27 @@ const Login = () => {
         email: formData.email_address,
         password: password.password,
       })
+      
       if (error) throw error
       else {
-        console.log(data)
-        setToken(data)
+        if (!error) {
+          // Clear any previously stored login credentials
+          localStorage.removeItem("rememberedUser");
+    
+          if (rememberMe) {
+            // Store login credentials securely in local storage with a 30-day expiration
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 21);
+            localStorage.setItem(
+              "rememberedUser",
+              JSON.stringify({ email: email.email, password: password.password, expiration: expirationDate.toISOString() })
+            );
+          }
+        }
         router.push('/')
       }
     } catch (error) {
-      if (error.message == 'Email not confirmed') {
+      if ((error as AuthError).message == 'Email not confirmed') {
         setErrorMessage('Confirm your email address to continue.')
       }
       else {
@@ -96,6 +109,18 @@ const Login = () => {
       setIsSubmitting(false) // Reset isSubmitting when the form submission process is complete
     }
   }
+
+  useEffect(() => {
+    const rememberedUser = localStorage.getItem("rememberedUser");
+    if (rememberedUser) {
+      const userObject = JSON.parse(rememberedUser);
+      setEmail({ email: userObject.email });
+      console.log(userObject.email)
+      setPassword({ password: userObject.password });
+      console.log(userObject.password)
+      setRememberMe(true);
+    }
+  }, []);
 
   return (
     <main className="flex flex-col w-screen h-screen items-center justify-center">
@@ -138,13 +163,13 @@ const Login = () => {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <SquareAsterisk className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required minLength={8}></input>
+                <input name="password" onChange={handleChangePw} id="password" type="password" placeholder="********" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" value={password.password} required minLength={8}></input>
               </div>
             </div>
 
             <div className="flex flex-row justify-between w-full items-center">
               <div className="flex flex-row gap-2 items-center">
-                <input type="checkbox" id="remember" name="remember" className="cursor-pointer" />
+                <input type="checkbox" id="remember" name="remember" className="cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 <h6 className="bg-white text-gray-800 font-regular tracking-tight leading-3 text-xs h-full">Remember me</h6>
               </div>
               <h6 className="bg-white text-gray-800 font-regular text-xs tracking-tight h-full cursor-pointer hover:underline">Forgot Password?</h6>
