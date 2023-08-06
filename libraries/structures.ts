@@ -97,13 +97,13 @@ export class UserClass {
   uuid: string = '';
   handle: string = '';
 
-  email_address: string = '';
+  email_address?: string = '';
   icon: string = '';
   banner: string = '';
 
   first_name: string = '';
   last_name: string = '';
-  phone_number: string = '';
+  phone_number?: string = '';
 
   location: string = '';
   biography: string = '';
