@@ -27,7 +27,7 @@ export default function Home() {
       </>}
       panels={<>
         <ProfileAccount user={user}/>
-        <ProfileComments />
+        <ProfileComments user={user} />
         <About />
       </>}
     />

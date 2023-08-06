@@ -24,7 +24,7 @@ export default function Register() {
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
 
   const [handles, setHandles] = useState<string[]>([]);
-
+  const [emails,setEmails] = useState<string[]>([]);
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState<UserInterface>({
       id: 0,
@@ -67,13 +67,40 @@ export default function Register() {
       return [];
     }
   }
+  
+  const fetchEmails = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('email');
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const emails = data.map((user) => user.email);
+        return emails;
+      } else {
+        console.log('No user found.');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
 
   useEffect(() => {
     async function fetchData() {
       const usernames = await fetchHandles();
       setHandles(usernames);
     }
+    async function fetchData2() {
+      const emails = await fetchEmails();
+      setEmails(emails);
+    }
     fetchData();
+    fetchData2();
   }, [])
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -96,13 +123,6 @@ export default function Register() {
         setCheckLName(false)
       }
     } else if (event.target.name === "handle") {
-      // if (event.target.value.length > 0) {
-      //   setErrorHandleMessage("");
-      //   setCheckHandle(true)
-      // } else {
-      //   setErrorHandleMessage("Required");
-      //   setCheckHandle(false)
-      // }
       const enteredHandle = event.target.value;
       if (enteredHandle.length > 0) {
         setErrorHandleMessage("");
@@ -118,18 +138,25 @@ export default function Register() {
         setCheckHandle(false);
       }
     } else if (event.target.name === "email_address") {
-      if (event.target.value.length > 0) {
-        if (event.target.value.includes("@")) {
+      const enteredEmail = event.target.value
+      if (enteredEmail.length > 0) {
+        if (enteredEmail.includes("@")) {
           setErrorEmailMessage("");
-          setCheckEmail(true)
+          // Check if the entered email already exists in the emails array
+          if (emails.includes(enteredEmail)) {
+            setErrorEmailMessage("Email already exists");
+            setCheckEmail(false);
+          } else {
+            setCheckEmail(true);
+          }
         } else {
-          setErrorEmailMessage("Invalid email address")
-          setCheckEmail(false)
+          setErrorEmailMessage("Invalid email address");
+          setCheckEmail(false);
         }
       } else {
         setErrorEmailMessage("Required");
-        setCheckEmail(false)
-      }
+        setCheckEmail(false);
+      }      
     }
 
     setFormData((prevFormData) => {

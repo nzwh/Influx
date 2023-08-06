@@ -9,7 +9,7 @@ import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
 // Icons
-import { User, Bookmark, ShoppingBag, Settings, Sparkle } from 'lucide-react';
+import { User, Bookmark, ShoppingBag, Settings, Sparkle, Search } from 'lucide-react';
 
 // Module Component for Links
 const Module = (
@@ -70,6 +70,7 @@ const ExplorerNav: React.FC = () => {
           ['Explore', <Sparkle size={16} strokeWidth={3} />, '/profile'],
           ['Your Cart', <ShoppingBag size={16} strokeWidth={3} />, '/cart'],
           ['Bookmarks', <Bookmark size={16} strokeWidth={3} />, '/bookmarks'],
+          ['Search', <Search size={16} strokeWidth={3} />, '/search']
         ]} />
         <hr className="border-gray-200" />
         <Module elements={[
