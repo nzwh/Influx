@@ -32,7 +32,7 @@ After the installation process, you can start the local development server by ru
 npm run dev
 ```
 
-This command will build and start the application on a local server. Once the server is up and running, you can access Influx by visiting `http://localhost:3000/auth/login` in your web browser to log in to your account. If you haven't registered an account yet, you can do so by visiting `http://localhost:3000/auth/register`. Please note that the application may experience occasional slowness.
+This command will build and start the application on a local server. Once the server is up and running, you can access Influx by visiting `http://localhost:3000/auth/login` in your web browser to log in to your account. If you haven't registered an account yet, you can do so by visiting `http://localhost:3000/auth/register`. 
 
 ## Libraries
 ```
@@ -54,4 +54,10 @@ This command will build and start the application on a local server. Once the se
 4. Home - It contains the page of the home page.
 14. Profile - It contains the page of the profile page.
 15. Search - It contains the page of the search page.
+```
+
+## Warning
+```
+Please note that the application may experience occasional slowness. 
+Consider refreshing the page if it takes a while to load all the data.
 ```
