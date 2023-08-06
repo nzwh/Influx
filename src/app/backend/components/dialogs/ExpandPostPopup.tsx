@@ -43,11 +43,11 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
   return (
     <main 
       className="text-gray-950 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"> 
-      <div className="flex flex-row gap-2 h-[72%] w-auto justify-center z-50" ref={modalRef}>
+      <div className="flex flex-row gap-2 h-[80%] w-auto justify-center z-50" ref={modalRef}>
 
         <Carousel media={post.media || []} />
               
-        <Wrapper className="flex flex-col gap-4 h-full w-[26rem] bg-white rounded-sm p-6 shadow-xl hover:shadow-2xl transition-shadow duration-400">
+        <Wrapper className="flex flex-col gap-4 h-full w-[24rem] bg-white rounded-sm p-6 shadow-xl hover:shadow-2xl transition-shadow duration-400">
 
           <div className="flex flex-col gap-4 w-full">
 

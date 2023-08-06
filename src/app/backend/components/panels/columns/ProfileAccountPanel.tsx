@@ -38,8 +38,6 @@ const ProfileAccount: React.FC = () => {
     console.log(data);
   };
 
-  console.log(user);
-
   return (
 		<main>
       <Panel classes="flex-col relative z-[1]">

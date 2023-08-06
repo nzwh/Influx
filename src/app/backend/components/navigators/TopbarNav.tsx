@@ -60,7 +60,7 @@ const TopbarNav: React.FC = () => {
   }
   
   return (
-    <nav className="bg-[#F9FAFD] h-12 w-full flex flex-row justify-between items-center border-b-[1px] px-[12%] fixed z-[40]">
+    <nav className="bg-[#F9FAFD] h-12 w-full flex flex-row justify-between items-center border-b-[1px] px-[12%] fixed z-40" id="top-bar-nav">
 
       {/* Left */}
       <Wrapper className="flex flex-row items-center gap-4 w-auto">
@@ -71,13 +71,6 @@ const TopbarNav: React.FC = () => {
         </Link>
 
         {/* Searchbar */}
-        <div className="bg-gray-200 text-gray-600 h-6 px-3 flex flex-row justify-between items-center gap-2 rounded-full cursor-pointer">
-          <div className="flex flex-row items-center gap-2">
-            <Search size={12} strokeWidth={3}/>
-            <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearchQuery} />
-          </div>
-          <SquareSlash size={12} strokeWidth={3}/>
-        </div>
 
       </Wrapper>
 
@@ -114,7 +107,7 @@ const TopbarNav: React.FC = () => {
         {/* User Popover */}
         <Popover classes={"top-8"} 
           trigger={
-            <Image className="cursor-pointer rounded-full  w-8 h-8 object-cover" src={user.icon} alt="User Icon" width={30} height={30} />
+            <Image className="cursor-pointer rounded-full w-7 h-7 object-cover" src={user.icon} alt="User Icon" width={30} height={30} />
           }
           elements={
             user.uuid ? [
