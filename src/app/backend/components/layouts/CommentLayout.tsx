@@ -77,22 +77,24 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
         const { data: commentData, error: insertError } = await Supabase
           .from('comments')
           .insert([newComment]);
-  
-        console.log('Comment inserted:', commentData);
       
         if (insertError) {
           console.error('Error inserting new comment:', insertError);
         } else {
-          console.log('Comment inserted into query:', newComment);
-          console.log('Comment inserted:', commentData);
-      
-          setComments(prevComments => [commentInstance, ...prevComments]); 
-          console.log('After setComments:', comments);
-      
-          setCommentsArray(prevCommentsArray => [...prevCommentsArray, commentData[0].id]);
-      
-          await updatePostInDatabase(postId, commentsArray);
-          console.log('Comments array updated:', commentsArray);
+          const { data: latestComment } = await Supabase
+          .from('comments')
+          .select('id')
+          .eq('author', user.uuid)
+          .order('posted_at', { ascending: false })
+          .limit(1);
+  
+          if (latestComment && latestComment.length > 0) {
+            const updatedCommentsArray = [...commentsArray, latestComment[0].id];
+            setCommentsArray(updatedCommentsArray);
+  
+            await updatePostInDatabase(comment.enclosing_post, updatedCommentsArray);
+            console.log('Comments array updated:', updatedCommentsArray);
+          }
         }
       } catch (e) {
         console.error('Error during insertion:', e);
