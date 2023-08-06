@@ -140,17 +140,20 @@ const Comment = ({ postId }: Props) => {
       if (insertError) {
         console.error('Error inserting new comment:', insertError);
       } else {
-          // Instead of updating state directly, prepare the updated state first
-        const updatedComments = [newComment, ...comments];
-        setComments(updatedComments);
+        const { data: latestComment } = await Supabase
+        .from('comments')
+        .select('id')
+        .eq('author', user.uuid)
+        .order('posted_at', { ascending: false })
+        .limit(1);
 
-        // Assuming commentData contains the inserted comment's ID
-        const updatedCommentsArray = [...commentsArray, commentData[0].id];
-        setCommentsArray(updatedCommentsArray);
+        if (latestComment && latestComment.length > 0) {
+          const updatedCommentsArray = [...commentsArray, latestComment[0].id];
+          setCommentsArray(updatedCommentsArray);
 
-        // Update the post in the database
-        await updatePostInDatabase(postId, updatedCommentsArray);
-        console.log('Comments array updated:', updatedCommentsArray);
+          await updatePostInDatabase(postId, updatedCommentsArray);
+          console.log('Comments array updated:', updatedCommentsArray);
+        }
         /*console.log('Comment inserted into query:', newComment);
         console.log('Comment inserted:', commentData);
     
