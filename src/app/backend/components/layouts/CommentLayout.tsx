@@ -52,6 +52,19 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
     }
   }
 
+  async function updateCommentInDatabase(commentId: any, replies: any) {
+    try {
+      const { data, error } = await Supabase
+        .from('posts')
+        .update({ replies })
+        .eq('id', commentId);
+  
+      console.log('Comment updated in the database:', commentId, replies);
+    } catch (error) {
+      console.error('Error updating comment in the database:', error);
+    }
+  }
+
      // Handles replying to an existing comment.
      const handleReply = async () => {
 
@@ -94,6 +107,14 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
   
             await updatePostInDatabase(comment.enclosing_post, updatedCommentsArray);
             console.log('Comments array updated:', updatedCommentsArray);
+
+            const updatedEnclosingComment = {
+              ...comment,
+              replies: comment.replies ? [...comment.replies, latestComment[0].id] : [latestComment[0].id]
+            };
+          
+            await updateCommentInDatabase(comment.id, updatedEnclosingComment.replies);
+            console.log('Enclosing comment updated with new reply:', comment.id, updatedEnclosingComment.replies);
           }
         }
       } catch (e) {
