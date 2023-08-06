@@ -35,7 +35,7 @@ interface Props {
 
 const PostLayout: React.FC<Props> = ({ post, userId }) => {
 
-  const { DeletePost, DeletePhotos } = PostActions();
+  const { DeleteItem } = PostActions();
 
   const router = useRouter();
 
@@ -70,8 +70,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
   };
 
   const handleDeletePost = async (post: PostClass) => {
-    await DeletePost(post.id);
-    post.media && await DeletePhotos(post.media);
+    DeleteItem(post.id, post.media as string[]);
   };
 
   const [firstMedia, setFirstMedia] = useState(post.media![0]);
@@ -105,7 +104,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
           <div className="flex flex-row items-center gap-2 w-full" onClick={handleProfileClick}>
 
             {/* Author Avatar */}
-            <Image  className="rounded-full cursor-pointer" src={post.author.icon} alt="User Icon" width={36} height={36} />
+            <Image  className="rounded-full cursor-pointer w-9 h-9 object-cover" src={post.author.icon} alt="User Icon" width={36} height={36} />
 
             <div className="flex flex-col justify-center w-full">
               <div className="flex flex-row gap-0.5 items-center">

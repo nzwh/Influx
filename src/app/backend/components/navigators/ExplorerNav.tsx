@@ -42,7 +42,7 @@ const ExplorerNav: React.FC = () => {
       <Link href="/profile" className="flex flex-row items-center gap-2">
 
         {/* Icon */}
-        <Image className="rounded-full" src={user.icon} alt="User Icon" width={36} height={36} />
+        <Image className="rounded-full w-9 h-9 object-cover" src={user.icon} alt="User Icon" width={36} height={36} />
 
         {/* Name */}
         <Wrapper className="flex flex-col justify-center h-full pb-1">

@@ -29,7 +29,7 @@ const NewPost: React.FC = () => {
     <Panel classes="flex-row px-4 py-2 gap-4 cursor-pointer">
     <div className="flex flex-row gap-3 items-center w-full" 
     onClick={() => handleTypeClick(1, true)}>
-      <Image className="rounded-full" src={user.icon} alt="User Icon" width={22} height={22} />
+      <Image className="rounded-full w-6 h-6 object-cover" src={user.icon} alt="User Icon" width={22} height={22} />
       <h6 className="text-gray-500 font-light text-xs">Post about something...</h6>
     </div>
 

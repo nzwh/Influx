@@ -5,7 +5,7 @@ import React, { useState } from "react";
 // Hooks & Classes
 import Supabase from '@/src/app/backend/model/supabase';
 import { useGlobalContext } from "@/src/app/backend/hooks/GlobalContext";
-import { PostClass } from "@/libraries/structures";
+import { PostClass, UserClass } from "@/libraries/structures";
 
 // Icons
 import { ShoppingBag } from 'lucide-react';
@@ -38,7 +38,6 @@ const ToggleCart: React.FC<Props> = ({ enabled, disabled, value, post }) => {
   };
 
   const { user, setUser } = useGlobalContext();
-
   const [carted, setCarted] = useState(post.cart?.includes(user.uuid));
   
   const handleCartedToggle = () => {
@@ -47,7 +46,10 @@ const ToggleCart: React.FC<Props> = ({ enabled, disabled, value, post }) => {
       user.cart?.push(post.id);
       savePostCart();
       saveUserCart();
-      setUser(user);
+      setUser(new UserClass({
+        ...user,
+        cart: user.cart
+      }));
       setCarted(true);
     }
     else {
@@ -55,7 +57,10 @@ const ToggleCart: React.FC<Props> = ({ enabled, disabled, value, post }) => {
       user.cart?.splice(user.cart?.indexOf(post.id), 1);
       savePostCart();
       saveUserCart();
-      setUser(user);
+      setUser(new UserClass({
+        ...user,
+        cart: user.cart
+      }));
       setCarted(false);
     }
   };

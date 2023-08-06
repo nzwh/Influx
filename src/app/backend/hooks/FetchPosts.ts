@@ -57,10 +57,14 @@ const FetchPosts = ({ type, query, posts, setPosts }: Props) => {
     setPosts(newData);
   };
 
-  useEffect(() =>{
-    let interval = setInterval(() => fetchPosts(), (1000))
-    return () => clearInterval(interval);
-  })
+  // useEffect(() =>{
+  //   let interval = setInterval(() => fetchPosts(), (1000))
+  //   return () => clearInterval(interval);
+  // })
+
+  useEffect(() => {
+    if (posts.length === 0) fetchPosts();
+  }, []);
 
 };
 

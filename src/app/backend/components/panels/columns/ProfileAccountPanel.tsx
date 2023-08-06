@@ -3,28 +3,18 @@ import Image from 'next/image';
 
 import UpdateProfilePopup from '@/src/app/backend/components/dialogs/UpdateProfilePopup';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Star } from 'lucide-react';
+import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Settings2, Star } from 'lucide-react';
 import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { useRouter } from 'next/navigation';
+import { useGlobalContext } from '../../../hooks/GlobalContext';
+import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 
 const ProfileAccount: React.FC = () => {
 
   const router = useRouter();
-  let activeD = JSON.parse(sessionStorage.getItem('token')!)
-  
-  useEffect(() => {
-    if(sessionStorage.getItem('token')) {
-      activeD = JSON.parse(sessionStorage.getItem('token')!)
-      console.log(activeD.user.id)
-    }
-    else {
-      router.push('/home')
-    }
-  }, [])
-  
-  const { user, fetchUser } = useFetchUser({ type: 'userId', userId: activeD.user.id as string });
-  const activeData = user[0];
+
+  const { user } = useGlobalContext();
   
   // Handles editing the user's profile.
 	// const [formData, setFormData] = useState<any>(null);
@@ -48,60 +38,58 @@ const ProfileAccount: React.FC = () => {
     console.log(data);
   };
 
+  console.log(user);
+
   return (
 		<main>
       <Panel classes="flex-col relative z-[1]">
 
         {/* Header */}
-        <div className="absolute bg-[url('/root/login.png')] bg-cover w-full h-20 rounded-sm" />
-        <div className="absolute z-[0] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-14 rounded-sm top-10 bg-no-repeat" />
+        <Image className="absolute w-full h-24 rounded-sm object-cover" src={user.banner} alt="" width={1000} height={1000} />
+        <div className="absolute z-[0] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-14 rounded-sm top-14 bg-no-repeat" />
 
         {/* Account */}
         <div className="z-[1] flex flex-col gap-2 p-4">
 
           {/* Padder */}
-          <div className="h-4"></div>
+          <div className="h-8"></div>
 
           {/* Profile */}
-          <div className="flex flex-row justify-between items-center gap-2 p-2">
+          <div className="flex flex-row justify-between items-center gap-2 p-2 mt-1">
           <div className="flex flex-row items-center gap-2 w-full">
+            
+            {/* Icon */}
+            <Image className="rounded-full w-9 h-9 object-cover" src={user.icon} alt="User Icon" width={36} height={36} />
 
-            {/* Author Avatar */}
-            <Image className="rounded-full" src={activeData ? activeData.icon : "/root/temp.jpg"} alt="User Icon" width={36} height={36} />
-
-            <div className="flex flex-col justify-center w-full">
-              <div className="flex flex-row gap-0.5 items-center">
-
-                {/* Author Name */}
-                <h6 className="text-gray-800 font-medium text-base leading-3 tracking-tight">
-                  {`${activeData ? activeData.first_name : ""} ${activeData ? activeData.last_name : ""}`}
-                </h6>
-
-                {/* Verified Status */}
-                { activeData ? activeData.is_verified : false ? (
-                  <Image src="/root/verified.svg" width={18} height={18} alt="Verified" />
-                ) : (
-                  <div className="w-1"></div>
-                )}
-
-              </div>
-
-              {/* Author Handle */}
-              <h6 className="text-gray-500 font-light text-[0.65rem] leading-4">{`@${activeData ? activeData.handle : ""}`}</h6>
-
-            </div>
+            {/* Name */}
+            <Wrapper className="flex flex-col justify-center h-full pb-1">
+              <h6 className="flex flex-row gap-0.5 items-start flex-wrap text-gray-800 font-medium text-sm leading-5 tracking-tight w-full">
+                <span>
+                  {user.first_name}
+                </span>
+                { user.is_verified ? (
+                <span className="inline-block w-4 h-4 relative top-[0.125rem]"> 
+                  <Image src="/root/verified.svg" alt="verified" width={16} height={16} />
+                </span>
+                ) : null }
+              </h6>
+              <h6 className="text-gray-500 font-regular text-[0.625rem] leading-3">
+                {`@${user.handle}`}
+              </h6>
+            </Wrapper>
+            
           </div>
 
           {/* Edit Profile */}
-          <button className="flex flex-row items-center gap-1 bg-gray-100 hover:bg-gray-200 rounded-full px-2 py-0.5 w-fit text-gray-800 font-regular text-[0.625rem] leading-3 transition-colors duration-200" onClick={handleProfileEditOpen}>
-            Edit
+          <button className="flex flex-row items-center gap-1 bg-gray-100 hover:bg-gray-200 p-1 w-fit text-gray-800 font-regular text-[0.625rem] leading-3 transition-colors duration-200 mr-2" onClick={handleProfileEditOpen}>
+            <Settings2 className="opacity-70" color="black" size={12} />
           </button>
 
           </div>
 
           {/* Biography */}
           <p className="text-gray-800 font-light text-[0.625rem] leading-[0.78125rem]">
-            {activeData ? activeData.biography : ""}
+            {user.biography}
           </p>
           
           <div className="flex flex-wrap items-center gap-2">
@@ -109,7 +97,7 @@ const ProfileAccount: React.FC = () => {
           {/* Location */}
           <div className="flex flex-row items-center gap-1">
             <Map className="opacity-70" color="black" size={12} />
-            <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{activeData ? activeData.location : ""}</h6>
+            <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{user.location}</h6>
           </div>
 
           </div>
@@ -128,12 +116,12 @@ const ProfileAccount: React.FC = () => {
             <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">Payment Methods</h6>
           </div>
           <div className="flex flex-wrap items-center gap-1">
-            {activeData ? activeData.payment_methods.map((method: any) => (
+            {user.payment_methods.map((method: any) => (
               <div className="flex flex-row items-center gap-1">
                 <CreditCard className="opacity-70" color="black" size={12} />
                 <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{ToTitleCase(method)}</h6>
               </div>
-            )) : null}
+            ))}
           </div>
           </div>
 
@@ -144,12 +132,12 @@ const ProfileAccount: React.FC = () => {
             <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">Delivery Methods</h6>
           </div>
           <div className="flex flex-wrap items-center gap-1">
-          {activeData ? activeData.delivery_methods.map((method: any) => (
+          {user.delivery_methods.map((method: any) => (
               <div className="flex flex-row items-center gap-1">
                 <CreditCard className="opacity-70" color="black" size={12} />
                 <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{ToTitleCase(method)}</h6>
               </div>
-            )) : null}
+            ))}
           </div>
           </div>
 
