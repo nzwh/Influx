@@ -61,7 +61,7 @@ export default function Search() {
                 {posts
                 .map((post: PostClass) => (
                   <li key={post.id}>
-                    <Post p_post={post} onDelete={function (value: React.SetStateAction<PostClass>): void {
+                    <Post post={post} onDelete={function (value: React.SetStateAction<PostClass>): void {
                       throw new Error('Function not implemented.');
                     } } onEdit={function (value: React.SetStateAction<PostClass>): void {
                       throw new Error('Function not implemented.');
