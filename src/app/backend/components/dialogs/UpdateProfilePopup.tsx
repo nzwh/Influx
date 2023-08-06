@@ -86,7 +86,6 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
       default:
         setFormData({ ...formData, [event.target.name]: event.target.value });
-        console.log("set default");
         break;
     }
 
@@ -95,8 +94,6 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
         setBioValue(event.target.value);
         break;
     }
-
-    console.log("formData:", iconFile, bannerFile, formData);
   };
 
   const handlePMSubmit = (data: string[]) => {
@@ -123,8 +120,6 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
       let banner = await PushImages([bannerFile!], user.uuid);
       bannerURL = banner?.map((str) => str.replace(/[\n\s]/g, ''))[0];
     }
-
-    console.log("formData:", formData);
     
     const partial = new UserClass(formData);
     const newUser : any = {
@@ -132,8 +127,6 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
       icon: iconURL,
       banner: bannerURL
     }
-
-    console.log("newUser:", newUser);
 
     const { email_address, phone_number, ...userData } = newUser;
     const { data, error } = await supabase
