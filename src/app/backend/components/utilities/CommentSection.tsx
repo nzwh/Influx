@@ -68,7 +68,7 @@ const Comment = ({ postId }: Props) => {
             }
           }
 
-          return commentData as CommentInterface;
+          return commentData as CommentClass;
         }
       });
 

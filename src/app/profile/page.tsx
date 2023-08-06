@@ -17,7 +17,7 @@ export default function Home() {
   
   useRefreshContext();
 
-  const { posts, setPosts } = useGlobalContext();
+  const { user,  setUser, posts, setPosts } = useGlobalContext();
   useFetchPosts({ query: "author", posts, setPosts });
 
   return (
@@ -27,7 +27,7 @@ export default function Home() {
       </>}
       panels={<>
         <ProfileAccount />
-        <ProfileComments />
+        <ProfileComments user={user} />
         <About />
       </>}
     />
