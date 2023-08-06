@@ -121,7 +121,7 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
         }
         
         imageArray.forEach((file) => {
-          if (file.size < 5 * 1024 * 1024) 
+          if (file.size > 5 * 1024 * 1024) 
             alert("One or more images exceed the 5MB size limit.");
           else
             setSelectedImages((prevSelectedImages) => [...prevSelectedImages, file]);

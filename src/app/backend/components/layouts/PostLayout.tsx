@@ -11,6 +11,7 @@ import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 
 // Panels & Popups
 import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
+import UpdatePost from '@/src/app/backend/components/dialogs/UpdatePostPopup';
 
 // Hooks & Classes
 import { PostClass } from "@/libraries/structures";
@@ -48,12 +49,11 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
   };
 
   const [selectedPost, setSelectedPost] = useState<PostClass>();
+  const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
   const handleExpandPostOpen = (post: PostClass) => {
     setSelectedPost(post);
     setIsExpandPostOpen(true);
   };
-
-  const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
   const handleExpandPostClose = () => {    
     let temp = posts;
     temp.map((post, index) => {
@@ -64,9 +64,17 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
     setPosts(temp);
     setIsExpandPostOpen(false);
   };
+  
+  const [isEditPostPopupOpen, setIsEditPostPopupOpen] = useState(false);
+  const handleEditPostOpen = () => {
+    setIsEditPostPopupOpen(true);
+  };
+  const handleEditPostClose = () => {
+    setIsEditPostPopupOpen(false);
+  };
 
   const handleEditPost = (post_id: number) => {
-    
+    handleEditPostOpen();
   };
 
   const handleDeletePost = async (post: PostClass) => {
@@ -132,6 +140,11 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
               <h6 className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer gap-1 flex flex-row">
                 <span className="hover:underline">{`@${post.author.handle}`}</span>•
                 <span>{ToRelativeTime(post.posted_at)}</span>
+                { post.is_edited ? (<>
+                  •<span className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer gap-1 flex flex-row">
+                    Edited {ToRelativeTime(post.edited_at || new Date())}
+                    </span>
+                  </>) : null }
               </h6>
 
             </div>
@@ -249,6 +262,10 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
         </Wrapper>
         
       </div>
+
+      {isEditPostPopupOpen && ( 
+        <UpdatePost onClose={handleEditPostClose} post={post} />
+      )}
     </Panel>
 	);
 };

@@ -54,7 +54,28 @@ const PostActions = () => {
     setPosts(newPosts);
   };
 
-  return { AddItem, DeleteItem, DeletePhotos };
+  const EditPost = async (post: PostClass) => {
+    const { data, error } = await Supabase
+      .from('posts')
+      .update(post)
+      .match({ id: post.id })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  };
+
+  const EditItem = async (post: PostClass, author: UserClass, origin: CommunityClass) => {
+    const data = await EditPost(post);
+    const newPost = new PostClass({
+      ...data, author, origin, posted_at: new Date(data.posted_at),
+      edited_at: new Date(data.edited_at)
+    });
+    setPosts(posts.map((post) => post.id === newPost.id ? newPost : post));
+  };
+
+  return { AddItem, DeleteItem, DeletePhotos, EditItem };
 };
 
 export default PostActions;
