@@ -35,7 +35,7 @@ interface Props {
 
 const PostLayout: React.FC<Props> = ({ post, userId }) => {
 
-  const { DeletePost, DeletePhotos } = PostActions();
+  const { DeleteItem } = PostActions();
 
   const router = useRouter();
 
@@ -70,8 +70,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
   };
 
   const handleDeletePost = async (post: PostClass) => {
-    await DeletePost(post.id);
-    post.media && await DeletePhotos(post.media);
+    DeleteItem(post.id, post.media as string[]);
   };
 
   const [firstMedia, setFirstMedia] = useState(post.media![0]);

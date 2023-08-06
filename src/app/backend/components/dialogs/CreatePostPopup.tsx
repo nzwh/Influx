@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { PostClass, CommunityClass } from '@/libraries/structures';
 import usePostActions from '@/src/app/backend/hooks/PostActions';
 import useFetchCommunities from '@/src/app/backend/hooks/FetchCommunities';
-import useSaveImages from '@/src/app/backend/hooks/SaveImages';
+import PushImages from '@/src/app/backend/hooks/PushImages';
 import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
 // Utilities
@@ -29,7 +29,7 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
   const defaults = require("@/json/defaults.json");
 
   // Post actions
-  const { AddPost } = usePostActions();
+  const { AddItem } = usePostActions();
 
   // Allow outside click to close modal
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -78,12 +78,11 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
   };
   useEffect(() => {
     if (tagInputRef.current) {
-      tagInputRef.current.style.width = "auto"; // Reset width to auto for correct sizing
+      tagInputRef.current.style.width = "auto";
       tagInputRef.current.style.width = `${tagInputRef.current.scrollWidth}px`;
     }
   }, [tagInput]);
 
-  // TODO: Turn this into a component
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const handleImageRemove = (image: File) => {
     setSelectedImages(selectedImages.filter((img) => img !== image));
@@ -116,20 +115,17 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
         if (!files) return;
         
         const imageArray = Array.from(files);
-        
-        // Function to check if a file size is less than 5MB
+      
         const isFileSizeValid = (file: File) => {
-          const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+          const maxSize = 5 * 1024 * 1024;
           return file.size <= maxSize;
         };
         
-        // Check the total number of selected images
         if (selectedImages.length + imageArray.length > 4) {
           alert("You can only upload up to 4 images.");
           return;
         }
         
-        // Check the file size of each image before adding it to selectedImages
         imageArray.forEach((file) => {
           if (isFileSizeValid(file)) {
             setSelectedImages((prevSelectedImages) => [...prevSelectedImages, file]);
@@ -158,28 +154,26 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
   };
 
   // Listens to submit actions
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+
+    event.preventDefault();
+    let images = await PushImages(selectedImages, user.uuid);
+    images = images?.map((str) => str.replace(/[\n\s]/g, ''));
 
     const partial = new PostClass(formData);
     const newPost : any = {
       ...partial,
       posted_at: new Date(),
       is_edited: false,
-      media: useSaveImages(selectedImages)
+      media: images
     }
-    
-    setPosts(prevPosts => [new PostClass({
-      ...newPost, author: user
-    }), ...prevPosts]);
 
     const { id, uuid, origin, author, ...postData } = newPost
     postData.author_id = user.uuid;
     postData.origin_id = newPost.origin.uuid;
 
-    AddPost(postData);
+    AddItem(postData, user, formData.origin);
     onClose();
-
-    // TODO: Push images to user profile
   };  
 
   // Autosizing
