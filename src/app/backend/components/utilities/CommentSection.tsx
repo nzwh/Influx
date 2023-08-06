@@ -198,19 +198,19 @@ const Comment = ({ postId }: Props) => {
   return ( 
     <main>
 
-      <div className="flex flex-col" style={{ width: "100%" }}>
+      <div className="flex flex-col relative" style={{ width: "100%" }}>
         <div className="commentContainer">
           {rootComments.map(rootComment => (
             <div key={rootComment.id} className="rootComment">
               <CommentLayout comment={rootComment} />
-              <div className="pl-2">
+              <div className="pl-3">
                 {renderCommentTree(comments, rootComment.id)}
               </div>
             </div>
           ))}
         </div>
-        <div className="inputContainer">
-          <div className="flex flex-row items-center justify-between w-full gap-4">
+        <div className="inputContainer sticky bottom-0 z-10 bg-white pb-4 pt-2">
+          <div className="flex flex-row items-center gap-4">
             <div className="flex flex-row gap-2 w-full">
               <Image className="rounded-full" src={user ? user.icon : "/root/temp.jpg"} alt="User Icon" width={20} height={20} />
               <input 
