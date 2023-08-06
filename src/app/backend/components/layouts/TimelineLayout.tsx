@@ -13,18 +13,16 @@ import Post from '@/src/app/backend/components/layouts/PostLayout';
 import Background from '@/src/app/backend/components/Background';
 
 // Hooks & Classes
-import { PostClass } from '@/libraries/structures';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { PostClass, UserClass } from '@/libraries/structures';
 
 interface Props {
+  user: UserClass
+  posts: PostClass[];
   header?: React.ReactNode;
   panels?: React.ReactNode;
 }
 
-const Timeline: React.FC<Props> = ({ header, panels }) => {
-
-  // Export posts from global context
-  const { posts, user } = useGlobalContext();
+const Timeline: React.FC<Props> = ({ user, header, panels, posts }) => {
 
   return (
     <main>

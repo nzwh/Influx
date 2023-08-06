@@ -26,8 +26,11 @@ const FetchPosts = ({ type, query, posts, setPosts }: Props) => {
       .select('*')
       .order('posted_at', { ascending: false });
 
-    if (type && ['author', 'community'].includes(type))
+    if (type && ['author_id', 'origin_id'].includes(type))
       SupabaseQuery = SupabaseQuery.eq(type, query);
+
+    console.log('Fetching posts...');
+    console.log(SupabaseQuery.toString());
 
     const { data, error } = await SupabaseQuery;
     if (error) throw error;

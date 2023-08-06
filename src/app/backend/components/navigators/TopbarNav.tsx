@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -33,7 +33,7 @@ const TopbarNav: React.FC = () => {
   const [query, setQuery] = useState('');
   const handleSearchQuery = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      router.push(`/search?q=${query}`);
+      router.push('/search?q=' + query)
     }
   };
   

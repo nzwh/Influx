@@ -20,7 +20,6 @@ export default function Home() {
     <Timeline 
       posts={posts}
       header={<>
-        <NewPost />
       </>}
       panels={<>
         <Welcome />

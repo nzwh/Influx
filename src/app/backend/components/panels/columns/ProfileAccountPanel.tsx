@@ -9,19 +9,14 @@ import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { useRouter } from 'next/navigation';
 import { useGlobalContext } from '../../../hooks/GlobalContext';
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
+import { UserClass } from '@/libraries/structures';
 
-const ProfileAccount: React.FC = () => {
+interface Props {
+  user: UserClass;
+}
 
-  const router = useRouter();
+const ProfileAccount: React.FC<Props> = ({ user }) => {
 
-  const { user } = useGlobalContext();
-  
-  // Handles editing the user's profile.
-	// const [formData, setFormData] = useState<any>(null);
-	// const handleFormSubmit = (data: any) => {
-  //   setFormData(data);
-	// 	onPostRecieve(data);
-  // };
 
   // Handles updating the user's profile.
   // TODO: Relocate to own modal

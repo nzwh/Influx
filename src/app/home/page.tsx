@@ -5,7 +5,7 @@ import HomeNav from '@/src/app/backend/components/navigators/HomeNav';
 
 export default function Register() {
   return (
-    <main className="flex flex-col w-screen h-screen">
+    <main className="flex flex-col w-screen h-screen bg-white">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen from-zinc-100 to-zinc-300"></div>
       <HomeNav />
 

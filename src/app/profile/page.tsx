@@ -10,23 +10,23 @@ import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileA
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 
 // Hooks & Classes
-import useFetchPosts from '@/src/app/backend/hooks/FetchPosts';
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
 export default function Home() {
   
   useRefreshContext();
-
-  const { posts, setPosts } = useGlobalContext();
-  useFetchPosts({ query: "author", posts, setPosts });
+  const { user, posts } = useGlobalContext();
 
   return (
     <Timeline 
+      posts={
+        posts.filter(post => post.author.uuid === user.uuid )
+      }
       header={<>
         <Listings />
       </>}
       panels={<>
-        <ProfileAccount />
+        <ProfileAccount user={user}/>
         <ProfileComments />
         <About />
       </>}

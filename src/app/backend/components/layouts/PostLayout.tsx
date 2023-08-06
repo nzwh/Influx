@@ -142,7 +142,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
                 <span>{ToRelativeTime(post.posted_at)}</span>
                 { post.is_edited ? (<>
                   •<span className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer gap-1 flex flex-row">
-                    Edited {ToRelativeTime(post.edited_at || new Date())}
+                    Edited {ToRelativeTime(post.edited_at || new Date()).toLowerCase()}
                     </span>
                   </>) : null }
               </h6>
