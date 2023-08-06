@@ -94,10 +94,13 @@ export default function Register() {
     async function fetchData() {
       const usernames = await fetchHandles();
       setHandles(usernames);
+    }
+    async function fetchData2() {
       const emails = await fetchEmails();
       setEmails(emails);
     }
     fetchData();
+    fetchData2();
   }, [])
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
