@@ -27,7 +27,7 @@ const Login = () => {
       delivery_methods: [],
       is_verified:false,
   });
-  const [email, setEmail] = useState({ email: '' });
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState({ password: '' });
 
   const [errorEmailMessage, setErrorEmailMessage] = useState<string>(''); // Add error message state
@@ -47,12 +47,7 @@ const Login = () => {
       setErrorEmailMessage("Invalid email address")
     }
     
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [event.target.name]: event.target.value
-      }
-    })
+    setEmail(event.target.value);
   };
 
   const handleChangePw = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -76,7 +71,7 @@ const Login = () => {
     setIsSubmitting(true); // Set isSubmitting to true when the form is being submitted
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email_address,
+        email: email,
         password: password.password,
       })
       
@@ -92,7 +87,7 @@ const Login = () => {
             expirationDate.setDate(expirationDate.getDate() + 21);
             localStorage.setItem(
               "rememberedUser",
-              JSON.stringify({ email: email.email, password: password.password, expiration: expirationDate.toISOString() })
+              JSON.stringify({ email: email, password: password.password, expiration: expirationDate.toISOString() })
             );
           }
         }
@@ -114,7 +109,7 @@ const Login = () => {
     const rememberedUser = localStorage.getItem("rememberedUser");
     if (rememberedUser) {
       const userObject = JSON.parse(rememberedUser);
-      setEmail({ email: userObject.email });
+      setEmail(userObject.email);
       console.log(userObject.email)
       setPassword({ password: userObject.password });
       console.log(userObject.password)
@@ -151,7 +146,7 @@ const Login = () => {
                 <div className="h-full aspect-square flex items-center justify-center">
                   <AtSign className="opacity-50" color="black" strokeWidth={3} size={14}/>
                 </div>
-                <input name="email_address" onChange={handleChangeForm} id="email_address" type="text" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" required></input>
+                <input name="email_address" onChange={handleChangeForm} id="email_address" type="text" placeholder="hq@influx.org" className="w-full h-full text-gray-500 text-xs bg-gray-100 rounded-sm p-2" value={email} required></input>
               </div>
 
               <div className="flex flex-row gap-4 w-full items-center justify-between">
