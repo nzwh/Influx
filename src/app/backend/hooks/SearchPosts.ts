@@ -100,7 +100,7 @@ const SearchPosts = ({ u, s, so, c, t, rs, re, tg, o, ow, setPosts }: Props) => 
                 return (((b.price || 0) + (b.range_start || 0)) - ((a.price || 0) + (a.range_start || 0))) *
                 (so && so === 'ascending' ? -1 : 1);
             })
-        }
+        } 
            
     }
     
