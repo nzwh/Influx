@@ -174,40 +174,57 @@ const Comment = ({ postId }: Props) => {
     setInput("");
   };
 
-  const renderCommentTree = (comments, parentCommentId) => {
-    const childComments = comments.filter(comment => comment.enclosing_comment === parentCommentId);
-  
-    if (childComments.length === 0) {
-      return null; // No child comments, terminate recursion
-    }
-  
-    return (
-      <div className="nestedComment">
-        {childComments.map(comment => (
-          <div key={comment.id} className="nestedComment">
-            <CommentLayout comment={comment} />
-            {renderCommentTree(comments, comment.id)}
+  const nestComments = (comments) => {
+    const nestedCommentsMap = new Map();
+
+    // Create a map with parentCommentId as keys and array of child comments as values
+    comments.forEach(comment => {
+      const parentCommentId = comment.enclosing_comment || 'root';
+      if (!nestedCommentsMap.has(parentCommentId)) {
+        nestedCommentsMap.set(parentCommentId, []);
+      }
+      nestedCommentsMap.get(parentCommentId).push(comment);
+    });
+
+    // Helper function to recursively render nested comments
+    const renderNestedComments = (comment) => {
+      const nestedComments = nestedCommentsMap.get(comment.id) || [];
+
+      return (
+        <div key={comment.id} className="nestedComment">
+          <CommentLayout comment={comment} />
+          {nestedComments.length > 0 && (
+            <div className="pl-3">
+              {nestedComments.map(childComment => (
+                renderNestedComments(childComment)
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // Render root comments
+    return comments
+      .filter(comment => !comment.enclosing_comment)
+      .map(rootComment => (
+        <div key={rootComment.id} className="rootComment">
+          <CommentLayout comment={rootComment} />
+          <div className="pl-3">
+            {nestedCommentsMap.get(rootComment.id)?.map(childComment => (
+              renderNestedComments(childComment)
+            ))}
           </div>
-        ))}
-      </div>
-    );
+        </div>
+      ));
   };
-  
-  const rootComments = comments.filter(comment => !comment.enclosing_comment);
 
   return ( 
     <main>
 
       <div className="flex flex-col relative" style={{ width: "100%" }}>
         <div className="commentContainer">
-          {rootComments.map(rootComment => (
-            <div key={rootComment.id} className="rootComment">
-              <CommentLayout comment={rootComment} />
-              <div className="pl-3">
-                {renderCommentTree(comments, rootComment.id)}
-              </div>
-            </div>
-          ))}
+          {nestComments(comments)}
         </div>
         <div className="inputContainer sticky bottom-0 z-10 bg-white pb-4 pt-2">
           <div className="flex flex-row items-center gap-4">
