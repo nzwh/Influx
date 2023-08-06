@@ -212,7 +212,7 @@ const Comment = ({ postId }: Props) => {
         <div className="inputContainer">
           <div className="flex flex-row items-center justify-between w-full gap-4">
             <div className="flex flex-row gap-2 w-full">
-              <Image className="rounded-full" src={user ? user.icon : "/root/temp.jpg"} alt="User Icon" width={20} height={20} />
+              <Image className="rounded-full w-5 h-5 object-cover" src={user ? user.icon : "/root/temp.jpg"} alt="User Icon" width={20} height={20} />
               <input 
                 type="text" 
                 className="inputContainer__input font-extralight text-xs w-full" 

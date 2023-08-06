@@ -115,23 +115,16 @@ const CreatePostPopup: React.FC<Props> = ({ type, onClose }) => {
         if (!files) return;
         
         const imageArray = Array.from(files);
-      
-        const isFileSizeValid = (file: File) => {
-          const maxSize = 5 * 1024 * 1024;
-          return file.size <= maxSize;
-        };
-        
         if (selectedImages.length + imageArray.length > 4) {
           alert("You can only upload up to 4 images.");
           return;
         }
         
         imageArray.forEach((file) => {
-          if (isFileSizeValid(file)) {
-            setSelectedImages((prevSelectedImages) => [...prevSelectedImages, file]);
-          } else {
+          if (file.size < 5 * 1024 * 1024) 
             alert("One or more images exceed the 5MB size limit.");
-          }
+          else
+            setSelectedImages((prevSelectedImages) => [...prevSelectedImages, file]);
         });        
         break;
 

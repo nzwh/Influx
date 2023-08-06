@@ -174,7 +174,7 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
       <div className="flex flex-row gap-10">
         <div className="flex flex-col gap-2 w-full">
           <div className="flex flex-row items-start gap-2">
-            <Image className="rounded-full cursor-pointer mt-0.5" src={comment.is_deleted ? "/root/temp.jpg" : comment.author.icon} alt="User Icon" width={28} height={28} />
+            <Image className="rounded-full cursor-pointer mt-0.5 w-7 h-7 object-cover" src={comment.is_deleted ? "/root/temp.jpg" : comment.author.icon} alt="User Icon" width={28} height={28} />
             <div className="flex flex-col w-full">
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-2">
@@ -274,7 +274,7 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
         {showInput && (
           <div className="inputContainer">
             <div className= "flex flex-row items-center rounded-lg w-auto">
-              <Image className="rounded-full" src={user ? user.icon : "/root/temp.jpg"} alt="User Icon" width={24} height={24} />
+              <Image className="rounded-full w-6 h-6 object-cover" src={user ? user.icon : "/root/temp.jpg"} alt="User Icon" width={24} height={24} />
               <input 
                 type="text" 
                 className="inputContainer__input first_input font-extralight text-xs p-2" 

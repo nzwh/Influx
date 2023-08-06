@@ -45,21 +45,21 @@ const ProfileAccount: React.FC = () => {
       <Panel classes="flex-col relative z-[1]">
 
         {/* Header */}
-        <Image className="absolute w-full h-20 rounded-sm" src={user.banner} alt="" width={1000} height={1000} />
-        <div className="absolute z-[0] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-14 rounded-sm top-10 bg-no-repeat" />
+        <Image className="absolute w-full h-24 rounded-sm object-cover" src={user.banner} alt="" width={1000} height={1000} />
+        <div className="absolute z-[0] bg-[url('/root/profile_dent.svg')] bg-contain w-full h-14 rounded-sm top-14 bg-no-repeat" />
 
         {/* Account */}
         <div className="z-[1] flex flex-col gap-2 p-4">
 
           {/* Padder */}
-          <div className="h-4"></div>
+          <div className="h-8"></div>
 
           {/* Profile */}
           <div className="flex flex-row justify-between items-center gap-2 p-2 mt-1">
           <div className="flex flex-row items-center gap-2 w-full">
             
             {/* Icon */}
-            <Image className="rounded-full" src={user.icon} alt="User Icon" width={36} height={36} />
+            <Image className="rounded-full w-9 h-9 object-cover" src={user.icon} alt="User Icon" width={36} height={36} />
 
             {/* Name */}
             <Wrapper className="flex flex-col justify-center h-full pb-1">

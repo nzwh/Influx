@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
-import { UserClass } from '@/libraries/structures';
+import { UserClass ,PostClass } from '@/libraries/structures';
 import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
 import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesPopover';
 
@@ -15,8 +15,10 @@ import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { useRouter } from 'next/navigation';
 import { useGlobalContext } from '../../hooks/GlobalContext';
 import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
-import SaveImages from '../../hooks/SaveImages';
+import SaveImages from '../../hooks/PushImages';
 import { v4 as uuidv4 } from "uuid";
+import { get } from 'http';
+import PushImages from '../../hooks/PushImages';
 
 interface Props {
   onClose: () => void;
@@ -25,7 +27,7 @@ interface Props {
 const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
   // Export user data from global context
-  const { user, setUser } = useGlobalContext();
+  const { user, posts, setUser, setPosts } = useGlobalContext();
 
   // Allow outside click to exit
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -35,9 +37,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
   const defaults = require("@/json/defaults.json");
 
   // useStates for images
-  const [iconImage, setIconImage] = useState<string>(user.icon);
   const [iconFile, setIconFile] = useState<File>();
-  const [bannerImage, setBannerImage] = useState<string>(user.banner);
   const [bannerFile, setBannerFile] = useState<File>();
 
   // useState for form data
@@ -46,27 +46,35 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
   // Listens to all input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 
+    const getFile = (target: HTMLInputElement) => {
+      const files = target.files;
+      if (!files) return;
+
+      const file = Array.from(files)[0];
+      if (file.size > (5 * 1024 * 1024)) {
+        alert("One or more images exceed the 5MB size limit.");
+        return;
+      } else {
+        return file;
+      }
+    }
+
     switch (event.target.name) {
+
       case "icon_image":
-        const i_files = (event.target as HTMLInputElement).files;
-        if (i_files) {
-          const ii_files = Array.from(i_files);
-        }
-
-        console.log("i", i_files);
-        setIconImage(URL.createObjectURL(i_files![0]));
-        setFormData({ ...formData, icon: iconImage });
-
+        const i_result = getFile(event.target as HTMLInputElement);
+        if (!i_result) return;
+        setIconFile(i_result);
+        setFormData({ ...formData, icon: URL.createObjectURL(i_result)});
         break;
+        
       case "banner_image":
-        const b_files = (event.target as HTMLInputElement).files;
-        setBannerFile(b_files[0]);
-
-        console.log("b", b_files);
-        setBannerImage(URL.createObjectURL(b_files![0]));
-        setFormData({ ...formData, banner: bannerImage });
-
+        const b_result = getFile(event.target as HTMLInputElement);
+        if (!b_result) return;
+        setBannerFile(b_result);
+        setFormData({ ...formData, banner: URL.createObjectURL(b_result)});
         break;
+
       default:
         setFormData({ ...formData, [event.target.name]: event.target.value });
         break;
@@ -77,10 +85,6 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
         setBioValue(event.target.value);
         break;
     }
-
-    console.log(iconImage, bannerImage);
-    console.log(iconFile, bannerFile);
-    console.log("formdata", formData);
   };
 
   const handlePMSubmit = (data: string[]) => {
@@ -91,40 +95,21 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
   };
 
   // SubmitListener
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
 
-    // Upload images
+    event.preventDefault();
+
     if (iconFile) {
+      let icon = await PushImages([iconFile], user.uuid);
+      icon = icon?.map((str) => str.replace(/[\n\s]/g, ''));
+      setFormData({ ...formData, icon: icon[0] });
+    }
 
-      const filename = `${uuidv4()}-${iconFile.name.replace(/\s/g, '-')}`;
-      console .log(filename);
-      const { data, error } = await supabase
-        .storage
-        .from('profiles')
-        .upload(filename, iconFile, { 
-          cacheControl: '3600',
-          upsert: false,
-        });
-
-      if (error) throw error;
-      if (!data) return;
-
-      setFormData({ ...formData, icon: "https://pmjwqjsoojzbascysdbk.supabase.co/storage/v1/object/public/images/" + filename });
-      console.log(formData.icon);
-
-    } 
-    // else if (iconFile) {
-    //   const icon = SaveImages([iconFile]);
-    //   setFormData({ ...formData, icon: icon[0] });
-    //   console.log(icon[0]);
-    // } else if (bannerFile) {
-    //   const icon = SaveImages([bannerFile]);
-    //   console.log("o diba");
-    //   setFormData({ ...formData, banner: "lakas ah" });
-    //   console.log(icon[0]);
-    // }
-
-    console.log(JSON.stringify(formData));
+    if (bannerFile) {
+      let banner = await PushImages([bannerFile], user.uuid);
+      banner = banner?.map((str) => str.replace(/[\n\s]/g, ''));
+      setFormData({ ...formData, banner: banner[0] });
+    }
     
     const partial = new UserClass(formData);
     setUser(partial);
@@ -138,7 +123,21 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
       .match({ uuid: user.uuid });
 
     if (error) throw error;
-    if (!data) return;
+    
+    setUser(new UserClass({
+      ...partial
+    }));
+    
+    setPosts(posts.map((post) => {
+      if (post.author.uuid === user.uuid) {
+        return new PostClass({
+          ...post,
+          author: partial
+        });
+      } else {
+        return post;
+      }
+    }));
 
     onClose();
   };  
@@ -166,7 +165,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
         <input type="file" id="banner" onChange={handleInputChange} className="hidden w-12 h-12" accept="image/*" name="banner_image"/>
         <label htmlFor="banner" className="cursor-pointer flex items-center w-full h-44 z-[2]">
-          <img className="w-full rounded-sm h-44 object-cover z-[-1]" src={bannerImage} alt="" width={1000} height={1000} />
+          <img className="w-full rounded-sm h-44 object-cover z-[-1]" src={formData.banner} alt="" width={1000} height={1000} />
           <span className="absolute text-[0.625rem] text-gray-200 font-light opacity-0 hover:opacity-100 transition-all duration-200 z-[1] w-full h-44 hover:bg-black hover:bg-opacity-50 flex items-center justify-center cursor-pointer ">Change banner</span>
         </label>
 
@@ -185,7 +184,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
             <div>
               <input type="file" id="icon_files" onChange={handleInputChange} className="hidden w-12 h-12" accept="image/*" name="icon_image"/>
               <label htmlFor="icon_files" className="cursor-pointer flex items-center w-12 h-12">
-                <img className="rounded-full w-12 h-12 object-cover" src={iconImage} alt="User Icon" width={48} height={48} />
+                <img className="rounded-full w-12 h-12 object-cover" src={formData.icon} alt="User Icon" width={48} height={48} />
                 <span className="absolute text-[0.625rem] text-gray-200 font-light opacity-0 hover:opacity-100 transition-all duration-200 z-[1] w-12 h-12 rounded-full hover:bg-black hover:bg-opacity-50 flex items-center justify-center cursor-pointer ">New</span>
               </label>
             </div>
