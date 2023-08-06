@@ -60,7 +60,7 @@ const TopbarNav: React.FC = () => {
   }
   
   return (
-    <nav className="bg-[#F9FAFD] h-12 w-full flex flex-row justify-between items-center border-b-[1px] px-[12%] fixed z-[40]">
+    <nav className="bg-[#F9FAFD] h-12 w-full flex flex-row justify-between items-center border-b-[1px] px-[12%] fixed z-40" id="top-bar-nav">
 
       {/* Left */}
       <Wrapper className="flex flex-row items-center gap-4 w-auto">

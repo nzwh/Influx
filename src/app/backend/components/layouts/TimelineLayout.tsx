@@ -42,7 +42,7 @@ const Timeline: React.FC<Props> = ({ header, panels }) => {
         <Wrapper className="flex flex-row gap-2 justify-center w-full">
 
           {/* Timeline */}
-          <Wrapper className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]">
+          <div className="flex flex-col gap-2 h-full overflow-y-visible w-[32rem] lg:mr-[16.5rem]" id="right-wrapper">
 
           {header}
           {posts.length ? (
@@ -60,12 +60,12 @@ const Timeline: React.FC<Props> = ({ header, panels }) => {
             </span>
           )}
 
-          </Wrapper>
+          </div>
 
           {/* Panels */}
-          <Wrapper className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-40">
+          <div className="flex flex-col gap-2 h-full fixed w-[16rem] ml-[32.5rem] ra-br z-30" id="left-wrapper">
             {panels}
-          </Wrapper>
+          </div>
         </Wrapper>
         
         {/* Right */}
