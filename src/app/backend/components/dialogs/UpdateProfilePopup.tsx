@@ -19,6 +19,7 @@ import SaveImages from '../../hooks/PushImages';
 import { v4 as uuidv4 } from "uuid";
 import { get } from 'http';
 import PushImages from '../../hooks/PushImages';
+import PostActions from '../../hooks/PostActions';
 
 interface Props {
   onClose: () => void;
@@ -26,8 +27,12 @@ interface Props {
 
 const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
+  const { DeletePhotos } = PostActions();
+
   // Export user data from global context
   const { user, posts, setUser, setPosts } = useGlobalContext();
+  const oldUserIcon = user.icon;
+  const oldUserBanner = user.banner;
 
   // Allow outside click to exit
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -38,7 +43,9 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
   // useStates for images
   const [iconFile, setIconFile] = useState<File>();
+  const [isIconChanged, setIsIconChanged] = useState(false);
   const [bannerFile, setBannerFile] = useState<File>();
+  const [isBannerChanged, setIsBannerChanged] = useState(false);
 
   // useState for form data
   const [formData, setFormData] = useState<UserClass>(new UserClass(user));
@@ -66,6 +73,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
         if (!i_result) return;
         setIconFile(i_result);
         setFormData({ ...formData, icon: URL.createObjectURL(i_result)});
+        setIsIconChanged(true);
         break;
         
       case "banner_image":
@@ -73,10 +81,12 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
         if (!b_result) return;
         setBannerFile(b_result);
         setFormData({ ...formData, banner: URL.createObjectURL(b_result)});
+        setIsBannerChanged(true);
         break;
 
       default:
         setFormData({ ...formData, [event.target.name]: event.target.value });
+        console.log("set default");
         break;
     }
 
@@ -85,6 +95,8 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
         setBioValue(event.target.value);
         break;
     }
+
+    console.log("formData:", iconFile, bannerFile, formData);
   };
 
   const handlePMSubmit = (data: string[]) => {
@@ -99,24 +111,31 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
     event.preventDefault();
 
-    if (iconFile) {
-      let icon = await PushImages([iconFile], user.uuid);
-      icon = icon?.map((str) => str.replace(/[\n\s]/g, ''));
-      setFormData({ ...formData, icon: icon[0] });
+    let iconURL = user.icon;
+    let bannerURL = user.banner;
+
+    if (isIconChanged) {
+      let icon = await PushImages([iconFile!], user.uuid);
+      iconURL = icon?.map((str) => str.replace(/[\n\s]/g, ''))[0];
     }
 
-    if (bannerFile) {
-      let banner = await PushImages([bannerFile], user.uuid);
-      banner = banner?.map((str) => str.replace(/[\n\s]/g, ''));
-      setFormData({ ...formData, banner: banner[0] });
+    if (isBannerChanged) {
+      let banner = await PushImages([bannerFile!], user.uuid);
+      bannerURL = banner?.map((str) => str.replace(/[\n\s]/g, ''))[0];
     }
+
+    console.log("formData:", formData);
     
     const partial = new UserClass(formData);
-    setUser(partial);
+    const newUser : any = {
+      ...partial,
+      icon: iconURL,
+      banner: bannerURL
+    }
 
-    console.log("partial:", JSON.stringify(partial));
+    console.log("newUser:", newUser);
 
-    const { email_address, phone_number, ...userData } = partial;
+    const { email_address, phone_number, ...userData } = newUser;
     const { data, error } = await supabase
       .from('profiles')
       .update({...userData})
@@ -125,19 +144,21 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
     if (error) throw error;
     
     setUser(new UserClass({
-      ...partial
+      ...newUser
     }));
     
     setPosts(posts.map((post) => {
       if (post.author.uuid === user.uuid) {
         return new PostClass({
           ...post,
-          author: partial
+          author: newUser
         });
       } else {
         return post;
       }
     }));
+
+    DeletePhotos([oldUserIcon, oldUserBanner])
 
     onClose();
   };  

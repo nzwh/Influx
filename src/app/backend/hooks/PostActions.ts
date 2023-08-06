@@ -37,7 +37,6 @@ const PostActions = () => {
   const DeletePhotos = async (post_media: string[]) => {
     const filenames = post_media
       .map((url) => url.split("data/")[1]);
-    console.log("files to delete: ", filenames.join(", "));
     const { data, error } = await Supabase
       .storage
       .from('data')
@@ -55,7 +54,7 @@ const PostActions = () => {
     setPosts(newPosts);
   };
 
-  return { AddItem, DeleteItem };
+  return { AddItem, DeleteItem, DeletePhotos };
 };
 
 export default PostActions;
