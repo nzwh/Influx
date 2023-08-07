@@ -16,7 +16,7 @@ import Background from '@/src/app/backend/components/Background';
 import { PostClass, UserClass } from '@/libraries/structures';
 
 interface Props {
-  user: UserClass
+  user: UserClass;
   posts: PostClass[];
   header?: React.ReactNode;
   panels?: React.ReactNode;

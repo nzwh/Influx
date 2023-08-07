@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 // Layouts
@@ -13,12 +14,17 @@ import { Glasses, Megaphone, Tag } from 'lucide-react';
 
 const NewPost: React.FC = () => {
 
+  const router = useRouter();
   const { user } = useGlobalContext();
  
 	const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);
 	const [postType, setPostType] = useState(0);
 
   const handleTypeClick = (type: number, popup: boolean) => {
+    
+    if (user.uuid === '') 
+      router.push('/auth/login');
+
     setIsCreatePostPopupOpen(popup);
     setPostType(type);
   }

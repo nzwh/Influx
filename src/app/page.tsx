@@ -14,10 +14,11 @@ import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/Glo
 export default function Home() {
   
   useRefreshContext();
-  const { posts } = useGlobalContext();
+  const { user, posts } = useGlobalContext();
 
   return (
     <Timeline 
+      user={user}
       posts={posts}
       header={<>
         <NewPost />

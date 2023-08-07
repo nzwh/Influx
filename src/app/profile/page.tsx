@@ -11,19 +11,25 @@ import ProfileComments from '@/src/app/backend/components/panels/columns/Profile
 
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   
   useRefreshContext();
   const { user, posts } = useGlobalContext();
 
+  const router = useRouter();
+  if (user.uuid === '') 
+    router.push('/auth/login');
+
   return (
     <Timeline 
+      user={user}
       posts={
         posts.filter(post => post.author.uuid === user.uuid )
       }
       header={<>
-        <Listings />
+        <Listings user={user} />
       </>}
       panels={<>
         <ProfileAccount user={user}/>

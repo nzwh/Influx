@@ -15,7 +15,7 @@ import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/Glo
 export default function Home() {
   
   useRefreshContext();
-  const { posts, setPosts } = useGlobalContext();
+  const { user, posts, setPosts } = useGlobalContext();
 
   let query = useSearchParams().toString();
   query.split('&').map((q) => {
@@ -98,10 +98,11 @@ export default function Home() {
 
   return (
     <Timeline 
+      user={user}
       posts={posts}
       header={<>
         <section className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4">
-          <h6 className="text-gray-800 font-regular text-xs leading-4">Showing results for {query}</h6>
+          <h6 className="text-gray-800 font-regular text-xs leading-4">Showing results for {query.split('q=')[0]}</h6>
         </section>
       </>}
       panels={<>
