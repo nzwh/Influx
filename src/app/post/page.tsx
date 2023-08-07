@@ -8,7 +8,7 @@ import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
 // Panels
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Welcome from '@/src/app/backend/components/panels/columns/WelcomePanel';
-import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPanel';
+import NewPost from '@/src/app/backend/components/panels/timeline/NewPostPanel';
 
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';

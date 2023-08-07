@@ -1,14 +1,19 @@
+// 'use server'
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { FilterInterface } from '@/libraries/structures';
+// Layouts
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import { ToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 
-import { ChevronDown, Option, ChevronsDown, RefreshCw, Search, Star, X } from 'lucide-react';
-import { ChevronsUp } from 'lucide-react';
+// Hooks & Classes
+import { FilterClass } from '@/libraries/structures';
+import { useToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 
-const SearchFilters: React.FC = () => {
+// Icons
+import { ChevronDown, ChevronsUp, Option, ChevronsDown, RefreshCw, Search, Star, X } from 'lucide-react';
+
+const SearchFiltersPanel: React.FC = () => {
 
   const defaults = require('@/json/defaults.json');
 
@@ -18,18 +23,13 @@ const SearchFilters: React.FC = () => {
   const min = 10;
   const max = 10000;
 
-  const [formData, setFormData] = useState<FilterInterface>({
-    username: '',
+  const [formData, setFormData] = useState<FilterClass>(new FilterClass({
     sort: 'Popularity',
-    sort_order: '',
     condition: 'All',
     type: 'All',
     range_start: min,
     range_end: max,
-    tags: [],
-    open: false,
-    owner: false
-  });
+  }));
 
   const [isAscending, setIsAscending] = useState(false);
   const [isDescending, setIsDescending] = useState(false);
@@ -94,7 +94,7 @@ const SearchFilters: React.FC = () => {
       setTagInput(event.target.value.replace(/\s+/g, ""));
       return;
     } else if (event.target.name === "open" || event.target.name === "owner") {
-      setFormData({ ...formData, [event.target.name]: !formData[event.target.name as keyof FilterInterface] });
+      setFormData({ ...formData, [event.target.name]: !formData[event.target.name as keyof FilterClass] });
       return;
     } else if (event.target.name.includes('min')) {
       setFormData({ ...formData, range_start: parseInt(event.target.value) });
@@ -112,18 +112,13 @@ const SearchFilters: React.FC = () => {
   };
 
   const handleResetInput = () => {
-    setFormData({
-      username: '',
+    setFormData(new FilterClass({
       sort: 'Popularity',
-      sort_order: '',
       condition: 'All',
       type: 'All',
       range_start: min,
       range_end: max,
-      tags: [],
-      open: false,
-      owner: false
-    })
+    }))
 
     setIsAscending(false);
     setIsDescending(false);
@@ -145,13 +140,13 @@ const SearchFilters: React.FC = () => {
     ];
     
     const query = queryParams.filter(param => param !== null).join('&');
-    window.location.href = `/search?${query}`;
+    router.push(`/search?${query}`);
   };
 
   return (
     <Panel classes="flex-col p-4 gap-4 z-[1]">
 
-      {/* <form className="flex flex-col gap-4"> */}
+      <form className="flex flex-col gap-4">
 
         {/* Search user */}
         <div className="flex flex-row w-full items-center bg-gray-100 rounded-sm px-2 py-2 hover:bg-gray-200 transition-colors duration-200 border border-gray-200 h-7">
@@ -172,7 +167,7 @@ const SearchFilters: React.FC = () => {
               <select name="sort" value={formData.sort} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
                 {defaults.search.sorts.map((method: string, index: React.Key | null | undefined) => (
                   <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={method}>
-                    {ToTitleCase(method)}
+                    {useToTitleCase(method)}
                   </option>
                 ))}
               </select>
@@ -202,7 +197,7 @@ const SearchFilters: React.FC = () => {
               <select name="condition" value={formData.condition} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
                 {defaults.search.conditions.map((condition: string, index: React.Key | null | undefined) => (
                   <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={condition}>
-                    {ToTitleCase(condition)}
+                    {useToTitleCase(condition)}
                   </option>
                 ))}
               </select>
@@ -214,7 +209,7 @@ const SearchFilters: React.FC = () => {
               <select name="type" value={formData.type} className="w-full text-gray-800 text-[0.625rem] leading-3 font-regular bg-transparent px-2 appearance-none cursor-pointer py-2" onChange={handleInputChange} required>
                 {defaults.search.types.map((type: string, index: React.Key | null | undefined) => (
                   <option className="w-full text-gray-500 text-xs font-light bg-gray-100" key={index} value={type}>
-                    {ToTitleCase(type)}
+                    {useToTitleCase(type)}
                   </option>
                 ))}
               </select>
@@ -289,10 +284,10 @@ const SearchFilters: React.FC = () => {
             Clear filters
           </button>
         </div>
-      {/* </form> */}
+      </form>
 
 	  </Panel>
   );
 };
 
-export default SearchFilters;
+export default SearchFiltersPanel;

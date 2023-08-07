@@ -1,18 +1,18 @@
+// 'use server'
+
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 
+// Layouts 
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import ProfileCommentLayout from '@/src/app/backend/components/layouts/ProfileCommentLayout';
+import ProfileComment from '@/src/app/backend/components/layouts/ProfileCommentLayout';
 
-import { CommentClass, PostClass, UserClass, CommunityClass } from '@/libraries/structures';
+// Icons
+import { CommentClass, CommunityClass, PostClass, UserClass } from '@/libraries/structures';
 
+// Model
 import Supabase from '@/src/app/backend/model/supabase';
 
-interface Props {
-  user: UserClass;
-}
-
-const ProfileComments: React.FC<Props> = ({ user }) => {
+const ProfileCommentsPanel: React.FC<{ user: UserClass }> = ({ user }) => {
 
   const [comments, setComments] = useState<CommentClass[]>([]);
   const [posts, setPosts] = useState<PostClass[]>([]);
@@ -90,11 +90,11 @@ const ProfileComments: React.FC<Props> = ({ user }) => {
   return (
     <Panel classes="flex-col p-4 gap-4 z-[1]" title="Comments">
       {comments.map(comment => (
-        <ProfileCommentLayout key={comment.id} comment={comment} 
+        <ProfileComment key={comment.id} comment={comment} 
           post={new PostClass(posts.find(post => (post.id === comment.enclosing_post)))} />
       ))}
     </Panel>
   );
 };
 
-export default ProfileComments;
+export default ProfileCommentsPanel;

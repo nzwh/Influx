@@ -7,7 +7,6 @@ import Image from 'next/image';
 // Layouts
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 import Carousel from '@/src/app/backend/components/layouts/CarouselLayout';
-import Comment from '@/src/app/backend/components/utilities/CommentSection';
 
 // Hooks & Classes
 import { PostClass } from '@/libraries/structures';
@@ -19,6 +18,7 @@ import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';
 import { X, MessageCircle } from 'lucide-react';
 
 // Utilities
+import Comment from '@/src/app/backend/components/utilities/CommentSection';
 import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
 import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
 import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';

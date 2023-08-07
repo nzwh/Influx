@@ -1,13 +1,10 @@
+// 'use server'
+
 import React from 'react';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 import { UserClass } from '@/libraries/structures';
 
-interface Props {
-  user: UserClass;
-}
-
-const ProfileListings: React.FC<Props> = ({ user }) => {
+const ListingsPanel: React.FC<{ user: UserClass }> = ({ user }) => {
 
   return (
     <Panel classes="flex-row p-4 gap-4">
@@ -18,4 +15,4 @@ const ProfileListings: React.FC<Props> = ({ user }) => {
   );
 };
 
-export default ProfileListings;
+export default ListingsPanel;

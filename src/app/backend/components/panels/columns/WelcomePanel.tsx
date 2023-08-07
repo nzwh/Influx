@@ -1,8 +1,10 @@
+// 'use server'
+
 import React from 'react';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
-const Welcome: React.FC = ({ }) => {
+const WelcomePanel: React.FC = ({ }) => {
 
   const { user } = useGlobalContext();
 
@@ -22,4 +24,4 @@ const Welcome: React.FC = ({ }) => {
   );
 };
 
-export default Welcome;
+export default WelcomePanel;

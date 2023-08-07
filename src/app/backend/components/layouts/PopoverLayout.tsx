@@ -1,7 +1,7 @@
 'use client' // * Uses interactable components
 
 import React, { useState, useRef } from 'react';
-import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
+import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';
 
 interface Props {
   classes: string;
@@ -20,7 +20,7 @@ const PopoverLayout: React.FC<Props> = ({ classes, trigger, elements }) => {
   };
 
   const popoverRef = useRef<HTMLDivElement | null>(null);
-  OutsideClick(popoverRef, handlePopoverClose);
+  useOutsideClick(popoverRef, handlePopoverClose);
   
   return (
     <div className="flex justify-center relative">

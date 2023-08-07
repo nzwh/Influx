@@ -1,3 +1,5 @@
+// 'use server'
+
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -7,12 +9,14 @@ import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 
 // Popups
 import CreatePost from '@/src/app/backend/components/dialogs/CreatePostPopup';
+
+// Hooks & Classes
 import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
-// Hooks, Icons & Classes
+// Icons
 import { Glasses, Megaphone, Tag } from 'lucide-react';
 
-const NewPost: React.FC = () => {
+const NewPostPanel: React.FC = () => {
 
   const router = useRouter();
   const { user } = useGlobalContext();
@@ -65,4 +69,4 @@ const NewPost: React.FC = () => {
   );
 };
 
-export default NewPost;
+export default NewPostPanel;

@@ -9,7 +9,7 @@ import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
-// Panels & Popups
+// Panels, Popovers & Popups
 import ExpandPost from '@/src/app/backend/components/dialogs/ExpandPostPopup';
 import UpdatePost from '@/src/app/backend/components/dialogs/UpdatePostPopup';
 

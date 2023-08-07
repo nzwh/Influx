@@ -9,7 +9,7 @@ import Link from 'next/link'
 import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 
-// Panels & Popups
+// Panels, Popovers & Popups
 import CreatePost from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import LoggingOut from '@/src/app/backend/components/dialogs/LoggingOutPopup';
 

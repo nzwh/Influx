@@ -5,13 +5,13 @@ import Image from 'next/image';
 
 // Layouts
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
+import Post from '@/src/app/backend/components/layouts/PostLayout';
 
 // Navigators
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
-// Panels & Popups
-import Post from '@/src/app/backend/components/layouts/PostLayout';
+// Panels, Popovers & Popups
 import Background from '@/src/app/backend/components/Background';
 
 // Hooks & Classes
