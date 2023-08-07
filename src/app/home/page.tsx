@@ -22,6 +22,6 @@ export default function Register() {
           </Link>
         </div>
       </div>
-        </main>
+    </main>
   )
 }

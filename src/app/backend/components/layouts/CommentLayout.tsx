@@ -8,7 +8,7 @@ import { CommentClass, UserClass } from '@/libraries/structures';
 import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
 import { ArrowDown, ArrowUp, MoreHorizontal, Pencil, Reply, Trash2 } from 'lucide-react';
 
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 import { useCommentsContext } from '@/src/app/backend/hooks/useCommentsContext';
 import Supabase from '@/src/app/backend/model/supabase';
 import Action from '../utilities/Action';

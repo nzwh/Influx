@@ -67,7 +67,7 @@ const TopbarNav: React.FC = () => {
 
         {/* Influx Logo */}
         <Link href="/">
-          <Image src="/root/influx.svg" alt="Logo" width={40} height={0} />
+          <Image src="/root/influx.svg" alt="Logo" width={40} height={40} />
         </Link>
 
         {/* Searchbar */}
