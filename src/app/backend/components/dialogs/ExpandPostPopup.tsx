@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 // Layouts
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
-import Carousel from "@/src/app/backend/components/layouts/ImageCarousel";
+import Carousel from "@/src/app/backend/components/layouts/CarouselLayout";
 import Comment from "@/src/app/backend/components/utilities/CommentSection";
 
 // Hooks & Classes

@@ -1,17 +1,15 @@
-"use client"
+'use client'
 
 import React, { useState, useRef } from 'react';
 import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
 
-type Directories = [string, JSX.Element, (() => void)];
-
 interface Props {
   classes: string;
   trigger: React.ReactNode;
-  elements: Directories[];
+  elements: [string, JSX.Element, (() => void)][]
 }
 
-const Popover: React.FC<Props> = ({ classes, trigger, elements }) => {
+const PopoverLayout: React.FC<Props> = ({ classes, trigger, elements }) => {
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const handlePopoverToggle = () => {
@@ -54,4 +52,4 @@ const Popover: React.FC<Props> = ({ classes, trigger, elements }) => {
   );
 };
 
-export default Popover;
+export default PopoverLayout;

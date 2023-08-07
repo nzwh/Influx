@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 // Panels & Popovers
-import Checkboxes from '@/src/app/backend/components/popovers/CheckboxesPopover';
+import Checkboxes from '@/src/app/backend/components/layouts/CheckboxesLayout';
 
 // Hooks & Classes
 import { PostClass, UserClass } from '@/libraries/structures';

@@ -1,6 +1,6 @@
 "use client" // * Uses interactable components
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -28,21 +28,19 @@ import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
 // Icons
 import { Focus, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 
-interface Props {
-  post: PostClass;
-}
+const PostLayout: React.FC<{ post: PostClass }> = ({ post }) => {
 
-const PostLayout: React.FC<Props> = ({ post }) => {
-
+  // Instantiation
   const router = useRouter();
-
   const { user, posts, setPosts } = useGlobalContext();
   post = new PostClass(post);
 
+  // Visit user profile
   const handleProfileClick = () => {
     router.push('/profile/' + post.author.handle);
   };
 
+  // Popover
   const [selectedPost, setSelectedPost] = useState<PostClass>();
   const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
   const handleExpandPostOpen = (post: PostClass) => {
