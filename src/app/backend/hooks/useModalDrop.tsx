@@ -1,10 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, MutableRefObject } from 'react';
 
-const useModal = ({ isOpen, onClose }) => {
-  const modalRef = useRef();
+interface UseModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+const useModal = ({ isOpen, onClose }: UseModalProps) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       onClose();
     }
   };
@@ -18,7 +23,7 @@ const useModal = ({ isOpen, onClose }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   return { modalRef };
 };

@@ -1,5 +1,7 @@
 "use client"
 
+import dynamic from 'next/dynamic'
+
 // Layouts
 import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
 
@@ -11,13 +13,14 @@ import NewPost from '@/src/app/backend/components/panels/timeline/DashNewPostPan
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
-export default function Home() {
+const Home = () => {
   
   useRefreshContext();
-  const { posts } = useGlobalContext();
+  const { user, posts } = useGlobalContext();
 
   return (
     <Timeline 
+      user={user}
       posts={posts}
       header={<>
       </>}
@@ -28,3 +31,9 @@ export default function Home() {
     />
   )
 }
+
+const YourComponent = dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+})
+
+export default YourComponent

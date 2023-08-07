@@ -90,7 +90,8 @@ const ProfileComments: React.FC<Props> = ({ user }) => {
   return (
     <Panel classes="flex-col p-4 gap-4 z-[1]" title="Comments">
       {comments.map(comment => (
-        <ProfileCommentLayout key={comment.id} comment={comment} post={posts.find(post => post.id === comment.enclosing_post)} />
+        <ProfileCommentLayout key={comment.id} comment={comment} 
+          post={new PostClass(posts.find(post => (post.id === comment.enclosing_post)))} />
       ))}
     </Panel>
   );

@@ -139,7 +139,7 @@ const ProfileAccount: React.FC<Props> = ({ user }) => {
       </Panel>
 
       {isProfileEditOpen && (
-        <UpdateProfilePopup isOpen={isProfileEditOpen} onClose={handleProfileEditClose} onSubmit={handleProfileSubmit} />
+        <UpdateProfilePopup onClose={handleProfileEditClose} />
       )}
 		</main>
   );

@@ -19,7 +19,7 @@ const defaultCommentsValue: CommentsContextType = {
 
 const CommentsContext = createContext(defaultCommentsValue);
 
-export const CommentsProvider = ({ children }) => {
+export const CommentsProvider = ({ children }: {children: React.ReactNode}) => {
   const [comments, setComments] = useState<CommentClass[]>([]);
   const [commentsArray, setCommentsArray] = useState<number[]>([]);
 

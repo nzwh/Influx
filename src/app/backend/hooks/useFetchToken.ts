@@ -12,8 +12,6 @@ interface Props {
 
 const FetchToken = ({ user, setUser }: Props) => {
 
-  const localToken = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
-
   const fetchUser = async (id : string) => {
     const { data, error } = await Supabase
       .from('profiles')
@@ -28,6 +26,9 @@ const FetchToken = ({ user, setUser }: Props) => {
   };
 
   useEffect(() => {
+
+    const localToken = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
+
     if (!localToken) {
       setUser(new UserClass({
         id: -1,
@@ -42,7 +43,7 @@ const FetchToken = ({ user, setUser }: Props) => {
       const localData = JSON.parse(localToken);
       fetchUser(localData.user.id);
     }
-  }, [localToken]);
+  }, []);
 
   useEffect(() => {
     console.log("Logged in as:", user);

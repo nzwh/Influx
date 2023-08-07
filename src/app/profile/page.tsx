@@ -1,5 +1,7 @@
 "use client"
 
+import dynamic from 'next/dynamic'
+
 // Layouts
 import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
 
@@ -13,7 +15,7 @@ import ProfileComments from '@/src/app/backend/components/panels/columns/Profile
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 import { useRouter } from 'next/navigation';
 
-export default function Home() {
+const Home = () => {
   
   useRefreshContext();
   const { user, posts } = useGlobalContext();
@@ -40,5 +42,8 @@ export default function Home() {
   )
 }
 
+const YourComponent = dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+})
 
-
+export default YourComponent

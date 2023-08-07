@@ -25,7 +25,7 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
   let upvotes = 0;
@@ -135,10 +135,13 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
       // handleEditNode(comment.id, inputRef?.current?.innerText + " (edited)");
       const editedContent = inputRef?.current?.innerText;
   
-      setComments(prevComments => {
-        return prevComments.map(prevComment => {
+      setComments((prevComments) => {
+        return prevComments.map((prevComment) => {
           if (prevComment.id === comment.id) {
-            return { ...prevComment, content: editedContent, is_edited: true, edited_at: new Date() };
+            // Ensure editedContent is a string or use a fallback value (e.g., an empty string)
+            const updatedContent = editedContent || '';
+      
+            return { ...prevComment, content: updatedContent, is_edited: true, edited_at: new Date() };
           }
           return prevComment;
         });

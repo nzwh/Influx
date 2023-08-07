@@ -1,5 +1,5 @@
 const useNode = () => {
-  const insertNode = function (tree, commentId, item) {
+  const insertNode = function (tree: any, commentId: any, item: any) {
     if (tree.id === commentId) {
       tree.items.push({
         id: new Date().getTime(),
@@ -11,27 +11,27 @@ const useNode = () => {
     }
 
     let latestNode = [];
-    latestNode = tree.items.map((ob) => {
+    latestNode = tree.items.map((ob: any) => {
       return insertNode(ob, commentId, item);
     });
 
     return { ...tree, items: latestNode };
   };
 
-  const editNode = (tree, commentId, value) => {
+  const editNode = (tree: any, commentId: any, value: any) => {
     if (tree.id === commentId) {
       tree.name = value;
       return tree;
     }
 
-    tree.items.map((ob) => {
+    tree.items.map((ob: any) => {
       return editNode(ob, commentId, value);
     });
 
     return { ...tree };
   };
 
-  const deleteNode = (tree, id) => {
+  const deleteNode = (tree: any, id: any) => {
     for (let i = 0; i < tree.items.length; i++) {
       const currentItem = tree.items[i];
       if (currentItem.id === id) {
