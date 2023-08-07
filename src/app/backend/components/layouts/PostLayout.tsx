@@ -26,9 +26,6 @@ import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
 // Icons
 import { Focus, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 
-// TODO
-import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
-
 interface Props {
   post: PostClass;
   userId: string;
@@ -43,9 +40,8 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
   const { user, posts, setPosts } = useGlobalContext();
   post = new PostClass(post);
 
-  const navigateToProfile = useNavigateToProfile();
   const handleProfileClick = () => {
-    navigateToProfile(post.author.handle);
+    router.push('/profile/' + post.author.handle);
   };
 
   const [selectedPost, setSelectedPost] = useState<PostClass>();

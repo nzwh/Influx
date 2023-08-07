@@ -17,9 +17,7 @@ import ToggleBookmark from "@/src/app/backend/components/utilities/ToggleBookmar
 import ToggleCart from "@/src/app/backend/components/utilities/ToggleCart";
 import ToggleVote from "@/src/app/backend/components/utilities/ToggleVote";
 import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/useToConvert';
-import { X,MessageCircle } from 'lucide-react';
-
-import useNavigateToProfile from "@/src/app/backend/hooks/useNavigateToProfile";
+import { X, MessageCircle } from 'lucide-react';
 
 interface Props {
   post: PostClass;
@@ -35,9 +33,8 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   OutsideClick(modalRef, onClose);
 
-  const navigateToProfile = useNavigateToProfile();
   const handleProfileClick = () => {
-    navigateToProfile(post.author.handle);
+    router.push(`/profile/${post.origin.handle}`);
   };
 
   return (
