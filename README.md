@@ -47,7 +47,7 @@ This command will build and start the application on a local server. Once the se
 1. JSON - It contains a file that represents an object containing various sets of data related to the application 
 2. Libraries - It contains typescript files to represent different data structures in the application and a utility for combining CSS class names in a React or JavaScript project.
 3. Public - It contains all the image files that are used in the application.
-4. Src\app - It contain all the code to create the application.
+4. src\app - It contain all the code to create the application.
 5. Auth - It contains the login and register page for the application.
 2. Backend - It contains the backend codes used for the application.
 3. Fonts - It contains the files for the fonts that are used in the application.
