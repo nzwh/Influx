@@ -7,9 +7,17 @@ import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import { useRefreshContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { ArrowRight } from 'lucide-react';
 
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+import { useRouter } from 'next/navigation';
+
 export default function Register() {
 
   useRefreshContext();
+
+  const { user } = useGlobalContext();
+  const router = useRouter();
+  if (user.uuid)
+    router.push('/');
   
   return (
     <main className="flex flex-col w-screen h-screen bg-[url('/images/bg-home.jpg')] bg-cover bg-center bg-no-repeat">
