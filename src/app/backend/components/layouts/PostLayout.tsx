@@ -1,4 +1,4 @@
-"use client" // * Uses interactable components
+                                                        "use client" // * Uses interactable components
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
