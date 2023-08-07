@@ -145,7 +145,7 @@ const SearchFilters: React.FC = () => {
     ];
     
     const query = queryParams.filter(param => param !== null).join('&');
-    router.push(`/search?${query}`);
+    window.location.href = `/search?${query}`;
   };
 
   return (

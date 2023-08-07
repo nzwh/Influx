@@ -33,7 +33,7 @@ const TopbarNav: React.FC = () => {
   const [query, setQuery] = useState('');
   const handleSearchQuery = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      router.push('/search?q=' + query)
+      window.location.href = '/search?q=' + query;
     }
   };
   
@@ -71,6 +71,13 @@ const TopbarNav: React.FC = () => {
         </Link>
 
         {/* Searchbar */}
+        <div className="bg-gray-200 text-gray-600 h-6 px-3 flex flex-row justify-between items-center gap-2 rounded-full cursor-pointer">
+          <div className="flex flex-row items-center gap-2">
+            <Search size={12} strokeWidth={3}/>
+            <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearchQuery} />
+          </div>
+          <SquareSlash size={12} strokeWidth={3}/>
+        </div>
 
       </Wrapper>
 

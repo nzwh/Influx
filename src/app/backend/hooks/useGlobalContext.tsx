@@ -33,7 +33,6 @@ export const useRefreshContext = () => {
   useFetchPosts({ posts, setPosts });
 }
 
-
 export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   
   const [user, setUser] = useState<UserClass>(new UserClass({

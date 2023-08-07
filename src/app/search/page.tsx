@@ -1,5 +1,6 @@
 "use client"
 
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation'
 
 // Layouts
@@ -12,89 +13,95 @@ import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFil
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
+// Types
+import { PostClass } from '@/libraries/structures';
+
 export default function Home() {
   
   useRefreshContext();
   const { user, posts, setPosts } = useGlobalContext();
 
-  let query = useSearchParams().toString();
-  query.split('&').map((q) => {
-    let [key, value] = q.split('=');
-    
-    if (key === 'q') { // Search query
-      setPosts(posts.filter((post) => 
-      post.title.includes(value) ||
-      post.description.includes(value) ||
-      post.tags?.join(',').includes(value)));
+  const applyFilter = (posts: PostClass[], key: string, value: string): PostClass[] => {
+    switch (key) {
+      case 'q':
+        return posts.filter(
+          (post) =>
+            post.title.includes(value) ||
+            post.description.includes(value) ||
+            (post.tags && post.tags.join(',').includes(value))
+        );
+      case 'u':
+        return posts.filter((post) => post.author.handle.includes(value));
+      case 'c':
+        return posts.filter((post) => post.condition === value);
+      case 't':
+        return posts.filter((post) => post.type === value);
+      case 'tg':
+        return posts.filter(
+          (post) =>
+            (post.tags && post.tags.some((substring: string) => post.title.includes(substring))) ||
+            (post.tags && post.tags.some((substring: string) => post.description.includes(substring))) ||
+            (post.tags && post.tags.some((substring: string) => post.tags?.join(',').includes(substring)))
+        );
+      case 'o':
+        return posts.filter((post) => post.is_open === (value === 'true'));
+      case 'rs':
+        return posts.filter((post) => post.type === 'buying' && post.range_start! >= parseInt(value, 10));
+      case 're':
+        return posts.filter((post) => post.type === 'buying' && post.range_end! <= parseInt(value, 10));
+      default:
+        return posts;
     }
+  };
 
-    if (key === 'u') { // User
-      setPosts(posts.filter((post) =>
-        post.author.handle.includes(value)));
+  const applySort = (posts: PostClass[], sortBy: string, sortOrder: string): PostClass[] => {
+    let sortedPosts = [...posts];
+    switch (sortBy) {
+      case 'date_posted':
+        sortedPosts.sort((a, b) => a.posted_at.getSeconds() - b.posted_at.getSeconds());
+        break;
+      case 'upvotes':
+        sortedPosts.sort((a, b) => (a.upvotes?.length || 0) - (a.downvotes?.length || 0) - (b.upvotes?.length || 0) + (b.downvotes?.length || 0));
+        break;
+      case 'price':
+        sortedPosts = sortedPosts.filter((post) => post.type === 'selling');
+        sortedPosts.sort((a, b) => (a.price || 0) - (b.price || 0));
+        break;
+      case 'popularity':
+        sortedPosts.sort((a, b) => (a.cart?.length || 0) - (a.bookmarks?.length || 0) - (b.cart?.length || 0) + (b.bookmarks?.length || 0));
+        break;
+      default:
+        break;
     }
-
-    if (key === 'c') { // Condition
-      setPosts(posts.filter((post) =>
-        post.condition = (value)));
+    if (sortOrder === 'ascending') {
+      sortedPosts.reverse();
     }
+    return sortedPosts;
+  };
 
-    if (key === 't') { // Type
-      setPosts(posts.filter((post) =>
-        post.type = (value)));
+  const search = useSearchParams();
+
+
+  const query = search.toString();
+  const queryParams = new URLSearchParams(query);
+
+  let filteredPosts = posts;
+  queryParams.forEach((value, key) => {
+    if (value && key) {
+      filteredPosts = applyFilter(filteredPosts, key, value);
     }
-
-    if (key === 'tg') { // Tags
-      setPosts(posts.filter((post) =>
-        post.tags?.some((substring) => post.title.includes(substring)) ||
-        post.tags?.some((substring) => post.description.includes(substring)) ||
-        post.tags?.some((substring) => post.tags?.join(',').includes(substring))
-      ));
-    }
-
-    if (key === 'o') {
-      setPosts(posts.filter((post) => post.is_open === (value === 'true' ? true : false)));
-    }
-
-    if (key === 'rs') { // Range
-      setPosts(posts.filter((post) => post.type === 'buying' && 
-      post.range_start! >= parseInt(value)));
-      console.log(value);
-    }
-
-    if (key === 're') { // Range
-      setPosts(posts.filter((post) => post.type === 'buying' && post.range_end! <= parseInt(value)));
-    }
-
-    if (key === 's') { // Sort
-      
-      switch (value) {
-        case 'date_posted':
-          setPosts(posts.sort((a, b) => a.posted_at.getSeconds() - b.posted_at.getSeconds()).reverse());
-          break;
-        case 'upvotes':
-          setPosts(posts.sort((a, b) => (a.upvotes?.length || 0) - (a.downvotes?.length || 0) - (b.upvotes?.length || 0) + (b.downvotes?.length || 0)).reverse());
-          
-          break;
-        case 'price':
-          setPosts(posts.filter((post) => post.type === 'selling'));
-          setPosts(posts.sort((a, b) => (a.price || 0) - (b.price || 0)).reverse());
-
-          break;
-        case 'popularity': 
-          setPosts(posts.sort((a, b) => (a.cart?.length || 0) - (a.bookmarks?.length || 0) - (b.cart?.length || 0) + (b.bookmarks?.length || 0)).reverse());
-          break;
-        default:
-          break;
-      }
-
-    }
-
-    if (key === 'so' && value === 'descending') {
-      setPosts(posts.reverse());
-    }
-    
-
   });
+
+  const sortBy = queryParams.get('s');
+  const sortOrder = queryParams.get('so') || 'ascending';
+
+  if (sortBy) {
+    filteredPosts = applySort(filteredPosts, sortBy, sortOrder);
+  }
+
+  setPosts(filteredPosts);
+
+
 
   return (
     <Timeline 
@@ -102,7 +109,7 @@ export default function Home() {
       posts={posts}
       header={<>
         <section className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4">
-          <h6 className="text-gray-800 font-regular text-xs leading-4">Showing results for {query.split('q=')[0]}</h6>
+          <h6 className="text-gray-800 font-regular text-xs leading-4">Showing results for your query</h6>
         </section>
       </>}
       panels={<>
