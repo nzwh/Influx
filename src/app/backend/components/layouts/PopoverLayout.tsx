@@ -1,4 +1,4 @@
-'use client'
+'use client' // * Uses interactable components
 
 import React, { useState, useRef } from 'react';
 import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';

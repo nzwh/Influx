@@ -1,4 +1,4 @@
-"use client" // * Uses interactable components
+'use client' // * Uses interactable components
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,7 @@ import ExpandPost from '@/src/app/backend/components/dialogs/ExpandPostPopup';
 import UpdatePost from '@/src/app/backend/components/dialogs/UpdatePostPopup';
 
 // Hooks & Classes
-import { PostClass } from "@/libraries/structures";
+import { PostClass } from '@/libraries/structures';
 import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 import { useToTitleCase, useToRelativeTime, useToMonetary } from '@/src/app/backend/hooks/useToConvert';
 

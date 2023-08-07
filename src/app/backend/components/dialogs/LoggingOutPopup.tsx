@@ -1,6 +1,6 @@
 // 'use server'
 
-import React from "react";
+import React from 'react';
 
 const LoggingOutPopup: React.FC = () => {
 

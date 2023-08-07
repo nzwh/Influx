@@ -7,7 +7,7 @@ import Checkboxes from '@/src/app/backend/components/layouts/CheckboxesLayout';
 
 // Hooks & Classes
 import { PostClass, UserClass } from '@/libraries/structures';
-import { useGlobalContext } from '../../hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 import useAutosizeTextarea from '@/src/app/backend/hooks/useAutosizeTextarea';
 import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';
@@ -20,11 +20,7 @@ import { ChevronDown, Map, Star } from 'lucide-react';
 // Model
 import Supabase from '@/src/app/backend/model/supabase';
 
-interface Props {
-  onClose: () => void;
-}
-
-const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
+const UpdateProfilePopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   // Export post actions from global context
   const { DeletePhotos } = usePostActions();

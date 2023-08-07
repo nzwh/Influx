@@ -9,11 +9,7 @@ import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 // Icons
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface Props {
-  media: string[];
-}
-
-const CarouselLayout: React.FC<Props> = ({ media }) => {
+const CarouselLayout: React.FC<{ media: string[] }> = ({ media }) => {
 
   const loop = (index: number, length: number) => (index < 0 ? length - 1 : index >= length ? 0 : index);
 

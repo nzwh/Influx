@@ -22,11 +22,7 @@ import Action from '@/src/app/backend/components/utilities/Action';
 // Model
 import Supabase from '@/src/app/backend/model/supabase';
 
-interface Props {
-  comment: CommentClass;
-}
-
-const CommentLayout: React.FC<Props> = ({ comment }) => {
+const CommentLayout: React.FC<{ comment: CommentClass }> = ({ comment }) => {
   
   const { user } = useGlobalContext();
   const { setComments, commentsArray, setCommentsArray } = useCommentsContext();  
