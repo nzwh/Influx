@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { createContext, useContext, useState, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 import { UserClass, PostClass } from '@/libraries/structures';
 
-import useFetchToken from '@/src/app/backend/hooks/useFetchToken';
-import useFetchPosts from '@/src/app/backend/hooks/useFetchPosts';
+import useFetchToken from '@/src/app/backend/hooks/fetching/useFetchToken';
+import useFetchPosts from '@/src/app/backend/hooks/fetching/useFetchPosts';
 
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 

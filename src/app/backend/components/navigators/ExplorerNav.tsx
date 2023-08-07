@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 // Layouts
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { User, Bookmark, ShoppingBag, Sparkle, Search } from 'lucide-react';
 
 // Module Component for Links

@@ -12,7 +12,7 @@ import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileA
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 
 // Hooks & Classes
-import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { useRouter } from 'next/navigation';
 
 const Home = () => {

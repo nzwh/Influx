@@ -11,7 +11,7 @@ import Welcome from '@/src/app/backend/components/panels/columns/WelcomePanel';
 import NewPost from '@/src/app/backend/components/panels/timeline/NewPostPanel';
 
 // Hooks & Classes
-import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
 const Home = () => {
   

@@ -5,11 +5,11 @@ import Link from 'next/link';
 
 // Hooks & Classes
 import { CommunityClass, PostClass } from '@/libraries/structures';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { useToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 
 import useAutosizeTextarea from '@/src/app/backend/hooks/useAutosizeTextarea';
-import useFetchCommunities from '@/src/app/backend/hooks/useFetchCommunities';
+import useFetchCommunities from '@/src/app/backend/hooks/fetching/useFetchCommunities';
 import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';
 import usePostActions from '@/src/app/backend/hooks/usePostActions';
 import usePushImages from '@/src/app/backend/hooks/usePushImages';

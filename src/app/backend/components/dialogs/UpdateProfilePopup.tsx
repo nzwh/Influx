@@ -7,7 +7,7 @@ import Checkboxes from '@/src/app/backend/components/layouts/CheckboxesLayout';
 
 // Hooks & Classes
 import { PostClass, UserClass } from '@/libraries/structures';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
 import useAutosizeTextarea from '@/src/app/backend/hooks/useAutosizeTextarea';
 import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';

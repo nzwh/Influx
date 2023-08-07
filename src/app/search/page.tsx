@@ -11,7 +11,7 @@ import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFiltersPanel';
 
 // Hooks & Classes
-import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { PostClass } from '@/libraries/structures';
 
 export default function Home() {

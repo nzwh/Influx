@@ -1,11 +1,16 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
+// Hooks & Classes
 import { PostClass, CommentClass } from "@/libraries/structures";
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+
+// Icons
 import { ArrowUp, ArrowDown } from 'lucide-react';
+
+// Model
 import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 interface Props {
   type: string,

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
 const WelcomePanel: React.FC = ({ }) => {
 

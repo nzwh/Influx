@@ -15,7 +15,7 @@ import UpdatePost from '@/src/app/backend/components/dialogs/UpdatePostPopup';
 
 // Hooks & Classes
 import { PostClass } from '@/libraries/structures';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { useToTitleCase, useToRelativeTime, useToMonetary } from '@/src/app/backend/hooks/useToConvert';
 
 import usePostActions from '@/src/app/backend/hooks/usePostActions';

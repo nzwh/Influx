@@ -11,7 +11,7 @@ import Carousel from '@/src/app/backend/components/layouts/CarouselLayout';
 // Hooks & Classes
 import { PostClass } from '@/libraries/structures';
 import { useToTitleCase, useToRelativeTime, useToMonetary } from '@/src/app/backend/hooks/useToConvert';
-import { CommentsProvider } from '@/src/app/backend/hooks/useCommentsContext';
+import { CommentsProvider } from '@/src/app/backend/hooks/context/useCommentsContext';
 import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';
 
 // Icons

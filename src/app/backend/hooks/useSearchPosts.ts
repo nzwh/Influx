@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 
-import useFetchUsers from '@/src/app/backend/hooks/useFetchUsers';
-import useFetchCommunities from '@/src/app/backend/hooks/useFetchCommunities';
 import { PostClass, CommunityClass, UserClass } from '@/libraries/structures';
+import useFetchUsers from '@/src/app/backend/hooks/fetching/useFetchUsers';
+import useFetchCommunities from '@/src/app/backend/hooks/fetching/useFetchCommunities';
+
 import Supabase from '@/src/app/backend/model/supabase';
 
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;
@@ -103,9 +104,6 @@ const SearchPosts = ({ u, s, so, c, t, rs, re, tg, o, ow, setPosts }: Props) => 
         } 
            
     }
-    
-
-
     
     setPosts(newData);
   };

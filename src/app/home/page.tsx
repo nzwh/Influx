@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
-import { useRefreshContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useRefreshContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
 export default function Register() {
 

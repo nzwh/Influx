@@ -1,34 +1,32 @@
-'use client';
+'use client' // * Uses interactable components
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
-import Action from "@/src/app/backend/components/utilities/Action";
-import useFetchUsers from '@/src/app/backend/hooks/useFetchUsers';
-import CommentLayout from '@/src/app/backend/components/layouts/CommentLayout';
+// Layouts
+import Comment from '@/src/app/backend/components/layouts/CommentLayout';
 
-import { ArrowDown, ArrowUp, Film, Paperclip, Reply, Send, Smile, Tag } from 'lucide-react';
-
+// Hooks & Classes
 import { CommentClass, UserClass } from '@/libraries/structures';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+import { useCommentsContext } from '@/src/app/backend/hooks/context/useCommentsContext';
 
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
-import { useCommentsContext } from '@/src/app/backend/hooks/useCommentsContext';
+import useFetchUsers from '@/src/app/backend/hooks/fetching/useFetchUsers';
+
+// Icons
+import { Send } from 'lucide-react';
+
+// Model
 import Supabase from '@/src/app/backend/model/supabase';
 
-interface Props {
-  postId: number
-}
+const CommentSection: React.FC<{ postId: number }> = ({ postId }) => {
 
-const Comment = ({ postId }: Props) => {
-
-  const { user, setUser, posts, setPosts } = useGlobalContext();
+  const { user } = useGlobalContext();
   const { comments, setComments, commentsArray, setCommentsArray } = useCommentsContext();
   const [users, setUsers] = useState<UserClass[]>([]);
 
   const [input, setInput] = useState("");
   const [showInput, setShowInput] = useState(false);
-  const inputRef = useRef(null);
 
   // Loads comments from the database.
   useEffect(() => {
@@ -192,7 +190,7 @@ const Comment = ({ postId }: Props) => {
 
       return (
         <div key={comment.id} className="nestedComment">
-          <CommentLayout comment={comment} />
+          <Comment comment={comment} />
           {nestedComments.length > 0 && (
             <div className="pl-3">
               {nestedComments.map((childComment: any) => (
@@ -209,7 +207,7 @@ const Comment = ({ postId }: Props) => {
       .filter((comment: any) => !comment.enclosing_comment)
       .map((rootComment: any) => (
         <div key={rootComment.id} className="rootComment">
-          <CommentLayout comment={rootComment} />
+          <Comment comment={rootComment} />
           <div className="pl-3">
             {nestedCommentsMap.get(rootComment.id)?.map((childComment: any) => (
               renderNestedComments(childComment)
@@ -249,4 +247,4 @@ const Comment = ({ postId }: Props) => {
   );
 }
 
-export default Comment;
+export default CommentSection;

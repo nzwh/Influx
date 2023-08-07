@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 import { CommentClass } from '@/libraries/structures';
 
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;

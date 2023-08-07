@@ -12,7 +12,7 @@ import UpdateProfile from '@/src/app/backend/components/dialogs/UpdateProfilePop
 
 // Hooks & Classes
 import { UserClass } from '@/libraries/structures';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { useToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 
 // Icons

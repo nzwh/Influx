@@ -1,6 +1,7 @@
 import { CommunityClass, PostClass, UserClass } from '@/libraries/structures';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+
 import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 const PostActions = () => {
 

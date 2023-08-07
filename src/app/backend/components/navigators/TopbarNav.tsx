@@ -15,7 +15,7 @@ import LoggingOut from '@/src/app/backend/components/dialogs/LoggingOutPopup';
 
 // Hooks & Classes
 import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
 // Icons
 import { Bookmark, Cog, FormInput, Home, LogIn, LogOut, Milestone, Plus, Search, ShoppingBag, SquareSlash, User } from 'lucide-react';

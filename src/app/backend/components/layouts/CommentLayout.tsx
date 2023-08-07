@@ -8,8 +8,8 @@ import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
 // Hooks & Classes
 import { CommentClass } from '@/libraries/structures';
-import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
-import { useCommentsContext } from '@/src/app/backend/hooks/useCommentsContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+import { useCommentsContext } from '@/src/app/backend/hooks/context/useCommentsContext';
 import { useToRelativeTime } from '@/src/app/backend/hooks/useToConvert';
 
 // Icons
