@@ -1,7 +1,7 @@
 'use client' //* Uses interactable components
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -28,10 +28,9 @@ const TopbarNav: React.FC<{ type?: string }> = ({ type }) => {
 
   // Redirect to search page with the query
   const [query, setQuery] = useState('');
-  const handleSearchQuery = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      router.push('/search?q=' + query);
-    }
+  const handleSearchQuery = (e: React.FormEvent) => {
+    if (type === 'root') e.preventDefault();
+    router.push('/search?q=' + query);
   };
 
     // Handle CreatePost state
@@ -72,13 +71,13 @@ const TopbarNav: React.FC<{ type?: string }> = ({ type }) => {
 
         {/* Searchbar */}
         { user.uuid ? (
-          <div className="bg-gray-200 text-gray-600 h-6 px-3 flex flex-row justify-between items-center gap-2 rounded-full cursor-pointer">
+          <form onSubmit={handleSearchQuery} className="bg-gray-200 text-gray-600 h-6 px-3 flex flex-row justify-between items-center gap-2 rounded-full cursor-pointer">
             <div className="flex flex-row items-center gap-2">
               <Search size={12} strokeWidth={3}/>
-              <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearchQuery} />
+              <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} />
             </div>
             <SquareSlash size={12} strokeWidth={3}/>
-          </div>
+          </form>
         ) : null }
 
       </Wrapper>

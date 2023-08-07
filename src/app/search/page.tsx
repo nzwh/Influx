@@ -1,6 +1,6 @@
 'use client' //* Uses interactable components
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 
@@ -20,11 +20,8 @@ export default function Home() {
   useRefreshContext();
   const { user, posts, setPosts } = useGlobalContext();
 
-  const router = useRouter();
-  if (user.uuid === '') 
-    router.push('/auth/login');
-
   const applyFilter = (posts: PostClass[], key: string, value: string): PostClass[] => {
+
     switch (key) {
       case 'q':
         return posts.filter(
@@ -33,25 +30,26 @@ export default function Home() {
             post.description.includes(value) ||
             (post.tags && post.tags.join(',').includes(value))
         );
-      case 'u':
+      case 'username': case 'u':
+        console.log(posts.filter((post) => post.author.handle.includes(value)))
         return posts.filter((post) => post.author.handle.includes(value));
-      case 'c':
-        return posts.filter((post) => post.condition === value);
-      case 't':
-        return posts.filter((post) => post.type === value);
-      case 'tg':
-        return posts.filter(
+      case 'condition': case 'c':
+        return value !== 'all' ? posts.filter((post) => post.condition === value) : posts;
+      case 'type': case 't':
+        return value !== 'all' ? posts.filter((post) => post.type === value) : posts;
+      case 'tags': case 'tg':
+        return value !== '' ? posts.filter(
           (post) =>
             (post.tags && post.tags.some((substring: string) => post.title.includes(substring))) ||
             (post.tags && post.tags.some((substring: string) => post.description.includes(substring))) ||
             (post.tags && post.tags.some((substring: string) => post.tags?.join(',').includes(substring)))
-        );
-      case 'o':
+        ) : posts;
+      case 'open': case 'o':
         return posts.filter((post) => post.is_open === (value === 'true'));
-      case 'rs':
-        return posts.filter((post) => post.type === 'buying' && post.range_start! >= parseInt(value, 10));
-      case 're':
-        return posts.filter((post) => post.type === 'buying' && post.range_end! <= parseInt(value, 10));
+      case 'min-input': case 'rs':
+        return parseInt(value) === 0 ? posts : posts.filter((post) => post.type === 'buying' && post.range_start! >= parseInt(value, 10));
+      case 'max-input': case 're':
+        return parseInt(value) === 0 ? posts : posts.filter((post) => post.type === 'buying' && post.range_end! <= parseInt(value, 10));
       default:
         return posts;
     }
@@ -83,26 +81,34 @@ export default function Home() {
   };
 
   const search = useSearchParams();
-
-
   const query = search.toString();
   const queryParams = new URLSearchParams(query);
 
-  let filteredPosts = posts;
-  queryParams.forEach((value, key) => {
-    if (value && key) {
-      filteredPosts = applyFilter(filteredPosts, key, value);
+  const getPosts = () => {
+
+    let filteredPosts = posts;
+    queryParams.forEach((value, key) => {
+      if (value && key) {
+        filteredPosts = applyFilter(filteredPosts, key, value);
+      }
+    });
+
+    const sortBy = queryParams.get('sort');
+    const sortOrder = queryParams.get('so') || 'ascending';
+
+    if (sortBy) {
+      filteredPosts = applySort(filteredPosts, sortBy, sortOrder);
     }
-  });
 
-  const sortBy = queryParams.get('s');
-  const sortOrder = queryParams.get('so') || 'ascending';
-
-  if (sortBy) {
-    filteredPosts = applySort(filteredPosts, sortBy, sortOrder);
+    setPosts(filteredPosts);
   }
 
-  setPosts(filteredPosts);
+  useEffect(() => {
+    if (user.uuid !== '' && posts.length > 0) {
+      getPosts();
+      console.log('searched', posts);
+    }
+  }, [user, posts, query]);
 
   return (
     <Timeline 

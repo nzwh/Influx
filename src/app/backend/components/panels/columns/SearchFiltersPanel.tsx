@@ -27,8 +27,8 @@ const SearchFiltersPanel: React.FC = () => {
     sort: 'Popularity',
     condition: 'All',
     type: 'All',
-    range_start: min,
-    range_end: max,
+    range_start: 0,
+    range_end: 0,
   }));
 
   const [isAscending, setIsAscending] = useState(false);
@@ -116,8 +116,8 @@ const SearchFiltersPanel: React.FC = () => {
       sort: 'Popularity',
       condition: 'All',
       type: 'All',
-      range_start: min,
-      range_end: max,
+      range_start: 0,
+      range_end: 0,
     }))
 
     setIsAscending(false);
@@ -126,6 +126,7 @@ const SearchFiltersPanel: React.FC = () => {
   };
 
   const handleSubmit = () => {
+
     const queryParams = [
       formData.username !== '' ? `u=${formData.username}` : null,
       formData.sort !== 'Popularity' ? `s=${formData.sort}` : null,

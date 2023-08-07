@@ -18,19 +18,20 @@ import Background from '@/src/app/backend/components/Background';
 import { PostClass, UserClass } from '@/libraries/structures';
 
 interface Props {
+  type?: string;
   user: UserClass;
   posts: PostClass[];
   header?: React.ReactNode;
   panels?: React.ReactNode;
 }
 
-const Timeline: React.FC<Props> = ({ user, header, panels, posts }) => {
+const Timeline: React.FC<Props> = ({ type, user, header, panels, posts }) => {
 
   return (
     <main>
 
       <Background />
-      <TopbarNav />
+      <TopbarNav type={type} />
       
       <Wrapper className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 

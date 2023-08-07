@@ -18,6 +18,7 @@ export default function Home() {
 
   return (
     <Timeline 
+      type="root"
       user={user}
       posts={posts}
       header={<>
