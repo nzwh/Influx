@@ -1,6 +1,6 @@
 'use client' //* Uses interactable components
 
-// import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation';
 
 // Layouts
@@ -15,7 +15,7 @@ import ProfileComments from '@/src/app/backend/components/panels/columns/Profile
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
-export default function Home() {
+const Home = () => {
   
   useRefreshContext();
   const { user, posts } = useGlobalContext();
@@ -42,8 +42,8 @@ export default function Home() {
   )
 }
 
-// const YourComponent = dynamic(() => Promise.resolve(Home), {
-//   ssr: false,
-// })
+const NoSSRHome = dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+})
 
-// export default YourComponent
+export default NoSSRHome;
