@@ -3,8 +3,8 @@
 import { createContext, useContext, useState, Dispatch, SetStateAction } from 'react';
 import { UserClass, PostClass } from '@/libraries/structures';
 
-import useFetchToken from '@/src/app/backend/hooks/FetchToken';
-import useFetchPosts from '@/src/app/backend/hooks/FetchPosts';
+import useFetchToken from '@/src/app/backend/hooks/useFetchToken';
+import useFetchPosts from '@/src/app/backend/hooks/useFetchPosts';
 
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 

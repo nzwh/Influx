@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 // Hooks & Classes
 import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from "@/src/app/backend/hooks/GlobalContext";
+import { useGlobalContext } from "@/src/app/backend/hooks/useGlobalContext";
 import { PostClass } from "@/libraries/structures";
 
 // Icons

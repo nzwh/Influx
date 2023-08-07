@@ -5,7 +5,7 @@ import Link from 'next/link';
 import useModal from "@/src/app/backend/hooks/useModal";
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
 import { UserClass ,PostClass } from '@/libraries/structures';
-import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
+import { ToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesPopover';
 
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
@@ -13,13 +13,13 @@ import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Sta
 import supabase from '@/src/app/backend/model/supabase';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { useRouter } from 'next/navigation';
-import { useGlobalContext } from '../../hooks/GlobalContext';
-import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
-import SaveImages from '../../hooks/PushImages';
+import { useGlobalContext } from '../../hooks/useGlobalContext';
+import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
+import SaveImages from '../../hooks/usePushImages';
 import { v4 as uuidv4 } from "uuid";
 import { get } from 'http';
-import PushImages from '../../hooks/PushImages';
-import PostActions from '../../hooks/PostActions';
+import PushImages from '../../hooks/usePushImages';
+import PostActions from '../../hooks/usePostActions';
 
 interface Props {
   onClose: () => void;

@@ -4,10 +4,10 @@ import Image from 'next/image';
 import UpdateProfilePopup from '@/src/app/backend/components/dialogs/UpdateProfilePopup';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Settings2, Star } from 'lucide-react';
-import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
+import { ToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { useRouter } from 'next/navigation';
-import { useGlobalContext } from '../../../hooks/GlobalContext';
+import { useGlobalContext } from '../../../hooks/useGlobalContext';
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 import { UserClass } from '@/libraries/structures';
 

@@ -15,10 +15,10 @@ import UpdatePost from '@/src/app/backend/components/dialogs/UpdatePostPopup';
 
 // Hooks & Classes
 import { PostClass } from "@/libraries/structures";
-import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/useToConvert';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
-import PostActions from '@/src/app/backend/hooks/PostActions';
+import PostActions from '@/src/app/backend/hooks/usePostActions';
 import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
 import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
 import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';

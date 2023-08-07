@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { PostClass, CommentClass } from "@/libraries/structures";
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 interface Props {
   type: string,

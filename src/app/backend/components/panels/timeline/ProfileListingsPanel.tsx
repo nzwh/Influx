@@ -1,6 +1,6 @@
 import React from 'react';
 import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 import { UserClass } from '@/libraries/structures';
 
 interface Props {

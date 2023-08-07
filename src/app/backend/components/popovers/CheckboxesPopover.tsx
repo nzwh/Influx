@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 
 import Popover from '@/src/app/backend/components/layouts/PopoverTemplate';
-import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
+import { ToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 import { Cog, LogOut, User } from 'lucide-react';
 
-import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
+import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
 
 interface Props {
   data: string[];

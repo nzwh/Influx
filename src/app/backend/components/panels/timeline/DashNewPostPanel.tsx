@@ -7,7 +7,7 @@ import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 
 // Popups
 import CreatePost from '@/src/app/backend/components/dialogs/CreatePostPopup';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 // Hooks, Icons & Classes
 import { Glasses, Megaphone, Tag } from 'lucide-react';

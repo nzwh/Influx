@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 
-import useFetchUsers from '@/src/app/backend/hooks/FetchUsers';
-import useFetchCommunities from '@/src/app/backend/hooks/FetchCommunities';
+import useFetchUsers from '@/src/app/backend/hooks/useFetchUsers';
+import useFetchCommunities from '@/src/app/backend/hooks/useFetchCommunities';
 import { PostClass, CommunityClass, UserClass } from '@/libraries/structures';
 import Supabase from '@/src/app/backend/model/supabase';
 

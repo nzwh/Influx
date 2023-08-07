@@ -10,7 +10,7 @@ import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileA
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 
 // Hooks & Classes
-import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {

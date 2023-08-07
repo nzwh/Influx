@@ -3,15 +3,15 @@ import Link from 'next/link';
 
 // Hooks & Classes
 import { PostClass, CommunityClass } from '@/libraries/structures';
-import usePostActions from '@/src/app/backend/hooks/PostActions';
-import useFetchCommunities from '@/src/app/backend/hooks/FetchCommunities';
-import PushImages from '@/src/app/backend/hooks/PushImages';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import usePostActions from '@/src/app/backend/hooks/usePostActions';
+import useFetchCommunities from '@/src/app/backend/hooks/useFetchCommunities';
+import PushImages from '@/src/app/backend/hooks/usePushImages';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 // Utilities
 import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
-import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
-import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
+import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
+import { ToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 
 // Icons
 import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';

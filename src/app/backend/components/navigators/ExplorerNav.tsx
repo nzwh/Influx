@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
 
 // Hooks & Classes
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 // Icons
 import { User, Bookmark, ShoppingBag, Settings, Sparkle, Search } from 'lucide-react';

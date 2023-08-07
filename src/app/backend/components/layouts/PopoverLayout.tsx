@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
-import OutsideClick from '@/src/app/backend/hooks/OutsideClick';
+import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
 
 type Directories = [string, JSX.Element, (() => void)];
 

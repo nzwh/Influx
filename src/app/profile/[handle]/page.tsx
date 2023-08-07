@@ -14,7 +14,7 @@ import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileA
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 
 // Hooks & Classes
-import { useGlobalContext, useRefreshContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useGlobalContext, useRefreshContext } from '@/src/app/backend/hooks/useGlobalContext';
 import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
 import { UserClass } from '@/libraries/structures';
 

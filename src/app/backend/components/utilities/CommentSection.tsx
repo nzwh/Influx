@@ -5,15 +5,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import Action from "@/src/app/backend/components/utilities/Action";
-import useFetchUsers from '@/src/app/backend/hooks/FetchUsers';
+import useFetchUsers from '@/src/app/backend/hooks/useFetchUsers';
 import CommentLayout from '@/src/app/backend/components/layouts/CommentLayout';
 
 import { ArrowDown, ArrowUp, Film, Paperclip, Reply, Send, Smile, Tag } from 'lucide-react';
 
 import { CommentClass, UserClass } from '@/libraries/structures';
 
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
-import { useCommentsContext } from '@/src/app/backend/hooks/CommentsContext';
+import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useCommentsContext } from '@/src/app/backend/hooks/useCommentsContext';
 import Supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
