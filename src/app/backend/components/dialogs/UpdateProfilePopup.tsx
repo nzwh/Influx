@@ -1,25 +1,24 @@
+// 'use server'
+
 import React, { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 
-import useModal from "@/src/app/backend/hooks/useModal";
-import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
-import { UserClass ,PostClass } from '@/libraries/structures';
-import { ToTitleCase } from '@/src/app/backend/hooks/useToConvert'
-import CheckboxesPopover from '@/src/app/backend/components/popovers/CheckboxesPopover';
+// Panels & Popovers
+import Checkboxes from '@/src/app/backend/components/popovers/CheckboxesPopover';
 
-import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
-import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Star } from 'lucide-react';
-import supabase from '@/src/app/backend/model/supabase';
-import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
-import { useRouter } from 'next/navigation';
+// Hooks & Classes
+import { PostClass, UserClass } from '@/libraries/structures';
 import { useGlobalContext } from '../../hooks/useGlobalContext';
-import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
-import SaveImages from '../../hooks/usePushImages';
-import { v4 as uuidv4 } from "uuid";
-import { get } from 'http';
-import PushImages from '../../hooks/usePushImages';
-import PostActions from '../../hooks/usePostActions';
+
+import useAutosizeTextarea from '@/src/app/backend/hooks/useAutosizeTextarea';
+import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';
+import usePostActions from '@/src/app/backend/hooks/usePostActions';
+import usePushImages from '@/src/app/backend/hooks/usePushImages';
+
+// Icons
+import { ChevronDown, Map, Star } from 'lucide-react';
+
+// Model
+import Supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
   onClose: () => void;
@@ -27,7 +26,8 @@ interface Props {
 
 const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
-  const { DeletePhotos } = PostActions();
+  // Export post actions from global context
+  const { DeletePhotos } = usePostActions();
 
   // Export user data from global context
   const { user, posts, setUser, setPosts } = useGlobalContext();
@@ -36,7 +36,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
   // Allow outside click to exit
   const modalRef = useRef<HTMLDivElement | null>(null);
-  OutsideClick(modalRef, onClose);
+  useOutsideClick(modalRef, onClose);
 
   // Load default values
   const defaults = require("@/json/defaults.json");
@@ -96,28 +96,38 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
     }
   };
 
+  // Handle PM Submit
+  const [isPMSelectExpanded, setIsPMSelectExpanded] = useState(false);
+  const handleExpandPMSelect = () => {
+    setIsPMSelectExpanded(!isPMSelectExpanded);
+  };
   const handlePMSubmit = (data: string[]) => {
     setFormData({ ...formData, payment_methods: data });
+  };
+
+  // Handle DM Submit
+  const [isDMSelectExpanded, setIsDMSelectExpanded] = useState(false);
+  const handleExpandDMSelect = () => {
+    setIsDMSelectExpanded(!isDMSelectExpanded);
   };
   const handleDMSubmit = (data: string[]) => {
     setFormData({ ...formData, delivery_methods: data });
   };
 
-  // SubmitListener
+  // Listens to submit actions
   const handleSubmit = async (event: React.FormEvent) => {
 
     event.preventDefault();
-
     let iconURL = user.icon;
     let bannerURL = user.banner;
 
     if (isIconChanged) {
-      let icon = await PushImages([iconFile!], user.uuid);
+      let icon = await usePushImages([iconFile!], user.uuid);
       iconURL = icon?.map((str) => str.replace(/[\n\s]/g, ''))[0];
     }
 
     if (isBannerChanged) {
-      let banner = await PushImages([bannerFile!], user.uuid);
+      let banner = await usePushImages([bannerFile!], user.uuid);
       bannerURL = banner?.map((str) => str.replace(/[\n\s]/g, ''))[0];
     }
     
@@ -129,7 +139,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
     }
 
     const { email_address, phone_number, ...userData } = newUser;
-    const { data, error } = await supabase
+    const { data, error } = await Supabase
       .from('profiles')
       .update({...userData})
       .match({ uuid: user.uuid });
@@ -155,25 +165,14 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
 
     onClose();
   };  
-  
-  const [isPMSelectExpanded, setIsPMSelectExpanded] = useState(false);
-  const handleExpandPMSelect = () => {
-    setIsPMSelectExpanded(!isPMSelectExpanded);
-  };
-
-  const [isDMSelectExpanded, setIsDMSelectExpanded] = useState(false);
-  const handleExpandDMSelect = () => {
-    setIsDMSelectExpanded(!isDMSelectExpanded);
-  };
 
   // Autosizing
   const [bioValue, setBioValue] = useState("");
   const textBioAreaRef = useRef<HTMLTextAreaElement>(null);
-  AutosizeTextarea(textBioAreaRef.current, bioValue);
+  useAutosizeTextarea(textBioAreaRef.current, bioValue);
 
   return (
-    <main  
-      className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-[60]">
+    <main className="text-gray-800 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-[60]">
 
       <div className="bg-white rounded-sm w-[24rem] flex flex-col gap-[-12rem] z-[40] relative" ref={modalRef}>
 
@@ -248,7 +247,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
               </div>
               <ChevronDown className="text-gray-800" size={12} strokeWidth={3} />
             </div>
-            {isPMSelectExpanded && <CheckboxesPopover prevData={formData.payment_methods} onSubmit={handlePMSubmit} onClose={handleExpandPMSelect} data={defaults.payment_methods as string[]} />}
+            {isPMSelectExpanded && <Checkboxes prevData={formData.payment_methods} onSubmit={handlePMSubmit} onClose={handleExpandPMSelect} data={defaults.payment_methods as string[]} />}
             </div>
 
             <div className="flex justify-center relative w-full">
@@ -259,7 +258,7 @@ const UpdateProfilePopup: React.FC<Props> = ({ onClose }) => {
               </div>
               <ChevronDown className="text-gray-800" size={12} strokeWidth={3} />
             </div>
-            {isDMSelectExpanded && <CheckboxesPopover prevData={formData.delivery_methods} onSubmit={handleDMSubmit} onClose={handleExpandDMSelect} data={defaults.delivery_methods as string[]} />}
+            {isDMSelectExpanded && <Checkboxes prevData={formData.delivery_methods} onSubmit={handleDMSubmit} onClose={handleExpandDMSelect} data={defaults.delivery_methods as string[]} />}
             </div>
           </div>
           

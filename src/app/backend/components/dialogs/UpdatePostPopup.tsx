@@ -1,20 +1,20 @@
+// 'use server'
+
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 // Hooks & Classes
 import { PostClass, CommunityClass } from '@/libraries/structures';
-import usePostActions from '@/src/app/backend/hooks/usePostActions';
-import useFetchCommunities from '@/src/app/backend/hooks/useFetchCommunities';
-import PushImages from '@/src/app/backend/hooks/usePushImages';
 import { useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
+import { useToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 
-// Utilities
-import AutosizeTextarea from '@/src/app/backend/components/utilities/AutosizeTextarea';
-import OutsideClick from '@/src/app/backend/hooks/useOutsideClick';
-import { ToTitleCase } from '@/src/app/backend/hooks/useToConvert'
+import useAutosizeTextarea from '@/src/app/backend/hooks/useAutosizeTextarea';
+import useFetchCommunities from '@/src/app/backend/hooks/useFetchCommunities';
+import useOutsideClick from '@/src/app/backend/hooks/useOutsideClick';
+import usePostActions from '@/src/app/backend/hooks/usePostActions';
 
 // Icons
-import { ChevronDown, Globe, ImagePlus, RefreshCw, Sparkles, X } from 'lucide-react';
+import { ChevronDown, Globe, RefreshCw, Sparkles, X } from 'lucide-react';
 
 interface Props {
   post: PostClass;
@@ -23,9 +23,8 @@ interface Props {
 
 const CreatePostPopup: React.FC<Props> = ({ post, onClose }) => {
 
-  // Export posts from global context
-  const { user, setPosts } = useGlobalContext();
-  // Export default form data
+  // Instantiation
+  const { user } = useGlobalContext();
   const defaults = require("@/json/defaults.json");
 
   // Post actions
@@ -33,7 +32,7 @@ const CreatePostPopup: React.FC<Props> = ({ post, onClose }) => {
 
   // Allow outside click to close modal
   const modalRef = useRef<HTMLDivElement | null>(null);
-  OutsideClick(modalRef, onClose);
+  useOutsideClick(modalRef, onClose);
 
   // Export communities from the database
   const [communities, setCommunities] = useState<CommunityClass[]>([]);
@@ -127,7 +126,6 @@ const CreatePostPopup: React.FC<Props> = ({ post, onClose }) => {
   const handleSubmit = async (event: React.FormEvent) => {
 
     event.preventDefault();
-
     const partial = new PostClass(formData);
     const newPost : any = {
       ...partial,
@@ -148,8 +146,8 @@ const CreatePostPopup: React.FC<Props> = ({ post, onClose }) => {
   const [descValue, setDescValue] = useState("");
   const textTitleAreaRef = useRef<HTMLTextAreaElement>(null);
   const textDescAreaRef = useRef<HTMLTextAreaElement>(null);
-  AutosizeTextarea(textTitleAreaRef.current, titleValue);
-  AutosizeTextarea(textDescAreaRef.current, descValue);
+  useAutosizeTextarea(textTitleAreaRef.current, titleValue);
+  useAutosizeTextarea(textDescAreaRef.current, descValue);
 
   return (
     <main  
@@ -159,10 +157,12 @@ const CreatePostPopup: React.FC<Props> = ({ post, onClose }) => {
         {/* Header */}
         <div className="flex flex-row items-center justify-between">
 
+          {/* Handle */}
           <Link href={"/profile"} className="text-gray-800 font-regular text-xs hover:text-violet-300 transition-colors duration-200 cursor-pointer">
             @{user.handle}
           </Link>
 
+          {/* Type Dropdown & Close Button */}
           <div className="flex flex-row items-center gap-3">
             <div className="bg-gray-100 rounded-full flex flex-row items-center gap-1 px-2.5 py-0.5 border border-gray-200 h-5">
 
@@ -243,7 +243,7 @@ const CreatePostPopup: React.FC<Props> = ({ post, onClose }) => {
               <option className="w-full text-gray-500 text-sm font-light bg-gray-100" value="" disabled selected>Select a condition</option>
               {defaults.conditions.map((condition: string, index: React.Key | null | undefined) => (
                 <option className="w-full text-gray-500 text-sm font-light bg-gray-100" key={index} value={condition}>
-                  {ToTitleCase(condition)}
+                  {useToTitleCase(condition)}
                 </option>
               ))}
             </select>

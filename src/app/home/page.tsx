@@ -1,13 +1,19 @@
+"use client"
+
 import React from 'react';
 import Link from 'next/link';
 
-import HomeNav from '@/src/app/backend/components/navigators/HomeNav';
+import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
+import { useRefreshContext } from '@/src/app/backend/hooks/useGlobalContext';
 
 export default function Register() {
+
+  useRefreshContext();
+  
   return (
     <main className="flex flex-col w-screen h-screen bg-white">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen from-zinc-100 to-zinc-300"></div>
-      <HomeNav />
+      <TopbarNav type="homepage" />
 
       <div className="flex flex-col bg-cover bg-center bg-no-repeat bg-[url('/backgrounds/landing.jpg')] rounded-l-lg h-full aspect-square p-10 justify-center items-center">
         <div className="flex flex-col gap-4 pb-5 justify-center items-center">

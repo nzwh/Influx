@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSearchParams } from 'next/navigation'
 
 // Layouts
@@ -12,8 +12,6 @@ import SearchFilters from '@/src/app/backend/components/panels/columns/SearchFil
 
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/useGlobalContext';
-
-// Types
 import { PostClass } from '@/libraries/structures';
 
 export default function Home() {
@@ -101,15 +99,13 @@ export default function Home() {
 
   setPosts(filteredPosts);
 
-
-
   return (
     <Timeline 
       user={user}
       posts={posts}
       header={<>
         <section className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4">
-          <h6 className="text-gray-800 font-regular text-xs leading-4">Showing results for your query</h6>
+          <h6 className="text-gray-800 font-regular text-xs leading-4">Showing {posts.length} results</h6>
         </section>
       </>}
       panels={<>

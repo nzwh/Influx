@@ -29,9 +29,7 @@ const ProfileAccount: React.FC<Props> = ({ user }) => {
     setIsProfileEditOpen(false);
   };
 
-  const handleProfileSubmit = (data: any) => {
-    console.log(data);
-  };
+  const { user: active } = useGlobalContext();
 
   return (
 		<main>
@@ -74,9 +72,11 @@ const ProfileAccount: React.FC<Props> = ({ user }) => {
           </div>
 
           {/* Edit Profile */}
-          <button className="flex flex-row items-center gap-1 bg-gray-100 hover:bg-gray-200 p-1 w-fit text-gray-800 font-regular text-[0.625rem] leading-3 transition-colors duration-200 mr-2" onClick={handleProfileEditOpen}>
-            <Settings2 className="opacity-70" color="black" size={12} />
-          </button>
+          {(user.uuid === active.uuid) ? (
+            <button className="flex flex-row items-center gap-1 bg-gray-100 hover:bg-gray-200 p-1 w-fit text-gray-800 font-regular text-[0.625rem] leading-3 transition-colors duration-200 mr-2" onClick={handleProfileEditOpen}>
+              <Settings2 className="opacity-70" color="black" size={12} />
+            </button>
+          ) : null }
 
           </div>
 
