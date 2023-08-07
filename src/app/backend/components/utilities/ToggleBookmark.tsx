@@ -1,4 +1,4 @@
-'use client'
+'use client' //* Uses interactable components
 
 import React, { useState } from "react";
 
@@ -44,6 +44,7 @@ const ToggleBookmark: React.FC<Props> = ({ enabled, disabled, value, post }) => 
   const [bookmarked, setBookmarked] = useState(post.bookmarks?.includes(user.uuid));
 
   const handleBookmarkToggle = () => {
+    if (user.uuid === '') return;
     if (!bookmarked) {
       post.bookmarks?.push(user.uuid);
       user.bookmarks?.push(post.id);

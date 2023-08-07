@@ -1,4 +1,4 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
@@ -61,6 +61,3 @@ export default function Home() {
     />
   )
 }
-
-
-

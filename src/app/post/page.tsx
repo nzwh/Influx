@@ -1,6 +1,6 @@
-"use client"
+'use client' //* Uses interactable components
 
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 
 // Layouts
 import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
@@ -8,12 +8,11 @@ import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
 // Panels
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
 import Welcome from '@/src/app/backend/components/panels/columns/WelcomePanel';
-import NewPost from '@/src/app/backend/components/panels/timeline/NewPostPanel';
 
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
-const Home = () => {
+export default function Home() {
   
   useRefreshContext();
   const { user, posts } = useGlobalContext();
@@ -32,8 +31,8 @@ const Home = () => {
   )
 }
 
-const YourComponent = dynamic(() => Promise.resolve(Home), {
-  ssr: false,
-})
+// const YourComponent = dynamic(() => Promise.resolve(Home), {
+//   ssr: false,
+// })
 
-export default YourComponent
+// export default YourComponent

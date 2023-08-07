@@ -8,10 +8,10 @@ const AboutPanel: React.FC = () => {
   return (
     <Panel classes="p-4 gap-4 z-[1]">
 		  <h6 className="text-gray-800 font-regular text-[0.625rem] leading-[0.8rem]">
-			  <div className="hover:underline">About</div>&nbsp;&nbsp;•&nbsp;&nbsp;
-			  <div className="hover:underline">Terms</div>&nbsp;&nbsp;•&nbsp;&nbsp;
-			  <div className="hover:underline">Documentation</div>&nbsp;&nbsp;•&nbsp;&nbsp;
-			  <div className="hover:underline">Legal</div>
+			  <span className="hover:underline">About</span>&nbsp;&nbsp;•&nbsp;&nbsp;
+			  <span className="hover:underline">Terms</span>&nbsp;&nbsp;•&nbsp;&nbsp;
+			  <span className="hover:underline">Documentation</span>&nbsp;&nbsp;•&nbsp;&nbsp;
+			  <span className="hover:underline">Legal</span>
 		  <br/>influx.io © 2023.  Made with Next.js.</h6>
 	  </Panel>
   );

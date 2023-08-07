@@ -1,15 +1,21 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation'
+import Link from 'next/link';
 
-import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
+// Hooks & Classes
 import { UserInterface } from '@/libraries/structures';
+
+// Icons
+import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
+
+// Model
 import supabase from '@/src/app/backend/model/supabase';
 import { AuthError } from '@supabase/supabase-js';
 
-const Login = () => {
+const Login: React.FC = () => {
+  
   let router = useRouter();
   const [formData, setFormData] = useState<UserInterface>({
       id: 0,

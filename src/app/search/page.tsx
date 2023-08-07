@@ -1,6 +1,7 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 
 // Layouts
@@ -18,6 +19,10 @@ export default function Home() {
   
   useRefreshContext();
   const { user, posts, setPosts } = useGlobalContext();
+
+  const router = useRouter();
+  if (user.uuid === '') 
+    router.push('/auth/login');
 
   const applyFilter = (posts: PostClass[], key: string, value: string): PostClass[] => {
     switch (key) {

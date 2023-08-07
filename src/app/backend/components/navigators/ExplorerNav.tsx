@@ -63,14 +63,16 @@ const ExplorerNav: React.FC = () => {
       
       {/* Modules */}
       <Wrapper className="flex flex-col gap-2 relative right-2">
+        { user.uuid !== '' ? (<>
         <hr className="border-gray-200" />
         <Module elements={[
-          ['Explore', <Sparkle size={16} strokeWidth={3} />, '/'],
           ['Your Cart', <ShoppingBag size={16} strokeWidth={3} />, '/cart'],
           ['Bookmarks', <Bookmark size={16} strokeWidth={3} />, '/bookmarks'],
         ]} />
+        </>) : null }
         <hr className="border-gray-200" />
         <Module elements={[
+          ['Home', <Sparkle size={16} strokeWidth={3} />, '/'],
           ['Search', <Search size={16} strokeWidth={3} />, '/search'],
           ['Profile', <User size={16} strokeWidth={3} />, '/profile'],
         ]} />

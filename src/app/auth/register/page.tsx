@@ -1,14 +1,22 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
-import RegisterCompletePopup from '@/src/app/backend/components/dialogs/RegisterCompletePopup';
+// Panels & Popovers
+import RegisterComplete from '@/src/app/backend/components/dialogs/RegisterCompletePopup';
+
+// Hooks & Classes
 import { UserInterface } from '@/libraries/structures';
+
+// Icons
+import { AtSign, ChevronRight, FormInput, Italic, Mail, SquareAsterisk } from 'lucide-react';
+
+// Model
 import supabase from '@/src/app/backend/model/supabase';
 
 export default function Register() {
+  
   const [errorFNameMessage, setErrorFNameMessage] = useState<string>(''); // Add error message state
   const [errorLNameMessage, setErrorLNameMessage] = useState<string>(''); // Add error message state
   const [errorHandleMessage, setErrorHandleMessage] = useState<string>(''); // Add error message state
@@ -317,7 +325,7 @@ export default function Register() {
 
         </div>
       </div> 
-      {showPopup && <RegisterCompletePopup />}
+      {showPopup && <RegisterComplete />}
     </main>
   )
 }

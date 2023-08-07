@@ -1,4 +1,4 @@
-'use client'
+'use client' //* Uses interactable components
 
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 import { UserClass, PostClass } from '@/libraries/structures';

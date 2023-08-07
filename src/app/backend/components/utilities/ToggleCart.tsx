@@ -1,4 +1,4 @@
-'use client'
+'use client' //* Uses interactable components
 
 import React, { useState } from "react";
 
@@ -43,6 +43,7 @@ const ToggleCart: React.FC<Props> = ({ enabled, disabled, value, post }) => {
   const [carted, setCarted] = useState(post.cart?.includes(user.uuid));
   
   const handleCartedToggle = () => {
+    if (user.uuid === '') return;
     if (!carted) {
       post.cart?.push(user.uuid);
       user.cart?.push(post.id);

@@ -1,4 +1,4 @@
-'use client'
+'use client' //* Uses interactable components
 
 import React, { useState } from "react";
 
@@ -62,7 +62,7 @@ const ToggleVote: React.FC<Props> = ({ type, post, comment }) => {
   const [downvoted, setDownvoted] = useState(type === "post" ? post?.downvotes?.includes(user.uuid) : comment?.downvotes?.includes(user.uuid));
 
   const handleUpvote = () => {
-    
+    if (user.uuid === '') return;
     if (type === "post") {
       if (!upvoted) { 
         if (downvoted) { 
@@ -97,7 +97,7 @@ const ToggleVote: React.FC<Props> = ({ type, post, comment }) => {
   };
 
   const handleDownvote = () => {
-
+    if (user.uuid === '') return;
     if (type === "post") {
       if (!downvoted) {
         if (upvoted) {

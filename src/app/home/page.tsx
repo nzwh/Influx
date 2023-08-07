@@ -1,4 +1,4 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React from 'react';
 import Link from 'next/link';
