@@ -205,20 +205,20 @@ const CommentLayout: React.FC<{ comment: CommentClass }> = ({ comment }) => {
                     {comment.is_deleted ? "Deleted" : `${comment.author?.first_name} ${comment.author?.last_name}`}
                   </h6>
                   {!comment.is_deleted && (
-                    <>
-                      <h6 className="text-gray-500 font-light text-xs">
-                        {useToRelativeTime(comment.posted_at)}
-                      </h6>
-                      {comment.is_edited && (
-                        <>
-                          <h6 className="text-gray-500 font-light text-xs">•</h6>
-                          <h6 className="text-gray-500 font-light text-xs">
-                            Edited {useToRelativeTime(comment.edited_at!)}
-                          </h6>
-                        </>
-                      )}
-                    </>
-                  )}
+                  <>
+                    <h6 className="text-gray-500 font-light text-xs">
+                      {useToRelativeTime(new Date(comment.posted_at))}
+                    </h6>
+                    {comment.is_edited && (
+                      <>
+                        <h6 className="text-gray-500 font-light text-xs">•</h6>
+                        <h6 className="text-gray-500 font-light text-xs">
+                          Edited {useToRelativeTime(new Date(comment.edited_at!))}
+                        </h6>
+                      </>
+                    )}
+                  </>
+                )}
                 </div>
                 <div>
                   {editMode ? (
