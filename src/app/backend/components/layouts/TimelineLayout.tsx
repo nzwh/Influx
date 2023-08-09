@@ -56,7 +56,7 @@ const Timeline: React.FC<Props> = ({ type, user, header, panels, posts }) => {
             </ul>
           ):(
             <span className="flex flex-col items-center justify-center z-[-2]">
-              <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]" priority={true}/>
+              <Image src={'/illustrations/no-posts.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]" priority={true}/>
               <p className='text-gray-700 text-sm'>No posts to show</p>
             </span>
           )}

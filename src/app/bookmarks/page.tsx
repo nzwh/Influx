@@ -1,6 +1,5 @@
 'use client' //* Uses interactable components
 
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation';
 
 // Layouts
@@ -8,15 +7,13 @@ import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
 
 // Panels
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
-import Listings from '@/src/app/backend/components/panels/timeline/ListingsPanel';
 import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
-import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 
 // Hooks & Classes
 import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { useEffect } from 'react';
 
-const Home = () => {
+export default function Home() {
   
   useRefreshContext();
   const { user, posts } = useGlobalContext();
@@ -31,22 +28,17 @@ const Home = () => {
     <Timeline 
       user={user}
       posts={
-        posts.filter(post => post.author.uuid === user.uuid )
+        posts.filter((post) => user.bookmarks?.includes(post.id))
       }
       header={<>
-        <Listings user={user} />
+        <section className="w-full flex flex-row justify-between bg-white rounded-sm p-4 gap-4">
+          <h6 className="text-gray-800 font-regular text-xs leading-4">Showing {posts.filter((post) => user.cart?.includes(post.id)).length} results</h6>
+        </section>
       </>}
       panels={<>
         <ProfileAccount user={user}/>
-        <ProfileComments user={user} />
         <About />
       </>}
     />
   )
 }
-
-const NoSSRHome = dynamic(() => Promise.resolve(Home), {
-  ssr: false,
-})
-
-export default NoSSRHome;

@@ -1,7 +1,7 @@
 'use client' //* Uses interactable components
 
 import React, { useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -14,22 +14,28 @@ import CreatePost from '@/src/app/backend/components/dialogs/CreatePostPopup';
 import LoggingOut from '@/src/app/backend/components/dialogs/LoggingOutPopup';
 
 // Hooks & Classes
-import Supabase from '@/src/app/backend/model/supabase';
+import { UserClass } from '@/libraries/structures';
 import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 
 // Icons
 import { Bookmark, Cog, FormInput, Home, LogIn, LogOut, Milestone, Plus, Search, ShoppingBag, SquareSlash, User } from 'lucide-react';
 
+// Model 
+import Supabase from '@/src/app/backend/model/supabase';
+
 const TopbarNav: React.FC<{ type?: string }> = ({ type }) => {
 
   // Instantiation
   const router = useRouter();
-  const { user } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   // Redirect to search page with the query
   const [query, setQuery] = useState('');
+  const handleSetQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+    console.log(query);
+  };
   const handleSearchQuery = (e: React.FormEvent) => {
-    if (type === 'root') e.preventDefault();
     router.push('/search?q=' + query);
   };
 
@@ -53,8 +59,18 @@ const TopbarNav: React.FC<{ type?: string }> = ({ type }) => {
     const { error } = await Supabase.auth.signOut()
     if (error) throw error
 
-    router.push('/home')
     localStorage.removeItem('token');
+
+    setUser(new UserClass({
+      id: -1,
+      handle: 'Guest',
+      first_name: 'Guest',
+      last_name: 'User',
+      icon: '/root/temp.jpg',
+      email_address: '',
+    }));
+
+    router.push('/home')
     handleLogoutPopupOpen();
   }
   
@@ -71,10 +87,10 @@ const TopbarNav: React.FC<{ type?: string }> = ({ type }) => {
 
         {/* Searchbar */}
         { user.uuid ? (
-          <form onSubmit={handleSearchQuery} className="bg-gray-200 text-gray-600 h-6 px-3 flex flex-row justify-between items-center gap-2 rounded-full cursor-pointer">
+          <form action={`/search`} method="GET" className="bg-gray-200 text-gray-600 h-6 px-3 flex flex-row justify-between items-center gap-2 rounded-full cursor-pointer">
             <div className="flex flex-row items-center gap-2">
               <Search size={12} strokeWidth={3}/>
-              <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." value={query} onChange={(e) => setQuery(e.target.value)} />
+              <input className="text-gray-800 w-44 text-xs font-light bg-transparent focus:outline-none" type="text" placeholder="Look for anything..." name="query" value={query} onChange={handleSetQuery} />
             </div>
             <SquareSlash size={12} strokeWidth={3}/>
           </form>
