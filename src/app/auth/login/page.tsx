@@ -43,6 +43,51 @@ const Login: React.FC = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
 
+  const fetchIdNum = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const ids = data.map((user) => user.id);
+        const highestId = Math.max(...ids); // Find the highest number in the IDs array
+        return highestId + 1;
+      } else {
+        console.log('No user found');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
+
+  const fetchUUID = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('uuid')
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const uuids = data.map((user) => user.uuid);
+        return uuids;
+      } else {
+        console.log('No user found');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
+
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
     
@@ -96,6 +141,51 @@ const Login: React.FC = () => {
               JSON.stringify({ email: email, password: password.password, expiration: expirationDate.toISOString() })
             );
           }
+          const token = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
+          if (token) {
+            const tokenData = JSON.parse(token);
+            const tMetaFName = tokenData.user.user_metadata.first_name;
+            const tMetaLName = tokenData.user.user_metadata.last_name;
+            const tMetaHandle = tokenData.user.user_metadata.handle;
+            const tID = tokenData.user.id;
+
+            const idNum = await fetchIdNum();
+            const profiles = await fetchUUID();
+            const existingProfile = profiles.includes(tID);
+
+            if (!existingProfile) {              
+              const newProfile : any = {
+                id: idNum,
+                icon: '/root/temp.jpg',
+                first_name: tMetaFName,
+                last_name: tMetaLName,
+                location: '',
+                biography: '',
+                payment_methods: [],
+                delivery_methods: [],
+                is_verified: false,
+                uuid: tID,
+                handle: tMetaHandle,
+                banner: '',
+                post_count: 0,
+                bookmarks: [],
+                cart: []
+              };
+
+              try {
+                const { data, error } = await supabase
+                  .from('profiles')
+                  .insert([newProfile]);
+              } catch (e) {
+                console.error('Error during insertion:', e);
+              }
+
+              console.log(tokenData);
+              console.log('New profile created');
+            } else {
+              console.log('Profile already exists');
+            }
+          } 
         }
         router.push('/')
       }
@@ -104,6 +194,7 @@ const Login: React.FC = () => {
         setErrorMessage('Confirm your email address to continue.')
       }
       else {
+        console.log(error)
         setErrorMessage('Incorrect email/password. Please try again.') // Set error message on login failure
       }
     } finally {
