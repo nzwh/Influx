@@ -1,14 +1,22 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-import { AtSign, ChevronRight, FormInput, Italic, Mail, Phone, SquareAsterisk } from 'lucide-react';
-import RegisterCompletePopup from '@/src/app/backend/components/dialogs/RegisterCompletePopup';
+// Panels & Popovers
+import RegisterComplete from '@/src/app/backend/components/dialogs/RegisterCompletePopup';
+
+// Hooks & Classes
 import { UserInterface } from '@/libraries/structures';
+
+// Icons
+import { AtSign, ChevronRight, FormInput, Italic, Mail, SquareAsterisk } from 'lucide-react';
+
+// Model
 import supabase from '@/src/app/backend/model/supabase';
 
 export default function Register() {
+  
   const [errorFNameMessage, setErrorFNameMessage] = useState<string>(''); // Add error message state
   const [errorLNameMessage, setErrorLNameMessage] = useState<string>(''); // Add error message state
   const [errorHandleMessage, setErrorHandleMessage] = useState<string>(''); // Add error message state
@@ -220,17 +228,17 @@ export default function Register() {
   }
 
   return (
-    <main className="flex flex-col w-screen h-screen items-center justify-center">
+    <main className="flex flex-col w-screen h-screen items-center justify-center bg-cover bg-[url('/images/bg-auth-2.jpg')]">
       <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
     
       <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem] filter drop-shadow-2xl">
-        <div className="flex flex-col bg-[url('/root/login.png')] rounded-l-lg h-full aspect-square p-10 justify-between">
+        <div className="flex flex-col bg-[url('/images/bg-auth.jpg')] bg-cover rounded-l-lg h-full aspect-square p-10 justify-between">
           <Italic className="opacity-70 text-violet-300" size={14} strokeWidth={3} />
           <div className="flex flex-col gap-4">
             <h6 className="text-white font-medium text-4xl leading-8 pr-20 tracking-tight">Find everything you need in one place.</h6>
             <h6 className="text-white font-light text-lg leading-5 pr-20">Discover bargains at an affordable price without breaking the bank.</h6>
           </div>
-          <h6 className="text-white font-light text-xs pr-60">Create an account, or log in with an existing one to gain access to all of Influx's features.</h6>
+          <h6 className="text-white font-light text-xs pr-60">Create an account, or log in with an existing one to gain access to all of Influx&apos;s features.</h6>
           <h6 className="text-white font-light text-[0.6rem] ">All Rights Reserved. ©2023 influx.io</h6>
         </div>
 
@@ -317,7 +325,7 @@ export default function Register() {
 
         </div>
       </div> 
-      {showPopup && <RegisterCompletePopup />}
+      {showPopup && <RegisterComplete />}
     </main>
   )
 }

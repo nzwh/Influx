@@ -81,13 +81,18 @@ interface CommentInterface {
 
 interface FilterInterface {
   username: string;
+
   sort: string;
   sort_order: string;
+
   condition: string;
   type: string;
+
   range_start: number;
   range_end: number;
+
   tags: string[];
+  
   open: boolean;
   owner: boolean;
 }
@@ -211,5 +216,5 @@ export class FilterClass {
 }
 
 export type {
-  UserInterface, PostInterface, CommunityInterface, CommentInterface,  FilterInterface
+  UserInterface, PostInterface, CommunityInterface, CommentInterface, FilterInterface
 }

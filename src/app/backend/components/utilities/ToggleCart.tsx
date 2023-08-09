@@ -1,14 +1,16 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState } from "react";
 
 // Hooks & Classes
-import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from "@/src/app/backend/hooks/GlobalContext";
 import { PostClass, UserClass } from "@/libraries/structures";
+import { useGlobalContext } from "@/src/app/backend/hooks/context/useGlobalContext";
 
 // Icons
 import { ShoppingBag } from 'lucide-react';
+
+// Model
+import Supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
   enabled?: string;
@@ -41,6 +43,7 @@ const ToggleCart: React.FC<Props> = ({ enabled, disabled, value, post }) => {
   const [carted, setCarted] = useState(post.cart?.includes(user.uuid));
   
   const handleCartedToggle = () => {
+    if (user.uuid === '') return;
     if (!carted) {
       post.cart?.push(user.uuid);
       user.cart?.push(post.id);

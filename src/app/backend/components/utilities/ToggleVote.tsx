@@ -1,11 +1,16 @@
-'use client';
+'use client' //* Uses interactable components
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
+// Hooks & Classes
 import { PostClass, CommentClass } from "@/libraries/structures";
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+
+// Icons
 import { ArrowUp, ArrowDown } from 'lucide-react';
+
+// Model
 import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
 
 interface Props {
   type: string,
@@ -57,7 +62,7 @@ const ToggleVote: React.FC<Props> = ({ type, post, comment }) => {
   const [downvoted, setDownvoted] = useState(type === "post" ? post?.downvotes?.includes(user.uuid) : comment?.downvotes?.includes(user.uuid));
 
   const handleUpvote = () => {
-    
+    if (user.uuid === '') return;
     if (type === "post") {
       if (!upvoted) { 
         if (downvoted) { 
@@ -92,7 +97,7 @@ const ToggleVote: React.FC<Props> = ({ type, post, comment }) => {
   };
 
   const handleDownvote = () => {
-
+    if (user.uuid === '') return;
     if (type === "post") {
       if (!downvoted) {
         if (upvoted) {

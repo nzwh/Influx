@@ -1,36 +1,33 @@
-import React, { useState, useEffect } from 'react';
+// 'use server'
+
+import React, { useState } from 'react';
 import Image from 'next/image';
 
-import UpdateProfilePopup from '@/src/app/backend/components/dialogs/UpdateProfilePopup';
-import Panel from '@/src/app/backend/components/layouts/PanelLayout';
-import { Banknote, CreditCard, Map, MoveUpRight, Package, Package2, Repeat2, Settings2, Star } from 'lucide-react';
-import { ToTitleCase } from '@/src/app/backend/hooks/ToConvert'
-import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
-import { useRouter } from 'next/navigation';
-import { useGlobalContext } from '../../../hooks/GlobalContext';
+// Layouts
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
+import Panel from '@/src/app/backend/components/layouts/PanelLayout';
+
+// Panels, Popovers & Popups
+import UpdateProfile from '@/src/app/backend/components/dialogs/UpdateProfilePopup';
+
+// Hooks & Classes
 import { UserClass } from '@/libraries/structures';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+import { useToTitleCase } from '@/src/app/backend/hooks/useToConvert'
 
-interface Props {
-  user: UserClass;
-}
+// Icons
+import { Banknote, CreditCard, Map,  Package2, Settings2 } from 'lucide-react';
 
-const ProfileAccount: React.FC<Props> = ({ user }) => {
+const ProfileAccountPanel: React.FC<{ user: UserClass }> = ({ user }) => {
 
+    const { user: active } = useGlobalContext();
 
-  // Handles updating the user's profile.
-  // TODO: Relocate to own modal
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
-
   const handleProfileEditOpen = () => {
     setIsProfileEditOpen(true);
   };
   const handleProfileEditClose = () => {
     setIsProfileEditOpen(false);
-  };
-
-  const handleProfileSubmit = (data: any) => {
-    console.log(data);
   };
 
   return (
@@ -74,9 +71,11 @@ const ProfileAccount: React.FC<Props> = ({ user }) => {
           </div>
 
           {/* Edit Profile */}
-          <button className="flex flex-row items-center gap-1 bg-gray-100 hover:bg-gray-200 p-1 w-fit text-gray-800 font-regular text-[0.625rem] leading-3 transition-colors duration-200 mr-2" onClick={handleProfileEditOpen}>
-            <Settings2 className="opacity-70" color="black" size={12} />
-          </button>
+          {(user.uuid === active.uuid) ? (
+            <button className="flex flex-row items-center gap-1 bg-gray-100 hover:bg-gray-200 p-1 w-fit text-gray-800 font-regular text-[0.625rem] leading-3 transition-colors duration-200 mr-2" onClick={handleProfileEditOpen}>
+              <Settings2 className="opacity-70" color="black" size={12} />
+            </button>
+          ) : null }
 
           </div>
 
@@ -112,7 +111,7 @@ const ProfileAccount: React.FC<Props> = ({ user }) => {
             {user.payment_methods.map((method: any) => (
               <div className="flex flex-row items-center gap-1">
                 <CreditCard className="opacity-70" color="black" size={12} />
-                <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{ToTitleCase(method)}</h6>
+                <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{useToTitleCase(method)}</h6>
               </div>
             ))}
           </div>
@@ -128,7 +127,7 @@ const ProfileAccount: React.FC<Props> = ({ user }) => {
           {user.delivery_methods.map((method: any) => (
               <div className="flex flex-row items-center gap-1">
                 <CreditCard className="opacity-70" color="black" size={12} />
-                <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{ToTitleCase(method)}</h6>
+                <h6 className="text-gray-800 font-regular text-[0.625rem] leading-3">{useToTitleCase(method)}</h6>
               </div>
             ))}
           </div>
@@ -139,10 +138,10 @@ const ProfileAccount: React.FC<Props> = ({ user }) => {
       </Panel>
 
       {isProfileEditOpen && (
-        <UpdateProfilePopup isOpen={isProfileEditOpen} onClose={handleProfileEditClose} onSubmit={handleProfileSubmit} />
+        <UpdateProfile onClose={handleProfileEditClose} />
       )}
 		</main>
   );
 };
 
-export default ProfileAccount;
+export default ProfileAccountPanel;

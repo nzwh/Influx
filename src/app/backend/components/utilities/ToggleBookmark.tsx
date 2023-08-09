@@ -1,14 +1,16 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState } from "react";
 
 // Hooks & Classes
-import Supabase from '@/src/app/backend/model/supabase';
-import { useGlobalContext } from "@/src/app/backend/hooks/GlobalContext";
 import { PostClass } from "@/libraries/structures";
+import { useGlobalContext } from "@/src/app/backend/hooks/context/useGlobalContext";
 
 // Icons
 import { Bookmark } from 'lucide-react';
+
+// Model
+import Supabase from '@/src/app/backend/model/supabase';
 
 interface Props {
   enabled?: string;
@@ -42,6 +44,7 @@ const ToggleBookmark: React.FC<Props> = ({ enabled, disabled, value, post }) => 
   const [bookmarked, setBookmarked] = useState(post.bookmarks?.includes(user.uuid));
 
   const handleBookmarkToggle = () => {
+    if (user.uuid === '') return;
     if (!bookmarked) {
       post.bookmarks?.push(user.uuid);
       user.bookmarks?.push(post.id);

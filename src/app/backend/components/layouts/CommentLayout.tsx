@@ -1,35 +1,36 @@
+// 'use server'
+
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import useRelativeDateFormatter from "@/src/app/backend/hooks/useRelativeDateFormatter";
+// Layouts
 import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
-import { CommentClass, UserClass } from '@/libraries/structures';
+// Hooks & Classes
+import { CommentClass } from '@/libraries/structures';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+import { useCommentsContext } from '@/src/app/backend/hooks/context/useCommentsContext';
+import { useToRelativeTime } from '@/src/app/backend/hooks/useToConvert';
+
+// Icons
+import { MoreHorizontal, Pencil, Reply, Trash2 } from 'lucide-react';
+
+// Utilities
 import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
-import { ArrowDown, ArrowUp, MoreHorizontal, Pencil, Reply, Trash2 } from 'lucide-react';
+import Action from '@/src/app/backend/components/utilities/Action';
 
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
-import { useCommentsContext } from '@/src/app/backend/hooks/CommentsContext';
+// Model
 import Supabase from '@/src/app/backend/model/supabase';
-import Action from '../utilities/Action';
 
-interface Props {
-  comment: CommentClass;
-}
-
-const CommentTemplate: React.FC<Props> = ({ comment }) => {
+const CommentLayout: React.FC<{ comment: CommentClass }> = ({ comment }) => {
   
-  const { user, setUser, posts, setPosts } = useGlobalContext();
-  const { comments, setComments, commentsArray, setCommentsArray } = useCommentsContext();  
+  const { user } = useGlobalContext();
+  const { setComments, commentsArray, setCommentsArray } = useCommentsContext();  
 
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const inputRef = useRef(null);
-  const [upvoted, setUpvoted] = useState(false);
-  const [downvoted, setDownvoted] = useState(false);
-  let upvotes = 0;
-  let downvotes = 0;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -135,10 +136,13 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
       // handleEditNode(comment.id, inputRef?.current?.innerText + " (edited)");
       const editedContent = inputRef?.current?.innerText;
   
-      setComments(prevComments => {
-        return prevComments.map(prevComment => {
+      setComments((prevComments) => {
+        return prevComments.map((prevComment) => {
           if (prevComment.id === comment.id) {
-            return { ...prevComment, content: editedContent, is_edited: true, edited_at: new Date() };
+            // Ensure editedContent is a string or use a fallback value (e.g., an empty string)
+            const updatedContent = editedContent || '';
+      
+            return { ...prevComment, content: updatedContent, is_edited: true, edited_at: new Date() };
           }
           return prevComment;
         });
@@ -188,8 +192,6 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
     }
   };
 
-  const convertToRelativeDate = useRelativeDateFormatter();
-
   return (
     <div>
       <div className="flex flex-row gap-10">
@@ -203,20 +205,20 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
                     {comment.is_deleted ? "Deleted" : `${comment.author?.first_name} ${comment.author?.last_name}`}
                   </h6>
                   {!comment.is_deleted && (
-                    <>
-                      <h6 className="text-gray-500 font-light text-xs">
-                        {convertToRelativeDate(comment.posted_at.toLocaleString())}
-                      </h6>
-                      {comment.is_edited && (
-                        <>
-                          <h6 className="text-gray-500 font-light text-xs">•</h6>
-                          <h6 className="text-gray-500 font-light text-xs">
-                            Edited {convertToRelativeDate(comment.edited_at!.toLocaleString())}
-                          </h6>
-                        </>
-                      )}
-                    </>
-                  )}
+                  <>
+                    <h6 className="text-gray-500 font-light text-xs">
+                      {useToRelativeTime(new Date(comment.posted_at))}
+                    </h6>
+                    {comment.is_edited && (
+                      <>
+                        <h6 className="text-gray-500 font-light text-xs">•</h6>
+                        <h6 className="text-gray-500 font-light text-xs">
+                          Edited {useToRelativeTime(new Date(comment.edited_at!))}
+                        </h6>
+                      </>
+                    )}
+                  </>
+                )}
                 </div>
                 <div>
                   {editMode ? (
@@ -321,4 +323,4 @@ const CommentTemplate: React.FC<Props> = ({ comment }) => {
   );
 };
   
-export default CommentTemplate;
+export default CommentLayout;

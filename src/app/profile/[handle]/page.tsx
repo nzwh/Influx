@@ -1,7 +1,7 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Supabase from '@/src/app/backend/model/supabase';
 
 // Layouts
@@ -9,13 +9,12 @@ import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
 
 // Panels
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
-import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
+import Listings from '@/src/app/backend/components/panels/timeline/ListingsPanel';
 import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 
 // Hooks & Classes
-import { useGlobalContext, useRefreshContext } from '@/src/app/backend/hooks/GlobalContext';
-import useFetchUser from "@/src/app/backend/hooks/useFetchUser";
+import { useGlobalContext, useRefreshContext } from '@/src/app/backend/hooks/context/useGlobalContext';
 import { UserClass } from '@/libraries/structures';
 
 export default function Home() {
@@ -24,9 +23,7 @@ export default function Home() {
 
   const { posts } = useGlobalContext();
   const pathName = usePathname();
-
-  const parts = pathName.split('/');
-  const handle = parts.length >= 3 && parts[1] === 'profile' ? parts[2] : '';
+  const handle = pathName.split('/').slice(-1)[0];
 
   const [user, setUser] = useState<UserClass>(new UserClass());
 
@@ -37,61 +34,30 @@ export default function Home() {
       .eq('handle', handle)
       .single();
 
-    if (error) {
-      console.log('Error getting user:', error);
-      return;
-    }
+    if (error) throw error;
+    if (!data) return;
 
-    if (data) {
-      setUser(new UserClass(data));
-    }
+    setUser(new UserClass(data));
   }
 
   useEffect(() => {
     getUser();
   }, []);
 
-  // useEffect(() => {
-  //   const handle = extractHandle(pathName);
-  //   if (handle) {
-  //     console.log('Profile handle:', handle);
-  //     setHandleFromURL(handle);
-  //   }
-  // }, [pathName]);
-
-  // let { user, fetchUser } = useFetchUser({ type: 'handle', handle: handleFromURL });
-  // let userData: UserClass = user[0] as any;
-
-  // useEffect(() => {
-  //   if (userData) {
-  //     console.log('User data:', userData);
-  //   }
-  //   userData = new UserClass({
-  //     ...userData,
-  //     icon: 'root/temp.jpg',
-  //     banner: 'root/temp.jpg'
-  //   })
-
-
-  // }, [userData]);
-
   return (
     <Timeline 
       user={user}
       posts={
-        posts.filter(post => post.author.handle === handle )
+        posts.filter((post) => post.author.handle === handle)
       }
       header={<>
         <Listings user={user}/>
       </>}
       panels={<>
         <ProfileAccount user={new UserClass(user)}/>
-        <ProfileComments />
+        <ProfileComments user={user} />
         <About />
       </>}
     />
   )
 }
-
-
-

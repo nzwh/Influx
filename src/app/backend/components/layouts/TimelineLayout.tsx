@@ -1,34 +1,37 @@
+// 'use server'
+
 import React from 'react';
 import Image from 'next/image';
 
 // Layouts
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
+import Post from '@/src/app/backend/components/layouts/PostLayout';
 
 // Navigators
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
 import ExplorerNav from '@/src/app/backend/components/navigators/ExplorerNav';
 
-// Panels & Popups
-import Post from '@/src/app/backend/components/layouts/PostLayout';
+// Panels, Popovers & Popups
 import Background from '@/src/app/backend/components/Background';
 
 // Hooks & Classes
 import { PostClass, UserClass } from '@/libraries/structures';
 
 interface Props {
-  user: UserClass
+  type?: string;
+  user: UserClass;
   posts: PostClass[];
   header?: React.ReactNode;
   panels?: React.ReactNode;
 }
 
-const Timeline: React.FC<Props> = ({ user, header, panels, posts }) => {
+const Timeline: React.FC<Props> = ({ type, user, header, panels, posts }) => {
 
   return (
     <main>
 
       <Background />
-      <TopbarNav />
+      <TopbarNav type={type} />
       
       <Wrapper className="flex flex-row gap-2 w-full h-full align-center py-20 px-[12%] wr-br justify-between z-50">
 
@@ -47,13 +50,13 @@ const Timeline: React.FC<Props> = ({ user, header, panels, posts }) => {
             <ul className="flex flex-col gap-2 h-full w-[32rem]">
               {posts.map((post: PostClass) => (
                 <li key={post.id}>
-                  <Post post={post} userId={user.uuid} />
+                  <Post post={post} />
                 </li>
               ))}
             </ul>
           ):(
             <span className="flex flex-col items-center justify-center z-[-2]">
-              <Image src={'/empty-illustration.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]" priority={true}/>
+              <Image src={'/illustrations/no-posts.png'} width={1000} height={1000} alt="No posts" className=" w-[50%]" priority={true}/>
               <p className='text-gray-700 text-sm'>No posts to show</p>
             </span>
           )}

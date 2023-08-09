@@ -1,3 +1,5 @@
+// 'use server'
+
 import React from 'react';
 import { MoveUpRight } from 'lucide-react';
 
@@ -8,7 +10,7 @@ interface Props {
 	children?: React.ReactNode;
 }
 
-const PanelTemplate: React.FC<Props> = ({ title, expand, children, classes }) => {
+const PanelLayout: React.FC<Props> = ({ title, expand, children, classes }) => {
   return (
     <aside 
 			className={`bg-white text-black font-normal text-base flex w-full rounded-sm shadow-xl hover:shadow-2xl transition-shadow duration-400 
@@ -28,4 +30,4 @@ const PanelTemplate: React.FC<Props> = ({ title, expand, children, classes }) =>
   );
 };
 
-export default PanelTemplate;
+export default PanelLayout;

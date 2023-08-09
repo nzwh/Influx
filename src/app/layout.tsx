@@ -1,7 +1,7 @@
 // Import global stylesheets, and the Inter font.
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { GlobalProvider } from './backend/hooks/GlobalContext'
+import { GlobalProvider } from './backend/hooks/context/useGlobalContext'
 
 // Creates an instance of the Inter font.
 const inter = Inter({ subsets: ['latin'] })

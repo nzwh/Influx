@@ -1,29 +1,40 @@
-"use client"
+'use client' //* Uses interactable components
+
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation';
 
 // Layouts
 import Timeline from '@/src/app/backend/components/layouts/TimelineLayout';
 
 // Panels
 import About from '@/src/app/backend/components/panels/columns/AboutPanel';
-import Listings from '@/src/app/backend/components/panels/timeline/ProfileListingsPanel';
+import Listings from '@/src/app/backend/components/panels/timeline/ListingsPanel';
 import ProfileAccount from '@/src/app/backend/components/panels/columns/ProfileAccountPanel';
 import ProfileComments from '@/src/app/backend/components/panels/columns/ProfileCommentsPanel';
 
 // Hooks & Classes
-import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { useRefreshContext, useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+import { useEffect } from 'react';
 
-export default function Home() {
+const Home = () => {
   
   useRefreshContext();
   const { user, posts } = useGlobalContext();
 
+  const router = useRouter();
+  useEffect(() => {
+    if (user.uuid === '') 
+      router.push('/auth/login');
+  }, [user.uuid])
+
   return (
     <Timeline 
+      user={user}
       posts={
         posts.filter(post => post.author.uuid === user.uuid )
       }
       header={<>
-        <Listings />
+        <Listings user={user} />
       </>}
       panels={<>
         <ProfileAccount user={user}/>
@@ -34,5 +45,8 @@ export default function Home() {
   )
 }
 
+const NoSSRHome = dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+})
 
-
+export default NoSSRHome;

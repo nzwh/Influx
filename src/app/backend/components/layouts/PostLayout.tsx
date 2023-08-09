@@ -1,24 +1,26 @@
-"use client" // * Uses interactable components
+'use client' //* Uses interactable components
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 // Layouts
-import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
-import Panel from '@/src/app/backend/components/layouts/PanelLayout';
 import Wrapper from '@/src/app/backend/components/layouts/WrapperLayout';
+import Panel from '@/src/app/backend/components/layouts/PanelLayout';
+import Popover from '@/src/app/backend/components/layouts/PopoverLayout';
 
-// Panels & Popups
-import ExpandPostPopup from '@/src/app/backend/components/dialogs/ExpandPostPopup';
+// Panels, Popovers & Popups
+import ExpandPost from '@/src/app/backend/components/dialogs/ExpandPostPopup';
 import UpdatePost from '@/src/app/backend/components/dialogs/UpdatePostPopup';
 
 // Hooks & Classes
-import { PostClass } from "@/libraries/structures";
-import { ToTitleCase, ToRelativeTime, ToMonetary } from '@/src/app/backend/hooks/ToConvert';
-import { useGlobalContext } from '@/src/app/backend/hooks/GlobalContext';
+import { PostClass } from '@/libraries/structures';
+import { useGlobalContext } from '@/src/app/backend/hooks/context/useGlobalContext';
+import { useToTitleCase, useToRelativeTime, useToMonetary } from '@/src/app/backend/hooks/useToConvert';
 
-import PostActions from '@/src/app/backend/hooks/PostActions';
+import usePostActions from '@/src/app/backend/hooks/usePostActions';
+
+// Utilities
 import ToggleVote from '@/src/app/backend/components/utilities/ToggleVote';
 import ToggleBookmark from '@/src/app/backend/components/utilities/ToggleBookmark';
 import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
@@ -26,28 +28,19 @@ import ToggleCart from '@/src/app/backend/components/utilities/ToggleCart';
 // Icons
 import { Focus, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 
-// TODO
-import useNavigateToProfile from '@/src/app/backend/hooks/useNavigateToProfile';
+const PostLayout: React.FC<{ post: PostClass }> = ({ post }) => {
 
-interface Props {
-  post: PostClass;
-  userId: string;
-}
-
-const PostLayout: React.FC<Props> = ({ post, userId }) => {
-
-  const { DeleteItem } = PostActions();
-
+  // Instantiation
   const router = useRouter();
-
   const { user, posts, setPosts } = useGlobalContext();
   post = new PostClass(post);
 
-  const navigateToProfile = useNavigateToProfile();
+  // Visit user profile
   const handleProfileClick = () => {
-    navigateToProfile(post.author.handle);
+    router.push('/profile/' + post.author.handle);
   };
 
+  // Popover
   const [selectedPost, setSelectedPost] = useState<PostClass>();
   const [isExpandPostOpen, setIsExpandPostOpen] = useState(false);
   const handleExpandPostOpen = (post: PostClass) => {
@@ -73,23 +66,13 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
     setIsEditPostPopupOpen(false);
   };
 
-  const handleEditPost = (post_id: number) => {
-    handleEditPostOpen();
-  };
-
+  const { DeleteItem } = usePostActions();
   const handleDeletePost = async (post: PostClass) => {
     DeleteItem(post.id, post.media as string[]);
   };
-
-  const [firstMedia, setFirstMedia] = useState(post.media![0]);
-  useEffect(() => {
-    if (post.media) {
-      setFirstMedia(post.media[0]);
-    }
-  }
-  , [post.media]);
-
-  // TODO: Handle delete and edit using hooks
+  const handleEditPost = async (post_id: number) => {
+    handleEditPostOpen();
+  };
 
 	return (
     <Panel classes="flex-col p-4 gap-4">
@@ -131,7 +114,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
 
                 {/* Post Type */}
                 <span className="bg-gray-200 rounded-full px-1.5 text-black  font-light tracking-wider text-[0.5rem] py-0.5 pt-[0.2rem] leading-[0.5rem]">
-                  {ToTitleCase(post.type)}
+                  {useToTitleCase(post.type)}
                 </span>
 
               </div>
@@ -139,10 +122,10 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
               {/* Author Handle */}
               <h6 className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer gap-1 flex flex-row">
                 <span className="hover:underline">{`@${post.author.handle}`}</span>•
-                <span>{ToRelativeTime(post.posted_at)}</span>
+                <span>{useToRelativeTime(post.posted_at)}</span>
                 { post.is_edited ? (<>
                   •<span className="text-gray-500 font-light text-[0.65rem] leading-4 cursor-pointer gap-1 flex flex-row">
-                    Edited {ToRelativeTime(post.edited_at || new Date()).toLowerCase()}
+                    Edited {useToRelativeTime(post.edited_at || new Date()).toLowerCase()}
                     </span>
                   </>) : null }
               </h6>
@@ -162,12 +145,12 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
 
           {/* Price */}
           { post.type === "selling" ? (
-            <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{ToMonetary(post.price || 0)}</h1>
+            <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{useToMonetary(post.price || 0)}</h1>
           ) : post.type === "buying" ? (
             <div className="flex flex-row gap-2 items-center">
-            <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{ToMonetary(post.range_start || 0)}</h1>
+            <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{useToMonetary(post.range_start || 0)}</h1>
             <h1 className="text-gray-950 font-normal text-[0.625rem]">to</h1>
-            <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{ToMonetary(post.range_end || 0)}</h1>
+            <h1 className="text-gray-950 font-normal text-xl tracking-tight leading-4">{useToMonetary(post.range_end || 0)}</h1>
             </div>
           ) : null }
 
@@ -197,7 +180,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
             {/* Condition */}
             {post.type === "selling" ? (
             <span className="text-black font-light tracking-wider text-[0.55625rem] bg-violet-200 relative top-[-0.20rem] rounded-full px-2 py-1 ml-2">
-              {ToTitleCase(post.condition || "")}
+              {useToTitleCase(post.condition || "")}
             </span>
             ) : null}
 
@@ -211,7 +194,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
         </div>
 
         {isExpandPostOpen && selectedPost && (
-          <ExpandPostPopup post={selectedPost} onClose={handleExpandPostClose} />
+          <ExpandPost post={selectedPost} onClose={handleExpandPostClose} />
         )}
       </Wrapper>
 
@@ -220,7 +203,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
         <div className="flex flex-row gap-2 items-start w-full">
           <div className="flex flex-wrap gap-1">
             {post.tags?.map((tag, index) => (
-              <span key={index} className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block cursor-pointer hover:bg-gray-300 transition-colors duration-200" onClick={() => router.push(`/search?q=${tag}`)}>
+              <span key={index} className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block cursor-pointer hover:bg-gray-300 transition-colors duration-200" onClick={() => router.push(`/search?query=${tag}`)}>
                 # {tag}
               </span>
             ))}
@@ -232,7 +215,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
       { post.media && post.media.length >= 1  ? (
         <Wrapper className="relative w-full h-full rounded-sm cursor-pointer overflow-hidden">
           
-          <Image className="w-full h-full text-xs" src={firstMedia} alt="Media" width={0} height={0} sizes="100vw" priority={true} />
+          <Image className="w-full h-full text-xs" src={post.media[0]} alt="Media" width={0} height={0} sizes="100vw" priority={true} />
 
           <div className="absolute top-0 left-0 w-full h-full rounded-sm bg-black opacity-0 hover:opacity-20 transition-all duration-300" onClick={() => { handleExpandPostOpen(post) }}></div>
 
@@ -249,6 +232,7 @@ const PostLayout: React.FC<Props> = ({ post, userId }) => {
       {/* Controls */}
       <div className="flex flex-row justify-between items-center">
         
+        {/* Votes, Cart & Bookmark */}
         <Wrapper className="flex flex-row items-center gap-1">
           <ToggleVote type="post" post={post} />
           <ToggleCart value={true} enabled="interested" disabled="interested" post={post} />

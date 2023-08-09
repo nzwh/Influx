@@ -1,32 +1,22 @@
-"use client"
+'use client' //* Uses interactable components
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation'
+import Link from 'next/link';
 
-import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
+// Hooks & Classes
 import { UserInterface } from '@/libraries/structures';
+
+// Icons
+import { AtSign, ChevronRight, Italic, SquareAsterisk } from 'lucide-react';
+
+// Model
 import supabase from '@/src/app/backend/model/supabase';
 import { AuthError } from '@supabase/supabase-js';
 
-const Login = () => {
+const Login: React.FC = () => {
+  
   let router = useRouter();
-  const [formData, setFormData] = useState<UserInterface>({
-      id: 0,
-      uuid: '',
-      handle: '',
-      email_address: '',
-      icon: '',
-      banner: '',
-      first_name: '',
-      last_name: '',
-      phone_number: '',
-      location: '',
-      biography: '',
-      payment_methods: [],
-      delivery_methods: [],
-      is_verified:false,
-  });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState({ password: '' });
 
@@ -36,6 +26,51 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // Add submission status state
 
   const [rememberMe, setRememberMe] = useState(false);
+
+  const fetchIdNum = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const ids = data.map((user) => user.id);
+        const highestId = Math.max(...ids); // Find the highest number in the IDs array
+        return highestId + 1;
+      } else {
+        console.log('No user found');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
+
+  const fetchUUID = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('uuid')
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const uuids = data.map((user) => user.uuid);
+        return uuids;
+      } else {
+        console.log('No user found');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
@@ -90,6 +125,51 @@ const Login = () => {
               JSON.stringify({ email: email, password: password.password, expiration: expirationDate.toISOString() })
             );
           }
+          const token = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
+          if (token) {
+            const tokenData = JSON.parse(token);
+            const tMetaFName = tokenData.user.user_metadata.first_name;
+            const tMetaLName = tokenData.user.user_metadata.last_name;
+            const tMetaHandle = tokenData.user.user_metadata.handle;
+            const tID = tokenData.user.id;
+
+            const idNum = await fetchIdNum();
+            const profiles = await fetchUUID();
+            const existingProfile = profiles.includes(tID);
+
+            if (!existingProfile) {              
+              const newProfile : any = {
+                id: idNum,
+                icon: '/root/temp.jpg',
+                first_name: tMetaFName,
+                last_name: tMetaLName,
+                location: '',
+                biography: '',
+                payment_methods: [],
+                delivery_methods: [],
+                is_verified: false,
+                uuid: tID,
+                handle: tMetaHandle,
+                banner: '/root/banner.png',
+                post_count: 0,
+                bookmarks: [],
+                cart: []
+              };
+
+              try {
+                const { data, error } = await supabase
+                  .from('profiles')
+                  .insert([newProfile]);
+              } catch (e) {
+                console.error('Error during insertion:', e);
+              }
+
+              console.log(tokenData);
+              console.log('New profile created');
+            } else {
+              console.log('Profile already exists');
+            }
+          } 
         }
         router.push('/')
       }
@@ -98,6 +178,7 @@ const Login = () => {
         setErrorMessage('Confirm your email address to continue.')
       }
       else {
+        console.log(error)
         setErrorMessage('Incorrect email/password. Please try again.') // Set error message on login failure
       }
     } finally {
@@ -118,18 +199,18 @@ const Login = () => {
   }, []);
 
   return (
-    <main className="flex flex-col w-screen h-screen items-center justify-center">
+    <main className="flex flex-col w-screen h-screen items-center justify-center bg-cover bg-[url('/images/bg-auth-2.jpg')]">
     <div className="fixed top-0 left-0 z-[-1] w-screen h-screen bg-gradient-to-b from-zinc-100 to-zinc-300"></div>
     
       <div className="bg-white rounded-lg p-0 flex flex-row h-[32rem] w-[56rem] filter drop-shadow-2xl">
-        <div className="flex flex-col bg-[url('/root/login.png')] rounded-l-lg h-full aspect-square p-10 justify-between">
-          <Italic className="opacity-70 text-violet-300" size={14} strokeWidth={3} />
+        <div className="flex flex-col bg-[url('/images/bg-auth.jpg')] bg-cover rounded-l-lg h-full aspect-square p-10 justify-between">
+          <Italic className="opacity-70 text-white" size={14} strokeWidth={3} />
           <div className="flex flex-col gap-4">
             <h6 className="text-white font-medium text-4xl leading-8 pr-20 tracking-tight">Find everything you need in one place.</h6>
             <h6 className="text-white font-light text-lg leading-5 pr-20">Discover bargains at an affordable price without breaking the bank.</h6>
           </div>
-          <h6 className="text-white font-light text-xs pr-60">Create an account, or log in with an existing one to gain access to all of Influx's features.</h6>
-          <h6 className="text-white font-light text-[0.6rem] ">All Rights Reserved. ©2023 influx.io</h6>
+          <h6 className="text-white font-extralight text-xs pr-60">Create an account, or log in with an existing one to gain access to all of Influx&apos;s features.</h6>
+          <h6 className="text-white font-extralight text-[0.6rem] ">All Rights Reserved. ©2023 influx.io</h6>
         </div>
 
         <div className="flex flex-col p-8 w-full gap-8 justify-center">
@@ -167,7 +248,6 @@ const Login = () => {
                 <input type="checkbox" id="remember" name="remember" className="cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 <h6 className="bg-white text-gray-800 font-regular tracking-tight leading-3 text-xs h-full">Remember me</h6>
               </div>
-              <h6 className="bg-white text-gray-800 font-regular text-xs tracking-tight h-full cursor-pointer hover:underline">Forgot Password?</h6>
             </div>
 
             <button type="submit" disabled={isSubmitting} className="w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
