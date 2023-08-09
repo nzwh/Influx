@@ -166,7 +166,7 @@ const Login: React.FC = () => {
                 is_verified: false,
                 uuid: tID,
                 handle: tMetaHandle,
-                banner: '/root/banner.jpg',
+                banner: '/root/banner.png',
                 post_count: 0,
                 bookmarks: [],
                 cart: []
