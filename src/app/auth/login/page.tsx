@@ -17,22 +17,6 @@ import { AuthError } from '@supabase/supabase-js';
 const Login: React.FC = () => {
   
   let router = useRouter();
-  const [formData, setFormData] = useState<UserInterface>({
-      id: 0,
-      uuid: '',
-      handle: '',
-      email_address: '',
-      icon: '',
-      banner: '',
-      first_name: '',
-      last_name: '',
-      phone_number: '',
-      location: '',
-      biography: '',
-      payment_methods: [],
-      delivery_methods: [],
-      is_verified:false,
-  });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState({ password: '' });
 
@@ -264,7 +248,6 @@ const Login: React.FC = () => {
                 <input type="checkbox" id="remember" name="remember" className="cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 <h6 className="bg-white text-gray-800 font-regular tracking-tight leading-3 text-xs h-full">Remember me</h6>
               </div>
-              <h6 className="bg-white text-gray-800 font-regular text-xs tracking-tight h-full cursor-pointer hover:underline">Forgot Password?</h6>
             </div>
 
             <button type="submit" disabled={isSubmitting} className="w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">

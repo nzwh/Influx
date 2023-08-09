@@ -1,6 +1,6 @@
 'use client' //* Uses interactable components
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 
 import TopbarNav from '@/src/app/backend/components/navigators/TopbarNav';
@@ -16,8 +16,11 @@ export default function Register() {
 
   const { user } = useGlobalContext();
   const router = useRouter();
-  if (user.uuid)
-    router.push('/');
+
+  useEffect(() => {
+    if (user.uuid)
+      setTimeout(() => router.push('/'), 1000);
+  }, [user.uuid])
   
   return (
     <main className="flex flex-col w-screen h-screen bg-[url('/images/bg-home.jpg')] bg-cover bg-center bg-no-repeat">
