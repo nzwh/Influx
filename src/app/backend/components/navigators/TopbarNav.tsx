@@ -35,9 +35,6 @@ const TopbarNav: React.FC<{ type?: string }> = ({ type }) => {
     setQuery(event.target.value);
     console.log(query);
   };
-  const handleSearchQuery = (e: React.FormEvent) => {
-    router.push('/search?q=' + query);
-  };
 
     // Handle CreatePost state
   const [isCreatePostPopupOpen, setIsCreatePostPopupOpen] = useState(false);

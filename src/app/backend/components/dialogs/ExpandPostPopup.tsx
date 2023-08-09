@@ -123,7 +123,7 @@ const ExpandPostPopup: React.FC<Props> = ({ post, onClose }) => {
               <div className="flex flex-row gap-2 items-start w-full">
                 <div className="flex flex-wrap gap-1">
                   {post.tags?.map((tag, index) => (
-                    <span key={index} className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block cursor-pointer hover:bg-gray-300 transition-colors duration-200" onClick={() => router.push(`/search?q=${tag}`)}>
+                    <span key={index} className="text-gray-600 font-medium text-[0.65rem] leading-3 bg-gray-200 rounded-xl px-2 py-1 tracking-normal block cursor-pointer hover:bg-gray-300 transition-colors duration-200" onClick={() => router.push(`/search?query=${tag}`)}>
                       # {tag}
                     </span>
                   ))}
