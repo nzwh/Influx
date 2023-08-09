@@ -17,22 +17,6 @@ import { AuthError } from '@supabase/supabase-js';
 const Login: React.FC = () => {
   
   let router = useRouter();
-  const [formData, setFormData] = useState<UserInterface>({
-      id: 0,
-      uuid: '',
-      handle: '',
-      email_address: '',
-      icon: '',
-      banner: '',
-      first_name: '',
-      last_name: '',
-      phone_number: '',
-      location: '',
-      biography: '',
-      payment_methods: [],
-      delivery_methods: [],
-      is_verified:false,
-  });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState({ password: '' });
 
@@ -42,6 +26,51 @@ const Login: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // Add submission status state
 
   const [rememberMe, setRememberMe] = useState(false);
+
+  const fetchIdNum = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const ids = data.map((user) => user.id);
+        const highestId = Math.max(...ids); // Find the highest number in the IDs array
+        return highestId + 1;
+      } else {
+        console.log('No user found');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
+
+  const fetchUUID = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('uuid')
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      if (data && data.length > 0) {
+        const uuids = data.map((user) => user.uuid);
+        return uuids;
+      } else {
+        console.log('No user found');
+        return [];
+      }
+    } catch (error) {
+      console.log('Error fetching user:', error);
+      return [];
+    }
+  }
 
   const handleChangeForm = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     console.log(event.target.name, event.target.value);
@@ -96,6 +125,51 @@ const Login: React.FC = () => {
               JSON.stringify({ email: email, password: password.password, expiration: expirationDate.toISOString() })
             );
           }
+          const token = localStorage.getItem('sb-pmjwqjsoojzbascysdbk-auth-token');
+          if (token) {
+            const tokenData = JSON.parse(token);
+            const tMetaFName = tokenData.user.user_metadata.first_name;
+            const tMetaLName = tokenData.user.user_metadata.last_name;
+            const tMetaHandle = tokenData.user.user_metadata.handle;
+            const tID = tokenData.user.id;
+
+            const idNum = await fetchIdNum();
+            const profiles = await fetchUUID();
+            const existingProfile = profiles.includes(tID);
+
+            if (!existingProfile) {              
+              const newProfile : any = {
+                id: idNum,
+                icon: '/root/temp.jpg',
+                first_name: tMetaFName,
+                last_name: tMetaLName,
+                location: '',
+                biography: '',
+                payment_methods: [],
+                delivery_methods: [],
+                is_verified: false,
+                uuid: tID,
+                handle: tMetaHandle,
+                banner: '/root/banner.png',
+                post_count: 0,
+                bookmarks: [],
+                cart: []
+              };
+
+              try {
+                const { data, error } = await supabase
+                  .from('profiles')
+                  .insert([newProfile]);
+              } catch (e) {
+                console.error('Error during insertion:', e);
+              }
+
+              console.log(tokenData);
+              console.log('New profile created');
+            } else {
+              console.log('Profile already exists');
+            }
+          } 
         }
         router.push('/')
       }
@@ -104,6 +178,7 @@ const Login: React.FC = () => {
         setErrorMessage('Confirm your email address to continue.')
       }
       else {
+        console.log(error)
         setErrorMessage('Incorrect email/password. Please try again.') // Set error message on login failure
       }
     } finally {
@@ -173,7 +248,6 @@ const Login: React.FC = () => {
                 <input type="checkbox" id="remember" name="remember" className="cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 <h6 className="bg-white text-gray-800 font-regular tracking-tight leading-3 text-xs h-full">Remember me</h6>
               </div>
-              <h6 className="bg-white text-gray-800 font-regular text-xs tracking-tight h-full cursor-pointer hover:underline">Forgot Password?</h6>
             </div>
 
             <button type="submit" disabled={isSubmitting} className="w-full flex flex-row bg-slate-900 rounded-2xl items-center justify-center cursor-pointer gap-2">
